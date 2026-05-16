@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F6 — Type de texte et point de vue</title>
+<style>
+  :root{--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--bleu-light:#D6EAF8;--rouge:#C0392B;--rouge-light:#FADBD8;--orange:#D35400;--orange-light:#FDEBD0;--violet:#6C3483;--violet-light:#E8DAEF;--gris:#5D6D7E;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--vert);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--vert);border-bottom-color:var(--vert)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.vert{background:var(--vert)}.section-head.bleu{background:var(--bleu)}.section-head.orange{background:var(--orange)}.section-head.violet{background:var(--violet)}.section-head.rouge{background:var(--rouge)}.section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--vert);font-weight:700}
+  .type-card{border-radius:var(--radius);overflow:hidden;margin-bottom:10px;border:1px solid var(--border)}
+  .type-head{padding:9px 14px;font-size:13px;font-weight:700;color:white;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px}
+  .type-body{padding:10px 14px;font-size:13px;line-height:1.7;background:white}
+  .type-ex{font-style:italic;color:var(--gris);font-size:12px;margin-top:6px;padding:6px 10px;background:var(--bg);border-radius:6px}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--vert-light);color:var(--vert);font-weight:700;font-size:12px;padding:8px 12px;min-width:150px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .pv-grid{display:-webkit-flex;display:flex;gap:10px;-webkit-flex-wrap:wrap;flex-wrap:wrap;margin:8px 0}
+  .pv-card{-webkit-flex:1 1 180px;flex:1 1 180px;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+  .pv-head{padding:8px 12px;font-size:12px;font-weight:700;color:white;text-align:center}
+  .pv-body{padding:10px 12px;font-size:12px;line-height:1.7;background:white}
+  .recap-table{width:100%;border-collapse:collapse;font-size:12px}
+  .recap-table th{background:var(--vert);color:white;padding:7px 10px;text-align:left;font-weight:600}
+  .recap-table td{padding:7px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .recap-table tr:last-child td{border-bottom:none}
+  .recap-table tr:nth-child(even) td{background:#F0FBF4}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--vert);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--vert);background:var(--vert-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--vert);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.8}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--vert-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--vert);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--vert);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--vert)}
+  .btn-corr{background:var(--vert);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  @media(max-width:500px){header h1{font-size:17px}.pv-grid{-webkit-flex-direction:column;flex-direction:column}}
+</style>
+</head>
+<body>
+<header>
+  <h1>📝 F6 — Type de texte et point de vue</h1>
+  <p>Fiche complète · Séquence 6 · Français · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche de cours</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- FICHE -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head vert">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>En une phrase :</strong> Un texte peut être de différents <strong>types</strong> selon son but (narratif, descriptif, explicatif, argumentatif, injonctif). Il adopte aussi un <strong>point de vue narratif</strong> qui détermine qui raconte et ce qu'il sait (point de vue interne, externe ou omniscient).</div>
+      <div class="brevet-box"><strong>🎯 Au brevet :</strong> identifier le type de texte et justifier avec des indices précis du texte, identifier et expliquer le point de vue narratif, analyser l'effet produit sur le lecteur.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head vert">1️⃣ Les cinq types de textes</div>
+    <div class="section-body">
+
+      <div class="type-card">
+        <div class="type-head" style="background:var(--bleu)">📖 Texte narratif</div>
+        <div class="type-body">
+          <strong>But :</strong> raconter une histoire, des événements réels ou imaginaires dans le temps.<br>
+          <strong>Indices :</strong> verbes d'action, connecteurs chronologiques (d'abord, puis, ensuite, enfin), personnages, temps du récit (passé simple, imparfait).
+          <div class="type-ex">« Ce matin-là, le vieil homme se leva lentement, traversa la pièce sombre et ouvrit la fenêtre sur un ciel nuageux. »</div>
+        </div>
+      </div>
+
+      <div class="type-card">
+        <div class="type-head" style="background:var(--violet)">🎨 Texte descriptif</div>
+        <div class="type-body">
+          <strong>But :</strong> représenter un lieu, un personnage, une situation à un moment donné — comme une photographie en mots.<br>
+          <strong>Indices :</strong> nombreux adjectifs, verbes d'état (être, paraître, sembler, avoir l'air), connecteurs spatiaux (à gauche, au fond, près de), imparfait.
+          <div class="type-ex">« La vieille maison se dressait au bout de l'allée. Ses murs gris et lézardés semblaient vouloir s'effondrer. Les volets, d'un vert délavé, battaient dans le vent. »</div>
+        </div>
+      </div>
+
+      <div class="type-card">
+        <div class="type-head" style="background:var(--orange)">🔍 Texte explicatif</div>
+        <div class="type-body">
+          <strong>But :</strong> faire comprendre un phénomène, un fonctionnement, une cause ou un résultat.<br>
+          <strong>Indices :</strong> connecteurs logiques (car, parce que, en effet, ainsi, donc), vocabulaire technique, définitions, présent de vérité générale, absence de "je".
+          <div class="type-ex">« La photosynthèse est le processus par lequel les plantes produisent leur nourriture. En effet, les feuilles captent la lumière solaire et transforment le dioxyde de carbone en glucose. »</div>
+        </div>
+      </div>
+
+      <div class="type-card">
+        <div class="type-head" style="background:var(--rouge)">⚖️ Texte argumentatif</div>
+        <div class="type-body">
+          <strong>But :</strong> défendre une opinion, convaincre le lecteur, réfuter un point de vue adverse.<br>
+          <strong>Indices :</strong> verbes d'opinion (je pense, il me semble, on peut affirmer), connecteurs argumentatifs (certes, cependant, or, en outre, de plus), exemples, concessions.
+          <div class="type-ex">« Il me semble que les téléphones portables devraient être interdits à l'école. En effet, ils distraient les élèves. Certes, ils peuvent être utiles, mais leurs inconvénients sont plus nombreux. »</div>
+        </div>
+      </div>
+
+      <div class="type-card">
+        <div class="type-head" style="background:var(--gris)">📋 Texte injonctif</div>
+        <div class="type-body">
+          <strong>But :</strong> donner des ordres, des consignes, des instructions à suivre.<br>
+          <strong>Indices :</strong> impératif présent, infinitif à valeur d'ordre, connecteurs d'ordre (d'abord, ensuite, puis, enfin), absence de "je" et "tu", destinataire implicite.
+          <div class="type-ex">« Préchauffez le four à 180°C. Mélangez les œufs et le sucre. Incorporez ensuite la farine tamisée. Versez dans un moule et enfournez pendant 30 minutes. »</div>
+        </div>
+      </div>
+
+      <div class="warn-box"><strong>⚠️ Important :</strong> un texte peut mélanger plusieurs types. Par exemple, un roman (narratif) peut contenir des passages descriptifs. Il faut identifier le type <em>dominant</em>.</div>
+
+      <div class="section" style="margin-top:14px;margin-bottom:0">
+        <div class="section-head gris">📊 Tableau récapitulatif</div>
+        <div class="section-body">
+          <table class="recap-table">
+            <tr><th>Type</th><th>But</th><th>Indices clés</th></tr>
+            <tr><td><strong>Narratif</strong></td><td>Raconter</td><td>Passé simple, personnages, chronologie</td></tr>
+            <tr><td><strong>Descriptif</strong></td><td>Décrire</td><td>Adjectifs, verbes d'état, espace</td></tr>
+            <tr><td><strong>Explicatif</strong></td><td>Expliquer</td><td>Car, parce que, présent de vérité</td></tr>
+            <tr><td><strong>Argumentatif</strong></td><td>Convaincre</td><td>Je pense, certes, cependant</td></tr>
+            <tr><td><strong>Injonctif</strong></td><td>Ordonner</td><td>Impératif, infinitif, d'abord/ensuite</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">2️⃣ Le point de vue narratif</div>
+    <div class="section-body">
+      <div class="info-box"><strong>Définition :</strong> le point de vue narratif (ou focalisation) désigne la position du narrateur : que sait-il ? Que voit-il ? À travers qui le lecteur perçoit-il les événements ?</div>
+
+      <div class="pv-grid">
+        <div class="pv-card">
+          <div class="pv-head" style="background:var(--bleu)">Point de vue INTERNE</div>
+          <div class="pv-body">
+            Le narrateur voit et sait <strong>autant qu'un personnage</strong>. On est dans la tête de ce personnage : on connaît ses pensées et ses émotions mais pas celles des autres.<br><br>
+            <strong>Indices :</strong> pronoms "je" ou "il" + pensées intérieures ("il pensa que…", "elle se demandait si…")<br><br>
+            <em style="color:var(--bleu)">"Je ne comprenais pas pourquoi elle me regardait ainsi. J'avais peur, mais je ne voulais pas le montrer."</em>
+          </div>
+        </div>
+        <div class="pv-card">
+          <div class="pv-head" style="background:var(--orange)">Point de vue EXTERNE</div>
+          <div class="pv-body">
+            Le narrateur observe de l'extérieur, <strong>comme une caméra</strong>. Il décrit les actions et les apparences mais ne connaît pas les pensées des personnages.<br><br>
+            <strong>Indices :</strong> verbes d'observation ("il semblait", "on aurait dit"), pas d'accès aux pensées.<br><br>
+            <em style="color:var(--orange)">"L'homme entra dans la pièce, s'arrêta devant la fenêtre et regarda dehors pendant un long moment sans rien dire."</em>
+          </div>
+        </div>
+        <div class="pv-card">
+          <div class="pv-head" style="background:var(--violet)">Point de vue OMNISCIENT</div>
+          <div class="pv-body">
+            Le narrateur <strong>sait tout</strong> : les pensées, les sentiments de tous les personnages, le passé et parfois le futur. Il est comme un dieu de l'histoire.<br><br>
+            <strong>Indices :</strong> accès aux pensées de plusieurs personnages, commentaires du narrateur sur les personnages.<br><br>
+            <em style="color:var(--violet)">"Paul ne savait pas que Marie, de son côté, l'attendait depuis une heure en se demandant s'il viendrait un jour."</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="success-box"><strong>✅ Moyen mémo :</strong><br>
+      Interne = à l'intérieur d'un personnage (ses pensées) → comme un journal intime.<br>
+      Externe = à l'extérieur, on observe = comme une caméra de surveillance.<br>
+      Omniscient = on sait tout sur tout le monde = comme Dieu.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head gris">📋 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Type de texte</div><div class="mc-def">Catégorie d'un texte selon son but principal : narratif (raconter), descriptif (décrire), explicatif (expliquer), argumentatif (convaincre), injonctif (ordonner).</div></div>
+      <div class="mc-row"><div class="mc-terme">Point de vue narratif</div><div class="mc-def">Position du narrateur par rapport à l'histoire : ce qu'il voit et sait. Trois types : interne (dans un personnage), externe (caméra), omniscient (sait tout).</div></div>
+      <div class="mc-row"><div class="mc-terme">Narrateur</div><div class="mc-def">Voix qui raconte l'histoire. Il peut être un personnage (narrateur-personnage, à la 1re personne) ou extérieur à l'histoire (narrateur-auteur, à la 3e personne).</div></div>
+      <div class="mc-row"><div class="mc-terme">Focalisation</div><div class="mc-def">Autre mot pour désigner le point de vue narratif. Focalisation interne = PDV interne ; focalisation zéro = PDV omniscient ; focalisation externe = PDV externe.</div></div>
+      <div class="mc-row"><div class="mc-terme">Connecteur logique</div><div class="mc-def">Mot ou expression qui organise les idées : car, donc, en effet (explication), certes, cependant, or (argumentation), d'abord, puis, enfin (chronologie).</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head vert">❓ Quiz — Type de texte et point de vue</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Clique sur ta réponse.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score"><div class="score-num" id="score-num"></div><div class="score-msg" id="score-msg"></div><button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- EXERCICE -->
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head vert">✏️ Exercice type brevet</div>
+    <div class="section-body"><div class="info-box"><strong>Conditions :</strong> Lis les textes, puis réponds. Temps conseillé : 20 minutes.</div></div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>📄 Texte A — Extrait de roman</h3>
+    <p>Lucie traversa la forêt sans se retourner. Elle savait qu'on la suivait — elle le sentait dans ses os. Ses jambes tremblaient mais sa tête restait froide : <em>il faut que j'arrive avant la nuit</em>, pensa-t-elle. La pluie avait commencé à tomber, fine et glacée. Les arbres, noirs et serrés, formaient une voûte au-dessus d'elle. Au loin, une lumière clignotait.</p>
+    <p class="doc-source">Texte rédigé pour l'entraînement au Brevet 2026.</p>
+  </div>
+
+  <div class="doc-brevet" style="margin-top:0">
+    <h3>📄 Texte B — Article de presse</h3>
+    <p>La déforestation est l'un des problèmes environnementaux les plus graves de notre époque. En effet, chaque année, des millions d'hectares de forêts disparaissent à cause de l'agriculture intensive, de l'exploitation forestière et de l'urbanisation. Or, les forêts jouent un rôle essentiel dans la régulation du climat : elles absorbent le dioxyde de carbone et produisent de l'oxygène. La destruction de ces espaces naturels contribue donc directement au réchauffement climatique.</p>
+    <p class="doc-source">Texte rédigé pour l'entraînement au Brevet 2026.</p>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Identifier les types de textes</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Identifie le type dominant de chaque texte. Justifie ta réponse avec deux indices précis tirés de chaque texte.</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p><strong>Texte A → Type narratif</strong> (avec des passages descriptifs) :<br>
+        Indice 1 : Les verbes d'action au passé simple ("traversa") et à l'imparfait ("tremblaient") racontent des événements qui se succèdent dans le temps — caractéristique du texte narratif.<br>
+        Indice 2 : On suit les actions d'un personnage (Lucie) dans une situation qui évolue : c'est une histoire avec un lieu, un personnage et une tension narrative.</p>
+        <p style="margin-top:8px"><strong>Texte B → Type explicatif</strong> (avec une dimension argumentative) :<br>
+        Indice 1 : Les connecteurs logiques "en effet", "or", "donc" expliquent les causes et conséquences de la déforestation.<br>
+        Indice 2 : Le présent de vérité générale ("les forêts jouent un rôle essentiel") et l'absence de "je" donnent un ton objectif et informatif, caractéristique du texte explicatif.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Identifier le type = nommer le type + citer un indice précis (un mot, une expression, une structure) + expliquer en quoi c'est une marque de ce type.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Présent de vérité générale</em> = présent utilisé pour exprimer une vérité qui s'applique toujours (ex. : "La Terre tourne autour du Soleil"). Caractéristique des textes explicatifs.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser le point de vue narratif</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Dans le Texte A, quel est le point de vue narratif ? Justifie avec deux exemples précis et explique l'effet produit sur le lecteur.</p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p>Le Texte A utilise le <strong>point de vue interne</strong> (focalisation interne), centré sur le personnage de Lucie.</p>
+        <p style="margin-top:8px">Exemple 1 : "Elle savait qu'on la suivait — elle le <em>sentait dans ses os</em>." → Le narrateur accède aux sensations intérieures de Lucie, ce qui est impossible depuis l'extérieur.</p>
+        <p style="margin-top:8px">Exemple 2 : "<em>il faut que j'arrive avant la nuit</em>, pensa-t-elle." → Le lecteur accède directement aux pensées du personnage (monologue intérieur), marquées par les italiques.</p>
+        <p style="margin-top:8px">Effet sur le lecteur : le point de vue interne crée de l'<strong>empathie</strong> — le lecteur vit la peur et la tension de l'intérieur avec Lucie, ce qui rend la scène plus angoissante et immersive.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Nommer le point de vue → citer deux exemples précis du texte → expliquer l'effet produit sur le lecteur (empathie ? distance ? suspense ?).</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Monologue intérieur</em> = pensées d'un personnage rapportées directement dans le texte, souvent en italiques. <em>Empathie</em> = capacité à ressentir ce que ressent un autre.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Écriture : transformer le point de vue</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>Réécris le début du Texte A (les trois premières phrases) en adoptant le <strong>point de vue externe</strong>. Puis explique en 3–4 lignes ce qui change et quel effet cela produit.</p>
+      <textarea id="rep3" placeholder="Réécriture + explication ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Exemple de réécriture</h4>
+        <p><strong>Point de vue externe :</strong><br>
+        Lucie traversa la forêt sans se retourner. Elle accéléra le pas, les jambes légèrement tremblantes. Sa tête restait immobile, tournée vers l'avant. La pluie commença à tomber, fine et glacée.</p>
+        <p style="margin-top:10px"><strong>Explication :</strong><br>
+        Au point de vue externe, on ne peut plus écrire "elle savait qu'on la suivait" ni "elle le sentait dans ses os", car ce sont des informations intérieures inaccessibles à une caméra. On ne peut décrire que ce qui se voit de l'extérieur : les gestes, les mouvements, les expressions du visage. L'effet est très différent : le lecteur ne sait plus ce que pense Lucie, ce qui crée une distance et un mystère — on observe sans comprendre.</p>
+        <div class="methode-box"><strong>💡 Méthode pour la réécriture :</strong> Supprime toutes les pensées, sentiments et sensations intérieures → ne garde que ce qui est observable de l'extérieur (gestes, positions, expressions).</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Focalisation externe</em> = le narrateur voit comme une caméra, sans accès aux pensées. Crée mystère et distance. <em>Focalisation interne</em> = accès aux pensées d'un personnage. Crée proximité et empathie.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS=[
+  {q:"Quel est le but principal d'un texte narratif ?",opts:["Raconter des événements qui se succèdent dans le temps","Convaincre le lecteur d'une opinion","Donner des ordres ou des instructions","Expliquer un phénomène scientifique"],correct:0,expl:"Un texte narratif a pour but de raconter une histoire ou des événements dans le temps. On le reconnaît aux verbes d'action, aux connecteurs chronologiques (d'abord, ensuite, puis, enfin) et aux temps du récit (passé simple, imparfait). C'est le type de texte des romans, nouvelles, contes."},
+  {q:"Quel indice caractérise surtout le texte descriptif ?",opts:["Nombreux adjectifs et verbes d'état (être, sembler, paraître)","Connecteurs logiques (car, donc, en effet)","Verbes à l'impératif","Connecteurs chronologiques (d'abord, puis, enfin)"],correct:0,expl:"Le texte descriptif cherche à représenter un lieu, un personnage ou une scène comme une photographie. Ses marques principales sont : les nombreux adjectifs qualificatifs, les verbes d'état (être, sembler, paraître, avoir l'air), les indicateurs de lieu (à gauche, au fond, près de), et l'imparfait."},
+  {q:"Quel connecteur est typique du texte explicatif ?",opts:["'En effet', 'car', 'parce que', 'donc'","'Certes', 'cependant', 'or'","'D'abord', 'puis', 'enfin'","'Mange !', 'Prenez', 'Versez'"],correct:0,expl:"Le texte explicatif utilise des connecteurs logiques de cause et de conséquence pour expliquer des phénomènes : 'en effet', 'car', 'parce que', 'c'est pourquoi', 'donc'. Il utilise aussi le présent de vérité générale. On le trouve dans les manuels, les articles scientifiques, les encyclopédies."},
+  {q:"Comment reconnaît-on un texte argumentatif ?",opts:["Présence de verbes d'opinion (je pense, il me semble), de connecteurs de concession (certes, cependant) et d'exemples","Verbes à l'impératif et infinitifs","Nombreux adjectifs et verbes d'état","Passé simple et personnages"],correct:0,expl:"Le texte argumentatif cherche à convaincre. Ses marques : verbes d'opinion (je pense, il me semble, on peut affirmer), connecteurs de concession et d'opposition (certes, cependant, or, néanmoins), exemples et contre-exemples, structure en thèse-antithèse. On le trouve dans les éditoriaux, les dissertations, les discours."},
+  {q:"Quels sont les indices typiques du texte injonctif ?",opts:["Impératif présent, infinitif à valeur d'ordre, connecteurs d'ordre (d'abord, ensuite, puis)","Passé simple et imparfait","Verbes d'opinion et exemples","Adjectifs et verbes d'état"],correct:0,expl:"Le texte injonctif donne des ordres, consignes ou instructions. Ses marques : verbes à l'impératif ('Mélangez', 'Préchauffez'), infinitifs à valeur d'ordre ('Ajouter le sel', 'Tourner à droite'), connecteurs séquentiels (d'abord, ensuite, enfin). On le trouve dans les recettes de cuisine, les notices d'utilisation, les règlements."},
+  {q:"Qu'est-ce que le point de vue interne ?",opts:["Le narrateur voit et sait autant qu'un personnage : il a accès à ses pensées et émotions","Le narrateur sait tout sur tous les personnages","Le narrateur observe de l'extérieur comme une caméra","Le narrateur est absent de l'histoire"],correct:0,expl:"Au point de vue interne (focalisation interne), le lecteur perçoit l'histoire à travers les yeux et la conscience d'un seul personnage. Le narrateur sait ce que ce personnage pense et ressent, mais pas les pensées des autres personnages. Indices : pensées rapportées, sensations, monologue intérieur."},
+  {q:"Qu'est-ce que le point de vue omniscient ?",opts:["Le narrateur sait tout : les pensées de tous les personnages, le passé et parfois le futur","Le narrateur ne sait rien de plus que le lecteur","Le narrateur voit uniquement de l'extérieur","Le narrateur est un personnage de l'histoire"],correct:0,expl:"Au point de vue omniscient (focalisation zéro), le narrateur est comme un dieu de l'histoire : il connaît les pensées et sentiments de tous les personnages, leur passé, et peut anticiper le futur. Il peut aussi commenter les événements. Indice clé : accès aux pensées de PLUSIEURS personnages différents dans le même passage."},
+  {q:"Quel est l'effet du point de vue externe sur le lecteur ?",opts:["Distance et mystère : le lecteur observe sans accéder aux pensées des personnages","Empathie : le lecteur ressent ce que ressent le personnage","Toute-puissance : le lecteur sait plus que les personnages","Ennui : le point de vue externe est moins intéressant"],correct:0,expl:"Au point de vue externe, le narrateur fonctionne comme une caméra : il décrit ce qui est observable de l'extérieur (actions, expressions, paroles) mais n'accède pas aux pensées. L'effet sur le lecteur est une impression de distance et de mystère : on voit les personnages agir sans comprendre leurs motivations intérieures."},
+  {q:"Dans le texte 'Je savais qu'il mentait, je le sentais dans chaque mot', quel est le point de vue ?",opts:["Point de vue interne : accès aux pensées et sensations du narrateur-personnage","Point de vue externe : observation de l'extérieur","Point de vue omniscient : accès aux pensées de tous","Point de vue neutre : ni interne ni externe"],correct:0,expl:"'Je savais' et 'je le sentais' sont des indices de point de vue interne : le lecteur est dans la tête du narrateur-personnage (qui dit 'je'), avec accès à ses certitudes et sensations. Le point de vue interne est souvent utilisé à la première personne mais peut aussi être à la troisième ('il/elle pensa que…')."},
+  {q:"Un texte avec de nombreux adjectifs, à l'imparfait, décrivant un lieu précis est probablement de quel type ?",opts:["Descriptif","Narratif","Argumentatif","Injonctif"],correct:0,expl:"Un texte riche en adjectifs qualificatifs, utilisant l'imparfait (qui décrit des états plutôt que des actions) et des indicateurs d'espace (à gauche, au fond, près de) est un texte descriptif. Il cherche à donner une image précise d'un lieu, d'un personnage ou d'une atmosphère — comme un tableau en mots."},
+  {q:"Quelle est la différence entre le narrateur et l'auteur ?",opts:["L'auteur écrit le livre dans la réalité ; le narrateur est la voix fictive qui raconte l'histoire","Ce sont exactement la même personne","L'auteur est toujours un personnage de l'histoire","Le narrateur écrit le livre, l'auteur le lit"],correct:0,expl:"L'auteur est la personne réelle qui a écrit le livre. Le narrateur est la voix fictive créée par l'auteur pour raconter l'histoire. Par exemple, Victor Hugo est l'auteur des Misérables, mais le narrateur qui raconte l'histoire de Jean Valjean n'est pas Hugo lui-même — c'est une voix créée par l'auteur. On ne confond jamais l'auteur et le narrateur au brevet."},
+  {q:"Un texte qui commence par 'Préchauffez le four à 180°C. Mélangez la farine et les œufs...' est de quel type ?",opts:["Injonctif : verbes à l'impératif donnant des instructions à suivre","Narratif : raconte comment préparer un gâteau","Explicatif : explique la chimie de la pâtisserie","Descriptif : décrit l'apparence du gâteau"],correct:0,expl:"Les verbes 'préchauffez' et 'mélangez' sont des impératifs qui donnent des ordres directs à un destinataire implicite (celui qui lit la recette). C'est un texte injonctif. On le reconnaît aux verbes à l'impératif ou à l'infinitif d'ordre, et aux connecteurs séquentiels (ensuite, puis, enfin) qui organisent les étapes à suivre."}
+];
+var answered={},score=0;
+function showPanel(id,tab){var p=document.querySelectorAll('.panel'),t=document.querySelectorAll('.tab');for(var i=0;i<p.length;i++)p[i].classList.remove('active');for(var i=0;i<t.length;i++)t[i].classList.remove('active');document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+function buildQuiz(){var c=document.getElementById('quiz-container');c.innerHTML='';answered={};score=0;for(var i=0;i<QUESTIONS.length;i++){var q=QUESTIONS[i],div=document.createElement('div');div.className='quiz-q';var opts='';for(var j=0;j<q.opts.length;j++)opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';c.appendChild(div);}document.getElementById('quiz-score').classList.remove('show');}
+function answer(qi,choice){if(answered[qi]!==undefined)return;answered[qi]=choice;var q=QUESTIONS[qi],opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');for(var i=0;i<opts.length;i++)opts[i].classList.add('disabled');opts[choice].classList.add(choice===q.correct?'correct':'wrong');if(choice!==q.correct)opts[q.correct].classList.add('correct');var ok=choice===q.correct;if(ok)score++;var expl=document.getElementById('expl-'+qi);expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;expl.classList.add('show');if(Object.keys(answered).length===QUESTIONS.length)showScore();}
+function showScore(){var pct=Math.round(score/QUESTIONS.length*100);document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;var msg=pct>=90?'🎉 Bravo Zach ! Types de textes et points de vue maîtrisés !':pct>=70?'👍 Très bien ! Relis les points "à revoir".':pct>=50?'💪 Pas mal ! Relis le tableau récap et retente.':'📋 Relis bien la fiche. Les types de textes, ça s\'apprend vite !';document.getElementById('score-msg').textContent=msg;document.getElementById('quiz-score').classList.add('show');}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;
+</script>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G2 — Les espaces productifs</title>
+<style>
+  :root{
+    --bleu:#1A5276;--bleu-light:#D6EAF8;--bleu-mid:#2980B9;
+    --rouge:#C0392B;--rouge-light:#FADBD8;
+    --vert:#1E8449;--vert-light:#D5F5E3;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--bleu);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--bleu);border-bottom-color:var(--bleu)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.bleu{background:var(--bleu)}
+  .section-head.rouge{background:var(--rouge)}
+  .section-head.vert{background:var(--vert)}
+  .section-head.orange{background:var(--orange)}
+  .section-head.violet{background:var(--violet)}
+  .section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--bleu);font-weight:700}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--bleu-light);color:var(--bleu);font-weight:700;font-size:12px;padding:8px 12px;min-width:140px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .esp-card{border-radius:var(--radius);overflow:hidden;margin-bottom:12px;border:1px solid var(--border)}
+  .esp-head{padding:10px 14px;font-size:13px;font-weight:700;color:white}
+  .esp-body{padding:12px 14px;font-size:13px;line-height:1.7;background:white}
+  .esp-ex{padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:13px}
+  .exemple-grid{display:-webkit-flex;display:flex;gap:10px;-webkit-flex-wrap:wrap;flex-wrap:wrap;margin:10px 0}
+  .exemple-pill{background:var(--bleu-light);border:1px solid var(--bleu);color:var(--bleu);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:600}
+  .dates-table{width:100%;border-collapse:collapse;font-size:13px}
+  .dates-table th{background:var(--bleu);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .dates-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .dates-table tr:last-child td{border-bottom:none}
+  .dates-table tr:nth-child(even) td{background:#EBF5FB}
+  .dates-table .esp{font-weight:700;color:var(--bleu)}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--bleu);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--bleu);background:var(--bleu-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--bleu);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.8}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--bleu-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--bleu);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--bleu);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--bleu)}
+  .btn-corr{background:var(--bleu);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  @media(max-width:500px){header h1{font-size:17px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🏭 G2 — Les espaces productifs</h1>
+  <p>Fiche complète · Séquence 2 · Géographie · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ══════ FICHE ══════ -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head bleu">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> Un <strong>espace productif</strong> est un territoire organisé autour d'une activité économique dominante. En France, on distingue trois grands types : les espaces <strong>agricoles</strong> (produire de la nourriture), les espaces <strong>industriels</strong> (fabriquer des produits) et les espaces <strong>de services et touristiques</strong> (activités tertiaires). Ces espaces sont inégalement répartis sur le territoire français.
+      </div>
+      <div class="brevet-box">
+        <strong>🎯 Au brevet :</strong> identifier un type d'espace productif à partir d'un document, expliquer ses caractéristiques, citer des exemples précis en France, et rédiger un paragraphe argumenté.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">1️⃣ Les espaces agricoles</div>
+    <div class="section-body">
+      <div class="esp-card">
+        <div class="esp-head" style="background:var(--vert)">Définition et caractéristiques</div>
+        <div class="esp-body">
+          <p>Un espace agricole est un territoire où l'activité principale est la <strong>production alimentaire</strong> (céréales, élevage, maraîchage, viticulture…). La France est le <strong>1er pays agricole de l'Union européenne</strong>.</p>
+          <ul class="bull-list" style="margin-top:8px">
+            <li><strong>Agriculture intensive :</strong> grandes parcelles mécanisées, nombreux intrants (engrais, pesticides), rendements élevés. Exemple : la Beauce (blé), la Brie.</li>
+            <li><strong>Agriculture spécialisée :</strong> une seule culture sur de grandes surfaces. Exemple : la Champagne (vignes), la Bretagne (élevage porcin, volaille).</li>
+            <li><strong>Évolution récente :</strong> les exploitations sont de plus en plus grandes et de moins en moins nombreuses. Le nombre d'agriculteurs a fortement diminué depuis 50 ans.</li>
+          </ul>
+          <div class="exemple-grid">
+            <span class="exemple-pill">🌾 Beauce → céréales</span>
+            <span class="exemple-pill">🍷 Champagne → vignes</span>
+            <span class="exemple-pill">🐷 Bretagne → élevage</span>
+            <span class="exemple-pill">🌻 Bassin aquitain → maïs</span>
+          </div>
+        </div>
+      </div>
+      <div class="warn-box">
+        <strong>⚠️ Les défis de l'agriculture française :</strong><br>
+        — Concurrence internationale forte (importations moins chères)<br>
+        — Pression environnementale (réduction des pesticides, protection des sols et de l'eau)<br>
+        — Développement de l'agriculture biologique et des circuits courts<br>
+        — Déprise agricole dans certaines zones (terres abandonnées)
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">2️⃣ Les espaces industriels</div>
+    <div class="section-body">
+      <div class="esp-card">
+        <div class="esp-head" style="background:var(--orange)">Définition et caractéristiques</div>
+        <div class="esp-body">
+          <p>Un espace industriel est un territoire organisé autour de la <strong>fabrication de produits</strong>. L'industrie française a beaucoup évolué : certaines activités traditionnelles ont disparu, de nouvelles sont apparues.</p>
+          <ul class="bull-list" style="margin-top:8px">
+            <li><strong>Les vieux bassins industriels en déclin :</strong> régions anciennement spécialisées dans le charbon, l'acier, le textile qui ont subi une <strong>désindustrialisation</strong>. Exemple : le Nord-Pas-de-Calais (mines de charbon fermées), la Lorraine (sidérurgie en crise).</li>
+            <li><strong>Les nouvelles zones industrielles dynamiques :</strong> industries de haute technologie, agroalimentaire, pharmaceutique. Exemple : Toulouse (aéronautique, Airbus), Grenoble (micro-électronique), Lyon (pharmaceutique).</li>
+            <li><strong>Les zones industrialo-portuaires :</strong> grandes industries installées près des ports pour faciliter les importations de matières premières. Exemple : Dunkerque (acier), Fos-sur-Mer/Marseille (pétrochimie).</li>
+          </ul>
+          <div class="exemple-grid">
+            <span class="exemple-pill" style="background:var(--orange-light);color:var(--orange);border-color:var(--orange)">✈️ Toulouse → Airbus</span>
+            <span class="exemple-pill" style="background:var(--orange-light);color:var(--orange);border-color:var(--orange)">💊 Lyon → pharmaceutique</span>
+            <span class="exemple-pill" style="background:var(--orange-light);color:var(--orange);border-color:var(--orange)">⚓ Dunkerque → acier</span>
+            <span class="exemple-pill" style="background:var(--orange-light);color:var(--orange);border-color:var(--orange)">💻 Grenoble → high-tech</span>
+          </div>
+        </div>
+      </div>
+      <div class="success-box">
+        <strong>✅ La désindustrialisation :</strong> depuis les années 1970, la France a perdu beaucoup d'emplois industriels (délocalisation vers des pays à main-d'œuvre moins chère, automatisation). Les anciens bassins industriels ont connu chômage et pauvreté. La reconversion de ces territoires est un enjeu majeur.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head violet">3️⃣ Les espaces de services et touristiques</div>
+    <div class="section-body">
+      <div class="esp-card">
+        <div class="esp-head" style="background:var(--violet)">Définition et caractéristiques</div>
+        <div class="esp-body">
+          <p>Le secteur tertiaire (services) représente aujourd'hui <strong>plus de 75 % de l'emploi en France</strong>. Les espaces de services comprennent les grandes villes (sièges sociaux, banques, commerces), mais aussi les espaces touristiques.</p>
+          <ul class="bull-list" style="margin-top:8px">
+            <li><strong>Les métropoles :</strong> concentrent les sièges sociaux des grandes entreprises, les banques, les hôpitaux, les universités. Paris est la 1ère métropole française, nœud de réseaux européens et mondiaux.</li>
+            <li><strong>Le tourisme littoral :</strong> côtes méditerranéenne et atlantique, très fréquentées en été. Exemple : la Côte d'Azur, la Vendée.</li>
+            <li><strong>Le tourisme de montagne :</strong> ski en hiver, randonnée en été. Exemple : les Alpes (Chamonix, Grenoble), les Pyrénées.</li>
+            <li><strong>Le tourisme urbain et culturel :</strong> Paris (1er destination touristique mondiale), musées, patrimoine. Château de Versailles, Mont-Saint-Michel.</li>
+            <li><strong>Les parcs de loisirs :</strong> Disneyland Paris (1er parc européen), Futuroscope, Puy du Fou.</li>
+          </ul>
+          <div class="exemple-grid">
+            <span class="exemple-pill" style="background:var(--violet-light);color:var(--violet);border-color:var(--violet)">🗼 Paris → tourisme mondial</span>
+            <span class="exemple-pill" style="background:var(--violet-light);color:var(--violet);border-color:var(--violet)">🏖️ Côte d'Azur → littoral</span>
+            <span class="exemple-pill" style="background:var(--violet-light);color:var(--violet);border-color:var(--violet)">⛷️ Alpes → montagne</span>
+            <span class="exemple-pill" style="background:var(--violet-light);color:var(--violet);border-color:var(--violet)">🎡 Disneyland → loisirs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">📊 Tableau récapitulatif</div>
+    <div class="section-body">
+      <table class="dates-table">
+        <tr><th>Type d'espace</th><th>Activité principale</th><th>Exemples en France</th><th>Enjeux</th></tr>
+        <tr><td class="esp">Agricole</td><td>Production alimentaire</td><td>Beauce, Bretagne, Champagne</td><td>Concurrence, environnement, bio</td></tr>
+        <tr><td class="esp">Industriel</td><td>Fabrication de produits</td><td>Toulouse, Dunkerque, Grenoble</td><td>Désindustrialisation, reconversion</td></tr>
+        <tr><td class="esp">Touristique</td><td>Accueil des touristes</td><td>Paris, Côte d'Azur, Alpes</td><td>Saisonnalité, sur-tourisme</td></tr>
+        <tr><td class="esp">Services (métropoles)</td><td>Commerce, finance, santé</td><td>Paris, Lyon, Marseille</td><td>Inégalités villes/campagnes</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head gris">📋 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Espace productif</div><div class="mc-def">Territoire organisé autour d'une activité économique dominante (agriculture, industrie, services, tourisme).</div></div>
+      <div class="mc-row"><div class="mc-terme">Désindustrialisation</div><div class="mc-def">Perte d'emplois industriels dans une région, souvent due aux délocalisations ou à l'automatisation. A touché le Nord, la Lorraine, l'Alsace.</div></div>
+      <div class="mc-row"><div class="mc-terme">Délocalisation</div><div class="mc-def">Transfert d'une activité industrielle vers un autre pays où les coûts (salaires, charges) sont moins élevés.</div></div>
+      <div class="mc-row"><div class="mc-terme">Agriculture intensive</div><div class="mc-def">Agriculture qui utilise beaucoup de machines, d'engrais et de pesticides pour obtenir des rendements très élevés sur de grandes surfaces.</div></div>
+      <div class="mc-row"><div class="mc-terme">Secteur tertiaire</div><div class="mc-def">Ensemble des activités de services (commerce, banque, hôpital, école, tourisme, transport…). Représente plus de 75 % de l'emploi en France.</div></div>
+      <div class="mc-row"><div class="mc-terme">Zone industrialo-portuaire</div><div class="mc-def">Grande zone industrielle installée près d'un port pour profiter des échanges maritimes. Exemples : Dunkerque, Fos-sur-Mer.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════ QUIZ ══════ -->
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head bleu">❓ Quiz — Les espaces productifs</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Clique sur ta réponse.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score">
+        <div class="score-num" id="score-num"></div>
+        <div class="score-msg" id="score-msg"></div>
+        <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ EXERCICE ══════ -->
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head bleu">✏️ Exercice type brevet</div>
+    <div class="section-body">
+      <div class="info-box"><strong>Conditions :</strong> Lis le document, puis réponds aux questions. Temps conseillé : 25 minutes.</div>
+    </div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>📄 Document — La plaine de la Beauce</h3>
+    <p>La Beauce, surnommée le "grenier à blé de la France", s'étend sur environ 560 000 hectares entre les régions Centre-Val de Loire et Île-de-France. Cette plaine céréalière produit chaque année plusieurs millions de tonnes de blé, de maïs et d'orge. Les exploitations agricoles y sont très grandes (souvent plus de 200 hectares) et entièrement mécanisées. En revanche, la population y est peu dense : les villages se sont vidés et le nombre d'agriculteurs a chuté de 80 % depuis les années 1960. Aujourd'hui, un seul agriculteur peut cultiver plusieurs centaines d'hectares grâce aux machines modernes. La Beauce exporte une grande partie de sa production vers l'Europe et le monde entier.</p>
+    <p class="doc-source">D'après des données de la Chambre d'agriculture d'Eure-et-Loir, à des fins pédagogiques. Brevet 2026.</p>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Identifier et caractériser l'espace</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>De quel type d'espace productif s'agit-il ? Cite trois caractéristiques de cet espace d'après le document.</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p>La Beauce est un <strong>espace productif agricole</strong>, plus précisément un espace d'agriculture intensive céréalière.</p>
+        <p style="margin-top:8px">Trois caractéristiques d'après le document :</p>
+        <p>1. <strong>Des exploitations très grandes et mécanisées :</strong> "souvent plus de 200 hectares" et "entièrement mécanisées" → c'est le signe d'une agriculture intensive à grande échelle.</p>
+        <p style="margin-top:4px">2. <strong>Une production importante orientée vers l'export :</strong> "plusieurs millions de tonnes de blé, maïs et orge" exportés "vers l'Europe et le monde entier" → cet espace s'intègre dans la mondialisation.</p>
+        <p style="margin-top:4px">3. <strong>Une population peu dense et en déclin :</strong> "villages se sont vidés", "nombre d'agriculteurs a chuté de 80 % depuis les années 1960" → l'agriculture intensive nécessite moins de main-d'œuvre.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour identifier un espace productif → cherche l'activité dominante (agriculture, industrie, tourisme, services) → puis cite des preuves précises dans le document.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Hectare</em> = unité de surface agricole (1 ha = 10 000 m²). <em>Céréalier</em> = qui concerne la culture des céréales (blé, maïs, orge, seigle…).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Expliquer les enjeux</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>D'après le document et tes connaissances, quels sont les <strong>deux grands défis</strong> de cet espace productif agricole ? Explique chacun.</p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p><strong>Défi 1 — Le dépeuplement rural :</strong> le document montre que "les villages se sont vidés" et que le nombre d'agriculteurs a "chuté de 80 % depuis les années 1960". La mécanisation a supprimé la plupart des emplois agricoles, ce qui vide les campagnes. Les services (écoles, commerces, médecins) disparaissent avec la population.</p>
+        <p style="margin-top:8px"><strong>Défi 2 — Les enjeux environnementaux :</strong> l'agriculture intensive utilise beaucoup d'engrais et de pesticides pour obtenir de hauts rendements. Cela pollue les nappes phréatiques, appauvrit les sols et réduit la biodiversité. La France doit trouver un équilibre entre productivité agricole et protection de l'environnement (développement du bio, réduction des produits chimiques).</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour les enjeux, s'appuyer sur le document PUIS ajouter des connaissances du cours. Le document donne le point de départ, le cours permet d'approfondir.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Nappe phréatique</em> = eau souterraine que les humains utilisent pour boire et irriguer. <em>Biodiversité</em> = variété des espèces vivantes dans un écosystème.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Développement construit</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>À partir du document et de tes connaissances, rédige un développement de 8 à 12 lignes qui présente <strong>les trois grands types d'espaces productifs en France</strong>, en donnant un exemple précis pour chacun.</p>
+      <textarea id="rep3" placeholder="Écris ton développement ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Exemple de développement rédigé</h4>
+        <p>Le territoire français est organisé autour de plusieurs types d'espaces productifs, c'est-à-dire de territoires spécialisés dans une activité économique principale.</p>
+        <p style="margin-top:8px">En premier lieu, les <strong>espaces agricoles</strong> couvrent une grande partie du territoire. La Beauce, surnommée "grenier à blé de la France", en est l'exemple le plus célèbre : ses grandes exploitations mécanisées produisent des millions de tonnes de céréales exportées dans le monde entier. La Bretagne, elle, est spécialisée dans l'élevage porcin et la volaille.</p>
+        <p style="margin-top:8px">En second lieu, les <strong>espaces industriels</strong> sont présents dans des zones très spécifiques. Toulouse concentre l'industrie aéronautique française avec Airbus, qui emploie des dizaines de milliers de personnes. À l'inverse, d'anciennes régions industrielles comme le Nord-Pas-de-Calais ont subi une forte désindustrialisation avec la fermeture des mines de charbon.</p>
+        <p style="margin-top:8px">Enfin, les <strong>espaces de services et touristiques</strong> sont en pleine expansion. Paris est la première destination touristique mondiale. Les Alpes attirent chaque hiver des millions de skieurs, et la Côte d'Azur est très fréquentée en été.</p>
+        <div class="methode-box"><strong>💡 Structure :</strong> Introduction (définition) → Type 1 + exemple → Type 2 + exemple → Type 3 + exemple → (conclusion courte possible).</div>
+        <div class="vocab-box"><strong>📖 Connecteurs géographiques utiles :</strong> En premier lieu… — En second lieu… — Enfin… — À l'inverse… — D'une part… — D'autre part… — En revanche…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS = [
+  {q:"Qu'est-ce qu'un espace productif ?",
+   opts:["Un territoire organisé autour d'une activité économique dominante (agriculture, industrie, tourisme, services)","Un territoire très peuplé situé près d'une grande ville","Une zone protégée pour la nature","Un quartier industriel en banlieue d'une grande métropole"],
+   correct:0,
+   expl:"Un espace productif est un territoire dont l'organisation et l'aménagement sont dominés par une activité économique principale : agriculture, industrie, tourisme ou services. Ce qui le caractérise, c'est la spécialisation : toute l'organisation du territoire (routes, bâtiments, population, emplois) est orientée vers cette activité."},
+  {q:"Quel est le premier pays agricole de l'Union européenne ?",
+   opts:["La France","L'Allemagne","L'Espagne","L'Italie"],
+   correct:0,
+   expl:"La France est le premier pays agricole de l'Union européenne, devant l'Allemagne et l'Espagne. Elle produit des céréales (blé, maïs), des produits laitiers, de la viande, du vin… La Beauce, la Bretagne et la Champagne sont ses principales régions agricoles."},
+  {q:"Quelle région française est spécialisée dans la production de céréales (blé) ?",
+   opts:["La Beauce","La Bretagne","La Provence","L'Alsace"],
+   correct:0,
+   expl:"La Beauce, surnommée le 'grenier à blé de la France', est la principale région céréalière française. Elle s'étend entre le Centre-Val de Loire et l'Île-de-France. Son agriculture est très intensive : grandes exploitations, mécanisation totale, exportation mondiale. La Bretagne est spécialisée dans l'élevage, la Provence dans les fruits et légumes."},
+  {q:"Qu'est-ce que la désindustrialisation ?",
+   opts:["La perte massive d'emplois industriels dans une région, due aux délocalisations ou à l'automatisation","La création de nouvelles usines dans les métropoles","Le développement de l'industrie high-tech","La fermeture des usines agricoles"],
+   correct:0,
+   expl:"La désindustrialisation est la fermeture d'usines et la perte d'emplois industriels dans une région, souvent parce que les entreprises délocalisent vers des pays où la main-d'œuvre est moins chère, ou parce que les machines remplacent les ouvriers. Le Nord-Pas-de-Calais et la Lorraine ont été très touchés par ce phénomène."},
+  {q:"Quelle ville française est le principal centre de l'industrie aéronautique ?",
+   opts:["Toulouse (Airbus)","Paris (Aérospatiale)","Lyon (Safran)","Bordeaux (Dassault)"],
+   correct:0,
+   expl:"Toulouse est la capitale française de l'aéronautique. Airbus, le constructeur européen d'avions, y a son siège social et ses principales usines d'assemblage. Toulouse concentre également de nombreux sous-traitants et centres de recherche liés à l'aéronautique et à l'espace (CNES)."},
+  {q:"Quel secteur représente plus de 75 % de l'emploi en France ?",
+   opts:["Le secteur tertiaire (services)","Le secteur primaire (agriculture)","Le secteur secondaire (industrie)","Le secteur quaternaire (recherche)"],
+   correct:0,
+   expl:"Le secteur tertiaire, qui regroupe toutes les activités de services (commerce, banque, santé, éducation, tourisme, transport, administration…), représente aujourd'hui plus de 75 % de l'emploi en France. Le secteur industriel (secondaire) emploie environ 20 % des actifs, et l'agriculture (primaire) moins de 3 %."},
+  {q:"Quel est le principal espace touristique montagnard en France ?",
+   opts:["Les Alpes (ski, randonnée)","La Bretagne (surf)","La Normandie (plages)","Le Massif central (volcans)"],
+   correct:0,
+   expl:"Les Alpes françaises sont le principal espace touristique montagnard de France, avec des stations de ski renommées (Chamonix, Megève, Les Arcs…). La montagne attire des millions de touristes en hiver pour le ski et en été pour la randonnée. Les Pyrénées sont le deuxième massif touristique montagnard."},
+  {q:"Qu'est-ce qu'une zone industrialo-portuaire ?",
+   opts:["Une grande zone industrielle installée près d'un port pour faciliter les imports/exports de matières premières","Un port de plaisance transformé en zone commerciale","Un quartier industriel en centre-ville","Une zone franche économique dans un aéroport"],
+   correct:0,
+   expl:"Une zone industrialo-portuaire (ZIP) est une grande zone industrielle installée à proximité immédiate d'un port maritime. Cela permet d'importer directement les matières premières (pétrole, minerais, céréales…) et d'exporter les produits finis. Exemples en France : Dunkerque (sidérurgie), Fos-sur-Mer près de Marseille (pétrochimie)."},
+  {q:"Quelle est la principale conséquence de l'agriculture intensive sur les territoires ruraux ?",
+   opts:["Le dépeuplement : moins d'agriculteurs nécessaires → villages qui se vident","L'augmentation du nombre de fermes familiales","L'amélioration de la biodiversité","La multiplication des emplois agricoles"],
+   correct:0,
+   expl:"L'agriculture intensive utilise de grosses machines qui remplacent la main-d'œuvre humaine. Un seul agriculteur peut cultiver des centaines d'hectares. Résultat : le nombre d'agriculteurs a chuté de 80 % en France depuis les années 1960. Les villages se vident, les services ferment (écoles, commerces, médecins). C'est le phénomène de déprise rurale."},
+  {q:"Pourquoi Paris est-elle une métropole mondiale dans le secteur des services ?",
+   opts:["Elle concentre les sièges sociaux, banques, universités, et est la 1ère destination touristique mondiale","Elle possède la plus grande zone industrielle d'Europe","Elle est le 1er port maritime de France","Elle produit la majorité des céréales françaises"],
+   correct:0,
+   expl:"Paris est une métropole mondiale de services car elle concentre : les sièges sociaux de grandes entreprises multinationales, les principales banques françaises et européennes, les grandes universités et centres de recherche, et des dizaines de millions de touristes chaque année (Louvre, Tour Eiffel, Versailles…). La région Île-de-France représente à elle seule environ 30 % du PIB français."},
+  {q:"Qu'est-ce qu'une délocalisation ?",
+   opts:["Le transfert d'une usine vers un pays à main-d'œuvre moins chère pour réduire les coûts de production","La construction d'une nouvelle usine en France","La fermeture définitive d'une entreprise","Le déplacement d'une entreprise d'une ville à une autre en France"],
+   correct:0,
+   expl:"Une délocalisation, c'est quand une entreprise transfère tout ou partie de sa production vers un autre pays où les coûts sont moins élevés (salaires moins importants, charges moins lourdes). Par exemple, une usine textile qui ferme en France et rouvre au Maroc ou en Asie. Les délocalisations expliquent en grande partie la désindustrialisation française."},
+  {q:"Quels sont les deux types d'espaces agricoles en France cités en cours ?",
+   opts:["Agriculture intensive céréalière (grandes surfaces mécanisées) et agriculture spécialisée (une seule culture)","Agriculture de subsistance et agriculture d'exportation","Agriculture biologique et agriculture chimique","Agriculture littorale et agriculture de montagne"],
+   correct:0,
+   expl:"En cours de géographie, on distingue principalement l'agriculture intensive (grandes surfaces, mécanisée, ex. : la Beauce) et l'agriculture spécialisée (une seule production sur de grandes surfaces, ex. : la Champagne pour la vigne, la Bretagne pour l'élevage porcin). On peut aussi mentionner l'agriculture biologique, en développement, qui représente une alternative plus respectueuse de l'environnement."}
+];
+
+var answered={}, score=0;
+function showPanel(id,tab){var p=document.querySelectorAll('.panel'),t=document.querySelectorAll('.tab');for(var i=0;i<p.length;i++)p[i].classList.remove('active');for(var i=0;i<t.length;i++)t[i].classList.remove('active');document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+function buildQuiz(){var c=document.getElementById('quiz-container');c.innerHTML='';answered={};score=0;for(var i=0;i<QUESTIONS.length;i++){var q=QUESTIONS[i],div=document.createElement('div');div.className='quiz-q';var opts='';for(var j=0;j<q.opts.length;j++)opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';c.appendChild(div);}document.getElementById('quiz-score').classList.remove('show');}
+function answer(qi,choice){if(answered[qi]!==undefined)return;answered[qi]=choice;var q=QUESTIONS[qi],opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');for(var i=0;i<opts.length;i++)opts[i].classList.add('disabled');opts[choice].classList.add(choice===q.correct?'correct':'wrong');if(choice!==q.correct)opts[q.correct].classList.add('correct');var ok=choice===q.correct;if(ok)score++;var expl=document.getElementById('expl-'+qi);expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;expl.classList.add('show');if(Object.keys(answered).length===QUESTIONS.length)showScore();}
+function showScore(){var pct=Math.round(score/QUESTIONS.length*100);document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;var msg=pct>=90?'🎉 Excellent Zach ! Les espaces productifs n\'ont plus de secrets !':pct>=70?'👍 Très bien ! Relis les questions "à revoir".':pct>=50?'💪 Pas mal ! Relis la fiche et retente.':'📋 Relis la fiche, surtout le tableau récap. Tu vas y arriver !';document.getElementById('score-msg').textContent=msg;document.getElementById('quiz-score').classList.add('show');}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;
+</script>
+</body>
+</html>

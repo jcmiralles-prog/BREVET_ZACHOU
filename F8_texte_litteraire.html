@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F8 — Le texte littéraire</title>
+<style>
+  :root{--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--bleu-light:#D6EAF8;--rouge:#C0392B;--rouge-light:#FADBD8;--orange:#D35400;--orange-light:#FDEBD0;--violet:#6C3483;--violet-light:#E8DAEF;--gris:#5D6D7E;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--vert);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--vert);border-bottom-color:var(--vert)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.vert{background:var(--vert)}.section-head.bleu{background:var(--bleu)}.section-head.orange{background:var(--orange)}.section-head.violet{background:var(--violet)}.section-head.rouge{background:var(--rouge)}.section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--vert);font-weight:700}
+  .genre-grid{display:-webkit-flex;display:flex;gap:10px;-webkit-flex-wrap:wrap;flex-wrap:wrap;margin:8px 0}
+  .genre-card{-webkit-flex:1 1 160px;flex:1 1 160px;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+  .genre-head{padding:8px 12px;font-size:12px;font-weight:700;color:white;text-align:center}
+  .genre-body{padding:8px 12px;font-size:12px;line-height:1.7;background:white}
+  .registre-card{border-radius:8px;overflow:hidden;margin-bottom:8px;border:1px solid var(--border)}
+  .registre-head{padding:8px 12px;font-size:12px;font-weight:700;color:white}
+  .registre-body{padding:8px 12px;font-size:12px;line-height:1.7;background:white}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--vert-light);color:var(--vert);font-weight:700;font-size:12px;padding:8px 12px;min-width:140px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .methode-analyse{counter-reset:step}
+  .step{display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;-webkit-align-items:flex-start;align-items:flex-start}
+  .step-num{background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+  .step-text{font-size:13px;line-height:1.6;-webkit-flex:1;flex:1}
+  .step-text strong{color:var(--vert)}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--vert);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--vert);background:var(--vert-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--vert);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.9}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--vert-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--vert);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--vert);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--vert)}
+  .btn-corr{background:var(--vert);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  @media(max-width:500px){header h1{font-size:17px}.genre-grid{-webkit-flex-direction:column;flex-direction:column}}
+</style>
+</head>
+<body>
+<header>
+  <h1>📚 F8 — Le texte littéraire</h1>
+  <p>Fiche complète · Séquence 8 · Français · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche de cours</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- FICHE -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head vert">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>En une phrase :</strong> Analyser un texte littéraire, c'est identifier son <strong>genre</strong> (roman, poésie, théâtre…), son <strong>registre</strong> (lyrique, tragique, comique, épique…), ses <strong>procédés stylistiques</strong> (figures de style, temps verbaux, point de vue) et expliquer leur <strong>effet</strong> sur le lecteur.</div>
+      <div class="brevet-box"><strong>🎯 Au brevet :</strong> présenter le texte (nature, genre, auteur, époque), identifier le registre avec des indices précis, analyser des procédés stylistiques, écrire un développement construit sur un aspect du texte.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">1️⃣ Les genres littéraires</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Le genre d'un texte dépend de sa <strong>forme</strong> et de son <strong>mode d'expression</strong>.</p>
+      <div class="genre-grid">
+        <div class="genre-card">
+          <div class="genre-head" style="background:var(--bleu)">📖 Roman / Nouvelle</div>
+          <div class="genre-body">Récit en prose. Personnages fictifs. Monde imaginaire ou réaliste. Sous-genres : roman historique, policier, de science-fiction, autobiographique.<br><em style="color:var(--muted)">Ex : Les Misérables (Hugo)</em></div>
+        </div>
+        <div class="genre-card">
+          <div class="genre-head" style="background:var(--violet)">🎭 Théâtre</div>
+          <div class="genre-body">Texte écrit pour être joué. Dialogues entre personnages. Didascalies (indications de mise en scène). Sous-genres : tragédie, comédie, drame.<br><em style="color:var(--muted)">Ex : Le Cid (Corneille)</em></div>
+        </div>
+        <div class="genre-card">
+          <div class="genre-head" style="background:var(--orange)">🎵 Poésie</div>
+          <div class="genre-body">Texte organisé en vers et strophes. Musicalité (rimes, rythme). Langage imagé et condensé. Peut être lyrique, épique ou satirique.<br><em style="color:var(--muted)">Ex : Les Fleurs du mal (Baudelaire)</em></div>
+        </div>
+        <div class="genre-card">
+          <div class="genre-head" style="background:var(--gris)">📝 Autobiographie / Essai</div>
+          <div class="genre-body">Récit de soi (autobiographie) ou réflexion sur un sujet (essai). Narré à la 1ère personne (autobiographie). L'auteur parle en son nom.<br><em style="color:var(--muted)">Ex : Les Confessions (Rousseau)</em></div>
+        </div>
+      </div>
+      <div class="warn-box"><strong>⚠️ À ne pas confondre :</strong> Le genre (roman, poème, pièce de théâtre) est la <em>forme</em> du texte. Le registre (lyrique, tragique, comique…) est le <em>ton</em> ou l'<em>atmosphère</em> du texte. Un roman peut être tragique OU comique selon son registre.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">2️⃣ Les registres littéraires</div>
+    <div class="section-body">
+      <div class="registre-card">
+        <div class="registre-head" style="background:var(--orange)">🎶 Registre lyrique</div>
+        <div class="registre-body"><strong>But :</strong> exprimer des émotions personnelles, des sentiments intimes (amour, mélancolie, nostalgie, solitude).<br><strong>Indices :</strong> pronoms "je", champ lexical des sentiments, figures d'intensité (hyperbole, comparaison), musicalité du texte.<br><em>"Je vis, je meurs ; je me brûle et me noie." (Louise Labé)</em></div>
+      </div>
+      <div class="registre-card">
+        <div class="registre-head" style="background:var(--rouge)">⚡ Registre tragique</div>
+        <div class="registre-body"><strong>But :</strong> susciter terreur et pitié face à un destin inéluctable, une situation sans issue.<br><strong>Indices :</strong> champ lexical de la mort et du malheur, fatalité, personnages nobles condamnés, ton solennel.<br><em>Œdipe qui découvre qu'il a tué son père, Roméo et Juliette.</em></div>
+      </div>
+      <div class="registre-card">
+        <div class="registre-head" style="background:var(--vert)">😄 Registre comique</div>
+        <div class="registre-body"><strong>But :</strong> faire rire par différents procédés.<br><strong>Indices :</strong> jeux de mots, situations absurdes, personnages caricaturaux, ironie, retournements de situation.<br><em>"Le malade imaginaire" de Molière : hypocondriaque entouré de médecins incompétents.</em></div>
+      </div>
+      <div class="registre-card">
+        <div class="registre-head" style="background:var(--bleu)">⚔️ Registre épique</div>
+        <div class="registre-body"><strong>But :</strong> célébrer des exploits héroïques, des batailles, des aventures extraordinaires.<br><strong>Indices :</strong> héros surhumains, hyperboles, champ lexical de la guerre et de la gloire, grandeur.<br><em>L'Iliade (Homère), La Chanson de Roland.</em></div>
+      </div>
+      <div class="registre-card">
+        <div class="registre-head" style="background:var(--violet)">🗡️ Registre satirique / ironique</div>
+        <div class="registre-body"><strong>But :</strong> critiquer les défauts humains ou sociaux par le rire, la dérision ou l'ironie.<br><strong>Indices :</strong> ironie (dire le contraire de ce qu'on pense), exagération des défauts, ton mordant.<br><em>Candide de Voltaire : critique la naïveté et les inégalités sociales.</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head violet">3️⃣ Méthode d'analyse d'un texte littéraire</div>
+    <div class="section-body">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Présenter le texte :</strong> nature (roman, poème, extrait de théâtre…), auteur si connu, époque, de quoi ça parle en une phrase.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>Identifier le genre et le registre :</strong> quel genre (roman, poésie, théâtre) ? Quel registre (lyrique, comique, tragique…) ? Quels indices le montrent ?</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Repérer les procédés stylistiques :</strong> figures de style (métaphore, comparaison, hyperbole…), temps verbaux, point de vue narratif, champ lexical dominant.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><strong>Expliquer les effets :</strong> pour chaque procédé relevé, expliquer ce qu'il crée chez le lecteur (émotion, impression, compréhension).</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><strong>Conclure :</strong> quelle impression d'ensemble ce texte produit-il ? Quel est le thème central ? Quelle vision du monde propose-t-il ?</div>
+      </div>
+      <div class="success-box"><strong>✅ Formule magique pour analyser un procédé :</strong><br>"L'auteur utilise [nom du procédé] dans [citation précise], ce qui crée [effet] et permet au lecteur de [ressentir/comprendre]."</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head gris">📋 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Genre littéraire</div><div class="mc-def">Forme d'un texte selon son mode d'expression : roman, nouvelle, poésie, théâtre, autobiographie, essai.</div></div>
+      <div class="mc-row"><div class="mc-terme">Registre</div><div class="mc-def">Ton ou atmosphère dominante d'un texte qui détermine les émotions suscitées chez le lecteur : lyrique, tragique, comique, épique, satirique.</div></div>
+      <div class="mc-row"><div class="mc-terme">Champ lexical</div><div class="mc-def">Ensemble de mots appartenant à un même thème dans un texte. Exemple : le champ lexical de la mort inclut les mots "cadavre", "sépulcre", "funèbre", "deuil"...</div></div>
+      <div class="mc-row"><div class="mc-terme">Didascalie</div><div class="mc-def">Indications de mise en scène dans un texte de théâtre : elles précisent les gestes, les déplacements, le décor, le ton des personnages.</div></div>
+      <div class="mc-row"><div class="mc-terme">Ironie</div><div class="mc-def">Dire le contraire de ce qu'on pense pour critiquer ou se moquer. L'ironie est comprise grâce au contexte et au ton.</div></div>
+      <div class="mc-row"><div class="mc-terme">Autobiographie</div><div class="mc-def">Texte dans lequel l'auteur raconte sa propre vie à la première personne. L'auteur, le narrateur et le personnage principal sont la même personne.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head vert">❓ Quiz — Le texte littéraire</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Clique sur ta réponse.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score"><div class="score-num" id="score-num"></div><div class="score-msg" id="score-msg"></div><button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- EXERCICE -->
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head vert">✏️ Exercice type brevet</div>
+    <div class="section-body"><div class="info-box"><strong>Conditions :</strong> Lis le texte, puis réponds. Temps conseillé : 25 minutes.</div></div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>📄 Texte — Extrait littéraire</h3>
+    <p>Je me souviens de ce soir d'été où tout a basculé. J'avais seize ans et je croyais que le monde m'appartenait. Ma mère m'avait dit — et combien de fois ! — que la jeunesse est un trésor qui s'évanouit trop vite. Je ne l'écoutais pas. La vie me semblait une fête sans fin, un carnaval de lumières et de rires. Mais ce soir-là, en rentrant chez moi, j'ai compris pour la première fois ce que voulait dire le mot "perte". Mon chien était mort. Un être si petit, si fidèle, si silencieux dans sa façon d'aimer. La maison, sans lui, ressemblait à une coquille vide. Je me suis assis dans le couloir et j'ai pleuré longtemps, sans honte.</p>
+    <p class="doc-source">Texte rédigé pour l'entraînement au Brevet 2026.</p>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Genre et registre</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>De quel genre ce texte est-il ? Quel est son registre dominant ? Justifie chaque réponse avec deux indices précis tirés du texte.</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p><strong>Genre → Autobiographie (ou récit autobiographique) :</strong><br>
+        Indice 1 : Le narrateur parle à la 1ère personne ("je me souviens", "j'avais seize ans", "j'ai compris") et raconte un épisode de sa propre vie : c'est le mode d'expression typique de l'autobiographie.<br>
+        Indice 2 : Le texte évoque un souvenir d'enfance/d'adolescence précis ("j'avais seize ans") avec une réflexion du narrateur adulte sur le passé ("je ne l'écoutais pas" → il sait maintenant que sa mère avait raison).</p>
+        <p style="margin-top:8px"><strong>Registre → Lyrique :</strong><br>
+        Indice 1 : Le texte exprime des émotions intimes et personnelles (la perte, la tristesse, l'insouciance de la jeunesse) à travers le "je" — caractéristique du registre lyrique.<br>
+        Indice 2 : La métaphore "la vie me semblait une fête sans fin, un carnaval de lumières et de rires" et la comparaison "la maison ressemblait à une coquille vide" montrent un langage imagé et émotionnel typique du lyrisme.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Genre = forme du texte. Registre = ton/atmosphère. Les deux s'identifient avec des indices précis : citer un mot, une expression, une structure du texte.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Autobiographie</em> = texte où l'auteur, le narrateur et le personnage sont la même personne. <em>Lyrique</em> = qui exprime des émotions personnelles intimes.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser les procédés</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Relève et analyse <strong>deux procédés stylistiques</strong> du texte. Pour chacun : cite l'extrait, nomme le procédé, explique l'effet produit.</p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p><strong>Procédé 1 — Métaphore :</strong> "La vie me semblait une fête sans fin, un carnaval de lumières et de rires." → La vie est assimilée directement à une fête, sans outil de comparaison. Effet : cette métaphore traduit parfaitement l'insouciance et l'euphorie de l'adolescence. Elle contraste avec ce qui va suivre (la perte), rendant la chute encore plus brutale.</p>
+        <p style="margin-top:8px"><strong>Procédé 2 — Comparaison :</strong> "La maison, sans lui, ressemblait à une coquille vide." → La maison est comparée à une coquille vide (avec l'outil "ressemblait à"). Effet : cette comparaison rend sensible le vide et l'absence. L'image de la coquille (belle à l'extérieur, vide à l'intérieur) illustre parfaitement la désolation du narrateur.</p>
+        <div class="methode-box"><strong>💡 Formule :</strong> "L'auteur utilise [procédé] dans [citation], ce qui crée [effet] et permet de [comprendre/ressentir]."</div>
+        <div class="vocab-box"><strong>📖 Autres procédés à analyser dans ce texte :</strong> accumulation ("si petit, si fidèle, si silencieux"), antithèse (insouciance → perte), point de vue interne (accès aux pensées et émotions du narrateur).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Développement construit</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>En vous appuyant sur le texte et vos connaissances, rédigez un développement de 8 à 12 lignes sur le thème suivant : <strong>Comment ce texte montre-t-il le passage de l'insouciance à la conscience de la perte ?</strong></p>
+      <textarea id="rep3" placeholder="Écris ton développement ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Exemple de développement rédigé</h4>
+        <p>Ce texte autobiographique explore le passage douloureux de l'insouciance de l'adolescence à la conscience de ce que signifie perdre quelque chose.</p>
+        <p style="margin-top:8px">Dans un premier temps, le narrateur décrit son état d'esprit passé avec des images lumineuses : "la vie me semblait une fête sans fin, un carnaval de lumières et de rires". Cette métaphore traduit l'euphorie de la jeunesse, quand on croit que le bonheur est permanent. Le narrateur adulte reconnaît lui-même cette naïveté ("je ne l'écoutais pas"), ce qui crée une distance ironique entre le personnage jeune et le narrateur qui se souvient.</p>
+        <p style="margin-top:8px">Mais la mort du chien fait brutalement basculer le texte vers un registre lyrique douloureux. L'accumulation "si petit, si fidèle, si silencieux dans sa façon d'aimer" souligne par contraste la grandeur de cette perte apparemment modeste. La comparaison "la maison ressemblait à une coquille vide" rend tangible le vide laissé par l'absence.</p>
+        <p style="margin-top:8px">Ainsi, c'est à travers une perte concrète et intime — non pas une tragédie humaine, mais la mort d'un animal — que le narrateur découvre pour la première fois la réalité de la perte, et comprend tardivement les mots de sa mère sur la jeunesse.</p>
+        <div class="methode-box"><strong>💡 Structure :</strong> Introduction (thème) → Partie 1 : l'insouciance (avec citation + procédé) → Partie 2 : le basculement (avec citation + procédé) → Conclusion (sens du texte).</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire littéraire utile :</strong> registre lyrique — autobiographique — métaphore — accumulation — contraste — narrateur — ironie rétrospective — thème.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS=[
+  {q:"Quelle est la différence entre le genre et le registre d'un texte littéraire ?",opts:["Le genre = la forme (roman, poésie, théâtre) ; le registre = le ton/l'atmosphère (lyrique, comique, tragique)","Le genre = le thème du texte ; le registre = l'auteur","Il n'y a aucune différence entre genre et registre","Le genre = la longueur du texte ; le registre = le style"],correct:0,expl:"Le genre désigne la forme d'un texte : roman, nouvelle, poème, pièce de théâtre, autobiographie… Le registre (ou tonalité) désigne l'atmosphère et les émotions suscitées : lyrique (émotions), comique (rire), tragique (terreur et pitié), épique (héroïsme). Un roman (genre) peut être tragique ou comique (registre) selon le ton adopté."},
+  {q:"Quels sont les indices du registre lyrique ?",opts:["Pronoms 'je', champ lexical des sentiments, figures d'intensité, expression d'émotions personnelles","Personnages héroïques et batailles épiques","Situations comiques et jeux de mots","Didascalies et dialogues entre personnages"],correct:0,expl:"Le registre lyrique exprime des émotions personnelles intimes : amour, mélancolie, nostalgie, solitude. Ses indices : la 1ère personne (je), le champ lexical des sentiments, les figures d'intensité (hyperbole, comparaison), la musicalité du texte. C'est le registre dominant de la poésie sentimentale, mais aussi de certains romans et autobiographies."},
+  {q:"Qu'est-ce qu'une didascalie au théâtre ?",opts:["Une indication de mise en scène qui précise les gestes, déplacements, décors et tons","Un long monologue d'un personnage","Le titre d'une pièce de théâtre","Une réplique très courte d'un personnage"],correct:0,expl:"Les didascalies sont les indications que l'auteur donne pour la représentation théâtrale. Elles sont généralement entre parenthèses ou en italique dans le texte. Elles précisent les mouvements des acteurs ('il sort en courant'), le décor ('une chambre sombre'), le ton ('avec ironie'), les costumes... Elles n'appartiennent pas aux paroles des personnages."},
+  {q:"Comment reconnaît-on le registre épique ?",opts:["Héros surhumains, exploits extraordinaires, hyperboles, champ lexical de la guerre et de la gloire","Émotions personnelles et ton mélancolique","Rires et situations comiques","Destin inéluctable et personnages condamnés"],correct:0,expl:"Le registre épique célèbre des exploits héroïques et extraordinaires. Ses indices : des héros aux capacités surhumaines, des batailles grandioses décrites avec hyperbole, un champ lexical de la gloire et du courage. On le trouve dans les épopées (L'Iliade, Homère), les chansons de geste (La Chanson de Roland) et certains romans historiques."},
+  {q:"Qu'est-ce qu'une autobiographie ?",opts:["Un texte où l'auteur, le narrateur et le personnage principal sont la même personne réelle","Un texte inventé où le narrateur dit 'je'","La biographie d'une célébrité écrite par un journaliste","Un roman à la 1ère personne avec des personnages fictifs"],correct:0,expl:"Dans une autobiographie, trois éléments coïncident : l'auteur (personne réelle qui écrit), le narrateur (voix qui raconte) et le personnage principal (celui dont on parle) sont la même personne. La narration est à la 1ère personne. Exemples : Les Confessions de Rousseau, Si le grain ne meurt de Gide. À ne pas confondre avec le roman à la 1ère personne, où le narrateur est un personnage fictif."},
+  {q:"Quel est le registre tragique ?",opts:["Destin inéluctable, terreur et pitié face à une situation sans issue, personnages nobles condamnés","Expression d'émotions personnelles et mélancoliques","Rires et situations absurdes","Héros qui triomphent au combat"],correct:0,expl:"Le registre tragique suscite terreur et pitié. Ses caractéristiques : des personnages nobles face à un destin inéluctable (qu'ils ne peuvent pas éviter), une issue fatale (mort, séparation, malheur), un ton solennel. La tragédie grecque (Sophocle), les tragédies de Corneille et Racine en sont les exemples majeurs. Roméo et Juliette de Shakespeare est une tragédie romantique."},
+  {q:"Qu'est-ce que le champ lexical ?",opts:["L'ensemble des mots appartenant à un même thème dans un texte","Une figure de style qui compare deux éléments","La structure d'un paragraphe argumentatif","Le registre dominant d'un poème"],correct:0,expl:"Le champ lexical est l'ensemble des mots d'un texte qui appartiennent au même domaine thématique. Par exemple, le champ lexical de la mer : vague, flot, tempête, marin, horizon, sel... Repérer le champ lexical dominant d'un texte permet d'identifier son thème central et son registre."},
+  {q:"Dans quel genre trouve-t-on des didascalies ?",opts:["Au théâtre","Dans le roman","Dans la poésie","Dans l'autobiographie"],correct:0,expl:"Les didascalies (indications de mise en scène) sont spécifiques au théâtre. Elles sont écrites par l'auteur pour guider le metteur en scène et les acteurs. Dans un roman, les actions et les décors sont décrits dans le récit lui-même. Dans un poème, il n'y a pas de personnages à diriger."},
+  {q:"Comment analyser correctement un procédé stylistique ?",opts:["Nommer le procédé + citer l'extrait précis + expliquer l'effet produit sur le lecteur","Juste nommer le procédé sans explication","Expliquer l'effet sans citer le texte","Donner la définition sans analyser le texte"],correct:0,expl:"L'analyse d'un procédé stylistique doit toujours comporter trois étapes : (1) nommer le procédé (métaphore, hyperbole, anaphore…), (2) citer précisément l'extrait du texte concerné, (3) expliquer l'effet produit sur le lecteur. Sans la citation et l'explication de l'effet, l'analyse est incomplète."},
+  {q:"Quel registre est dominant dans un texte avec de l'ironie et de la dérision pour critiquer la société ?",opts:["Satirique / ironique","Tragique","Épique","Lyrique"],correct:0,expl:"Le registre satirique utilise l'humour, l'ironie et la dérision pour critiquer les travers humains ou sociaux. L'ironie consiste à dire le contraire de ce qu'on pense. La satire peut être douce ou mordante. Candide de Voltaire, Les Fables de La Fontaine et de nombreux textes de Molière utilisent ce registre pour critiquer l'injustice, la naïveté ou l'hypocrisie."},
+  {q:"Quelle est la particularité de la poésie par rapport aux autres genres ?",opts:["Elle est organisée en vers et strophes, avec une musicalité (rimes, rythme) et un langage très imagé","Elle est toujours écrite à la 1ère personne","Elle ne contient jamais de narration","Elle est toujours plus courte qu'un roman"],correct:0,expl:"La poésie se distingue des autres genres par sa forme : organisation en vers (lignes de longueur variable) et strophes (groupes de vers), présence de rimes et de rythmes réguliers, langage très condensé et imagé. Elle peut exprimer des émotions (lyrique), raconter des exploits (épique) ou critiquer (satirique). Contrairement aux autres genres, la forme elle-même est porteuse de sens."},
+  {q:"Qu'est-ce que l'ironie rétrospective dans un récit autobiographique ?",opts:["Le narrateur adulte qui se moque ou juge avec distance son comportement passé de jeunesse","Une figure de style qui dit le contraire de ce qu'on pense","Un récit raconté à l'envers, de la fin vers le début","Une comparaison entre le passé et le présent"],correct:0,expl:"Dans un récit autobiographique, l'ironie rétrospective apparaît quand le narrateur adulte regarde en arrière et commente avec distance, voire ironie, ce que le personnage jeune (lui-même dans le passé) pensait ou faisait. Exemple : 'je croyais que le monde m'appartenait' → le narrateur adulte sait maintenant que c'était naïf. Cette distance temporelle donne de la profondeur au récit."}
+];
+var answered={},score=0;
+function showPanel(id,tab){var p=document.querySelectorAll('.panel'),t=document.querySelectorAll('.tab');for(var i=0;i<p.length;i++)p[i].classList.remove('active');for(var i=0;i<t.length;i++)t[i].classList.remove('active');document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+function buildQuiz(){var c=document.getElementById('quiz-container');c.innerHTML='';answered={};score=0;for(var i=0;i<QUESTIONS.length;i++){var q=QUESTIONS[i],div=document.createElement('div');div.className='quiz-q';var opts='';for(var j=0;j<q.opts.length;j++)opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';c.appendChild(div);}document.getElementById('quiz-score').classList.remove('show');}
+function answer(qi,choice){if(answered[qi]!==undefined)return;answered[qi]=choice;var q=QUESTIONS[qi],opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');for(var i=0;i<opts.length;i++)opts[i].classList.add('disabled');opts[choice].classList.add(choice===q.correct?'correct':'wrong');if(choice!==q.correct)opts[q.correct].classList.add('correct');var ok=choice===q.correct;if(ok)score++;var expl=document.getElementById('expl-'+qi);expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;expl.classList.add('show');if(Object.keys(answered).length===QUESTIONS.length)showScore();}
+function showScore(){var pct=Math.round(score/QUESTIONS.length*100);document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;var msg=pct>=90?'🎉 Excellent Zach ! Texte littéraire maîtrisé !':pct>=70?'👍 Très bien ! Relis les points "à revoir".':pct>=50?'💪 Pas mal ! Relis les genres et registres et retente.':'📋 Relis la fiche genre par genre. Tu vas progresser vite !';document.getElementById('score-msg').textContent=msg;document.getElementById('quiz-score').classList.add('show');}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;
+</script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F7 — Les figures de style</title>
+<style>
+  :root{--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--bleu-light:#D6EAF8;--rouge:#C0392B;--rouge-light:#FADBD8;--orange:#D35400;--orange-light:#FDEBD0;--violet:#6C3483;--violet-light:#E8DAEF;--gris:#5D6D7E;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--vert);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--vert);border-bottom-color:var(--vert)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.vert{background:var(--vert)}.section-head.bleu{background:var(--bleu)}.section-head.orange{background:var(--orange)}.section-head.violet{background:var(--violet)}.section-head.rouge{background:var(--rouge)}.section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+  .fig-card{border-radius:var(--radius);overflow:hidden;margin-bottom:10px;border:1px solid var(--border)}
+  .fig-head{padding:9px 14px;font-size:13px;font-weight:700;color:white;display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .fig-tag{font-size:10px;background:rgba(255,255,255,0.25);padding:2px 8px;border-radius:20px;font-weight:600}
+  .fig-body{padding:10px 14px;font-size:13px;line-height:1.7;background:white}
+  .fig-ex{font-style:italic;color:var(--gris);font-size:12px;margin-top:6px;padding:6px 10px;background:var(--bg);border-radius:6px;border-left:3px solid var(--vert)}
+  .fig-effet{font-size:12px;color:var(--violet);margin-top:6px;font-weight:600}
+  .recap-table{width:100%;border-collapse:collapse;font-size:12px}
+  .recap-table th{background:var(--vert);color:white;padding:7px 10px;text-align:left;font-weight:600}
+  .recap-table td{padding:7px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .recap-table tr:last-child td{border-bottom:none}
+  .recap-table tr:nth-child(even) td{background:#F0FBF4}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--vert);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--vert);background:var(--vert-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--vert);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.9}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--vert-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--vert);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--vert);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--vert)}
+  .btn-corr{background:var(--vert);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  @media(max-width:500px){header h1{font-size:17px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🌟 F7 — Les figures de style</h1>
+  <p>Fiche complète · Séquence 7 · Français · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche de cours</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- FICHE -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head vert">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>Définition :</strong> Les figures de style sont des procédés d'écriture qui permettent de s'exprimer de manière plus imagée, plus frappante ou plus expressive que le langage ordinaire. Au brevet, il faut savoir les <strong>identifier</strong>, les <strong>nommer</strong>, et surtout expliquer leur <strong>effet</strong> sur le lecteur.</div>
+      <div class="brevet-box"><strong>🎯 Au brevet :</strong> nommer la figure → citer l'exemple précis du texte → expliquer l'effet produit en 1–2 phrases. Ne jamais juste nommer sans expliquer.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">🔵 Figures de comparaison et d'analogie</div>
+    <div class="section-body">
+
+      <div class="fig-card">
+        <div class="fig-head" style="background:var(--bleu)">Comparaison <span class="fig-tag">AVEC outil de comparaison</span></div>
+        <div class="fig-body">
+          Rapproche deux éléments à l'aide d'un <strong>outil de comparaison</strong> : comme, tel que, semblable à, pareil à, ressembler à, on dirait que…
+          <div class="fig-ex">« Ses yeux brillaient <em>comme</em> des étoiles. » — « Il courait <em>tel</em> un lion. »</div>
+          <div class="fig-effet">Effet : rend l'image vivante, aide le lecteur à visualiser.</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-head" style="background:var(--bleu)">Métaphore <span class="fig-tag">SANS outil de comparaison</span></div>
+        <div class="fig-body">
+          Comme la comparaison, mais <strong>sans outil de comparaison</strong>. Les deux éléments sont directement assimilés l'un à l'autre.
+          <div class="fig-ex">« Ses yeux <em>étaient des étoiles</em>. » — « La vie est un long fleuve tranquille. »</div>
+          <div class="fig-effet">Effet : plus forte et directe que la comparaison, crée une image percutante.</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-head" style="background:var(--violet)">Personnification</div>
+        <div class="fig-body">
+          Attribue des <strong>caractéristiques humaines</strong> (sentiments, paroles, actions) à un objet, un animal ou une notion abstraite.
+          <div class="fig-ex">« Le vent <em>murmurait</em> des secrets. » — « La nuit <em>avançait</em> à pas de loup. »</div>
+          <div class="fig-effet">Effet : anime le décor, crée une atmosphère, donne de la vie à des éléments inanimés.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">🔶 Figures d'amplification et d'atténuation</div>
+    <div class="section-body">
+
+      <div class="fig-card">
+        <div class="fig-head" style="background:var(--orange)">Hyperbole <span class="fig-tag">EXAGÉRATION</span></div>
+        <div class="fig-body">
+          Exagère volontairement pour frapper l'imagination. Souvent utilisée pour insister ou pour l'humour.
+          <div class="fig-ex">« Je meurs de faim ! » — « Il y avait un million de personnes dans la rue. »</div>
+          <div class="fig-effet">Effet : insiste sur l'intensité d'un sentiment, crée un effet comique ou dramatique.</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-head" style="background:var(--vert)">Euphémisme <span class="fig-tag">ATTÉNUATION</span></div>
+        <div class="fig-body">
+          Remplace une réalité dure ou choquante par une expression <strong>plus douce</strong> pour atténuer l'impact.
+          <div class="fig-ex">« Il nous a quittés » (= il est mort). — « Elle n'est pas très bien portante » (= elle est très malade).</div>
+          <div class="fig-effet">Effet : adoucit, ménage la sensibilité, exprime la pudeur ou l'hypocrisie.</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-head" style="background:var(--gris)">Litote <span class="fig-tag">DIRE MOINS POUR SIGNIFIER PLUS</span></div>
+        <div class="fig-body">
+          Dit moins que ce qu'on pense pour en exprimer davantage. Souvent sous forme de négation.
+          <div class="fig-ex">« Va, je ne te hais point. » (= je t'aime passionnément — Corneille). — « Ce n'est pas mal » (= c'est très bien).</div>
+          <div class="fig-effet">Effet : expression de la pudeur, de la discrétion, ou de l'ironie.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head rouge">🔴 Figures de construction et d'opposition</div>
+    <div class="section-body">
+
+      <div class="fig-card">
+        <div class="fig-head" style="background:var(--rouge)">Antithèse <span class="fig-tag">OPPOSITION</span></div>
+        <div class="fig-body">
+          Rapproche dans la même phrase des termes ou des idées <strong>opposées</strong> pour créer un contraste frappant.
+          <div class="fig-ex">« Les uns ont tout, les autres n'ont rien. » — « Il fait si froid dehors qu'il fait chaud dedans. »</div>
+          <div class="fig-effet">Effet : met en évidence une contradiction, une injustice ou un paradoxe.</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-head" style="background:var(--rouge)">Oxymore <span class="fig-tag">ALLIANCE DE CONTRAIRES</span></div>
+        <div class="fig-body">
+          Réunit dans la même expression deux termes qui se <strong>contredisent</strong>, pour créer un effet paradoxal.
+          <div class="fig-ex">« Cette obscure clarté qui tombe des étoiles » (Corneille). — « Un silence assourdissant. »</div>
+          <div class="fig-effet">Effet : crée un paradoxe, exprime une réalité complexe ou contradictoire.</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-head" style="background:var(--violet)">Anaphore <span class="fig-tag">RÉPÉTITION EN DÉBUT</span></div>
+        <div class="fig-body">
+          Répétition d'un même mot ou groupe de mots au <strong>début de plusieurs phrases</strong> ou propositions consécutives.
+          <div class="fig-ex">« Je veux que tu ailles à l'école. Je veux que tu travailles. Je veux que tu réussisses. »</div>
+          <div class="fig-effet">Effet : insistance, rythme, force l'attention sur l'idée répétée, effet incantatoire.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head gris">📊 Tableau récapitulatif des 10 figures</div>
+    <div class="section-body">
+      <table class="recap-table">
+        <tr><th>Figure</th><th>Définition courte</th><th>Indice clé</th></tr>
+        <tr><td><strong>Comparaison</strong></td><td>Rapproche deux éléments</td><td>comme, tel que, semblable à</td></tr>
+        <tr><td><strong>Métaphore</strong></td><td>Comparaison sans outil</td><td>assimilation directe</td></tr>
+        <tr><td><strong>Personnification</strong></td><td>Humain → objet/animal</td><td>verbes d'action humaine</td></tr>
+        <tr><td><strong>Hyperbole</strong></td><td>Exagération</td><td>tout, jamais, mille fois</td></tr>
+        <tr><td><strong>Euphémisme</strong></td><td>Atténuation</td><td>expression douce pour réalité dure</td></tr>
+        <tr><td><strong>Litote</strong></td><td>Dire moins = signifier plus</td><td>négation (ne... pas... / ne... point)</td></tr>
+        <tr><td><strong>Antithèse</strong></td><td>Opposition de deux idées</td><td>deux groupes contraires dans une phrase</td></tr>
+        <tr><td><strong>Oxymore</strong></td><td>Contradiction dans l'expression</td><td>deux mots contraires accolés</td></tr>
+        <tr><td><strong>Anaphore</strong></td><td>Répétition en début de phrase</td><td>même mot répété en tête</td></tr>
+        <tr><td><strong>Allégorie</strong></td><td>Idée abstraite = personnage/image</td><td>personnage symbolique (la Justice, la Mort)</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- QUIZ -->
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head vert">❓ Quiz — Les figures de style</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Identifie la bonne figure !</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score"><div class="score-num" id="score-num"></div><div class="score-msg" id="score-msg"></div><button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- EXERCICE -->
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head vert">✏️ Exercice type brevet</div>
+    <div class="section-body"><div class="info-box"><strong>Conditions :</strong> Lis le texte, puis réponds. Temps conseillé : 20 minutes.</div></div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>📄 Texte — Extrait poétique</h3>
+    <p>
+      <em>(a)</em> La nuit avançait à pas de velours sur la ville endormie.<br>
+      <em>(b)</em> Les étoiles, ces millions de petites bougies allumées par le ciel, veillaient en silence.<br>
+      <em>(c)</em> Le vent était une main froide qui caressait les visages des passants.<br>
+      <em>(d)</em> Certains dormaient dans leurs palais dorés, d'autres grelottaient dans leurs rues glacées.<br>
+      <em>(e)</em> Je voulais crier, je voulais pleurer, je voulais que le monde entende.<br>
+      <em>(f)</em> Mais je ne dis rien. La vie, ce long voyage, continuait sans s'arrêter.
+    </p>
+    <p class="doc-source">Texte rédigé pour l'entraînement au Brevet 2026.</p>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Identifier les figures</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Relève et nomme <strong>quatre figures de style</strong> différentes dans le texte. Pour chacune, cite l'extrait exact et donne la définition en une phrase.</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p><strong>(a) Personnification :</strong> "La nuit avançait à pas de velours" → La nuit (chose abstraite) reçoit une action humaine ("avancer"). La personnification attribue un comportement humain à un élément non humain.</p>
+        <p style="margin-top:6px"><strong>(b) Métaphore :</strong> "Les étoiles, ces millions de petites bougies allumées par le ciel" → Les étoiles sont directement assimilées à des bougies, sans "comme" ni "tel que". C'est une métaphore.</p>
+        <p style="margin-top:6px"><strong>(d) Antithèse :</strong> "Certains dormaient dans leurs palais dorés, d'autres grelottaient dans leurs rues glacées" → Opposition entre richesse (palais dorés) et pauvreté (rues glacées).</p>
+        <p style="margin-top:6px"><strong>(e) Anaphore :</strong> "Je voulais crier, je voulais pleurer, je voulais que…" → Répétition de "je voulais" en début de chaque proposition, créant un rythme insistant.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Citation précise → nom de la figure → définition courte. Ne jamais oublier la citation !</div>
+        <div class="vocab-box"><strong>📖 Autres figures présentes :</strong> (c) "Le vent était une main froide" = métaphore. (f) "La vie, ce long voyage" = métaphore. Il y a aussi une comparaison implicite.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser l'effet</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Explique l'effet produit par l'antithèse de la ligne (d) et par l'anaphore de la ligne (e). En quoi ces deux figures renforcent-elles le message du texte ?</p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p><strong>Effet de l'antithèse (d) :</strong> L'opposition entre "palais dorés" et "rues glacées" met en évidence de façon saisissante l'injustice sociale : certains ont tout le confort, d'autres vivent dans la misère. L'antithèse frappe le lecteur et le force à prendre conscience de cette inégalité criante.</p>
+        <p style="margin-top:8px"><strong>Effet de l'anaphore (e) :</strong> La répétition de "je voulais" crée un rythme haletant et traduit l'intensité des émotions du narrateur. L'accumulation de ces désirs non réalisés (crier, pleurer, être entendu) renforce le sentiment d'impuissance et de frustration. Le lecteur ressent la tension intérieure du personnage.</p>
+        <p style="margin-top:8px"><strong>Lien avec le message :</strong> Ces deux figures renforcent le contraste entre injustice du monde extérieur (antithèse) et impuissance du "je" (anaphore). Le texte dénonce une réalité dure tout en exprimant une révolte intérieure.</p>
+        <div class="methode-box"><strong>💡 Méthode pour analyser l'effet :</strong> 1. Nommer la figure. 2. Expliquer ce qu'elle fait (ce qui est mis en évidence). 3. Expliquer ce que ça produit chez le lecteur (émotion, impression, compréhension).</div>
+        <div class="vocab-box"><strong>📖 Verbes utiles pour analyser :</strong> souligner, mettre en évidence, insister sur, créer une impression de, provoquer, évoquer, renforcer, exprimer, traduire, illustrer…</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Écriture : utiliser des figures</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>Écris un court paragraphe (6 à 8 lignes) décrivant un lever de soleil ou une tempête, en utilisant <strong>au moins trois figures de style différentes</strong>. Souligne les figures et nomme-les entre parenthèses.</p>
+      <textarea id="rep3" placeholder="Écris ton paragraphe ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Exemple de paragraphe</h4>
+        <p>Le soleil se levait lentement sur la mer. <u>Le ciel était un tableau de feu</u> (métaphore) que personne n'avait peint. <u>Les nuages, comme des géants endormis</u> (comparaison), se dispersaient peu à peu. <u>La lumière caressait les vagues</u> (personnification), les faisant scintiller d'un millier d'éclats. <u>Je voulais rester, je voulais m'imprégner de cette beauté, je voulais ne jamais oublier</u> (anaphore). Ce moment-là, cette perfection fragile, ne durerait pas. Mais il était là, entier, magnifique.</p>
+        <div class="methode-box"><strong>💡 Conseils pour réussir l'écriture avec figures :</strong><br>
+        — Commence par écrire ton texte normalement.<br>
+        — Repère les mots-clés et remplace certaines expressions par des figures.<br>
+        — Vérifie : as-tu au moins 3 figures différentes ?<br>
+        — N'oublie pas de les souligner et les nommer.</div>
+        <div class="vocab-box"><strong>📖 Figures les plus simples à utiliser à l'écrit :</strong> comparaison (comme, tel), personnification (verbe humain sur objet), anaphore (répétition en début), hyperbole (exagération).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS=[
+  {q:"Quelle est la différence entre une comparaison et une métaphore ?",opts:["La comparaison utilise un outil (comme, tel que) ; la métaphore assimile directement sans outil","La métaphore est plus longue que la comparaison","La comparaison concerne toujours des personnes","La métaphore utilise toujours 'comme'"],correct:0,expl:"La comparaison rapproche deux éléments à l'aide d'un outil de comparaison : 'comme', 'tel que', 'semblable à', 'pareil à'. La métaphore fait le même rapprochement mais SANS outil : les deux éléments sont directement assimilés. Exemple : 'Il court comme un lion' (comparaison) vs 'Il est un lion au combat' (métaphore)."},
+  {q:"Identifie la figure dans : 'Le vent hurlait dans la nuit.'",opts:["Personnification : le vent (inanimé) reçoit une action humaine (hurler)","Hyperbole : exagération du bruit du vent","Métaphore : le vent est comparé à un animal","Anaphore : répétition du mot 'vent'"],correct:0,expl:"'Hurler' est un verbe qui désigne normalement une action humaine (ou d'un animal). L'attribuer au vent (un élément naturel inanimé) est une personnification. La personnification anime des éléments non humains en leur prêtant des comportements, des émotions ou des actions propres aux êtres vivants."},
+  {q:"Identifie la figure dans : 'Je meurs de faim !'",opts:["Hyperbole : exagération pour exprimer l'intensité de la faim","Métaphore : la faim est comparée à la mort","Litote : dire moins que ce qu'on pense","Euphémisme : atténuation d'une réalité difficile"],correct:0,expl:"'Je meurs de faim' est une hyperbole : on exagère volontairement pour souligner l'intensité. On n'est pas réellement en train de mourir, mais l'exagération exprime à quel point on a très faim. Les hyperboles sont très fréquentes dans la langue courante (mourir de rire, être mort de fatigue...)."},
+  {q:"Identifie la figure dans : 'Va, je ne te hais point.' (signifie : je t'aime)",opts:["Litote : dire moins (ne pas haïr) pour signifier plus (aimer)","Euphémisme : atténuer la réalité de la haine","Antithèse : opposition entre haine et amour","Oxymore : deux contraires dans la même expression"],correct:0,expl:"'Je ne te hais point' dit littéralement moins que la réalité (ne pas haïr ≠ aimer passionnément) pour en exprimer davantage. C'est une litote, célèbre réplique de Corneille dans Le Cid. La litote utilise souvent la négation pour exprimer son contraire positif de façon atténuée."},
+  {q:"Quelle figure est utilisée dans : 'La vie est un long fleuve tranquille.' ?",opts:["Métaphore : la vie est directement assimilée à un fleuve, sans 'comme'","Comparaison : la vie est comparée à un fleuve avec 'comme'","Personnification : le fleuve est vivant","Hyperbole : exagération de la durée de la vie"],correct:0,expl:"'La vie est un long fleuve tranquille' est une métaphore : la vie et le fleuve sont directement assimilés sans outil de comparaison. Si on avait écrit 'La vie est comme un long fleuve tranquille', ce serait une comparaison. La différence : présence ou absence de l'outil de comparaison."},
+  {q:"Quelle est la définition de l'antithèse ?",opts:["Rapprocher dans la même phrase des termes ou idées opposés pour créer un contraste","Répéter un mot en début de phrase pour insister","Attribuer des caractéristiques humaines à un objet","Exagérer pour frapper l'imagination"],correct:0,expl:"L'antithèse rapproche volontairement des termes ou des idées opposés dans la même phrase ou le même passage. Exemple : 'Les uns ont tout, les autres n'ont rien.' L'effet est un contraste frappant qui met en évidence une opposition ou une injustice."},
+  {q:"Identifie la figure dans : 'Il est parti pour un monde meilleur.' (sens : il est mort)",opts:["Euphémisme : expression douce pour remplacer une réalité difficile (la mort)","Métaphore : la mort est comparée à un voyage","Litote : dire moins pour signifier plus","Hyperbole : exagération de la bonté du paradis"],correct:0,expl:"'Il est parti pour un monde meilleur' est un euphémisme : on remplace le mot 'mort' (réalité dure et choquante) par une expression plus douce ('un monde meilleur'). L'euphémisme cherche à atténuer, à adoucir une réalité difficile à entendre. On l'utilise souvent pour parler de la mort, de la maladie, des licenciements..."},
+  {q:"Identifie la figure dans : 'Je voulais partir, je voulais rester, je voulais tout et rien.'",opts:["Anaphore : répétition de 'je voulais' en début de chaque proposition","Antithèse : opposition entre partir et rester","Hyperbole : exagération du désir","Oxymore : 'tout et rien' sont deux contraires"],correct:0,expl:"L'anaphore est la répétition d'un même mot ou groupe de mots au début de plusieurs phrases ou propositions. Ici, 'je voulais' est répété trois fois en début de proposition. L'effet est un rythme insistant qui souligne l'intensité et la multiplicité des désirs du narrateur. (Note : 'tout et rien' est aussi un oxymore, mais la figure dominante ici est l'anaphore.)"},
+  {q:"Qu'est-ce qu'un oxymore ?",opts:["La réunion dans la même expression de deux termes qui se contredisent","La répétition d'un mot en tête de phrase","Une exagération comique","Une comparaison sans outil"],correct:0,expl:"L'oxymore réunit deux termes contradictoires dans la même expression pour créer un effet paradoxal. Exemples classiques : 'un silence assourdissant', 'cette obscure clarté', 'une douce violence'. L'oxymore exprime souvent une réalité complexe ou contradictoire que les mots ordinaires ne suffisent pas à rendre."},
+  {q:"Quelle figure utilise-t-on quand on dit : 'La justice avançait, lente et aveugle, dans les couloirs du palais.' ?",opts:["Personnification : la justice (notion abstraite) marche comme un être humain","Métaphore : la justice est comparée à une femme","Hyperbole : exagération de la lenteur de la justice","Anaphore : répétition du mot 'justice'"],correct:0,expl:"Attribuer une action physique (marcher, avancer) à la Justice — une notion abstraite — est une personnification. On peut aussi noter que c'est partiellement une allégorie : la Justice est représentée comme un être qui se déplace. La personnification rend les idées abstraites concrètes et vivantes."},
+  {q:"Quelle est la différence entre l'euphémisme et la litote ?",opts:["L'euphémisme adoucit une réalité dure ; la litote dit moins pour signifier plus (souvent avec une négation)","Ce sont deux noms pour la même figure","L'euphémisme utilise toujours des métaphores ; la litote des comparaisons","La litote exagère ; l'euphémisme minimise"],correct:0,expl:"Les deux atténuent, mais différemment. L'euphémisme remplace une réalité difficile par une expression douce ('il est parti' pour 'il est mort'). La litote dit moins que ce qu'on pense par une tournure négative ou atténuée pour exprimer davantage ('ce n'est pas mal' = c'est très bien ; 'je ne te hais point' = je t'aime). La litote crée souvent un effet d'understatement."},
+  {q:"Au brevet, comment analyser correctement une figure de style ?",opts:["Nommer la figure + citer l'extrait précis + expliquer l'effet produit sur le lecteur","Juste nommer la figure sans explication","Expliquer l'effet sans nommer la figure","Écrire une longue définition sans citer le texte"],correct:0,expl:"Au brevet, l'analyse d'une figure de style doit toujours comporter trois éléments : (1) le nom de la figure, (2) la citation précise du texte (entre guillemets), (3) l'explication de l'effet produit sur le lecteur. Juste nommer la figure sans expliquer son effet ne rapporte pas tous les points. L'effet est la partie la plus importante."}
+];
+var answered={},score=0;
+function showPanel(id,tab){var p=document.querySelectorAll('.panel'),t=document.querySelectorAll('.tab');for(var i=0;i<p.length;i++)p[i].classList.remove('active');for(var i=0;i<t.length;i++)t[i].classList.remove('active');document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+function buildQuiz(){var c=document.getElementById('quiz-container');c.innerHTML='';answered={};score=0;for(var i=0;i<QUESTIONS.length;i++){var q=QUESTIONS[i],div=document.createElement('div');div.className='quiz-q';var opts='';for(var j=0;j<q.opts.length;j++)opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';c.appendChild(div);}document.getElementById('quiz-score').classList.remove('show');}
+function answer(qi,choice){if(answered[qi]!==undefined)return;answered[qi]=choice;var q=QUESTIONS[qi],opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');for(var i=0;i<opts.length;i++)opts[i].classList.add('disabled');opts[choice].classList.add(choice===q.correct?'correct':'wrong');if(choice!==q.correct)opts[q.correct].classList.add('correct');var ok=choice===q.correct;if(ok)score++;var expl=document.getElementById('expl-'+qi);expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;expl.classList.add('show');if(Object.keys(answered).length===QUESTIONS.length)showScore();}
+function showScore(){var pct=Math.round(score/QUESTIONS.length*100);document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;var msg=pct>=90?'🎉 Bravo Zach ! Les figures de style n\'ont plus de secrets !':pct>=70?'👍 Très bien ! Relis les figures "à revoir".':pct>=50?'💪 Pas mal ! Relis le tableau récap et retente.':'📋 Relis la fiche figure par figure. Tu vas y arriver !';document.getElementById('score-msg').textContent=msg;document.getElementById('quiz-score').classList.add('show');}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;
+</script>
+</body>
+</html>

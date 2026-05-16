@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F5 — Discours direct et indirect</title>
+<style>
+  :root{--vert:#1E8449;--vert-light:#D5F5E3;--vert-mid:#27AE60;--bleu:#1A5276;--bleu-light:#D6EAF8;--rouge:#C0392B;--rouge-light:#FADBD8;--orange:#D35400;--orange-light:#FDEBD0;--violet:#6C3483;--violet-light:#E8DAEF;--gris:#5D6D7E;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--vert);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--vert);border-bottom-color:var(--vert)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.vert{background:var(--vert)} .section-head.bleu{background:var(--bleu)} .section-head.orange{background:var(--orange)} .section-head.violet{background:var(--violet)} .section-head.rouge{background:var(--rouge)} .section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+  .piege-box{background:var(--rouge-light);border-left:4px solid var(--rouge);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin:10px 0;line-height:1.7}
+  .piege-box strong{color:var(--rouge)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--vert);font-weight:700}
+  .discours-card{border-radius:var(--radius);overflow:hidden;margin-bottom:12px;border:1px solid var(--border)}
+  .discours-head{padding:10px 14px;font-size:13px;font-weight:700;color:white}
+  .discours-body{padding:12px 14px;font-size:13px;line-height:1.7;background:white}
+  .ex-direct{background:#F0FBF4;border-left:4px solid var(--vert);padding:8px 14px;border-radius:0 8px 8px 0;font-size:13px;margin:8px 0;font-style:italic}
+  .ex-indirect{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:8px 14px;border-radius:0 8px 8px 0;font-size:13px;margin:8px 0;font-style:italic}
+  .transfo-table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+  .transfo-table th{background:var(--vert);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .transfo-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .transfo-table tr:last-child td{border-bottom:none}
+  .transfo-table tr:nth-child(even) td{background:#F0FBF4}
+  .transfo-table .from{color:var(--vert);font-weight:700}
+  .transfo-table .to{color:var(--bleu);font-weight:700}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--vert);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--vert);background:var(--vert-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--vert);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.8}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--vert-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--vert);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--vert);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--vert)}
+  .btn-corr{background:var(--vert);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  @media(max-width:500px){header h1{font-size:17px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>💬 F5 — Discours direct et indirect</h1>
+  <p>Fiche complète · Séquence 5 · Français · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche de cours</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ══════ FICHE ══════ -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head vert">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> Quand on rapporte les paroles de quelqu'un, on peut le faire de deux façons : le <strong>discours direct</strong> cite exactement les paroles telles qu'elles ont été dites (avec des guillemets), ou le <strong>discours indirect</strong> les rapporte en les intégrant dans une phrase (avec une proposition subordonnée). Passer de l'un à l'autre s'appelle la <strong>transposition</strong>.
+      </div>
+      <div class="brevet-box">
+        <strong>🎯 Au brevet :</strong> identifier le type de discours, expliquer ses marques, transposer du discours direct en discours indirect (ou l'inverse), en changeant correctement les temps, les pronoms et les indicateurs de temps/lieu.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head vert">1️⃣ Le discours direct</div>
+    <div class="section-body">
+      <div class="discours-card">
+        <div class="discours-head" style="background:var(--vert)">Définition et marques</div>
+        <div class="discours-body">
+          Le discours direct rapporte les paroles <strong>telles qu'elles ont été dites</strong>, sans les modifier. L'auteur cite exactement ce que le personnage a prononcé.
+          <ul class="bull-list" style="margin-top:8px">
+            <li><strong>Guillemets</strong> : « … » en français, ouvrant et fermant les paroles</li>
+            <li><strong>Tiret</strong> dans les dialogues pour chaque changement de locuteur</li>
+            <li><strong>Verbe introducteur</strong> (dit, répond, s'écrie, murmure, demande…) suivi de deux-points</li>
+            <li><strong>Majuscule</strong> après les deux-points, au début des paroles</li>
+            <li>Les paroles gardent leur <strong>personne et temps d'origine</strong></li>
+          </ul>
+          <div class="ex-direct">Il dit : « Je suis fatigué et je rentrerai demain. »<br>— Où vas-tu ? demanda-t-elle.<br>— Je pars à Paris, répondit-il.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">2️⃣ Le discours indirect</div>
+    <div class="section-body">
+      <div class="discours-card">
+        <div class="discours-head" style="background:var(--bleu)">Définition et marques</div>
+        <div class="discours-body">
+          Le discours indirect intègre les paroles dans la phrase du narrateur. On les <strong>rapporte sans les citer mot pour mot</strong>. Il y a une proposition principale (verbe introducteur) + une proposition subordonnée.
+          <ul class="bull-list" style="margin-top:8px">
+            <li><strong>Pas de guillemets</strong></li>
+            <li><strong>Conjonction "que"</strong> pour les phrases déclaratives</li>
+            <li><strong>Mots interrogatifs</strong> (si, ce que, où, quand, pourquoi…) pour les questions</li>
+            <li>Les <strong>pronoms et temps</strong> changent pour s'adapter au contexte du narrateur</li>
+          </ul>
+          <div class="ex-indirect">Il dit qu'il était fatigué et qu'il rentrerait le lendemain.<br>Elle lui demanda où il allait.<br>Il répondit qu'il partait à Paris.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">3️⃣ Les changements lors de la transposition</div>
+    <div class="section-body">
+      <div class="info-box"><strong>Attention :</strong> quand on passe du discours direct au discours indirect (ou l'inverse), plusieurs éléments changent automatiquement.</div>
+
+      <p style="font-size:13px;font-weight:700;color:var(--vert);margin-bottom:8px">A. Les temps verbaux (concordance des temps)</p>
+      <table class="transfo-table">
+        <tr><th>Discours direct</th><th>→ Discours indirect</th></tr>
+        <tr><td class="from">Présent : "je mange"</td><td class="to">Imparfait : "qu'il mangeait"</td></tr>
+        <tr><td class="from">Futur simple : "je mangerai"</td><td class="to">Conditionnel présent : "qu'il mangerait"</td></tr>
+        <tr><td class="from">Passé composé : "j'ai mangé"</td><td class="to">Plus-que-parfait : "qu'il avait mangé"</td></tr>
+        <tr><td class="from">Impératif : "Mange !"</td><td class="to">Infinitif : "de manger" ou subjonctif</td></tr>
+      </table>
+
+      <p style="font-size:13px;font-weight:700;color:var(--vert);margin:12px 0 8px">B. Les pronoms personnels</p>
+      <table class="transfo-table">
+        <tr><th>Discours direct</th><th>→ Discours indirect</th></tr>
+        <tr><td class="from">"je" (celui qui parle)</td><td class="to">"il" / "elle" (selon le contexte)</td></tr>
+        <tr><td class="from">"tu" (celui à qui on parle)</td><td class="to">"je" ou "il" selon le contexte</td></tr>
+        <tr><td class="from">"nous"</td><td class="to">"ils" ou "nous" selon le contexte</td></tr>
+        <tr><td class="from">"me / mon / ma"</td><td class="to">"lui / son / sa" selon le contexte</td></tr>
+      </table>
+
+      <p style="font-size:13px;font-weight:700;color:var(--vert);margin:12px 0 8px">C. Les indicateurs de temps et de lieu</p>
+      <table class="transfo-table">
+        <tr><th>Discours direct</th><th>→ Discours indirect</th></tr>
+        <tr><td class="from">aujourd'hui</td><td class="to">ce jour-là</td></tr>
+        <tr><td class="from">demain</td><td class="to">le lendemain</td></tr>
+        <tr><td class="from">hier</td><td class="to">la veille</td></tr>
+        <tr><td class="from">maintenant</td><td class="to">alors / à ce moment-là</td></tr>
+        <tr><td class="from">ici</td><td class="to">là / à cet endroit</td></tr>
+        <tr><td class="from">cette semaine</td><td class="to">cette semaine-là / la semaine précédente</td></tr>
+      </table>
+
+      <div class="warn-box" style="margin-top:10px">
+        <strong>⚠️ Les questions au discours indirect :</strong><br>
+        — Question oui/non : "Est-ce que tu viens ?" → il demanda <em>si</em> elle venait.<br>
+        — Question avec mot interrogatif : "Où vas-tu ?" → il demanda <em>où</em> elle allait.<br>
+        — Question "qu'est-ce que" : "Qu'est-ce que tu veux ?" → il demanda <em>ce qu'</em>elle voulait.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head violet">🧠 Méthode pour transposer au brevet</div>
+    <div class="section-body">
+      <div style="display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+        <div style="background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</div>
+        <div style="font-size:13px;line-height:1.6;flex:1"><strong>Identifie le verbe introducteur</strong> et le sens de la phrase (déclaration, question, ordre…).</div>
+      </div>
+      <div style="display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+        <div style="background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">2</div>
+        <div style="font-size:13px;line-height:1.6;flex:1"><strong>Choisis le mot de liaison</strong> : "que" (déclaration), "si" (question oui/non), mot interrogatif (qui, où, quand, pourquoi, ce que…) pour les autres questions.</div>
+      </div>
+      <div style="display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+        <div style="background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">3</div>
+        <div style="font-size:13px;line-height:1.6;flex:1"><strong>Change les temps</strong> selon le tableau (présent → imparfait, futur → conditionnel…).</div>
+      </div>
+      <div style="display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+        <div style="background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">4</div>
+        <div style="font-size:13px;line-height:1.6;flex:1"><strong>Change les pronoms</strong> et les indicateurs de temps/lieu.</div>
+      </div>
+      <div class="brevet-box"><strong>💬 Exemple complet :</strong><br>
+      Direct : Marie s'écria : « Je viendrai demain te voir ici ! »<br>
+      Indirect : Marie s'écria qu'elle viendrait le lendemain me voir là.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════ QUIZ ══════ -->
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head vert">❓ Quiz — Discours direct et indirect</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Clique sur ta réponse.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score"><div class="score-num" id="score-num"></div><div class="score-msg" id="score-msg"></div><button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ EXERCICE ══════ -->
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head vert">✏️ Exercice type brevet</div>
+    <div class="section-body"><div class="info-box"><strong>Conditions :</strong> Lis le texte, puis réponds. Temps conseillé : 20 minutes.</div></div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>📄 Texte support</h3>
+    <p>Le vieux capitaine regarda son équipage et déclara : <strong>(1) « Demain, nous partirons à l'aube. La mer est calme aujourd'hui, mais je sens que la tempête arrivera bientôt. Préparez vos équipements ! »</strong><br>
+    Le jeune matelot s'approcha timidement et murmura : <strong>(2) « Capitaine, est-ce que vous avez peur ? »</strong><br>
+    Le capitaine répondit en souriant : <strong>(3) « Je n'ai jamais eu peur de la mer. Elle est ma maison. »</strong></p>
+    <p class="doc-source">Texte rédigé pour l'entraînement au Brevet 2026.</p>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Identifier les marques du discours direct</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Relève et explique <strong>trois marques du discours direct</strong> présentes dans ce texte. Pour chacune, cite un exemple et explique son rôle.</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p><strong>1. Les guillemets</strong> : « Demain, nous partirons… » — Ils encadrent exactement les paroles prononcées par le personnage, signalant que ce sont ses mots exacts, non modifiés par le narrateur.</p>
+        <p style="margin-top:8px"><strong>2. Le verbe introducteur + deux-points</strong> : "déclara :", "murmura :", "répondit…" — Ces verbes de parole annoncent qu'un personnage va s'exprimer et indiquent parfois comment il parle (murmura = doucement, déclara = avec autorité).</p>
+        <p style="margin-top:8px"><strong>3. Les pronoms et temps conservés</strong> : "je sens", "nous partirons", "vous avez" — Au discours direct, les pronoms et temps restent ceux du locuteur au moment où il parle. Ils ne sont pas modifiés par le narrateur.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour chaque marque → cite un exemple précis du texte → explique ce que cette marque indique ou à quoi elle sert.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Locuteur</em> = celui qui parle. <em>Verbe introducteur</em> = verbe qui annonce des paroles (dire, répondre, murmurer, crier, demander…).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Transposer au discours indirect</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Transpose les paroles numérotées <strong>(1)</strong> et <strong>(2)</strong> au discours indirect. Explique les changements que tu effectues.</p>
+      <textarea id="rep2" placeholder="Écris ta transposition ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p><strong>(1) Direct :</strong> Le vieux capitaine déclara : « Demain, nous partirons à l'aube. La mer est calme aujourd'hui, mais je sens que la tempête arrivera bientôt. Préparez vos équipements ! »</p>
+        <p style="margin-top:6px"><strong>(1) Indirect :</strong> Le vieux capitaine déclara que <em>le lendemain</em>, ils <em>partiraient</em> à l'aube, que la mer <em>était</em> calme <em>ce jour-là</em>, mais qu'il <em>sentait</em> que la tempête <em>arriverait</em> bientôt, et leur ordonna de préparer leurs équipements.</p>
+        <p style="margin-top:8px">Changements : "demain" → "le lendemain" / "aujourd'hui" → "ce jour-là" / "nous" → "ils" / présent → imparfait / futur → conditionnel / impératif → infinitif (de préparer).</p>
+        <p style="margin-top:10px"><strong>(2) Direct :</strong> Le jeune matelot murmura : « Capitaine, est-ce que vous avez peur ? »</p>
+        <p style="margin-top:6px"><strong>(2) Indirect :</strong> Le jeune matelot murmura au capitaine s'il <em>avait</em> peur.</p>
+        <p style="margin-top:6px">Changements : question oui/non → "si" / "est-ce que vous avez" → "il avait" (passé composé → imparfait, "vous" → "il").</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Traite chaque phrase une par une. Commence par le mot de liaison (que / si / mot interrogatif), puis change les temps et les pronoms.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Concordance des temps</em> = règle qui impose de changer les temps des verbes lors du passage au discours indirect.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Écriture : dialogue en discours indirect</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>Réécris le dialogue entier (les trois répliques) au discours indirect, en conservant les verbes introducteurs. Puis, en 2–3 phrases, explique quel est l'effet de cette transformation sur la lecture du texte.</p>
+      <textarea id="rep3" placeholder="Écris ta réécriture et ton explication ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Correction</h4>
+        <p><strong>Réécriture au discours indirect :</strong><br>
+        Le vieux capitaine regarda son équipage et déclara que le lendemain, ils partiraient à l'aube, que la mer était calme ce jour-là mais qu'il sentait que la tempête arriverait bientôt, et leur ordonna de préparer leurs équipements. Le jeune matelot s'approcha timidement et murmura au capitaine s'il avait peur. Le capitaine répondit en souriant qu'il n'avait jamais eu peur de la mer et qu'elle était sa maison.</p>
+        <p style="margin-top:10px"><strong>Effet de la transformation :</strong><br>
+        Au discours indirect, les paroles perdent leur spontanéité et leur vivacité. Le lecteur ne "entend" plus les personnages parler directement : c'est le narrateur qui filtre et rapporte. Le discours direct, avec ses guillemets et ses intonations, donne l'impression d'assister à la scène en direct, tandis que le discours indirect crée une distance entre le lecteur et les personnages.</p>
+        <div class="methode-box"><strong>💡 Méthode pour l'analyse d'effet :</strong> Compare ce que ressent le lecteur dans les deux formes. Le discours direct = immersion, vivacité, on "entend" les personnages. Le discours indirect = distance, résumé, le narrateur contrôle.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Narrateur</em> = celui qui raconte l'histoire (peut être un personnage ou une voix extérieure). <em>Immersion</em> = sentiment d'être plongé dans la scène comme si on y était.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS=[
+  {q:"Quelle est la principale marque visuelle du discours direct ?",opts:["Les guillemets (« … ») qui encadrent exactement les paroles prononcées","La présence d'un verbe à l'infinitif","L'utilisation du subjonctif","L'absence de ponctuation"],correct:0,expl:"Les guillemets sont la marque la plus visible du discours direct. Ils signalent que les paroles sont citées telles qu'elles ont été prononcées, sans modification. En français, on utilise les guillemets à la française (« … »), parfois accompagnés d'un tiret dans les dialogues."},
+  {q:"Comment transposer 'je suis heureux' (discours direct) au discours indirect après 'il dit que...' ?",opts:["il dit qu'il était heureux (présent → imparfait)","il dit qu'il est heureux (pas de changement)","il dit qu'il sera heureux (futur)","il dit qu'il serait heureux (conditionnel)"],correct:0,expl:"Quand le verbe introducteur est au passé (il dit, il répondit…), le présent du discours direct devient imparfait au discours indirect. 'je suis heureux' → 'il dit qu'il était heureux'. C'est la règle de la concordance des temps."},
+  {q:"Comment transposer la question 'Est-ce que tu viens ?' au discours indirect ?",opts:["il demanda si elle venait","il demanda qu'elle venait","il demanda que tu viens","il demanda comment elle venait"],correct:0,expl:"Pour une question oui/non (qui peut se répondre par oui ou non), on utilise 'si' au discours indirect. La question devient : 'il demanda si elle venait'. L'inversion ou 'est-ce que' disparaissent. Le présent 'viens' devient imparfait 'venait'."},
+  {q:"Comment transposer 'Où vas-tu ?' au discours indirect après 'elle demanda...' ?",opts:["elle demanda où il allait","elle demanda si il allait","elle demanda que il aille","elle demanda où tu vas"],correct:0,expl:"Pour les questions avec un mot interrogatif (où, quand, pourquoi, comment, qui…), on conserve ce mot interrogatif au discours indirect. 'Où vas-tu ?' → 'elle demanda où il allait'. Le tu devient il, le présent 'vas' devient imparfait 'allait'."},
+  {q:"Quelle transformation s'applique au mot 'demain' au discours indirect ?",opts:["demain → le lendemain","demain → aujourd'hui","demain → hier","demain reste inchangé"],correct:0,expl:"Au discours indirect, les indicateurs de temps changent pour s'adapter à la distance temporelle du narrateur. 'Demain' (du point de vue du locuteur au moment où il parle) devient 'le lendemain' (du point de vue du narrateur qui rapporte après). De même : aujourd'hui → ce jour-là, hier → la veille, maintenant → alors."},
+  {q:"Quelle est la transformation du futur simple au discours indirect ?",opts:["Futur simple → conditionnel présent","Futur simple → imparfait","Futur simple → présent","Futur simple reste inchangé"],correct:0,expl:"Au discours indirect, quand le verbe introducteur est au passé, le futur simple du discours direct devient conditionnel présent. Exemple : 'Je partirai demain' → 'Il dit qu'il partirait le lendemain.' Le conditionnel est ici utilisé non pas pour exprimer une hypothèse mais pour marquer le futur dans le passé."},
+  {q:"Comment reconnaît-on le discours indirect dans une phrase ?",opts:["Absence de guillemets, verbe introducteur + conjonction 'que' ou mot interrogatif + subordonnée","Présence de guillemets et d'un tiret","Verbes à l'infinitif uniquement","Présence de points d'exclamation et d'interrogation"],correct:0,expl:"Le discours indirect se reconnaît à : l'absence de guillemets, la présence d'un verbe introducteur (dire, demander, répondre…) suivi d'une conjonction ('que', 'si', mot interrogatif) qui introduit la subordonnée contenant les paroles rapportées. Les pronoms et temps sont modifiés pour s'adapter au contexte du narrateur."},
+  {q:"Que devient l'impératif 'Viens ici !' au discours indirect ?",opts:["Il lui ordonna de venir là (infinitif)","Il lui ordonna qu'il vienne ici","Il lui ordonna si il venait","Il lui ordonna qu'il viendra"],correct:0,expl:"L'impératif du discours direct se transforme en infinitif au discours indirect, introduit par 'de'. 'Viens !' → 'Il lui ordonna de venir.' De plus, 'ici' (indicateur de lieu) devient 'là'. On peut aussi utiliser le subjonctif : 'Il ordonna qu'il vînt', mais l'infinitif est plus courant."},
+  {q:"Quelle est la différence entre discours direct et discours indirect pour le lecteur ?",opts:["Le discours direct est plus vivant/immersif ; le discours indirect crée plus de distance","Le discours indirect est toujours plus long que le discours direct","Le discours direct ne peut pas exprimer des questions","Le discours indirect utilise toujours plus de guillemets"],correct:0,expl:"Le discours direct donne l'impression d'entendre les personnages parler : c'est plus vivant, plus immersif. Le discours indirect, lui, filtre les paroles à travers le narrateur, créant une distance. Le discours direct est fréquent dans les dialogues de roman, le discours indirect dans les récits, les résumés et les articles de presse."},
+  {q:"Comment transposer 'Qu'est-ce que tu veux ?' au discours indirect ?",opts:["il demanda ce qu'elle voulait","il demanda qu'elle veuille","il demanda si elle voulait","il demanda que tu veux"],correct:0,expl:"'Qu'est-ce que tu veux ?' est une question portant sur l'objet de l'action. Au discours indirect, 'qu'est-ce que' se transforme en 'ce que' : 'il demanda ce qu'elle voulait.' C'est une transformation à bien mémoriser car 'qu'est-ce que' ne peut pas rester tel quel au discours indirect."},
+  {q:"Que devient le pronom 'je' du locuteur quand on passe au discours indirect ?",opts:["Il change selon le contexte : 'je' du locuteur devient souvent 'il' ou 'elle'","Il reste toujours 'je'","Il devient toujours 'nous'","Il disparaît complètement"],correct:0,expl:"Au discours indirect, les pronoms changent pour s'adapter au point de vue du narrateur. Si la personne qui parlait disait 'je', au discours indirect cela devient 'il' ou 'elle' selon son genre. Exemple : Marie dit : 'Je suis prête.' → Marie dit qu'elle était prête. Le 'je' de Marie disparaît et devient 'elle'."},
+  {q:"Quelle est la bonne transposition de : Elle déclara : 'J'arriverai ici demain matin.' ?",opts:["Elle déclara qu'elle arriverait là le lendemain matin.","Elle déclara qu'elle arrive ici demain matin.","Elle déclara qu'elle arrivera demain matin.","Elle déclara si elle arriverait le lendemain."],correct:0,expl:"Transposition complète : verbe introducteur 'déclara' au passé → concordance des temps. Futur 'arriverai' → conditionnel 'arriverait'. Pronom 'j'' → 'elle'. Lieu 'ici' → 'là'. Temps 'demain' → 'le lendemain'. Le mot de liaison 'que' est ajouté. Résultat : 'Elle déclara qu'elle arriverait là le lendemain matin.'"}
+];
+var answered={},score=0;
+function showPanel(id,tab){var p=document.querySelectorAll('.panel'),t=document.querySelectorAll('.tab');for(var i=0;i<p.length;i++)p[i].classList.remove('active');for(var i=0;i<t.length;i++)t[i].classList.remove('active');document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+function buildQuiz(){var c=document.getElementById('quiz-container');c.innerHTML='';answered={};score=0;for(var i=0;i<QUESTIONS.length;i++){var q=QUESTIONS[i],div=document.createElement('div');div.className='quiz-q';var opts='';for(var j=0;j<q.opts.length;j++)opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';c.appendChild(div);}document.getElementById('quiz-score').classList.remove('show');}
+function answer(qi,choice){if(answered[qi]!==undefined)return;answered[qi]=choice;var q=QUESTIONS[qi],opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');for(var i=0;i<opts.length;i++)opts[i].classList.add('disabled');opts[choice].classList.add(choice===q.correct?'correct':'wrong');if(choice!==q.correct)opts[q.correct].classList.add('correct');var ok=choice===q.correct;if(ok)score++;var expl=document.getElementById('expl-'+qi);expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;expl.classList.add('show');if(Object.keys(answered).length===QUESTIONS.length)showScore();}
+function showScore(){var pct=Math.round(score/QUESTIONS.length*100);document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;var msg=pct>=90?'🎉 Excellent Zach ! Discours direct/indirect maîtrisés !':pct>=70?'👍 Très bien ! Relis les points "à revoir".':pct>=50?'💪 Pas mal ! Relis le tableau des changements et retente.':'📋 Relis bien les tableaux de transformation. Tu vas y arriver !';document.getElementById('score-msg').textContent=msg;document.getElementById('quiz-score').classList.add('show');}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;
+</script>
+</body>
+</html>

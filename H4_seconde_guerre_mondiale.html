@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H4 — La Seconde Guerre mondiale</title>
+<style>
+  :root{
+    --rouge:#C0392B;--rouge-light:#FADBD8;--rouge-mid:#E74C3C;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --vert:#1E8449;--vert-light:#D5F5E3;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--rouge);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--rouge);border-bottom-color:var(--rouge)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.rouge{background:var(--rouge)}
+  .section-head.bleu{background:var(--bleu)}
+  .section-head.vert{background:var(--vert)}
+  .section-head.orange{background:var(--orange)}
+  .section-head.violet{background:var(--violet)}
+  .section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+  .danger-box{background:#FDF2F2;border-left:4px solid #922B21;padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .danger-box strong{color:#922B21}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--rouge);font-weight:700}
+  .camps-grid{display:-webkit-flex;display:flex;gap:12px;-webkit-flex-wrap:wrap;flex-wrap:wrap;margin-top:4px}
+  .camp{border-radius:8px;overflow:hidden;-webkit-flex:1 1 200px;flex:1 1 200px}
+  .camp-head{padding:8px 12px;font-size:13px;font-weight:700;color:white;text-align:center}
+  .camp-body{padding:10px 12px;font-size:12px;line-height:1.9}
+  .camp-body li{list-style:none;padding:1px 0}
+  .camp-body li::before{content:"→ ";font-weight:700}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--rouge-light);color:var(--rouge);font-weight:700;font-size:12px;padding:8px 12px;min-width:140px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .chain-item{display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;-webkit-align-items:flex-start;align-items:flex-start}
+  .chain-num{background:var(--rouge);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+  .chain-text{font-size:13px;line-height:1.6;-webkit-flex:1;flex:1}
+  .chain-text strong{color:var(--rouge)}
+  .dates-table{width:100%;border-collapse:collapse;font-size:13px}
+  .dates-table th{background:var(--rouge);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .dates-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .dates-table tr:last-child td{border-bottom:none}
+  .dates-table tr:nth-child(even) td{background:#FFF8F8}
+  .dates-table .date-cell{font-weight:700;color:var(--rouge);white-space:nowrap;min-width:90px}
+  .dates-table .event-cell{font-weight:600}
+  .dates-table .detail-cell{color:var(--muted);font-size:12px}
+  .frise-container{overflow-x:auto;padding-bottom:6px}
+  .frise{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:0;min-width:880px;padding:20px 10px 10px;position:relative}
+  .frise::before{content:'';position:absolute;top:42px;left:10px;right:10px;height:3px;background:linear-gradient(90deg,var(--rouge),var(--orange),var(--bleu));z-index:0}
+  .frise-item{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;position:relative;z-index:1;cursor:pointer}
+  .frise-dot{width:16px;height:16px;border-radius:50%;background:var(--rouge);border:3px solid white;box-shadow:0 0 0 2px var(--rouge);margin-bottom:8px;transition:transform 0.15s}
+  .frise-item:hover .frise-dot{transform:scale(1.4)}
+  .frise-item.important .frise-dot{width:22px;height:22px;background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+  .frise-date{font-size:10px;font-weight:700;color:var(--rouge);text-align:center;margin-bottom:4px;line-height:1.2}
+  .frise-label{font-size:10px;color:var(--muted);text-align:center;max-width:80px;line-height:1.3}
+  .frise-detail{display:none;background:white;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6;margin-top:8px;max-width:160px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.1);position:absolute;top:70px;z-index:10;min-width:140px}
+  .frise-detail.show{display:block}
+  .frise-detail strong{color:var(--rouge);display:block;margin-bottom:4px}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--rouge);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--rouge);background:var(--rouge-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--rouge);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.8}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--rouge-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--rouge);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--rouge);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--rouge)}
+  .btn-corr{background:var(--rouge);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  @media(max-width:500px){header h1{font-size:17px}.camps-grid{-webkit-flex-direction:column;flex-direction:column}}
+</style>
+</head>
+<body>
+<header>
+  <h1>⚔️ H4 — La Seconde Guerre mondiale</h1>
+  <p>Fiche complète · Séquence 4 · Histoire · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('frise',this)">📅 Frise</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ══════ FICHE ══════ -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head rouge">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> La Seconde Guerre mondiale (1939–1945) est le conflit le plus meurtrier de l'histoire humaine. Elle oppose les pays de l'<strong>Axe</strong> (Allemagne, Italie, Japon) aux <strong>Alliés</strong> (France, Royaume-Uni, URSS, États-Unis…). Elle fait environ <strong>60 millions de morts</strong>, dont une majorité de civils, et inclut la <strong>Shoah</strong> — l'extermination systématique de 6 millions de Juifs par les nazis.
+      </div>
+      <div class="brevet-box">
+        <strong>🎯 Au brevet :</strong> expliquer les causes et le déroulement de la guerre, distinguer guerre classique et guerre d'extermination, décrire la Shoah, analyser un document d'époque.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">💥 Les causes de la guerre</div>
+    <div class="section-body">
+      <div class="chain-item">
+        <div class="chain-num">1</div>
+        <div class="chain-text"><strong>Les régimes totalitaires expansionnistes :</strong> Hitler veut conquérir l'Europe de l'Est ("espace vital") pour les Allemands. Il annexe l'Autriche (mars 1938) et les Sudètes (octobre 1938) sans que les démocraties réagissent.</div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">2</div>
+        <div class="chain-text"><strong>La politique d'apaisement des démocraties :</strong> la France et le Royaume-Uni acceptent les demandes d'Hitler (conférence de Munich, septembre 1938) pour éviter la guerre. Cela encourage Hitler à aller plus loin.</div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">3</div>
+        <div class="chain-text"><strong>Le pacte germano-soviétique (août 1939) :</strong> Hitler et Staline signent un accord de non-agression. Hitler peut maintenant attaquer à l'Ouest sans craindre l'URSS à l'Est.</div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">4</div>
+        <div class="chain-text"><strong>L'invasion de la Pologne (1er septembre 1939) :</strong> Hitler attaque la Pologne. La France et le Royaume-Uni déclarent la guerre à l'Allemagne le 3 septembre 1939. La guerre mondiale commence.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head rouge">🗺️ Les grandes phases du conflit</div>
+    <div class="section-body">
+      <div class="warn-box"><strong>1939–1942 : les victoires de l'Axe</strong><br>
+      — Mai–juin 1940 : l'Allemagne envahit et bat la France en 6 semaines. Paris est occupé. Le gouvernement français signe l'armistice le 22 juin 1940.<br>
+      — L'Europe sous domination nazie : l'Allemagne occupe la majorité de l'Europe de l'Ouest.<br>
+      — Juin 1941 : Hitler attaque l'URSS (opération Barbarossa), rompant le pacte. La guerre devient mondiale côté Est.<br>
+      — Décembre 1941 : le Japon attaque Pearl Harbor (base américaine à Hawaï). Les États-Unis entrent en guerre.</div>
+
+      <div class="success-box"><strong>1942–1945 : le tournant et les victoires alliées</strong><br>
+      — Novembre 1942 : défaite allemande à Stalingrad (URSS). C'est le tournant de la guerre : l'Allemagne commence à reculer à l'Est.<br>
+      — Juin 1944 : le Débarquement en Normandie (Débarquement du 6 juin, "Jour J"). Les Alliés ouvrent un front à l'Ouest. Paris est libéré le 25 août 1944.<br>
+      — Mai 1945 : l'Allemagne capitule. La guerre est terminée en Europe.<br>
+      — Août 1945 : les États-Unis larguent deux bombes atomiques sur Hiroshima (6 août) et Nagasaki (9 août). Le Japon capitule le 2 septembre 1945. Fin de la guerre.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">🔥 La France pendant la guerre</div>
+    <div class="section-body">
+      <div class="camps-grid">
+        <div class="camp">
+          <div class="camp-head" style="background:var(--gris)">ZONE OCCUPÉE (Nord)</div>
+          <div class="camp-body" style="background:#F2F3F4;color:var(--gris)">
+            <ul>
+              <li>Sous contrôle allemand direct</li>
+              <li>Paris occupé dès juin 1940</li>
+              <li>Couvre-feu, rationnement</li>
+              <li>Pillage des ressources françaises</li>
+            </ul>
+          </div>
+        </div>
+        <div class="camp">
+          <div class="camp-head" style="background:var(--orange)">ZONE LIBRE (Sud)</div>
+          <div class="camp-body" style="background:var(--orange-light);color:var(--orange)">
+            <ul>
+              <li>Gouvernement de Vichy (Pétain)</li>
+              <li>Collabore avec les nazis</li>
+              <li>Participe aux déportations des Juifs</li>
+              <li>Supprime les libertés républicaines</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="warn-box" style="margin-top:12px">
+        <strong>⚠️ Le régime de Vichy :</strong> Le maréchal Pétain dirige la France depuis Vichy. Son gouvernement collabore activement avec les nazis : il livre des Juifs français à la déportation (rafle du Vél d'Hiv, juillet 1942 — 13 000 Juifs arrêtés à Paris par la police française).
+      </div>
+      <div class="success-box">
+        <strong>✅ La Résistance :</strong> Des Français refusent la défaite et l'occupation. Depuis Londres, le général de Gaulle lance l'appel du 18 juin 1940 et organise la France libre. En France, des réseaux de résistants (informations, sabotages, aide aux fugitifs) combattent l'occupant dans la clandestinité.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head rouge">✡️ La Shoah — l'extermination des Juifs</div>
+    <div class="section-body">
+      <div class="danger-box">
+        <strong>Définition :</strong> La Shoah est l'extermination systématique et planifiée de 6 millions de Juifs par le régime nazi entre 1941 et 1945. C'est un <strong>génocide</strong> : la volonté délibérée d'anéantir un peuple entier en raison de son identité.
+      </div>
+      <div class="chain-item" style="margin-top:12px">
+        <div class="chain-num">1</div>
+        <div class="chain-text"><strong>Avant 1941 — l'exclusion :</strong> les Juifs sont exclus de la société par les lois de Nuremberg (1935), marqués par l'étoile jaune, dépouillés de leurs biens.</div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">2</div>
+        <div class="chain-text"><strong>1941 — les fusillades de masse :</strong> en URSS envahie, des unités spéciales (Einsatzgruppen) tuent des centaines de milliers de Juifs par fusillades (Babi Yar : 33 000 morts en 2 jours, septembre 1941).</div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">3</div>
+        <div class="chain-text"><strong>Janvier 1942 — la "Solution finale" :</strong> lors de la conférence de Wannsee, les dirigeants nazis décident l'extermination systématique de tous les Juifs d'Europe. Des <strong>camps d'extermination</strong> sont construits en Pologne occupée.</div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">4</div>
+        <div class="chain-text"><strong>1942–1944 — les camps d'extermination :</strong> Auschwitz-Birkenau, Treblinka, Sobibor, Belzec… Les Juifs d'Europe entière sont déportés en wagons à bestiaux. À l'arrivée, la majorité est immédiatement gazée dans des chambres à gaz. Auschwitz seul tue plus d'un million de personnes.</div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">5</div>
+        <div class="chain-text"><strong>1945 — libération des camps :</strong> les Alliés découvrent les camps. Le monde prend conscience de l'horreur. Les procès de Nuremberg (1945–1946) jugent les responsables nazis pour "crimes contre l'humanité".</div>
+      </div>
+      <div class="warn-box">
+        <strong>⚠️ À ne pas confondre :</strong> Les <strong>camps de concentration</strong> (prisonniers politiques, travaux forcés) existaient depuis 1933. Les <strong>camps d'extermination</strong> sont créés à partir de 1941–1942 uniquement pour tuer : pas de travail, mort immédiate à l'arrivée pour la plupart.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head gris">📋 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Shoah</div><div class="mc-def">Mot hébreu signifiant "catastrophe". Désigne l'extermination systématique de 6 millions de Juifs par les nazis (1941–1945).</div></div>
+      <div class="mc-row"><div class="mc-terme">Génocide</div><div class="mc-def">Extermination planifiée et délibérée d'un groupe humain en raison de son identité (ethnique, religieuse, nationale). La Shoah est un génocide.</div></div>
+      <div class="mc-row"><div class="mc-terme">Camp d'extermination</div><div class="mc-def">Centre construit pour tuer en masse. Équipé de chambres à gaz et de crématoires. Les plus connus : Auschwitz-Birkenau, Treblinka (Pologne occupée).</div></div>
+      <div class="mc-row"><div class="mc-terme">Débarquement (Jour J)</div><div class="mc-def">6 juin 1944 : débarquement des troupes alliées (américaines, britanniques, canadiennes, françaises) en Normandie. Permet la libération de la France.</div></div>
+      <div class="mc-row"><div class="mc-terme">Collaboration</div><div class="mc-def">Coopération du gouvernement de Vichy avec l'occupant nazi. Comprend la livraison de Juifs, la mise au travail forcé des Français en Allemagne (STO).</div></div>
+      <div class="mc-row"><div class="mc-terme">Crimes contre l'humanité</div><div class="mc-def">Crimes d'une gravité exceptionnelle visant à anéantir un groupe. Définis après la guerre aux procès de Nuremberg. Imprescriptibles : on peut juger leurs auteurs à n'importe quel moment.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════ FRISE ══════ -->
+<div class="panel" id="panel-frise">
+  <div class="section">
+    <div class="section-head rouge">📅 Frise chronologique — La Seconde Guerre mondiale</div>
+    <div class="section-body">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Clique sur un point pour voir le détail.</p>
+      <div class="frise-container">
+        <div class="frise">
+          <div class="frise-item important" onclick="toggleDetail('hd1')">
+            <div class="frise-date">Sept. 1939</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Début de la guerre</div>
+            <div class="frise-detail" id="hd1"><strong>1er septembre 1939</strong>Hitler envahit la Pologne. France et Royaume-Uni déclarent la guerre à l'Allemagne le 3 septembre.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('hd2')">
+            <div class="frise-date">Juin 1940</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Défaite de la France</div>
+            <div class="frise-detail" id="hd2"><strong>22 juin 1940</strong>La France signe l'armistice après 6 semaines de combat. Paris est occupé. Pétain dirige la France depuis Vichy.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('hd3')">
+            <div class="frise-date">18 juin 1940</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Appel de De Gaulle</div>
+            <div class="frise-detail" id="hd3"><strong>18 juin 1940</strong>De Gaulle lance depuis Londres son appel à continuer le combat. Il fonde la France libre et organise la Résistance.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('hd4')">
+            <div class="frise-date">Juin 1941</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Hitler attaque l'URSS</div>
+            <div class="frise-detail" id="hd4"><strong>22 juin 1941</strong>Opération Barbarossa : Hitler lance une invasion massive de l'URSS, rompant le pacte germano-soviétique. Début de la guerre à l'Est.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('hd5')">
+            <div class="frise-date">Janv. 1942</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Conférence de Wannsee</div>
+            <div class="frise-detail" id="hd5"><strong>20 janvier 1942</strong>Les dirigeants nazis décident la "Solution finale" : extermination systématique de tous les Juifs d'Europe.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('hd6')">
+            <div class="frise-date">Juil. 1942</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Rafle du Vél d'Hiv</div>
+            <div class="frise-detail" id="hd6"><strong>16-17 juillet 1942</strong>13 000 Juifs arrêtés à Paris par la police française sur ordre des nazis. Déportés vers les camps d'extermination.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('hd7')">
+            <div class="frise-date">Fév. 1943</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Stalingrad : tournant</div>
+            <div class="frise-detail" id="hd7"><strong>Février 1943</strong>L'armée allemande capitule à Stalingrad. C'est le tournant de la guerre : les Alliés commencent à gagner.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('hd8')">
+            <div class="frise-date">6 juin 1944</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Débarquement</div>
+            <div class="frise-detail" id="hd8"><strong>6 juin 1944 — Jour J</strong>Débarquement allié en Normandie. Début de la libération de la France. Paris libéré le 25 août 1944.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('hd9')">
+            <div class="frise-date">Mai 1945</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Capitulation allemande</div>
+            <div class="frise-detail" id="hd9"><strong>8 mai 1945</strong>L'Allemagne capitule. Fin de la guerre en Europe. Les Alliés découvrent l'horreur des camps.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('hd10')">
+            <div class="frise-date">Août–Sept. 1945</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Bombes atomiques, fin</div>
+            <div class="frise-detail" id="hd10"><strong>6 et 9 août 1945</strong>Bombes atomiques sur Hiroshima et Nagasaki. Le Japon capitule le 2 septembre. Fin de la guerre mondiale.</div>
+          </div>
+        </div>
+      </div>
+      <div class="section" style="margin-top:14px">
+        <div class="section-head gris">📋 Tableau des dates clés</div>
+        <div class="section-body">
+          <table class="dates-table">
+            <tr><th>Date</th><th>Événement</th><th>Importance</th></tr>
+            <tr><td class="date-cell">1er sept. 1939</td><td class="event-cell">Invasion de la Pologne</td><td class="detail-cell">Début de la 2e Guerre mondiale</td></tr>
+            <tr><td class="date-cell">22 juin 1940</td><td class="event-cell">Armistice franco-allemand</td><td class="detail-cell">La France est vaincue et occupée</td></tr>
+            <tr><td class="date-cell">18 juin 1940</td><td class="event-cell">Appel du général de Gaulle</td><td class="detail-cell">Naissance de la France libre / Résistance</td></tr>
+            <tr><td class="date-cell">22 juin 1941</td><td class="event-cell">Opération Barbarossa</td><td class="detail-cell">Hitler attaque l'URSS, rompant le pacte</td></tr>
+            <tr><td class="date-cell">20 janv. 1942</td><td class="event-cell">Conférence de Wannsee</td><td class="detail-cell">Décision de la "Solution finale" (Shoah)</td></tr>
+            <tr><td class="date-cell">16 juil. 1942</td><td class="event-cell">Rafle du Vél d'Hiv</td><td class="detail-cell">13 000 Juifs arrêtés à Paris par la police française</td></tr>
+            <tr><td class="date-cell">Fév. 1943</td><td class="event-cell">Bataille de Stalingrad</td><td class="detail-cell">Tournant : l'Allemagne commence à reculer</td></tr>
+            <tr><td class="date-cell">6 juin 1944</td><td class="event-cell">Débarquement en Normandie</td><td class="detail-cell">Libération de la France commence (Jour J)</td></tr>
+            <tr><td class="date-cell">8 mai 1945</td><td class="event-cell">Capitulation allemande</td><td class="detail-cell">Fin de la guerre en Europe</td></tr>
+            <tr><td class="date-cell">6–9 août 1945</td><td class="event-cell">Bombes atomiques sur le Japon</td><td class="detail-cell">Fin de la guerre mondiale</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ QUIZ ══════ -->
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head rouge">❓ Quiz — La Seconde Guerre mondiale</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Clique sur ta réponse.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score">
+        <div class="score-num" id="score-num"></div>
+        <div class="score-msg" id="score-msg"></div>
+        <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ EXERCICE ══════ -->
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head rouge">✏️ Exercice type brevet</div>
+    <div class="section-body">
+      <div class="info-box"><strong>Conditions :</strong> Lis le document, puis réponds aux questions. Temps conseillé : 25 minutes.</div>
+    </div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>📄 Document — Témoignage d'un déporté, 1945</h3>
+    <p>"À notre arrivée à Auschwitz, on nous a dit de descendre du wagon et de laisser nos bagages sur le quai. Hommes d'un côté, femmes et enfants de l'autre. Un médecin SS faisait une sélection : ceux jugés 'aptes au travail' partaient à gauche vers les baraquements. Les autres — la majorité, surtout les vieux, les femmes avec enfants, les malades — partaient à droite. Nous ne savions pas encore ce que cela signifiait. Plus tard, nous avons compris : ceux qui partaient à droite allaient directement aux chambres à gaz."</p>
+    <p class="doc-source">Témoignage reconstitué à partir de récits de survivants d'Auschwitz, à des fins pédagogiques. Brevet 2026.</p>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Présenter et contextualiser</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Présente ce document. Dans quel contexte historique s'inscrit-il ? Qu'est-ce qu'Auschwitz ?</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p>Ce document est un <strong>témoignage</strong> d'un déporté, c'est-à-dire une personne envoyée de force dans un camp par les nazis. Il date de 1945, au moment de la libération des camps à la fin de la Seconde Guerre mondiale.</p>
+        <p style="margin-top:8px">Ce témoignage s'inscrit dans le contexte de la <strong>Shoah</strong> : l'extermination systématique des Juifs d'Europe par le régime nazi, décidée lors de la conférence de Wannsee en janvier 1942. <strong>Auschwitz-Birkenau</strong> est le plus grand camp d'extermination nazi, situé en Pologne occupée. Plus d'un million de personnes y ont été tuées, principalement des Juifs.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Présenter un document = nature + auteur/source + date + contexte historique. Toujours replacer le document dans son contexte en mobilisant ses connaissances du cours.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Déporté</em> = personne arrêtée et envoyée de force dans un camp par les nazis. <em>SS</em> = police politique et militaire nazie, chargée notamment de gérer les camps.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser le document</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>À partir du document, explique le fonctionnement d'Auschwitz. Qu'est-ce que la "sélection" ? Que signifie "partir à droite" ?</p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p>À l'arrivée à Auschwitz, les déportés subissaient une <strong>"sélection"</strong> sur le quai de la gare, effectuée par des médecins SS. Cette sélection divisait les arrivants en deux groupes :</p>
+        <p style="margin-top:8px">— Ceux jugés "aptes au travail" (hommes jeunes et en bonne santé) étaient envoyés dans les baraquements pour travailler comme esclaves jusqu'à l'épuisement.</p>
+        <p style="margin-top:8px">— Les autres — personnes âgées, femmes avec enfants, malades, enfants seuls — étaient envoyés directement aux <strong>chambres à gaz</strong> pour y être tués immédiatement. "Partir à droite" signifiait donc la mort certaine dans les heures qui suivaient.</p>
+        <p style="margin-top:8px">Le document montre que les déportés ne savaient pas au départ ce qui les attendait, ce qui illustre le caractère planifié et dissimulé de l'extermination.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Analyser un document = citer des éléments précis du texte + les expliquer + les mettre en lien avec ses connaissances. Ne pas juste paraphraser le document.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Chambre à gaz</em> = salle où les victimes étaient enfermées et tuées par un gaz empoisonné (Zyklon B). <em>Crématoire</em> = four où les corps étaient ensuite brûlés pour effacer les traces.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Développement construit</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>En utilisant le document et tes connaissances, explique en plusieurs lignes (8 à 12 lignes) ce qu'est la Shoah, comment elle a été mise en place et pourquoi elle est considérée comme un génocide.</p>
+      <textarea id="rep3" placeholder="Écris ton développement ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Exemple de développement rédigé</h4>
+        <p>La Shoah est l'extermination systématique et planifiée de 6 millions de Juifs d'Europe par le régime nazi entre 1941 et 1945. C'est un génocide, car il s'agit d'une volonté délibérée d'anéantir un peuple entier à cause de son identité.</p>
+        <p style="margin-top:8px">Sa mise en place a été progressive. Dès 1935, les lois de Nuremberg excluent les Juifs de la société allemande. À partir de 1941, des unités spéciales (Einsatzgruppen) fusillent des centaines de milliers de Juifs en URSS (Babi Yar, 33 000 morts en 2 jours). En janvier 1942, la conférence de Wannsee planifie la "Solution finale" : l'extermination industrielle de tous les Juifs d'Europe.</p>
+        <p style="margin-top:8px">Des camps d'extermination sont alors construits en Pologne : Auschwitz-Birkenau, Treblinka, Sobibor. Les Juifs y sont déportés en train, puis tués dans des chambres à gaz, comme le montre le témoignage. Plus d'un million de personnes ont été tuées au seul camp d'Auschwitz.</p>
+        <p style="margin-top:8px">En 1945, les Alliés libèrent les camps. Les responsables nazis sont jugés aux procès de Nuremberg pour "crimes contre l'humanité", une notion créée pour désigner ces crimes d'une gravité exceptionnelle.</p>
+        <div class="methode-box"><strong>💡 Structure :</strong> Définition → mise en place étape par étape → preuves (document + cours) → conséquences/jugement.</div>
+        <div class="vocab-box"><strong>📖 Mots clés à utiliser :</strong> génocide — Shoah — extermination — camps — chambres à gaz — déportation — Wannsee — crimes contre l'humanité.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS = [
+  {q:"Quand commence la Seconde Guerre mondiale et pourquoi ?",
+   opts:["Le 1er septembre 1939, quand Hitler envahit la Pologne et que la France et le Royaume-Uni lui déclarent la guerre","Le 3 septembre 1939, quand les États-Unis entrent en guerre","Le 22 juin 1940, quand la France signe l'armistice","En janvier 1933, quand Hitler prend le pouvoir"],
+   correct:0,
+   expl:"La Seconde Guerre mondiale commence officiellement le 1er septembre 1939, quand l'Allemagne nazie envahit la Pologne. La France et le Royaume-Uni, qui avaient garanti l'indépendance polonaise, déclarent la guerre à l'Allemagne le 3 septembre 1939. Les États-Unis n'entrent en guerre qu'en décembre 1941."},
+  {q:"Que se passe-t-il en France en juin 1940 ?",
+   opts:["La France est vaincue en 6 semaines. Elle signe l'armistice le 22 juin. Une partie est occupée par les Allemands, l'autre gouvernée par Pétain depuis Vichy","La France gagne la bataille de France et repousse les Allemands","De Gaulle devient chef du gouvernement français","Les Alliés débarquent en Normandie"],
+   correct:0,
+   expl:"En mai-juin 1940, l'Allemagne lance une offensive éclair qui contourne la ligne Maginot. La France est vaincue en 6 semaines, ce qui choque le monde entier. L'armistice est signé le 22 juin 1940. Le pays est divisé en zone occupée (Nord, contrôlée par les Allemands) et zone libre (Sud, gouvernée par Pétain depuis Vichy)."},
+  {q:"Qu'est-ce que la Shoah ?",
+   opts:["L'extermination systématique et planifiée de 6 millions de Juifs par les nazis (1941–1945)","La bataille de Stalingrad","L'occupation de la France par l'Allemagne","Le bombardement de Londres par l'aviation allemande"],
+   correct:0,
+   expl:"La Shoah (mot hébreu signifiant 'catastrophe') est l'extermination systématique et planifiée de 6 millions de Juifs d'Europe par le régime nazi. C'est un génocide : une volonté délibérée d'anéantir un peuple entier. Elle a été mise en place progressivement entre 1933 et 1945, avec l'industrialisation de la mort à partir de 1942."},
+  {q:"Qu'est-ce que la conférence de Wannsee (janvier 1942) ?",
+   opts:["La réunion où les dirigeants nazis décident l'extermination systématique de tous les Juifs d'Europe ('Solution finale')","La signature du pacte germano-soviétique","La conférence de paix entre Hitler et Churchill","La réunion qui décide du débarquement allié en Normandie"],
+   correct:0,
+   expl:"La conférence de Wannsee se tient le 20 janvier 1942, près de Berlin. Des hauts dirigeants nazis y décident la 'Solution finale' : l'extermination industrielle et systématique de tous les Juifs d'Europe. À partir de cette décision, des camps d'extermination sont construits et mis en fonctionnement en Pologne occupée."},
+  {q:"Quel est le tournant de la guerre à l'Est ?",
+   opts:["La défaite allemande à Stalingrad (février 1943)","La prise de Paris par les Allemands (juin 1940)","Le débarquement en Normandie (juin 1944)","L'entrée en guerre des États-Unis (décembre 1941)"],
+   correct:0,
+   expl:"La bataille de Stalingrad (août 1942 – février 1943) est le tournant de la guerre à l'Est. L'armée allemande, encerclée dans la ville, capitule en février 1943. C'est la première grande défaite allemande de la guerre et elle marque le début de la retraite allemande sur le front est. À partir de là, l'Allemagne ne fait plus que reculer."},
+  {q:"Qu'est-ce que le Débarquement du 6 juin 1944 ?",
+   opts:["L'arrivée massive de troupes alliées (américaines, britanniques, canadiennes, françaises) en Normandie pour libérer la France de l'occupation nazie","La capitulation de l'Allemagne","L'entrée de l'URSS dans la guerre","Le bombardement de Berlin par les Alliés"],
+   correct:0,
+   expl:"Le 6 juin 1944 ('Jour J'), plus de 150 000 soldats alliés débarquent sur les plages de Normandie. C'est la plus grande opération amphibie de l'histoire. Ce débarquement ouvre un front à l'Ouest et permet la libération progressive de la France. Paris est libéré le 25 août 1944."},
+  {q:"Qu'est-ce que la rafle du Vél d'Hiv (juillet 1942) ?",
+   opts:["L'arrestation de 13 000 Juifs à Paris par la police française sur ordre des nazis, déportés vers les camps d'extermination","Un bombardement de Paris par les Allemands","Une révolte de la Résistance à Paris","L'arrestation de résistants français par la Gestapo"],
+   correct:0,
+   expl:"Les 16 et 17 juillet 1942, la police française (pas les Allemands !) arrête environ 13 000 Juifs à Paris, dont des milliers d'enfants. Ils sont d'abord rassemblés au Vélodrome d'Hiver, puis déportés vers les camps d'extermination, notamment Auschwitz. Cet événement montre la collaboration du régime de Vichy avec les nazis."},
+  {q:"Quelle est la différence entre un camp de concentration et un camp d'extermination ?",
+   opts:["Le camp de concentration sert aux travaux forcés ; le camp d'extermination est conçu uniquement pour tuer en masse (chambres à gaz)","Il n'y a pas de différence, ce sont les mêmes lieux","Le camp de concentration est allemand, le camp d'extermination est polonais","Le camp de concentration date d'après 1942 ; le camp d'extermination d'avant 1939"],
+   correct:0,
+   expl:"Les camps de concentration (Dachau, Buchenwald…) existent depuis 1933 : ils servent à enfermer et faire travailler jusqu'à la mort les opposants politiques, Juifs, Roms... Les camps d'extermination (Auschwitz-Birkenau, Treblinka…) sont créés à partir de 1941–1942 uniquement pour tuer en masse : équipés de chambres à gaz, la mort y est quasi immédiate à l'arrivée pour la majorité des déportés."},
+  {q:"Pourquoi les États-Unis entrent-ils en guerre en décembre 1941 ?",
+   opts:["Le Japon (allié d'Hitler) bombarde la base américaine de Pearl Harbor à Hawaï","La France libérée demande l'aide des États-Unis","L'Allemagne attaque le sol américain","Roosevelt décide d'entrer en guerre pour aider l'URSS"],
+   correct:0,
+   expl:"Le 7 décembre 1941, le Japon — allié de l'Allemagne nazie — bombarde par surprise la base navale américaine de Pearl Harbor, à Hawaï. Le lendemain, les États-Unis déclarent la guerre au Japon. Quelques jours plus tard, l'Allemagne et l'Italie déclarent la guerre aux États-Unis. L'entrée en guerre américaine représente un tournant car elle apporte d'immenses ressources humaines et matérielles aux Alliés."},
+  {q:"Qu'est-ce que le régime de Vichy ?",
+   opts:["Le gouvernement français dirigé par Pétain qui collabore avec les nazis et participe à la déportation des Juifs","Le gouvernement de la Résistance française depuis Londres","Le gouvernement allemand chargé d'occuper la France","Le gouvernement provisoire après la libération de Paris"],
+   correct:0,
+   expl:"Après la défaite de juin 1940, le maréchal Pétain dirige la France depuis Vichy (ville du centre de la France). Son gouvernement abandonne les valeurs républicaines, collabore avec les nazis, livre des Juifs à la déportation et envoie des travailleurs français en Allemagne (STO). La collaboration est un choix politique, pas une obligation imposée par les Allemands."},
+  {q:"Quand et comment se termine la Seconde Guerre mondiale ?",
+   opts:["8 mai 1945 : capitulation de l'Allemagne. 2 septembre 1945 : capitulation du Japon après les bombes atomiques sur Hiroshima et Nagasaki","Août 1944 : libération de Paris, fin de la guerre","Janvier 1945 : libération d'Auschwitz par les Soviétiques","Juin 1944 : le débarquement en Normandie met fin à la guerre"],
+   correct:0,
+   expl:"La guerre se termine en deux temps. En Europe : l'Allemagne capitule le 8 mai 1945 (Victoire en Europe). En Asie : les États-Unis larguent deux bombes atomiques sur Hiroshima (6 août) et Nagasaki (9 août). Le Japon capitule le 2 septembre 1945. La Seconde Guerre mondiale est terminée."},
+  {q:"Qu'est-ce qu'un génocide ?",
+   opts:["L'extermination planifiée et délibérée d'un groupe humain en raison de son identité (ethnique, religieuse, nationale)","Une guerre entre deux États","Un crime de guerre commis par des soldats","Une famine organisée par un gouvernement"],
+   correct:0,
+   expl:"Un génocide est l'extermination planifiée et délibérée d'un groupe humain en raison de son identité. La Shoah est un génocide car les nazis voulaient anéantir tous les Juifs d'Europe pour ce qu'ils étaient, pas pour ce qu'ils avaient fait. Ce terme a été créé après la guerre pour désigner ce type de crime, reconnu comme 'crime contre l'humanité' aux procès de Nuremberg."}
+];
+
+var answered = {};
+var score = 0;
+
+function showPanel(id, tab) {
+  var panels = document.querySelectorAll('.panel');
+  var tabs = document.querySelectorAll('.tab');
+  for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-' + id).classList.add('active');
+  tab.classList.add('active');
+}
+function toggleDetail(id) {
+  var all = document.querySelectorAll('.frise-detail');
+  for (var i = 0; i < all.length; i++) { if (all[i].id !== id) all[i].classList.remove('show'); }
+  document.getElementById(id).classList.toggle('show');
+}
+function showCorr(id) { document.getElementById(id).classList.toggle('show'); }
+function buildQuiz() {
+  var c = document.getElementById('quiz-container');
+  c.innerHTML = '';
+  answered = {};
+  score = 0;
+  for (var i = 0; i < QUESTIONS.length; i++) {
+    var q = QUESTIONS[i];
+    var div = document.createElement('div');
+    div.className = 'quiz-q';
+    var opts = '';
+    for (var j = 0; j < q.opts.length; j++) opts += '<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';
+    div.innerHTML = '<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi, choice) {
+  if (answered[qi] !== undefined) return;
+  answered[qi] = choice;
+  var q = QUESTIONS[qi];
+  var opts = document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for (var i = 0; i < opts.length; i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice === q.correct ? 'correct' : 'wrong');
+  if (choice !== q.correct) opts[q.correct].classList.add('correct');
+  var ok = choice === q.correct;
+  if (ok) score++;
+  var expl = document.getElementById('expl-'+qi);
+  expl.innerHTML = '<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if (Object.keys(answered).length === QUESTIONS.length) showScore();
+}
+function showScore() {
+  var pct = Math.round(score / QUESTIONS.length * 100);
+  document.getElementById('score-num').textContent = score+'/'+QUESTIONS.length;
+  var msg = pct>=90?'🎉 Excellent Zach ! La 2e Guerre mondiale est maîtrisée !'
+    :pct>=70?'👍 Très bien ! Relis les questions "à revoir".'
+    :pct>=50?'💪 Pas mal ! Relis la fiche et retente.'
+    :'📋 Relis bien la fiche, surtout les dates clés et la Shoah.';
+  document.getElementById('score-msg').textContent = msg;
+  document.getElementById('quiz-score').classList.add('show');
+}
+function resetQuiz() { buildQuiz(); }
+buildQuiz();
+window.showPanel = showPanel;
+window.toggleDetail = toggleDetail;
+window.showCorr = showCorr;
+window.answer = answer;
+window.resetQuiz = resetQuiz;
+</script>
+</body>
+</html>

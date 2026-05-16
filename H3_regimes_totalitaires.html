@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H3 — Les régimes totalitaires</title>
+<style>
+  :root{
+    --rouge:#C0392B;--rouge-light:#FADBD8;--rouge-mid:#E74C3C;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --vert:#1E8449;--vert-light:#D5F5E3;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--rouge);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--rouge);border-bottom-color:var(--rouge)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.rouge{background:var(--rouge)}
+  .section-head.bleu{background:var(--bleu)}
+  .section-head.vert{background:var(--vert)}
+  .section-head.orange{background:var(--orange)}
+  .section-head.violet{background:var(--violet)}
+  .section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--rouge);font-weight:700}
+
+  .camps-grid{display:-webkit-flex;display:flex;gap:12px;-webkit-flex-wrap:wrap;flex-wrap:wrap;margin-top:4px}
+  .camp{border-radius:8px;overflow:hidden;-webkit-flex:1 1 200px;flex:1 1 200px}
+  .camp-head{padding:8px 12px;font-size:13px;font-weight:700;color:white;text-align:center}
+  .camp-body{padding:10px 12px;font-size:12px;line-height:1.9}
+  .camp-body li{list-style:none;padding:1px 0}
+  .camp-body li::before{content:"→ ";font-weight:700}
+
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--rouge-light);color:var(--rouge);font-weight:700;font-size:12px;padding:8px 12px;min-width:140px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+
+  .perso-row{display:-webkit-flex;display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);-webkit-align-items:flex-start;align-items:flex-start}
+  .perso-row:last-child{border-bottom:none}
+  .perso-avatar{width:40px;height:40px;border-radius:50%;background:var(--rouge);color:white;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+  .perso-info{flex:1}
+  .perso-nom{font-weight:700;font-size:13px;color:var(--rouge);margin-bottom:2px}
+  .perso-camp{font-size:10px;background:var(--rouge-light);color:var(--rouge);padding:1px 8px;border-radius:20px;display:inline-block;margin-bottom:4px}
+  .perso-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+  .dates-table{width:100%;border-collapse:collapse;font-size:13px}
+  .dates-table th{background:var(--rouge);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .dates-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .dates-table tr:last-child td{border-bottom:none}
+  .dates-table tr:nth-child(even) td{background:#FFF8F8}
+  .dates-table .date-cell{font-weight:700;color:var(--rouge);white-space:nowrap;min-width:90px}
+  .dates-table .event-cell{font-weight:600}
+  .dates-table .detail-cell{color:var(--muted);font-size:12px}
+
+  /* FRISE */
+  .frise-container{overflow-x:auto;padding-bottom:6px}
+  .frise{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:0;min-width:820px;padding:20px 10px 10px;position:relative}
+  .frise::before{content:'';position:absolute;top:42px;left:10px;right:10px;height:3px;background:linear-gradient(90deg,var(--rouge),var(--orange),var(--bleu));z-index:0}
+  .frise-item{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;position:relative;z-index:1;cursor:pointer}
+  .frise-dot{width:16px;height:16px;border-radius:50%;background:var(--rouge);border:3px solid white;box-shadow:0 0 0 2px var(--rouge);margin-bottom:8px;transition:transform 0.15s}
+  .frise-item:hover .frise-dot{transform:scale(1.4)}
+  .frise-item.important .frise-dot{width:22px;height:22px;background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+  .frise-date{font-size:10px;font-weight:700;color:var(--rouge);text-align:center;margin-bottom:4px;line-height:1.2}
+  .frise-label{font-size:10px;color:var(--muted);text-align:center;max-width:80px;line-height:1.3}
+  .frise-detail{display:none;background:white;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6;margin-top:8px;max-width:160px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.1);position:absolute;top:70px;z-index:10;min-width:140px}
+  .frise-detail.show{display:block}
+  .frise-detail strong{color:var(--rouge);display:block;margin-bottom:4px}
+
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--rouge);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--rouge);background:var(--rouge-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--rouge);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.8}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--rouge-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--rouge);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--rouge);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--rouge)}
+  .btn-corr{background:var(--rouge);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+
+  @media(max-width:500px){header h1{font-size:17px}.camps-grid{-webkit-flex-direction:column;flex-direction:column}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⚡ H3 — Les régimes totalitaires</h1>
+  <p>Fiche complète · Séquence 3 · Histoire · Brevet 2026</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('frise',this)">📅 Frise</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ══════ FICHE ══════ -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head rouge">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> Dans les années 1920–1930, trois régimes totalitaires s'imposent en Europe : le <strong>stalinisme</strong> en URSS, le <strong>fascisme</strong> en Italie et le <strong>nazisme</strong> en Allemagne. Ces régimes suppriment toutes les libertés, imposent un chef unique et un parti unique, et utilisent la violence et la propagande pour contrôler toute la société.
+      </div>
+      <div class="brevet-box">
+        <strong>🎯 Au brevet :</strong> expliquer les caractéristiques d'un régime totalitaire, comparer les trois régimes, analyser un document de propagande ou une affiche.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">🔑 Qu'est-ce qu'un régime totalitaire ?</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Un régime totalitaire présente <strong>5 caractéristiques communes</strong> :</p>
+      <div class="mc-row"><div class="mc-terme">1. Un chef unique</div><div class="mc-def">Un homme concentre tous les pouvoirs : Staline, Mussolini, Hitler. Il est présenté comme un sauveur, presque un dieu.</div></div>
+      <div class="mc-row"><div class="mc-terme">2. Un parti unique</div><div class="mc-def">Tout autre parti politique est interdit. L'opposition est impossible. Seul le parti au pouvoir existe légalement.</div></div>
+      <div class="mc-row"><div class="mc-terme">3. La terreur</div><div class="mc-def">Police secrète, arrestations arbitraires, camps de prisonniers, exécutions. La peur maintient la population soumise.</div></div>
+      <div class="mc-row"><div class="mc-terme">4. La propagande</div><div class="mc-def">Contrôle total des médias (journaux, radio, cinéma, affiches). L'État décide ce que les gens peuvent voir, lire ou entendre.</div></div>
+      <div class="mc-row"><div class="mc-terme">5. Une idéologie</div><div class="mc-def">Un projet de société imposé à tous : communisme en URSS, nationalisme/racisme en Allemagne et Italie. Toute la vie est orientée vers cette idéologie.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head rouge">🇷🇺 Le stalinisme en URSS (1924–1953)</div>
+    <div class="section-body">
+      <div class="warn-box"><strong>Contexte :</strong> Après la révolution bolchevique de 1917 et la mort de Lénine en 1924, <strong>Staline</strong> prend le pouvoir en URSS (Union des Républiques Socialistes Soviétiques).</div>
+      <ul class="bull-list">
+        <li><strong>Économie planifiée :</strong> l'État contrôle toute l'économie. Des "plans quinquennaux" fixent les objectifs de production pour 5 ans. L'URSS devient une grande puissance industrielle.</li>
+        <li><strong>Collectivisation forcée :</strong> les paysans sont contraints de rejoindre des fermes collectives (les "kolkhozes"). Ceux qui refusent sont déportés ou tués. Cette politique provoque une grande famine (1932–1933) qui tue des millions de personnes, notamment en Ukraine.</li>
+        <li><strong>Les "Grandes Purges" (1936–1938) :</strong> Staline élimine ses opposants réels ou supposés. Des centaines de milliers de personnes sont exécutées, des millions envoyées dans les camps du <strong>Goulag</strong> (travaux forcés en Sibérie).</li>
+        <li><strong>Le culte de la personnalité :</strong> Staline est partout — dans les journaux, les statues, les chansons. On l'appelle "le Petit Père des Peuples".</li>
+      </ul>
+      <div class="success-box"><strong>Bilan :</strong> Le régime stalinien fait entre <strong>6 et 20 millions de morts</strong> (historiens débattent encore des chiffres) entre famines provoquées, exécutions et Goulag.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">🇮🇹 Le fascisme en Italie (1922–1943)</div>
+    <div class="section-body">
+      <div class="warn-box"><strong>Contexte :</strong> Après la Première Guerre mondiale, l'Italie est déçue par les traités de paix. Le pays connaît une grave crise économique et sociale. <strong>Benito Mussolini</strong> fonde le Parti national fasciste et prend le pouvoir en octobre 1922 lors de la "Marche sur Rome".</div>
+      <ul class="bull-list">
+        <li><strong>L'État fasciste :</strong> Mussolini se fait appeler "Duce" (le Chef). Il dissout les autres partis, contrôle la presse et la justice.</li>
+        <li><strong>Les Chemises noires :</strong> milice fasciste qui terrorise les opposants (syndicalistes, socialistes, communistes).</li>
+        <li><strong>Nationalisme exacerbé :</strong> Mussolini rêve de recréer l'Empire romain. Il mène des guerres coloniales (Éthiopie en 1935).</li>
+        <li><strong>Corporatisme :</strong> l'État contrôle les relations entre patrons et ouvriers. Les grèves sont interdites.</li>
+        <li><strong>Alliance avec Hitler :</strong> en 1936, Mussolini et Hitler forment l'Axe Rome-Berlin. En 1938, sous influence nazie, l'Italie adopte des lois raciales antisémites.</li>
+      </ul>
+      <div class="success-box"><strong>À retenir :</strong> Le fascisme italien est le <strong>premier régime totalitaire d'Europe</strong>. Il sert de modèle à Hitler pour construire le nazisme.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head rouge">🇩🇪 Le nazisme en Allemagne (1933–1945)</div>
+    <div class="section-body">
+      <div class="warn-box"><strong>Contexte :</strong> L'Allemagne est humiliée par le traité de Versailles (1919), frappée par la grande crise économique de 1929 (chômage massif). <strong>Adolf Hitler</strong> et son parti le NSDAP (Parti nazi) arrivent au pouvoir légalement en janvier 1933.</div>
+      <ul class="bull-list">
+        <li><strong>La mise en place de la dictature :</strong> en quelques mois, Hitler concentre tous les pouvoirs. Il devient Führer (le Guide). Les partis d'opposition, les syndicats, la presse libre sont supprimés.</li>
+        <li><strong>La Gestapo et les SS :</strong> police secrète (Gestapo) et police politique (SS) traquent les opposants. Les premiers camps de concentration ouvrent dès 1933 (Dachau).</li>
+        <li><strong>L'antisémitisme d'État :</strong> les Juifs sont progressivement exclus de la société allemande. Les lois de Nuremberg (1935) leur retirent la citoyenneté allemande et interdisent les mariages mixtes. La Nuit de Cristal (novembre 1938) marque une escalade dans la violence.</li>
+        <li><strong>Le réarmement et l'expansionnisme :</strong> Hitler viole le traité de Versailles en réarmant l'Allemagne et en annexant l'Autriche (1938) puis les Sudètes (1938). Il prépare la guerre.</li>
+        <li><strong>La propagande nazie :</strong> dirigée par Goebbels. Radio, cinéma, affiches, Jeux olympiques de Berlin (1936) utilisés pour glorifier le régime et diffuser l'idéologie nazie.</li>
+      </ul>
+      <div class="success-box"><strong>Idéologie nazie :</strong> Le nazisme repose sur la conviction que les Allemands (appelés "race aryenne") sont supérieurs aux autres peuples, et que les Juifs, Roms, personnes handicapées et homosexuels sont des "ennemis" à éliminer. Cette idéologie mènera à la Shoah.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">⚖️ Comparer les trois régimes</div>
+    <div class="section-body">
+      <div class="camps-grid">
+        <div class="camp">
+          <div class="camp-head" style="background:var(--rouge)">POINTS COMMUNS</div>
+          <div class="camp-body" style="background:var(--rouge-light);color:var(--rouge)">
+            <ul>
+              <li>Chef unique tout-puissant</li>
+              <li>Parti unique</li>
+              <li>Police secrète / terreur</li>
+              <li>Propagande massive</li>
+              <li>Suppression des libertés</li>
+              <li>Culte du chef</li>
+              <li>Contrôle de l'économie</li>
+            </ul>
+          </div>
+        </div>
+        <div class="camp">
+          <div class="camp-head" style="background:var(--bleu)">DIFFÉRENCES CLÉS</div>
+          <div class="camp-body" style="background:var(--bleu-light);color:var(--bleu)">
+            <ul>
+              <li>URSS : idéologie communiste (égalité sociale)</li>
+              <li>Italie/Allemagne : nationalisme et expansionnisme</li>
+              <li>Nazisme : antisémitisme racial au cœur du projet</li>
+              <li>Stalinisme : purges internes au parti</li>
+              <li>Fascisme : premier régime, moins radical que nazisme</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head violet">👤 Personnages clés</div>
+    <div class="section-body">
+      <div class="perso-row">
+        <div class="perso-avatar">ST</div>
+        <div class="perso-info">
+          <div class="perso-nom">Joseph Staline (1878–1953)</div>
+          <div class="perso-camp">URSS — Chef du Parti communiste</div>
+          <div class="perso-desc">Dirige l'URSS de 1924 à 1953. Industrialise le pays par la force, organise les Grandes Purges, crée le Goulag. Allié des démocraties contre Hitler pendant la Seconde Guerre mondiale.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">MU</div>
+        <div class="perso-info">
+          <div class="perso-nom">Benito Mussolini (1883–1945)</div>
+          <div class="perso-camp">Italie — Duce du fascisme</div>
+          <div class="perso-desc">Fonde le parti fasciste, prend le pouvoir en 1922. Premier dictateur fasciste d'Europe. S'allie à Hitler en 1936. Renversé en 1943, exécuté en 1945.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">HI</div>
+        <div class="perso-info">
+          <div class="perso-nom">Adolf Hitler (1889–1945)</div>
+          <div class="perso-camp">Allemagne — Führer du nazisme</div>
+          <div class="perso-desc">Fonde le NSDAP, prend le pouvoir en 1933. Déclenche la Seconde Guerre mondiale en 1939. Responsable de la Shoah (extermination de 6 millions de Juifs). Se suicide en 1945.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">GO</div>
+        <div class="perso-info">
+          <div class="perso-nom">Joseph Goebbels (1897–1945)</div>
+          <div class="perso-camp">Allemagne — Ministre de la Propagande nazie</div>
+          <div class="perso-desc">Maître de la propagande nazie. Contrôle la radio, le cinéma, la presse. Organise la Nuit de Cristal. Symbole de l'utilisation des médias par un régime totalitaire.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head gris">📋 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Totalitarisme</div><div class="mc-def">Régime politique qui veut contrôler tous les aspects de la vie des citoyens : politique, économique, culturel, privé.</div></div>
+      <div class="mc-row"><div class="mc-terme">Propagande</div><div class="mc-def">Ensemble de techniques (affiches, discours, cinéma, radio) utilisées par un régime pour manipuler l'opinion publique et faire croire à sa supériorité.</div></div>
+      <div class="mc-row"><div class="mc-terme">Goulag</div><div class="mc-def">Réseau de camps de travaux forcés soviétiques, surtout en Sibérie. Des millions de personnes y sont mortes de froid, de faim et d'épuisement.</div></div>
+      <div class="mc-row"><div class="mc-terme">Antisémitisme</div><div class="mc-def">Haine et discrimination envers les Juifs. Élément central de l'idéologie nazie, qui considère les Juifs comme responsables de tous les malheurs de l'Allemagne.</div></div>
+      <div class="mc-row"><div class="mc-terme">Lois de Nuremberg</div><div class="mc-def">Lois adoptées en 1935 en Allemagne nazie qui retirent aux Juifs leur citoyenneté et interdisent les mariages entre Juifs et non-Juifs.</div></div>
+      <div class="mc-row"><div class="mc-terme">Culte de la personnalité</div><div class="mc-def">Glorification extrême d'un dirigeant politique, présenté comme un être supérieur, infaillible, presque divin. Utilisé par Staline, Hitler et Mussolini.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════ FRISE ══════ -->
+<div class="panel" id="panel-frise">
+  <div class="section">
+    <div class="section-head rouge">📅 Frise chronologique — Les régimes totalitaires</div>
+    <div class="section-body">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Clique sur un point pour voir le détail.</p>
+      <div class="frise-container">
+        <div class="frise" id="frise-main">
+          <div class="frise-item important" onclick="toggleDetail('fd1')">
+            <div class="frise-date">1917</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Révolution bolchevique</div>
+            <div class="frise-detail" id="fd1"><strong>Octobre 1917</strong>Lénine et les bolcheviques prennent le pouvoir en Russie. C'est la naissance de l'URSS (officielle en 1922).</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd2')">
+            <div class="frise-date">1922</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Mussolini au pouvoir</div>
+            <div class="frise-detail" id="fd2"><strong>Octobre 1922</strong>Marche sur Rome. Mussolini prend le pouvoir en Italie. Premier régime fasciste d'Europe.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd3')">
+            <div class="frise-date">1924</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Staline au pouvoir</div>
+            <div class="frise-detail" id="fd3"><strong>1924</strong>Mort de Lénine. Staline prend progressivement le contrôle de l'URSS et élimine ses rivaux politiques.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd4')">
+            <div class="frise-date">1929</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Grande crise</div>
+            <div class="frise-detail" id="fd4"><strong>1929</strong>Crise économique mondiale. En Allemagne, le chômage explose. Les nazis en profitent pour gagner des voix.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd5')">
+            <div class="frise-date">1933</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Hitler chancelier</div>
+            <div class="frise-detail" id="fd5"><strong>30 janvier 1933</strong>Hitler est nommé chancelier d'Allemagne. En quelques mois, il instaure la dictature nazie.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd6')">
+            <div class="frise-date">1935</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Lois de Nuremberg</div>
+            <div class="frise-detail" id="fd6"><strong>Septembre 1935</strong>Les Juifs perdent leur citoyenneté allemande. Début de l'exclusion légale des Juifs d'Allemagne.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd7')">
+            <div class="frise-date">1936–38</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Grandes Purges</div>
+            <div class="frise-detail" id="fd7"><strong>1936–1938</strong>Staline élimine des centaines de milliers d'opposants réels ou imaginaires. Des millions sont envoyés au Goulag.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd8')">
+            <div class="frise-date">1938</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Nuit de Cristal</div>
+            <div class="frise-detail" id="fd8"><strong>9-10 novembre 1938</strong>Pogroms organisés contre les Juifs en Allemagne. Synagogues brûlées, commerces détruits, 91 morts, 30 000 arrestations.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd9')">
+            <div class="frise-date">1939</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Début 2e guerre</div>
+            <div class="frise-detail" id="fd9"><strong>1er septembre 1939</strong>Hitler envahit la Pologne. La Seconde Guerre mondiale commence. Les régimes totalitaires plongent l'Europe dans la guerre.</div>
+          </div>
+        </div>
+      </div>
+      <div class="section" style="margin-top:14px">
+        <div class="section-head gris">📋 Tableau des dates clés</div>
+        <div class="section-body">
+          <table class="dates-table">
+            <tr><th>Date</th><th>Événement</th><th>Pays / Régime</th></tr>
+            <tr><td class="date-cell">1917</td><td class="event-cell">Révolution bolchevique</td><td class="detail-cell">URSS — Lénine prend le pouvoir</td></tr>
+            <tr><td class="date-cell">1922</td><td class="event-cell">Mussolini au pouvoir</td><td class="detail-cell">Italie — 1er régime fasciste d'Europe</td></tr>
+            <tr><td class="date-cell">1924</td><td class="event-cell">Staline prend le pouvoir</td><td class="detail-cell">URSS — après la mort de Lénine</td></tr>
+            <tr><td class="date-cell">Janvier 1933</td><td class="event-cell">Hitler chancelier</td><td class="detail-cell">Allemagne — début du nazisme</td></tr>
+            <tr><td class="date-cell">1935</td><td class="event-cell">Lois de Nuremberg</td><td class="detail-cell">Allemagne — exclusion légale des Juifs</td></tr>
+            <tr><td class="date-cell">1936–1938</td><td class="event-cell">Grandes Purges</td><td class="detail-cell">URSS — terreur stalinienne</td></tr>
+            <tr><td class="date-cell">Nov. 1938</td><td class="event-cell">Nuit de Cristal</td><td class="detail-cell">Allemagne — violences antisémites organisées</td></tr>
+            <tr><td class="date-cell">1939</td><td class="event-cell">Début 2e Guerre mondiale</td><td class="detail-cell">Hitler envahit la Pologne</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ QUIZ ══════ -->
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head rouge">❓ Quiz — Les régimes totalitaires</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Clique sur ta réponse.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score">
+        <div class="score-num" id="score-num"></div>
+        <div class="score-msg" id="score-msg"></div>
+        <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ EXERCICE ══════ -->
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head rouge">✏️ Exercice type brevet</div>
+    <div class="section-body">
+      <div class="info-box"><strong>Conditions :</strong> Lis le document, puis réponds aux questions. Temps conseillé : 25 minutes.</div>
+    </div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>📄 Document — Affiche de propagande nazie, 1936</h3>
+    <p>L'affiche représente Hitler en grand format, dominant la foule. En arrière-plan, des milliers de soldats et de civils brandissent des drapeaux à croix gammée. Le slogan en grosses lettres annonce : "Un peuple, un Reich, un Führer" (<em>Ein Volk, ein Reich, ein Führer</em>). Dans les coins de l'affiche, des images montrent des usines qui tournent, des familles "allemandes" heureuses et des soldats en marche.</p>
+    <p class="doc-source">Affiche officielle du Parti national-socialiste allemand des travailleurs (NSDAP), 1936. Reproduction à des fins pédagogiques.</p>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Présenter le document</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Présente ce document : quelle est sa nature ? Qui l'a produit ? Dans quel contexte ? Quel est son but ?</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p>Ce document est une <strong>affiche de propagande</strong>, c'est-à-dire un document visuel destiné à convaincre et à influencer l'opinion publique. Elle a été produite par le <strong>Parti nazi (NSDAP)</strong> en 1936, au moment où Hitler est au pouvoir depuis trois ans et cherche à renforcer son soutien populaire. Son but est de <strong>glorifier Hitler</strong> (présenté comme un chef tout-puissant) et de diffuser l'idéologie nazie : l'unité du peuple allemand autour d'un seul chef, d'un seul État et d'une seule idéologie.</p>
+        <div class="methode-box"><strong>💡 Méthode — présenter un document au brevet :</strong> Nature (affiche, texte, photo…) → auteur/producteur → date et contexte → but ou intention de l'auteur.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Propagande</em> = utilisation de médias pour influencer l'opinion en faveur d'un pouvoir. <em>NSDAP</em> = Parti national-socialiste allemand des travailleurs (parti nazi).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser les caractéristiques totalitaires</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>En t'appuyant sur le document et sur tes connaissances, relève <strong>trois caractéristiques du régime totalitaire nazi</strong> que cette affiche illustre. Explique chacune.</p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p><strong>1. Le culte du chef :</strong> Hitler est représenté en grand, dominant la foule. Il est présenté comme un être supérieur, indispensable. Le slogan "un Führer" montre que tout le pouvoir est concentré en lui seul.</p>
+        <p style="margin-top:8px"><strong>2. La propagande :</strong> cette affiche est un outil de propagande. Elle utilise des images fortes (foule unie, drapeaux, usines, soldats) pour donner une image positive et puissante du régime et faire croire que l'Allemagne est heureuse et forte grâce à Hitler.</p>
+        <p style="margin-top:8px"><strong>3. L'idéologie totalitaire (parti et État uniques) :</strong> le slogan "Un peuple, un Reich, un Führer" résume l'idée totalitaire : toute la société doit être unifiée derrière un seul chef, un seul État, une seule idéologie. Pas de place pour la diversité ou l'opposition.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour chaque caractéristique, cite d'abord un élément précis du document, puis explique ce qu'il illustre en lien avec le cours. Ne pas juste décrire — analyser.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Führer</em> = le Guide en allemand. Titre donné à Hitler. <em>Reich</em> = empire en allemand. Hitler appelait son régime le "Troisième Reich".</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Développement construit</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>En quelques lignes (8 à 12 lignes), explique comment les régimes totalitaires des années 1930 contrôlent la population. Tu répondras en t'appuyant sur <strong>au moins deux des trois régimes</strong> étudiés (URSS, Italie, Allemagne) et en donnant des exemples précis.</p>
+      <textarea id="rep3" placeholder="Écris ton développement ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Exemple de développement rédigé</h4>
+        <p>Dans les années 1930, les régimes totalitaires utilisent plusieurs moyens pour contrôler entièrement leur population.</p>
+        <p style="margin-top:8px">En premier lieu, ils ont recours à la <strong>terreur</strong>. En URSS, la police secrète (le NKVD) arrête et déporte des millions de personnes dans les camps du Goulag lors des Grandes Purges (1936–1938). En Allemagne, la Gestapo surveille et arrête les opposants au régime nazi dès 1933.</p>
+        <p style="margin-top:8px">En second lieu, la <strong>propagande</strong> permet de contrôler les esprits. En Allemagne, le ministre Goebbels contrôle tous les médias : radio, cinéma, affiches, journaux. En URSS, le culte de la personnalité de Staline est entretenu à travers des statues, des portraits et des chansons partout dans le pays.</p>
+        <p style="margin-top:8px">Enfin, les deux régimes suppriment toute opposition politique en imposant le <strong>parti unique</strong> : seul le Parti communiste existe en URSS, seul le NSDAP est autorisé en Allemagne.</p>
+        <div class="methode-box">
+          <strong>💡 Structure du développement construit :</strong><br>
+          Introduction (1 phrase) → Idée 1 + exemple → Idée 2 + exemple → (Idée 3 si possible) → Conclusion courte (1 phrase).
+        </div>
+        <div class="vocab-box">
+          <strong>📖 Mots de liaison utiles :</strong><br>
+          En premier lieu… — En second lieu… — Enfin… — De plus… — Par ailleurs… — En conclusion…
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS = [
+  {q:"Quelle est la caractéristique commune à TOUS les régimes totalitaires ?",
+   opts:["Un chef unique tout-puissant, un parti unique et la suppression des libertés","Des élections libres mais surveillées","Une économie entièrement libérale","L'alliance avec les démocraties occidentales"],
+   correct:0,
+   expl:"Tous les régimes totalitaires partagent les mêmes caractéristiques : chef unique (dictateur), parti unique (toute opposition interdite), terreur (police secrète), propagande (contrôle des médias) et suppression des libertés fondamentales. C'est ce qui les distingue des dictatures ordinaires."},
+  {q:"En quelle année Hitler devient-il chancelier d'Allemagne ?",
+   opts:["1933","1929","1935","1939"],
+   correct:0,
+   expl:"Hitler est nommé chancelier le 30 janvier 1933. En quelques mois, il concentre tous les pouvoirs et instaure la dictature nazie. 1929 est la crise économique, 1935 les lois de Nuremberg, 1939 le début de la guerre."},
+  {q:"Qu'est-ce que le Goulag ?",
+   opts:["Le réseau de camps de travaux forcés soviétiques en Sibérie","La police secrète nazie","Le parti fasciste de Mussolini","Le programme économique de Staline"],
+   correct:0,
+   expl:"Le Goulag est le réseau de camps de travaux forcés créé par Staline en URSS, principalement en Sibérie. Des millions de personnes y sont mortes de froid, de faim et d'épuisement. La police secrète nazie s'appelait la Gestapo, le parti de Mussolini le Parti national fasciste."},
+  {q:"Que prévoient les lois de Nuremberg (1935) ?",
+   opts:["Elles retirent aux Juifs leur citoyenneté allemande et interdisent les mariages mixtes","Elles créent la Gestapo","Elles officialisent l'alliance entre Hitler et Mussolini","Elles autorisent le réarmement de l'Allemagne"],
+   correct:0,
+   expl:"Les lois de Nuremberg, adoptées en septembre 1935, retirent aux Juifs leur citoyenneté allemande et interdisent les mariages entre Juifs et non-Juifs. C'est le début de l'exclusion légale des Juifs de la société allemande, qui mènera à la Shoah."},
+  {q:"Comment Mussolini prend-il le pouvoir en Italie en 1922 ?",
+   opts:["Par la 'Marche sur Rome' avec ses milices fascistes","Par un coup d'État militaire","En remportant des élections libres","Par une révolution populaire"],
+   correct:0,
+   expl:"En octobre 1922, Mussolini organise la 'Marche sur Rome' : des milliers de chemises noires (miliciens fascistes) marchent vers la capitale. Le roi Victor-Emmanuel III, impressionné, nomme Mussolini chef du gouvernement. Ce n'est pas un coup d'État classique mais une prise de pouvoir par la menace."},
+  {q:"Qu'est-ce que la propagande dans un régime totalitaire ?",
+   opts:["L'utilisation des médias (radio, affiches, cinéma) pour manipuler l'opinion en faveur du régime","Le programme économique du régime","La loi qui interdit les partis d'opposition","La police secrète chargée de surveiller les citoyens"],
+   correct:0,
+   expl:"La propagande est l'ensemble des techniques utilisées par le régime pour contrôler l'information et influencer les esprits. En Allemagne, Goebbels contrôle tous les médias. En URSS, les portraits de Staline sont partout. L'objectif est de faire croire à la supériorité et à la légitimité du régime."},
+  {q:"Quelle est la différence principale entre le nazisme et le stalinisme ?",
+   opts:["Le nazisme repose sur le racisme et l'antisémitisme ; le stalinisme sur l'idéologie communiste (égalité sociale)","Il n'y a aucune différence, les deux sont identiques","Le stalinisme est plus violent que le nazisme","Le nazisme est une idéologie de gauche, le stalinisme de droite"],
+   correct:0,
+   expl:"La différence principale est idéologique. Le nazisme est fondé sur la supériorité raciale 'aryenne' et l'antisémitisme : les Juifs sont désignés comme ennemis à éliminer. Le stalinisme est fondé sur l'idéologie communiste (collectivité, égalité, suppression des classes sociales). Les deux utilisent la terreur mais pour des buts différents."},
+  {q:"Qu'est-ce que la Nuit de Cristal (novembre 1938) ?",
+   opts:["Un pogrom organisé contre les Juifs en Allemagne : synagogues brûlées, commerces détruits, arrestations","L'entrée en guerre de l'Allemagne contre la France","L'annexion de l'Autriche par Hitler","La création de la Gestapo"],
+   correct:0,
+   expl:"La Nuit de Cristal (9-10 novembre 1938) est une série de pogroms organisés par les nazis contre les Juifs d'Allemagne. En une nuit : synagogues brûlées, commerces détruits, 91 morts officiels, environ 30 000 Juifs arrêtés et envoyés en camp de concentration. Le nom vient des vitres brisées des commerces juifs."},
+  {q:"Pourquoi Hitler arrive-t-il au pouvoir en 1933 ?",
+   opts:["La crise économique de 1929 a créé un chômage massif en Allemagne, et les Allemands humiliés par le traité de Versailles cherchaient un sauveur","L'Allemagne était déjà une dictature depuis 1918","Les pays étrangers ont imposé Hitler à l'Allemagne","Hitler a gagné une guerre civile contre le gouvernement"],
+   correct:0,
+   expl:"Plusieurs facteurs expliquent l'arrivée de Hitler : la crise de 1929 (chômage massif), l'humiliation du traité de Versailles (1919), la faiblesse de la République de Weimar, et la propagande nazie qui désigne des boucs émissaires (Juifs, communistes). Hitler est d'abord élu légalement avant d'instaurer la dictature."},
+  {q:"Quel pays adopte le premier un régime fasciste en Europe ?",
+   opts:["L'Italie (1922) avec Mussolini","L'Allemagne (1933) avec Hitler","L'Espagne (1939) avec Franco","Le Portugal (1926) avec Salazar"],
+   correct:0,
+   expl:"L'Italie est le premier pays à adopter un régime fasciste en Europe, avec Mussolini qui prend le pouvoir en 1922. Le fascisme italien sert de modèle à Hitler pour construire le nazisme. L'Allemagne suit en 1933, l'Espagne adopte une dictature en 1939 et le Portugal en 1926 (mais de nature différente)."},
+  {q:"Que signifie 'culte de la personnalité' dans un régime totalitaire ?",
+   opts:["La glorification extrême du chef, présenté comme un être supérieur et infaillible","Les élections organisées pour choisir le chef","Le programme culturel du régime pour éduquer la jeunesse","La liberté de la presse accordée au chef du gouvernement"],
+   correct:0,
+   expl:"Le culte de la personnalité est la glorification extrême d'un dirigeant : on le présente comme un être supérieur, sage, indispensable, presque divin. Staline était 'le Petit Père des Peuples', Hitler le 'Führer' (le Guide), Mussolini le 'Duce'. Portraits, statues, chansons, affiches renforcent cette image partout dans le pays."},
+  {q:"Quelle est la principale conséquence des régimes totalitaires pour les populations ?",
+   opts:["La suppression des libertés fondamentales, la terreur et des millions de victimes","Une grande prospérité économique pour tous","La paix durable en Europe","Le renforcement de la démocratie"],
+   correct:0,
+   expl:"Les régimes totalitaires ont provoqué des millions de morts (Goulag, purges, persécutions) et supprimé toutes les libertés fondamentales (liberté d'expression, de la presse, d'association, de vote). Ils ont également mené l'Europe vers la Seconde Guerre mondiale, qui fera encore plus de victimes."}
+];
+
+var answered = {};
+var score = 0;
+
+function showPanel(id, tab) {
+  var panels = document.querySelectorAll('.panel');
+  var tabs = document.querySelectorAll('.tab');
+  for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-' + id).classList.add('active');
+  tab.classList.add('active');
+}
+
+function toggleDetail(id) {
+  var all = document.querySelectorAll('.frise-detail');
+  for (var i = 0; i < all.length; i++) { if (all[i].id !== id) all[i].classList.remove('show'); }
+  document.getElementById(id).classList.toggle('show');
+}
+
+function showCorr(id) { document.getElementById(id).classList.toggle('show'); }
+
+function buildQuiz() {
+  var c = document.getElementById('quiz-container');
+  c.innerHTML = '';
+  answered = {};
+  score = 0;
+  for (var i = 0; i < QUESTIONS.length; i++) {
+    var q = QUESTIONS[i];
+    var div = document.createElement('div');
+    div.className = 'quiz-q';
+    var opts = '';
+    for (var j = 0; j < q.opts.length; j++) {
+      opts += '<button class="quiz-opt" onclick="answer(' + i + ',' + j + ')">' + q.opts[j] + '</button>';
+    }
+    div.innerHTML = '<div class="quiz-q-head"><span class="quiz-q-num">' + (i+1) + '</span>' + q.q + '</div>'
+      + '<div class="quiz-options" id="opts-' + i + '">' + opts + '</div>'
+      + '<div class="quiz-expl" id="expl-' + i + '"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+
+function answer(qi, choice) {
+  if (answered[qi] !== undefined) return;
+  answered[qi] = choice;
+  var q = QUESTIONS[qi];
+  var opts = document.querySelectorAll('#opts-' + qi + ' .quiz-opt');
+  for (var i = 0; i < opts.length; i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice === q.correct ? 'correct' : 'wrong');
+  if (choice !== q.correct) opts[q.correct].classList.add('correct');
+  var ok = choice === q.correct;
+  if (ok) score++;
+  var expl = document.getElementById('expl-' + qi);
+  expl.innerHTML = '<span class="' + (ok ? 'tag-ok' : 'tag-ar') + '">' + (ok ? '✓ Bonne réponse !' : '✗ À revoir') + '</span><br>' + q.expl;
+  expl.classList.add('show');
+  if (Object.keys(answered).length === QUESTIONS.length) showScore();
+}
+
+function showScore() {
+  var pct = Math.round(score / QUESTIONS.length * 100);
+  document.getElementById('score-num').textContent = score + '/' + QUESTIONS.length;
+  var msg = pct >= 90 ? '🎉 Excellent Zach ! Les régimes totalitaires sont maîtrisés !'
+    : pct >= 70 ? '👍 Très bien ! Relis les questions "à revoir".'
+    : pct >= 50 ? '💪 Pas mal ! Relis la fiche et retente.'
+    : '📋 Relis bien la fiche, surtout les 3 régimes. Tu vas y arriver !';
+  document.getElementById('score-msg').textContent = msg;
+  document.getElementById('quiz-score').classList.add('show');
+}
+
+function resetQuiz() { buildQuiz(); }
+
+buildQuiz();
+
+window.showPanel = showPanel;
+window.toggleDetail = toggleDetail;
+window.showCorr = showCorr;
+window.answer = answer;
+window.resetQuiz = resetQuiz;
+</script>
+</body>
+</html>
