@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H5 — La Résistance et la Libération</title>
+<style>
+  :root{--rouge:#C0392B;--rouge-light:#FADBD8;--rouge-mid:#E74C3C;--bleu:#1A5276;--bleu-light:#D6EAF8;--vert:#1E8449;--vert-light:#D5F5E3;--orange:#D35400;--orange-light:#FDEBD0;--violet:#6C3483;--violet-light:#E8DAEF;--gris:#5D6D7E;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--rouge);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--rouge);border-bottom-color:var(--rouge)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.rouge{background:var(--rouge)}.section-head.bleu{background:var(--bleu)}.section-head.vert{background:var(--vert)}.section-head.orange{background:var(--orange)}.section-head.violet{background:var(--violet)}.section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--rouge);font-weight:700}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--rouge-light);color:var(--rouge);font-weight:700;font-size:12px;padding:8px 12px;min-width:140px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .perso-row{display:-webkit-flex;display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);-webkit-align-items:flex-start;align-items:flex-start}
+  .perso-row:last-child{border-bottom:none}
+  .perso-avatar{width:40px;height:40px;border-radius:50%;background:var(--rouge);color:white;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+  .perso-info{flex:1}
+  .perso-nom{font-weight:700;font-size:13px;color:var(--rouge);margin-bottom:2px}
+  .perso-camp{font-size:10px;background:var(--rouge-light);color:var(--rouge);padding:1px 8px;border-radius:20px;display:inline-block;margin-bottom:4px}
+  .perso-desc{font-size:12px;color:var(--muted);line-height:1.5}
+  .dates-table{width:100%;border-collapse:collapse;font-size:13px}
+  .dates-table th{background:var(--rouge);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .dates-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .dates-table tr:last-child td{border-bottom:none}
+  .dates-table tr:nth-child(even) td{background:#FFF8F8}
+  .dates-table .date-cell{font-weight:700;color:var(--rouge);white-space:nowrap;min-width:90px}
+  .dates-table .event-cell{font-weight:600}
+  .dates-table .detail-cell{color:var(--muted);font-size:12px}
+  .frise-container{overflow-x:auto;padding-bottom:6px}
+  .frise{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:0;min-width:820px;padding:20px 10px 10px;position:relative}
+  .frise::before{content:'';position:absolute;top:42px;left:10px;right:10px;height:3px;background:linear-gradient(90deg,var(--rouge),var(--orange),var(--bleu));z-index:0}
+  .frise-item{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;position:relative;z-index:1;cursor:pointer}
+  .frise-dot{width:16px;height:16px;border-radius:50%;background:var(--rouge);border:3px solid white;box-shadow:0 0 0 2px var(--rouge);margin-bottom:8px;transition:transform 0.15s}
+  .frise-item:hover .frise-dot{transform:scale(1.4)}
+  .frise-item.important .frise-dot{width:22px;height:22px;background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+  .frise-date{font-size:10px;font-weight:700;color:var(--rouge);text-align:center;margin-bottom:4px;line-height:1.2}
+  .frise-label{font-size:10px;color:var(--muted);text-align:center;max-width:80px;line-height:1.3}
+  .frise-detail{display:none;background:white;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6;margin-top:8px;max-width:160px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.1);position:absolute;top:70px;z-index:10;min-width:140px}
+  .frise-detail.show{display:block}
+  .frise-detail strong{color:var(--rouge);display:block;margin-bottom:4px}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--rouge);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--rouge);background:var(--rouge-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--rouge);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.8}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--rouge-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--rouge);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--rouge);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--rouge)}
+  .btn-corr{background:var(--rouge);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  @media(max-width:500px){header h1{font-size:17px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🏴 H5 — La Résistance et la Libération</h1>
+  <p>Fiche complète · Séquence 5 · Histoire · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('frise',this)">📅 Frise</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head rouge">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>En une phrase :</strong> Pendant l'occupation nazie (1940–1944), des Français refusent la défaite et s'organisent pour combattre l'occupant : c'est la <strong>Résistance</strong>. Grâce aux Alliés et aux Résistants, la France est libérée en 1944–1945. La Résistance joue un rôle crucial dans la reconstruction d'une France républicaine et digne après la collaboration de Vichy.</div>
+      <div class="brevet-box"><strong>🎯 Au brevet :</strong> distinguer Résistance intérieure et France libre, décrire les formes d'action de la Résistance, expliquer le rôle du Conseil National de la Résistance, situer la Libération dans le temps.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head rouge">🎙️ L'appel du 18 juin 1940 — le point de départ</div>
+    <div class="section-body">
+      <div class="warn-box"><strong>Contexte :</strong> Le 22 juin 1940, la France signe l'armistice avec l'Allemagne. La majorité des Français acceptent la défaite. Le maréchal Pétain dirige le gouvernement de Vichy et collabore avec les nazis.</div>
+      <ul class="bull-list">
+        <li><strong>Le 18 juin 1940 :</strong> depuis Londres, le général de Gaulle lance à la radio (BBC) un appel à ne pas accepter la défaite. Il dit que la France a perdu une bataille, mais pas la guerre. Peu de Français l'entendent sur le moment, mais cet appel devient le symbole de la Résistance.</li>
+        <li><strong>La France libre :</strong> de Gaulle organise depuis Londres les Forces Françaises Libres (FFL) — des soldats français qui continuent à combattre aux côtés des Alliés (Angleterre, États-Unis, URSS).</li>
+        <li><strong>Importance :</strong> de Gaulle représente la France légitime face au gouvernement de Vichy qu'il considère comme illégal.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">🕵️ La Résistance intérieure en France</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">La Résistance intérieure est l'ensemble des personnes qui, depuis la France occupée, combattent clandestinement l'occupant nazi et le régime de Vichy.</p>
+      <ul class="bull-list">
+        <li><strong>Qui résiste ?</strong> Des hommes et des femmes de tous milieux : ouvriers, étudiants, intellectuels, prêtres, communistes, gaullistes… Des étrangers aussi (Espagnols républicains, Polonais…). Minorité au départ, la Résistance grandit au fil de la guerre.</li>
+        <li><strong>Les réseaux clandestins :</strong> groupes organisés pour collecter des informations (renseignement), les transmettre aux Alliés, faire passer des personnes en zone libre ou en Espagne (filières d'évasion), cacher des Juifs.</li>
+        <li><strong>La presse clandestine :</strong> journaux interdits imprimés et distribués en secret (Combat, Libération, Franc-Tireur). Ils informent la population sur la réalité de l'occupation et maintiennent l'espoir.</li>
+        <li><strong>Les maquis :</strong> groupes armés réfugiés dans les forêts, les montagnes (Vercors, Massif central). Ils sabotent les voies ferrées, les dépôts d'armes, les lignes de communication pour gêner les Allemands. Le Service du Travail Obligatoire (STO) — envoi forcé de Français en Allemagne — pousse beaucoup de jeunes à rejoindre les maquis.</li>
+      </ul>
+      <div class="success-box"><strong>Le Conseil National de la Résistance (CNR) :</strong> En mai 1943, Jean Moulin (envoyé par de Gaulle) réunit tous les mouvements de résistance intérieure en un seul conseil. Le CNR donne un programme pour l'après-guerre : Sécurité sociale, droit de vote des femmes, nationalisations… Ce programme reste une référence jusqu'à aujourd'hui.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">🌊 La Libération (1944–1945)</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li><strong>6 juin 1944 — le Débarquement (Jour J) :</strong> les Alliés (américains, britanniques, canadiens, avec des Français) débarquent en Normandie. C'est la plus grande opération militaire de l'histoire. Ils ouvrent un front à l'Ouest et avancent vers Paris.</li>
+        <li><strong>15 août 1944 :</strong> second débarquement allié en Provence (sur la Côte d'Azur). Les Alliés remontent par le couloir du Rhône.</li>
+        <li><strong>25 août 1944 — libération de Paris :</strong> les Résistants parisiens se soulèvent. La 2e Division Blindée du général Leclerc entre dans Paris. De Gaulle défile sur les Champs-Élysées. C'est un moment de joie immense pour les Français.</li>
+        <li><strong>Automne–hiver 1944 :</strong> libération progressive du reste de la France. Certaines zones restent occupées jusqu'en mai 1945 (poches de résistance allemandes sur la côte Atlantique).</li>
+        <li><strong>8 mai 1945 :</strong> capitulation de l'Allemagne. La guerre est terminée en Europe. La France est entièrement libérée.</li>
+      </ul>
+      <div class="warn-box"><strong>⚠️ L'épuration :</strong> à la Libération, des Français accusés d'avoir collaboré avec les nazis sont jugés. Des centaines sont exécutés, des milliers condamnés à des peines de prison ou à la dégradation nationale. Le maréchal Pétain est condamné à mort (peine commuée en prison à vie par de Gaulle).</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head violet">👤 Personnages clés</div>
+    <div class="section-body">
+      <div class="perso-row">
+        <div class="perso-avatar">DG</div>
+        <div class="perso-info">
+          <div class="perso-nom">Charles de Gaulle (1890–1970)</div>
+          <div class="perso-camp">Chef de la France libre — Londres</div>
+          <div class="perso-desc">Général français qui refuse la défaite et lance l'Appel du 18 juin 1940. Dirige la France libre depuis Londres. Rentre en France en 1944 et devient chef du gouvernement provisoire. Fondateur de la Ve République en 1958.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">JM</div>
+        <div class="perso-info">
+          <div class="perso-nom">Jean Moulin (1899–1943)</div>
+          <div class="perso-camp">Résistant — délégué de De Gaulle</div>
+          <div class="perso-desc">Préfet devenu résistant. Envoyé par de Gaulle en France pour unifier les mouvements de résistance. Fonde le CNR en mai 1943. Arrêté par la Gestapo (dénoncé), torturé et tué en juillet 1943. Symbole du résistant héroïque.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">LE</div>
+        <div class="perso-info">
+          <div class="perso-nom">Général Leclerc (1902–1947)</div>
+          <div class="perso-camp">Commandant de la 2e Division Blindée</div>
+          <div class="perso-desc">Commande la 2e Division Blindée (2e DB) — la principale unité blindée française des Forces Françaises Libres. Entre dans Paris le 25 août 1944 pour libérer la capitale. Libère aussi Strasbourg en novembre 1944.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">LU</div>
+        <div class="perso-info">
+          <div class="perso-nom">Lucie Aubrac (1912–2007)</div>
+          <div class="perso-camp">Résistante — réseau Libération</div>
+          <div class="perso-desc">Résistante de la première heure, membre du réseau Libération-Sud. Organise l'évasion de son mari Raymond Aubrac de la prison de la Gestapo. Symbole des femmes dans la Résistance.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head gris">📋 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Résistance</div><div class="mc-def">Ensemble des actions menées contre l'occupant nazi et le régime de Vichy pendant la Seconde Guerre mondiale, de façon clandestine (en secret).</div></div>
+      <div class="mc-row"><div class="mc-terme">France libre</div><div class="mc-def">Organisation créée par de Gaulle à Londres pour continuer le combat contre les nazis. Regroupe des soldats français qui refusent l'armistice.</div></div>
+      <div class="mc-row"><div class="mc-terme">CNR</div><div class="mc-def">Conseil National de la Résistance. Fondé par Jean Moulin en mai 1943. Réunit tous les mouvements de résistance et élabore un programme pour l'après-guerre.</div></div>
+      <div class="mc-row"><div class="mc-terme">Maquis</div><div class="mc-def">Groupes de résistants armés cachés dans les forêts et montagnes. Mènent des actions de sabotage contre les Allemands.</div></div>
+      <div class="mc-row"><div class="mc-terme">STO</div><div class="mc-def">Service du Travail Obligatoire. Loi de Vichy (1943) obligeant les jeunes Français à travailler dans les usines allemandes. Beaucoup fuient vers les maquis.</div></div>
+      <div class="mc-row"><div class="mc-terme">Débarquement</div><div class="mc-def">6 juin 1944 : arrivée massive de soldats alliés en Normandie. Point de départ de la libération de la France.</div></div>
+      <div class="mc-row"><div class="mc-terme">Épuration</div><div class="mc-def">Période après la Libération où les collaborateurs sont jugés et punis. Certains sont exécutés, d'autres emprisonnés ou privés de droits civiques.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-frise">
+  <div class="section">
+    <div class="section-head rouge">📅 Frise chronologique — Résistance et Libération</div>
+    <div class="section-body">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Clique sur un point pour voir le détail.</p>
+      <div class="frise-container">
+        <div class="frise">
+          <div class="frise-item important" onclick="toggleDetail('fd1')">
+            <div class="frise-date">18 juin 1940</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Appel de De Gaulle</div>
+            <div class="frise-detail" id="fd1"><strong>18 juin 1940</strong>De Gaulle lance depuis la BBC à Londres son appel à résister. Symbole du refus de la défaite.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd2')">
+            <div class="frise-date">1941</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Premiers réseaux</div>
+            <div class="frise-detail" id="fd2"><strong>1941</strong>Les premiers réseaux de résistance s'organisent en France : Combat, Libération, Franc-Tireur. Presse clandestine, filières d'évasion.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd3')">
+            <div class="frise-date">Mai 1943</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">CNR fondé</div>
+            <div class="frise-detail" id="fd3"><strong>27 mai 1943</strong>Jean Moulin réunit tous les mouvements de résistance au Conseil National de la Résistance (CNR). Unification de la Résistance.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd4')">
+            <div class="frise-date">Juin 1943</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Arrestation Moulin</div>
+            <div class="frise-detail" id="fd4"><strong>21 juin 1943</strong>Jean Moulin est arrêté par la Gestapo à Caluire (Lyon), dénoncé. Il meurt sous la torture en juillet 1943.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd5')">
+            <div class="frise-date">6 juin 1944</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Débarquement</div>
+            <div class="frise-detail" id="fd5"><strong>6 juin 1944 — Jour J</strong>Débarquement allié en Normandie. La libération de la France commence. Les Résistants intensifient les sabotages.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd6')">
+            <div class="frise-date">15 août 1944</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Débarquement Provence</div>
+            <div class="frise-detail" id="fd6"><strong>15 août 1944</strong>Second débarquement allié sur la Côte d'Azur. Libération du Sud de la France.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd7')">
+            <div class="frise-date">25 août 1944</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Paris libéré</div>
+            <div class="frise-detail" id="fd7"><strong>25 août 1944</strong>La 2e DB du général Leclerc entre dans Paris. De Gaulle défile sur les Champs-Élysées. Joie immense.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd8')">
+            <div class="frise-date">8 mai 1945</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Victoire en Europe</div>
+            <div class="frise-detail" id="fd8"><strong>8 mai 1945</strong>L'Allemagne capitule. Fin de la guerre en Europe. La France est entièrement libérée.</div>
+          </div>
+        </div>
+      </div>
+      <div class="section" style="margin-top:14px">
+        <div class="section-head gris">📋 Tableau des dates clés</div>
+        <div class="section-body">
+          <table class="dates-table">
+            <tr><th>Date</th><th>Événement</th><th>Importance</th></tr>
+            <tr><td class="date-cell">18 juin 1940</td><td class="event-cell">Appel du général de Gaulle</td><td class="detail-cell">Naissance de la France libre — symbole du refus</td></tr>
+            <tr><td class="date-cell">1941</td><td class="event-cell">Organisation des premiers réseaux</td><td class="detail-cell">Résistance intérieure s'organise</td></tr>
+            <tr><td class="date-cell">27 mai 1943</td><td class="event-cell">Fondation du CNR</td><td class="detail-cell">Unification de la Résistance par Jean Moulin</td></tr>
+            <tr><td class="date-cell">6 juin 1944</td><td class="event-cell">Débarquement en Normandie</td><td class="detail-cell">Début de la libération militaire</td></tr>
+            <tr><td class="date-cell">15 août 1944</td><td class="event-cell">Débarquement en Provence</td><td class="detail-cell">Libération du Sud</td></tr>
+            <tr><td class="date-cell">25 août 1944</td><td class="event-cell">Libération de Paris</td><td class="detail-cell">Symbole de la Libération française</td></tr>
+            <tr><td class="date-cell">8 mai 1945</td><td class="event-cell">Capitulation de l'Allemagne</td><td class="detail-cell">Fin de la guerre en Europe</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head rouge">❓ Quiz — La Résistance et la Libération</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Clique sur ta réponse.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score"><div class="score-num" id="score-num"></div><div class="score-msg" id="score-msg"></div><button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head rouge">✏️ Exercice type brevet</div>
+    <div class="section-body"><div class="info-box"><strong>Conditions :</strong> Lis le document, puis réponds. Temps conseillé : 25 minutes.</div></div>
+  </div>
+  <div class="doc-brevet">
+    <h3>📄 Document — Extrait du programme du CNR, mars 1944</h3>
+    <p>Le Conseil National de la Résistance demande, pour après la guerre : l'instauration d'une démocratie véritable permettant à chaque citoyen de participer aux décisions ; l'égalité absolue entre tous les Français, sans distinction de religion ou d'origine ; un plan complet de Sécurité sociale pour garantir à tous les moyens de vivre dignement ; le droit de vote accordé aux femmes françaises ; la nationalisation des grandes entreprises d'intérêt commun.</p>
+    <p class="doc-source">D'après le programme du Conseil National de la Résistance, « Les Jours heureux », 15 mars 1944. Adapté à des fins pédagogiques.</p>
+  </div>
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Présenter le document</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Présente ce document : nature, auteur, date, contexte. Qu'est-ce que le CNR ?</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p>Ce document est un <strong>texte programmatique</strong> (un programme politique), extrait du programme du <strong>Conseil National de la Résistance (CNR)</strong>, publié le 15 mars 1944, intitulé "Les Jours heureux".</p>
+        <p style="margin-top:8px">Le CNR a été fondé le 27 mai 1943 par <strong>Jean Moulin</strong>, envoyé par de Gaulle pour unifier tous les mouvements de résistance intérieure. Il regroupe des résistants de toutes tendances (gaullistes, communistes, socialistes…). Ce programme est rédigé alors que la guerre n'est pas encore terminée — le Débarquement aura lieu 3 mois plus tard — mais la Résistance pense déjà à l'après-guerre.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Nature → Auteur → Date → Contexte historique → Expliquer le terme clé demandé (ici : CNR).</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Programme politique</em> = liste de réformes et d'objectifs qu'un groupe politique souhaite mettre en œuvre. <em>Nationalisation</em> = transfert d'une entreprise privée à l'État.</div>
+      </div>
+    </div>
+  </div>
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser les mesures</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Relève trois mesures proposées par le CNR. Pour chacune, explique en quoi elle représente un progrès par rapport à la France d'avant-guerre ou d'occupation.</p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p><strong>1. La Sécurité sociale :</strong> le CNR demande un système qui garantit à tous un revenu en cas de maladie, de vieillesse ou de chômage. Avant la guerre, les travailleurs sans emploi ou malades n'avaient aucune protection : la misère était totale. La Sécu, créée en 1945, change la vie de millions de Français.</p>
+        <p style="margin-top:8px"><strong>2. Le droit de vote des femmes :</strong> en 1944, les femmes françaises ne votaient pas encore — contrairement à leurs voisines anglaises ou américaines. Le CNR demande leur égalité politique totale. Ce droit sera accordé en avril 1944.</p>
+        <p style="margin-top:8px"><strong>3. L'égalité sans distinction de religion ou d'origine :</strong> sous Vichy, les Juifs étaient exclus de la société française, privés de leurs droits. Ce point du programme affirme au contraire que tous les Français sont égaux, quelle que soit leur religion ou leur origine. C'est un retour aux valeurs républicaines.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour chaque mesure → la citer → expliquer la situation avant → expliquer le progrès apporté.</div>
+      </div>
+    </div>
+  </div>
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Développement construit</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>En vous appuyant sur le document et vos connaissances, montrez en 8 à 12 lignes pourquoi la Résistance française a joué un rôle important, à la fois pendant la guerre et pour l'après-guerre.</p>
+      <textarea id="rep3" placeholder="Écris ton développement ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Exemple de développement rédigé</h4>
+        <p>La Résistance française a joué un rôle capital, aussi bien pendant le conflit qu'en préparant l'avenir de la France.</p>
+        <p style="margin-top:8px">Pendant la guerre, la Résistance intérieure aide concrètement les Alliés. Les réseaux transmettent des renseignements sur les positions allemandes, sabotent les voies ferrées et les dépôts d'armes pour freiner les Allemands, et aident des soldats alliés à s'échapper. Les maquis (groupes armés dans les forêts et montagnes) harcèlent l'occupant. Lors du Débarquement de juin 1944, les sabotages des résistants ralentissent les renforts allemands et facilitent l'avancée alliée.</p>
+        <p style="margin-top:8px">Mais la Résistance prépare aussi l'avenir. Le programme du CNR de mars 1944 (document) propose un projet de société : Sécurité sociale, droit de vote des femmes, égalité de tous les Français. Ces mesures sont appliquées dès 1944–1945 et transforment profondément la France.</p>
+        <p style="margin-top:8px">Enfin, la Résistance permet à la France de sortir de la guerre la tête haute malgré la collaboration de Vichy : elle redonne à la France une légitimité morale et politique.</p>
+        <div class="methode-box"><strong>💡 Structure :</strong> Introduction → Rôle pendant la guerre (militaire) → Rôle pour l'après-guerre (programme) → Rôle symbolique/politique.</div>
+        <div class="vocab-box"><strong>📖 Mots clés :</strong> résistance — CNR — maquis — sabotage — renseignement — programme — Sécurité sociale — légitimité.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS=[
+  {q:"Quand et depuis où de Gaulle lance-t-il son appel à résister ?",opts:["Le 18 juin 1940 depuis Londres (radio BBC)","Le 22 juin 1940 depuis Paris","Le 8 mai 1945 depuis Berlin","Le 6 juin 1944 depuis la Normandie"],correct:0,expl:"Le 18 juin 1940, depuis les studios de la BBC à Londres, le général de Gaulle lance son appel à ne pas accepter la défaite. Peu de Français l'entendent sur le moment, mais cet appel devient le symbole du refus et le point de départ de la France libre. Le 22 juin 1940, c'est la signature de l'armistice."},
+  {q:"Qu'est-ce que la France libre ?",opts:["L'organisation créée par de Gaulle à Londres pour continuer le combat aux côtés des Alliés","Le gouvernement de Vichy qui collabore avec les nazis","La zone sud de la France non occupée par les Allemands","Les maquis qui se battent en France"],correct:0,expl:"La France libre est l'organisation militaire et politique créée par de Gaulle à Londres. Elle regroupe des soldats français (Forces Françaises Libres) qui refusent l'armistice et continuent à combattre aux côtés des Britanniques, Américains et Soviétiques. De Gaulle considère le gouvernement de Vichy comme illégitime."},
+  {q:"Qu'est-ce que le CNR et qui l'a fondé ?",opts:["Le Conseil National de la Résistance, fondé par Jean Moulin en mai 1943, pour unifier tous les mouvements de résistance","Le Comité Nazi de Répression, fondé par la Gestapo","Le Corps National de la République, fondé par de Gaulle en 1944","Le Comité de Nouvelle Résistance, fondé par Pétain"],correct:0,expl:"Le Conseil National de la Résistance (CNR) est fondé le 27 mai 1943 par Jean Moulin, envoyé par de Gaulle en France pour coordonner les mouvements de résistance. Il réunit des gaullistes, des communistes, des socialistes et des syndicats dans un même conseil. Son programme ('Les Jours heureux') prévoit les grandes réformes de l'après-guerre."},
+  {q:"Qu'est-ce que le STO et quel effet a-t-il eu sur la Résistance ?",opts:["Service du Travail Obligatoire : loi Vichy qui envoie des Français travailler en Allemagne ; beaucoup fuient vers les maquis plutôt que de partir","Service des Terres Occupées : organisation nazie pour exploiter les terres françaises","Service de Transmission par Ondes : réseau radio clandestin de la Résistance","Syndicat des Travailleurs de l'Ouest : syndicat clandestin anti-nazi"],correct:0,expl:"Le Service du Travail Obligatoire (STO), instauré par Vichy en 1943, oblige les jeunes Français à aller travailler dans les usines allemandes. Plutôt que d'obéir, beaucoup de jeunes fuient et rejoignent les maquis (groupes armés dans les forêts et montagnes). Le STO a donc paradoxalement renforcé la Résistance armée."},
+  {q:"Qui est Jean Moulin et quel est son destin ?",opts:["Délégué de De Gaulle qui unifie la Résistance au CNR en 1943, puis arrêté, torturé et tué par la Gestapo","Général français qui commande le Débarquement en Normandie","Président du gouvernement de Vichy sous Pétain","Résistant communiste qui libère Paris en août 1944"],correct:0,expl:"Jean Moulin est un haut fonctionnaire (préfet) devenu résistant. Envoyé par de Gaulle, il parvient à unifier tous les mouvements de résistance au sein du CNR (27 mai 1943). Quelques semaines plus tard, le 21 juin 1943, il est arrêté par la Gestapo à Caluire (Lyon), probablement dénoncé. Il meurt sous les tortures sans avoir parlé en juillet 1943. Il est devenu le symbole du résistant héroïque."},
+  {q:"Que se passe-t-il le 25 août 1944 ?",opts:["Paris est libéré par la 2e DB du général Leclerc et De Gaulle défile sur les Champs-Élysées","Le Débarquement en Normandie a lieu","L'Allemagne signe sa capitulation","La Résistance parisienne est écrasée par les Allemands"],correct:0,expl:"Le 25 août 1944, la 2e Division Blindée du général Leclerc entre dans Paris après le soulèvement des Résistants parisiens. C'est la libération de la capitale. De Gaulle défile sur les Champs-Élysées devant une foule immense en liesse. C'est le symbole de la Libération de la France, même si des zones resteront occupées jusqu'en mai 1945."},
+  {q:"Quelles sont les formes d'action de la Résistance intérieure ?",opts:["Presse clandestine, renseignement, sabotages, filières d'évasion, aide aux Juifs, combats des maquis","Collaboration avec les nazis pour obtenir leur confiance puis les trahir","Grèves dans les usines et manifestations publiques","Vote contre les lois de Vichy à l'Assemblée nationale"],correct:0,expl:"La Résistance intérieure agit de multiples façons : journaux clandestins (Combat, Libération) pour informer la population ; réseaux de renseignement qui transmettent des informations aux Alliés ; filières d'évasion pour faire fuir les Juifs et les soldats alliés ; sabotages de voies ferrées et de dépôts d'armes ; maquis armés dans les forêts et montagnes."},
+  {q:"Qu'est-ce que l'épuration à la Libération ?",opts:["La période de jugement et punition des collaborateurs après la Libération","La purification des rues de Paris après les combats","Le nettoyage des archives du régime de Vichy","L'expulsion des Allemands du territoire français"],correct:0,expl:"L'épuration est la période qui suit immédiatement la Libération (1944–1945) pendant laquelle les Français accusés d'avoir collaboré avec les nazis sont jugés. Certains sont exécutés (notamment ceux qui ont dénoncé des résistants ou livré des Juifs), d'autres condamnés à la prison ou à la 'dégradation nationale' (perte des droits civiques). Le maréchal Pétain est condamné à mort, peine commuée en emprisonnement à vie par de Gaulle."},
+  {q:"Quand a lieu le second débarquement allié en France en 1944 ?",opts:["15 août 1944 en Provence (Côte d'Azur)","6 juin 1944 en Normandie","25 août 1944 à Paris","8 mai 1945 à Strasbourg"],correct:0,expl:"Le 15 août 1944, un second débarquement allié a lieu sur les côtes de Provence (Côte d'Azur), souvent appelé le 'Débarquement de Provence' ou 'Dragoon'. Des soldats américains et français (dont des soldats d'Afrique du Nord) remontent ensuite par la vallée du Rhône pour libérer le Sud de la France. Le débarquement du 6 juin 1944 est en Normandie."},
+  {q:"Quel programme le CNR prévoit-il pour l'après-guerre ?",opts:["Sécurité sociale, droit de vote des femmes, nationalisations, égalité entre tous les Français","Retour à la monarchie et aux valeurs traditionnelles","Alliance avec l'URSS et instauration du communisme en France","Réarmement de l'Allemagne pour éviter une nouvelle guerre"],correct:0,expl:"Le programme du CNR ('Les Jours heureux', mars 1944) prévoit les grandes réformes qui transformeront la France après la guerre : création de la Sécurité sociale, droit de vote accordé aux femmes (avril 1944), nationalisation des grandes entreprises (énergie, banques), garantie de l'égalité entre tous les Français. Ce programme est largement mis en œuvre entre 1944 et 1946."},
+  {q:"Qui est le général Leclerc et quel est son rôle en 1944 ?",opts:["Il commande la 2e Division Blindée qui libère Paris le 25 août 1944","Il organise la Résistance intérieure depuis Lyon","Il dirige le gouvernement provisoire de De Gaulle","Il commande les forces américaines lors du Débarquement"],correct:0,expl:"Le général Leclerc commande la 2e Division Blindée (2e DB), la principale unité blindée française. Il participe au Débarquement et avance vers Paris. Le 25 août 1944, la 2e DB entre dans Paris et libère la capitale. Leclerc libère ensuite Strasbourg en novembre 1944. Il est l'un des grands chefs militaires français de la guerre."},
+  {q:"Pourquoi l'Appel du 18 juin 1940 est-il si important historiquement ?",opts:["Il symbolise le refus de la défaite et de la collaboration, et fonde la légitimité de la Résistance française face à Vichy","Il permet d'arrêter immédiatement l'avancée allemande","Il convainc tous les Français de résister dès le lendemain","Il lance le débarquement allié en Normandie"],correct:0,expl:"L'Appel du 18 juin 1940 est historiquement fondamental même si peu de Français l'entendent sur le moment. Il affirme que la France n'a pas définitivement perdu, que le combat peut continuer. Il légitime la Résistance face au gouvernement de Vichy et fonde la France libre. Après la guerre, le 18 juin devient une date symbolique du courage et du refus de l'occupant."}
+];
+var answered={},score=0;
+function showPanel(id,tab){var p=document.querySelectorAll('.panel'),t=document.querySelectorAll('.tab');for(var i=0;i<p.length;i++)p[i].classList.remove('active');for(var i=0;i<t.length;i++)t[i].classList.remove('active');document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');}
+function toggleDetail(id){var all=document.querySelectorAll('.frise-detail');for(var i=0;i<all.length;i++){if(all[i].id!==id)all[i].classList.remove('show');}document.getElementById(id).classList.toggle('show');}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+function buildQuiz(){var c=document.getElementById('quiz-container');c.innerHTML='';answered={};score=0;for(var i=0;i<QUESTIONS.length;i++){var q=QUESTIONS[i],div=document.createElement('div');div.className='quiz-q';var opts='';for(var j=0;j<q.opts.length;j++)opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';c.appendChild(div);}document.getElementById('quiz-score').classList.remove('show');}
+function answer(qi,choice){if(answered[qi]!==undefined)return;answered[qi]=choice;var q=QUESTIONS[qi],opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');for(var i=0;i<opts.length;i++)opts[i].classList.add('disabled');opts[choice].classList.add(choice===q.correct?'correct':'wrong');if(choice!==q.correct)opts[q.correct].classList.add('correct');var ok=choice===q.correct;if(ok)score++;var expl=document.getElementById('expl-'+qi);expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;expl.classList.add('show');if(Object.keys(answered).length===QUESTIONS.length)showScore();}
+function showScore(){var pct=Math.round(score/QUESTIONS.length*100);document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;var msg=pct>=90?'🎉 Excellent Zach ! La Résistance n\'a plus de secrets !':pct>=70?'👍 Très bien ! Relis les questions "à revoir".':pct>=50?'💪 Pas mal ! Relis la fiche et retente.':'📋 Relis la fiche, surtout les dates et les personnages.';document.getElementById('score-msg').textContent=msg;document.getElementById('quiz-score').classList.add('show');}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.toggleDetail=toggleDetail;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;
+</script>
+</body>
+</html>

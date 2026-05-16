@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H8 — La construction européenne</title>
+<style>
+  :root{--rouge:#C0392B;--rouge-light:#FADBD8;--bleu:#1A5276;--bleu-light:#D6EAF8;--vert:#1E8449;--vert-light:#D5F5E3;--orange:#D35400;--orange-light:#FDEBD0;--violet:#6C3483;--violet-light:#E8DAEF;--gris:#5D6D7E;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--rouge);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--rouge);border-bottom-color:var(--rouge)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.rouge{background:var(--rouge)}.section-head.bleu{background:var(--bleu)}.section-head.vert{background:var(--vert)}.section-head.orange{background:var(--orange)}.section-head.violet{background:var(--violet)}.section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--rouge);font-weight:700}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--rouge-light);color:var(--rouge);font-weight:700;font-size:12px;padding:8px 12px;min-width:140px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .etape-card{border-radius:8px;overflow:hidden;margin-bottom:8px;border:1px solid var(--border)}
+  .etape-head{padding:8px 14px;font-size:13px;font-weight:700;color:white;display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .etape-date{font-size:10px;background:rgba(255,255,255,0.25);padding:2px 8px;border-radius:20px}
+  .etape-body{padding:10px 14px;font-size:13px;line-height:1.7;background:white}
+  .dates-table{width:100%;border-collapse:collapse;font-size:13px}
+  .dates-table th{background:var(--rouge);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .dates-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .dates-table tr:last-child td{border-bottom:none}
+  .dates-table tr:nth-child(even) td{background:#FFF8F8}
+  .dates-table .date-cell{font-weight:700;color:var(--rouge);white-space:nowrap;min-width:90px}
+  .dates-table .event-cell{font-weight:600}
+  .dates-table .detail-cell{color:var(--muted);font-size:12px}
+  .frise-container{overflow-x:auto;padding-bottom:6px}
+  .frise{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:0;min-width:860px;padding:20px 10px 10px;position:relative}
+  .frise::before{content:'';position:absolute;top:42px;left:10px;right:10px;height:3px;background:linear-gradient(90deg,var(--rouge),var(--orange),var(--bleu));z-index:0}
+  .frise-item{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;position:relative;z-index:1;cursor:pointer}
+  .frise-dot{width:16px;height:16px;border-radius:50%;background:var(--rouge);border:3px solid white;box-shadow:0 0 0 2px var(--rouge);margin-bottom:8px;transition:transform 0.15s}
+  .frise-item:hover .frise-dot{transform:scale(1.4)}
+  .frise-item.important .frise-dot{width:22px;height:22px;background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+  .frise-date{font-size:10px;font-weight:700;color:var(--rouge);text-align:center;margin-bottom:4px;line-height:1.2}
+  .frise-label{font-size:10px;color:var(--muted);text-align:center;max-width:80px;line-height:1.3}
+  .frise-detail{display:none;background:white;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6;margin-top:8px;max-width:160px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.1);position:absolute;top:70px;z-index:10;min-width:140px}
+  .frise-detail.show{display:block}
+  .frise-detail strong{color:var(--rouge);display:block;margin-bottom:4px}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--rouge);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--rouge);background:var(--rouge-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--rouge);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.8}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--rouge-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--rouge);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--rouge);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--rouge)}
+  .btn-corr{background:var(--rouge);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  @media(max-width:500px){header h1{font-size:17px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🇪🇺 H8 — La construction européenne</h1>
+  <p>Fiche complète · Séquence 8 · Histoire · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('frise',this)">📅 Frise</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<div class="panel active" id="panel-fiche">
+  <div class="section">
+    <div class="section-head rouge">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>En une phrase :</strong> Après la Seconde Guerre mondiale, les pays européens décident de s'unir progressivement pour éviter de nouveaux conflits et construire une zone de prospérité économique. Ce projet, qui commence en 1951 avec 6 pays, aboutit à l'<strong>Union européenne</strong> qui regroupe aujourd'hui 27 membres. La France est l'un des pays fondateurs.</div>
+      <div class="brevet-box"><strong>🎯 Au brevet :</strong> expliquer les origines et les étapes de la construction européenne, connaître les institutions de l'UE, la monnaie unique (euro), et les débats autour de l'Europe.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">🕊️ Pourquoi construire l'Europe ?</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li><strong>Éviter une nouvelle guerre :</strong> en 1945, l'Europe est dévastée par deux guerres mondiales en 30 ans. Le projet européen naît du désir de rendre la guerre impossible entre pays voisins — en particulier entre la France et l'Allemagne, qui se sont combattues trois fois depuis 1870.</li>
+        <li><strong>La réconciliation franco-allemande :</strong> au cœur du projet européen. Si France et Allemagne collaborent économiquement, elles ne peuvent plus se faire la guerre. C'est la logique de Robert Schuman et Konrad Adenauer.</li>
+        <li><strong>La prospérité économique :</strong> un grand marché commun permet de commercer librement, d'attirer les investissements et de se développer économiquement face aux États-Unis et à l'URSS.</li>
+        <li><strong>La guerre froide :</strong> face à la menace soviétique, les pays d'Europe de l'Ouest ont intérêt à s'unir politiquement et économiquement.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">📅 Les grandes étapes de la construction européenne</div>
+    <div class="section-body">
+      <div class="etape-card">
+        <div class="etape-head" style="background:var(--gris)">La CECA <span class="etape-date">1951 — 6 pays</span></div>
+        <div class="etape-body">La <strong>Communauté Européenne du Charbon et de l'Acier</strong> (CECA) est créée par le traité de Paris (1951). 6 pays fondateurs : France, RFA (Allemagne de l'Ouest), Italie, Belgique, Pays-Bas, Luxembourg. Ils mettent en commun la production de charbon et d'acier — les matières premières de la guerre. Idée géniale : si on partage ces ressources, on ne peut plus s'en servir pour se faire la guerre.</div>
+      </div>
+      <div class="etape-card">
+        <div class="etape-head" style="background:var(--bleu)">Le Marché commun (CEE) <span class="etape-date">1957 — 6 pays</span></div>
+        <div class="etape-body">Le <strong>traité de Rome</strong> (1957) crée la Communauté Économique Européenne (CEE). Les 6 pays créent un grand marché commun : suppression progressive des droits de douane entre eux, libre circulation des marchandises. Premier pas vers une Europe économique intégrée.</div>
+      </div>
+      <div class="etape-card">
+        <div class="etape-head" style="background:var(--orange)">L'Acte unique <span class="etape-date">1986 — 12 pays</span></div>
+        <div class="etape-body">L'<strong>Acte unique européen</strong> (1986) accélère l'intégration économique. Les 12 pays membres créent un vrai marché unique : libre circulation des personnes, des marchandises, des services et des capitaux. L'espace Schengen (1985, en vigueur 1995) supprime les contrôles aux frontières entre les pays membres.</div>
+      </div>
+      <div class="etape-card">
+        <div class="etape-head" style="background:var(--rouge)">L'Union européenne <span class="etape-date">1992 — traité de Maastricht</span></div>
+        <div class="etape-body">Le <strong>traité de Maastricht</strong> (1992) crée l'Union européenne. Grandes avancées : citoyenneté européenne (tout citoyen d'un État membre est aussi citoyen européen), coopération politique, préparation de la monnaie unique. L'UE ne se limite plus à l'économique — elle devient aussi politique.</div>
+      </div>
+      <div class="etape-card">
+        <div class="etape-head" style="background:var(--violet)">L'euro <span class="etape-date">1999–2002</span></div>
+        <div class="etape-body">L'<strong>euro</strong> est introduit en 1999 (monnaie scripturale) et les billets et pièces circulent dès le 1er janvier 2002. 19 pays de l'UE l'adoptent (la "zone euro"). La France, l'Allemagne, l'Italie, l'Espagne… font partie de la zone euro. Le Royaume-Uni (avant le Brexit) et la Suède ont gardé leur monnaie nationale.</div>
+      </div>
+      <div class="etape-card">
+        <div class="etape-head" style="background:var(--gris)">Élargissements et défis actuels <span class="etape-date">2004–aujourd'hui</span></div>
+        <div class="etape-body">De grands élargissements à l'Est (2004 : 10 nouveaux pays dont Pologne, Tchéquie, Hongrie ; 2007 : Roumanie, Bulgarie). L'UE passe de 15 à 27 membres. Le <strong>Brexit</strong> (2020) : le Royaume-Uni quitte l'UE après un référendum en 2016 — première sortie d'un État membre. Aujourd'hui l'UE fait face à des débats : montée de l'euroscepticisme, inégalités entre membres, enjeux migratoires.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head vert">🏛️ Les institutions de l'UE</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Parlement européen</div><div class="mc-def">Élu directement par les citoyens européens tous les 5 ans. Vote les lois européennes. Siège à Strasbourg (France).</div></div>
+      <div class="mc-row"><div class="mc-terme">Commission européenne</div><div class="mc-def">Gouvernement de l'UE. Propose les lois, veille à leur application. Chaque État désigne un commissaire. Siège à Bruxelles (Belgique).</div></div>
+      <div class="mc-row"><div class="mc-terme">Conseil de l'UE</div><div class="mc-def">Réunit les ministres des États membres selon les sujets discutés. Vote les lois avec le Parlement. Représente les gouvernements nationaux.</div></div>
+      <div class="mc-row"><div class="mc-terme">Cour de justice de l'UE</div><div class="mc-def">Tribunal suprême de l'Union. Vérifie que les lois européennes sont respectées par les États membres. Siège à Luxembourg.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head gris">📋 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">CECA (1951)</div><div class="mc-def">Communauté Européenne du Charbon et de l'Acier. Première organisation européenne. 6 pays fondateurs (France, Allemagne, Italie, Benelux).</div></div>
+      <div class="mc-row"><div class="mc-terme">CEE / Marché commun</div><div class="mc-def">Communauté Économique Européenne créée par le traité de Rome (1957). Zone de libre échange entre les membres.</div></div>
+      <div class="mc-row"><div class="mc-terme">Traité de Maastricht</div><div class="mc-def">Traité signé en 1992 qui crée l'Union européenne et pose les bases de la monnaie unique (euro) et de la citoyenneté européenne.</div></div>
+      <div class="mc-row"><div class="mc-terme">Euro</div><div class="mc-def">Monnaie unique de 19 pays de l'UE ("zone euro"). Billets et pièces mis en circulation le 1er janvier 2002.</div></div>
+      <div class="mc-row"><div class="mc-terme">Espace Schengen</div><div class="mc-def">Zone sans contrôle aux frontières entre 26 pays européens. Permet aux citoyens de circuler librement.</div></div>
+      <div class="mc-row"><div class="mc-terme">Brexit</div><div class="mc-def">Sortie du Royaume-Uni de l'Union européenne (officiellement le 31 janvier 2020), après un référendum en 2016 (51,9 % pour "Leave").</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-frise">
+  <div class="section">
+    <div class="section-head rouge">📅 Frise — La construction européenne</div>
+    <div class="section-body">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Clique sur un point pour voir le détail.</p>
+      <div class="frise-container">
+        <div class="frise">
+          <div class="frise-item important" onclick="toggleDetail('fd1')">
+            <div class="frise-date">1950</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Déclaration Schuman</div>
+            <div class="frise-detail" id="fd1"><strong>9 mai 1950</strong>Robert Schuman propose de mettre en commun le charbon et l'acier franco-allemands. C'est le 9 mai, aujourd'hui fête de l'Europe.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd2')">
+            <div class="frise-date">1951</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Traité de Paris (CECA)</div>
+            <div class="frise-detail" id="fd2"><strong>1951 — Traité de Paris</strong>Création de la CECA : 6 pays fondateurs mettent en commun charbon et acier. Première intégration européenne.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd3')">
+            <div class="frise-date">1957</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Traité de Rome (CEE)</div>
+            <div class="frise-detail" id="fd3"><strong>1957 — Traité de Rome</strong>Création de la CEE (Marché commun). Libre circulation des marchandises entre les 6 membres. Grande avancée économique.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd4')">
+            <div class="frise-date">1979</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">1ères élections européennes</div>
+            <div class="frise-detail" id="fd4"><strong>1979</strong>Premières élections du Parlement européen au suffrage universel direct. Les citoyens européens votent pour leurs représentants à Strasbourg.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd5')">
+            <div class="frise-date">1986</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Acte unique</div>
+            <div class="frise-detail" id="fd5"><strong>1986</strong>Acte unique européen : marché unique, libre circulation des personnes, marchandises, services et capitaux. L'Europe s'approfondit.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd6')">
+            <div class="frise-date">1992</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Traité de Maastricht</div>
+            <div class="frise-detail" id="fd6"><strong>1992 — Traité de Maastricht</strong>Création de l'Union européenne. Citoyenneté européenne. Préparation de l'euro. Grand tournant politique.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd7')">
+            <div class="frise-date">2002</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Mise en circulation de l'euro</div>
+            <div class="frise-detail" id="fd7"><strong>1er janv. 2002</strong>Les billets et pièces en euros remplacent les monnaies nationales dans 12 pays (dont France, Allemagne, Italie, Espagne).</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd8')">
+            <div class="frise-date">2004</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Grand élargissement</div>
+            <div class="frise-detail" id="fd8"><strong>2004</strong>10 nouveaux pays rejoignent l'UE dont Pologne, Tchéquie, Hongrie. L'UE passe à 25 membres, puis 27 avec Roumanie et Bulgarie (2007).</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd9')">
+            <div class="frise-date">2020</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Brexit</div>
+            <div class="frise-detail" id="fd9"><strong>31 janv. 2020</strong>Le Royaume-Uni quitte officiellement l'UE (Brexit). Première sortie d'un État membre dans l'histoire de l'Union.</div>
+          </div>
+        </div>
+      </div>
+      <div class="section" style="margin-top:14px">
+        <div class="section-head gris">📋 Tableau des dates clés</div>
+        <div class="section-body">
+          <table class="dates-table">
+            <tr><th>Date</th><th>Étape</th><th>Signification</th></tr>
+            <tr><td class="date-cell">9 mai 1950</td><td class="event-cell">Déclaration Schuman</td><td class="detail-cell">Proposition du projet européen</td></tr>
+            <tr><td class="date-cell">1951</td><td class="event-cell">Traité de Paris — CECA</td><td class="detail-cell">6 pays fondateurs — charbon et acier</td></tr>
+            <tr><td class="date-cell">1957</td><td class="event-cell">Traité de Rome — CEE</td><td class="detail-cell">Marché commun — libre échange</td></tr>
+            <tr><td class="date-cell">1986</td><td class="event-cell">Acte unique européen</td><td class="detail-cell">Marché unique — 12 membres</td></tr>
+            <tr><td class="date-cell">1992</td><td class="event-cell">Traité de Maastricht</td><td class="detail-cell">Création de l'UE et de la citoyenneté européenne</td></tr>
+            <tr><td class="date-cell">1er janv. 2002</td><td class="event-cell">Billets et pièces en euros</td><td class="detail-cell">Monnaie unique — zone euro</td></tr>
+            <tr><td class="date-cell">2004</td><td class="event-cell">Grand élargissement à l'Est</td><td class="detail-cell">UE passe de 15 à 25 membres</td></tr>
+            <tr><td class="date-cell">2020</td><td class="event-cell">Brexit</td><td class="detail-cell">Première sortie d'un membre</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head rouge">❓ Quiz — La construction européenne</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Clique sur ta réponse.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score"><div class="score-num" id="score-num"></div><div class="score-msg" id="score-msg"></div><button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head rouge">✏️ Exercice type brevet</div>
+    <div class="section-body"><div class="info-box"><strong>Conditions :</strong> Lis le document, puis réponds. Temps conseillé : 25 minutes.</div></div>
+  </div>
+  <div class="doc-brevet">
+    <h3>📄 Document — Déclaration Schuman, 9 mai 1950 (extraits)</h3>
+    <p>La paix mondiale ne saurait être sauvegardée sans des efforts créateurs à la mesure des dangers qui la menacent. Le gouvernement français propose de placer l'ensemble de la production franco-allemande de charbon et d'acier sous une Haute Autorité commune. La solidarité de production ainsi nouée manifestera que toute guerre entre la France et l'Allemagne devient non seulement impensable, mais matériellement impossible.</p>
+    <p class="doc-source">D'après la Déclaration Schuman, 9 mai 1950. Adapté à des fins pédagogiques.</p>
+  </div>
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Présenter le document</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Présente ce document. Quel est le contexte de la déclaration Schuman ? Que propose-t-il concrètement ?</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p>Ce document est une <strong>déclaration politique</strong> du ministre français des Affaires étrangères <strong>Robert Schuman</strong>, prononcée le <strong>9 mai 1950</strong> (aujourd'hui Journée de l'Europe).</p>
+        <p style="margin-top:8px"><strong>Contexte :</strong> En 1950, l'Europe est en pleine guerre froide. L'Europe de l'Ouest doit se reconstruire après la Seconde Guerre mondiale et résister à la menace soviétique. Surtout, France et Allemagne se sont fait la guerre trois fois en 70 ans (1870, 1914, 1939). Schuman propose de mettre fin définitivement à cette rivalité.</p>
+        <p style="margin-top:8px"><strong>Ce qu'il propose :</strong> Mettre en commun la production de <strong>charbon et d'acier</strong> franco-allemands sous une autorité commune. Ces matières premières sont indispensables pour faire la guerre — en les partageant, on rend la guerre entre les deux pays "matériellement impossible".</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Nature → Auteur → Date → Contexte → Ce qui est proposé concrètement → Objectif final.</div>
+      </div>
+    </div>
+  </div>
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser l'argument central</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Selon Schuman, pourquoi mettre en commun le charbon et l'acier rend-il la guerre "matériellement impossible" ? Explique la logique de cet argument.</p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p>L'argument de Schuman est le suivant : le charbon et l'acier sont les deux matières premières indispensables à la guerre moderne. Le charbon fait tourner les usines, l'acier sert à fabriquer les armes, les chars et les obus. Sans charbon ni acier, pas de guerre possible.</p>
+        <p style="margin-top:8px">En plaçant la production franco-allemande de ces matières sous une autorité commune (qui prend les décisions pour les deux pays ensemble), ni la France ni l'Allemagne ne peut s'en emparer seule pour faire la guerre à l'autre. Si les deux pays partagent ces ressources, ils deviennent interdépendants — les intérêts économiques communs les lient et rendent la guerre irrationnelle.</p>
+        <p style="margin-top:8px">C'est une logique de <strong>réconciliation par l'économie</strong> : en créant des intérêts communs, on crée la paix. Cette logique reste au cœur du projet européen jusqu'à aujourd'hui.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Expliquer pourquoi charbon et acier = matières premières de guerre → partager = rendre impossible la guerre → logique d'interdépendance.</div>
+      </div>
+    </div>
+  </div>
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Développement construit</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>À partir du document et de vos connaissances, retracez les grandes étapes de la construction européenne depuis 1951, en montrant comment l'Europe a évolué d'une union économique vers une union politique.</p>
+      <textarea id="rep3" placeholder="Écris ton développement ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Exemple de développement rédigé</h4>
+        <p>La construction européenne démarre avec une ambition simple mais audacieuse : rendre la guerre impossible entre pays voisins. En 1951, 6 pays fondateurs (France, Allemagne, Italie, Belgique, Pays-Bas, Luxembourg) signent le traité de Paris qui crée la CECA, mettant en commun le charbon et l'acier — les matières premières de la guerre. C'est la première pierre de l'Europe unie.</p>
+        <p style="margin-top:8px">En 1957, le traité de Rome crée la Communauté Économique Européenne (CEE) et un marché commun : les marchandises circulent librement entre les 6 membres. L'Europe grandit économiquement. En 1986, l'Acte unique va plus loin : libre circulation des personnes, des services et des capitaux, et suppression des contrôles aux frontières (espace Schengen).</p>
+        <p style="margin-top:8px">Le tournant politique arrive en 1992 avec le traité de Maastricht, qui crée l'Union européenne : les 12 membres acceptent une citoyenneté européenne commune et préparent une monnaie unique. En 2002, l'euro entre en circulation dans 12 pays. L'UE s'élargit ensuite à l'Est (2004 : 10 nouveaux membres). Aujourd'hui, l'UE regroupe 27 pays, mais fait face au défi du Brexit (2020) et des tensions internes.</p>
+        <div class="methode-box"><strong>💡 Structure :</strong> Départ économique (CECA, CEE) → Approfondissement (Acte unique) → Tournant politique (Maastricht, euro) → Élargissements et défis.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS=[
+  {q:"Pourquoi les pays européens décident-ils de s'unir après 1945 ?",opts:["Pour éviter une nouvelle guerre (surtout entre France et Allemagne) et construire une zone de prospérité économique","Pour créer un empire européen face aux États-Unis","Parce que l'ONU les y oblige","Pour résister militairement à l'Union soviétique"],correct:0,expl:"L'idée fondatrice de la construction européenne est de rendre la guerre impossible entre pays voisins — notamment entre France et Allemagne, qui se sont affrontées trois fois en 70 ans. En créant des intérêts économiques communs (charbon, acier, marché commun), on crée une interdépendance qui rend la guerre irrationnelle. La prospérité économique est l'autre objectif majeur."},
+  {q:"Quels sont les 6 pays fondateurs de la CECA en 1951 ?",opts:["France, Allemagne (RFA), Italie, Belgique, Pays-Bas, Luxembourg","France, Royaume-Uni, Italie, Espagne, Portugal, Grèce","France, Allemagne, Pologne, Tchéquie, Hongrie, Roumanie","France, Royaume-Uni, Allemagne, Italie, Espagne, Pays-Bas"],correct:0,expl:"Les 6 pays fondateurs de la CECA (1951) sont : la France, la RFA (Allemagne de l'Ouest), l'Italie, la Belgique, les Pays-Bas et le Luxembourg. Les trois derniers forment le 'Benelux'. Le Royaume-Uni était invité mais a refusé, préférant garder sa souveraineté. Il ne rejoindra l'Europe qu'en 1973."},
+  {q:"Qu'est-ce que la CECA et pourquoi est-elle importante ?",opts:["Communauté Européenne du Charbon et de l'Acier : 6 pays mettent en commun ces matières premières pour rendre la guerre impossible entre eux","Conférence Européenne sur la Coopération Agricole : accord pour partager les terres agricoles","Coalition Européenne Contre l'URSS : alliance militaire des démocraties","Communauté Économique et Culturelle d'Alsace : accord régional franco-allemand"],correct:0,expl:"La CECA (Communauté Européenne du Charbon et de l'Acier), créée par le traité de Paris en 1951, est la première organisation supranationale européenne. Les 6 pays fondateurs mettent en commun leur production de charbon et d'acier (matières premières de la guerre) sous une autorité commune. La logique : si on partage ces ressources, on ne peut plus s'en servir pour se faire la guerre."},
+  {q:"Qu'est-ce que le traité de Rome (1957) crée ?",opts:["La CEE (Communauté Économique Européenne) et un marché commun avec libre circulation des marchandises","La monnaie unique européenne","L'Union européenne et la citoyenneté européenne","L'espace Schengen et la libre circulation des personnes"],correct:0,expl:"Le traité de Rome (25 mars 1957) crée la Communauté Économique Européenne (CEE), aussi appelée 'Marché commun'. Les 6 pays fondateurs s'engagent à supprimer progressivement les droits de douane entre eux et à permettre la libre circulation des marchandises. C'est le passage d'une coopération sur un seul secteur (charbon-acier) à une intégration économique plus large."},
+  {q:"Qu'est-ce que le traité de Maastricht (1992) apporte ?",opts:["Il crée l'Union européenne, la citoyenneté européenne et prépare l'euro","Il crée la CECA et le marché commun","Il supprime les frontières entre les pays membres (espace Schengen)","Il accueille les pays d'Europe de l'Est dans l'Union"],correct:0,expl:"Le traité de Maastricht (7 février 1992) est une étape cruciale : il transforme la CEE en Union européenne (UE). Il introduit la citoyenneté européenne (tout ressortissant d'un État membre est aussi citoyen européen), lance le projet de monnaie unique (futur euro), et renforce la coopération politique. L'Europe n'est plus seulement économique — elle devient politique."},
+  {q:"Quand les billets et pièces en euros entrent-ils en circulation ?",opts:["Le 1er janvier 2002, dans 12 pays de l'UE","Le 1er janvier 1992, dans les 6 pays fondateurs","Le 1er janvier 1999, dans tous les pays de l'UE","Le 9 mai 1950, en France et en Allemagne uniquement"],correct:0,expl:"L'euro existe d'abord comme monnaie scripturale (pour les transactions bancaires et financières) depuis le 1er janvier 1999. Les billets et pièces physiques entrent en circulation le 1er janvier 2002, dans 12 pays (dont la France, l'Allemagne, l'Italie, l'Espagne). Les francs, marks, lires et pesetas disparaissent. Aujourd'hui, la zone euro compte 20 pays."},
+  {q:"Qu'est-ce que l'espace Schengen ?",opts:["Une zone regroupant 26 pays européens où les contrôles aux frontières sont supprimés : les citoyens circulent librement","Un accord militaire entre pays européens de l'OTAN","Un programme d'échanges universitaires entre étudiants européens","La zone géographique couverte par la monnaie euro"],correct:0,expl:"L'accord de Schengen est signé en 1985 (en vigueur en 1995) entre plusieurs pays européens. Il supprime les contrôles aux frontières entre les pays signataires : on peut passer d'un pays à l'autre sans montrer son passeport. L'espace Schengen regroupe aujourd'hui 27 pays (dont certains non-membres de l'UE comme la Suisse et la Norvège). Le Royaume-Uni n'en faisait pas partie."},
+  {q:"Qu'est-ce que le Brexit ?",opts:["La sortie du Royaume-Uni de l'Union européenne, officialisée le 31 janvier 2020 après un référendum en 2016","L'entrée du Royaume-Uni dans l'UE en 1973","Le refus du Royaume-Uni de rejoindre la zone euro","Un accord commercial entre le Royaume-Uni et l'UE"],correct:0,expl:"Le Brexit (contraction de 'British exit') est la sortie du Royaume-Uni de l'Union européenne. Le 23 juin 2016, les Britanniques votent à 51,9 % pour quitter l'UE. Après des négociations difficiles, le Royaume-Uni quitte officiellement l'UE le 31 janvier 2020. C'est la première fois dans l'histoire qu'un État membre quitte l'Union."},
+  {q:"Quel est le rôle du Parlement européen ?",opts:["Il est élu directement par les citoyens européens tous les 5 ans et vote les lois européennes","Il est composé des chefs d'État des pays membres et prend toutes les décisions","Il gère le budget de la Commission européenne","Il est chargé de faire respecter les lois européennes dans les pays membres"],correct:0,expl:"Le Parlement européen est la seule institution de l'UE élue directement par les citoyens européens au suffrage universel (tous les 5 ans). Il vote les lois européennes (directives, règlements) conjointement avec le Conseil de l'UE. Il siège à Strasbourg (France). Les premières élections européennes directes ont eu lieu en 1979."},
+  {q:"Pourquoi le 9 mai est-il la Journée de l'Europe ?",opts:["Car c'est le 9 mai 1950 que Robert Schuman a proposé la mise en commun du charbon et de l'acier franco-allemand — fondement de la construction européenne","Car c'est le 9 mai 1945 que la guerre s'est terminée en Europe","Car c'est le 9 mai 1957 que le traité de Rome a été signé","Car c'est le 9 mai 1992 que le traité de Maastricht a créé l'UE"],correct:0,expl:"Le 9 mai 1950, Robert Schuman (ministre français des Affaires étrangères) propose de placer la production franco-allemande de charbon et d'acier sous une autorité commune — ce qui deviendra la CECA en 1951. Ce discours est considéré comme l'acte fondateur de la construction européenne. En 1985, les dirigeants européens ont décidé de faire du 9 mai la 'Journée de l'Europe'."},
+  {q:"Combien de pays composent l'Union européenne aujourd'hui (après le Brexit) ?",opts:["27 pays membres","28 pays membres","15 pays membres","30 pays membres"],correct:0,expl:"Avant le Brexit (2020), l'UE comptait 28 membres. Avec le départ du Royaume-Uni, l'UE est passée à 27 membres. Ces 27 pays représentent environ 450 millions d'habitants et constituent la 3e puissance économique mondiale (après les États-Unis et la Chine). Plusieurs pays sont candidats à l'adhésion (Ukraine, Turquie, pays des Balkans)."},
+  {q:"Quelle est la logique fondamentale de la construction européenne selon Schuman ?",opts:["Créer des intérêts économiques communs entre pays pour rendre la guerre impossible et assurer la paix","Créer une armée commune pour défendre l'Europe face à l'URSS","Réunifier l'Allemagne divisée après la Seconde Guerre mondiale","Créer un État fédéral européen sur le modèle des États-Unis"],correct:0,expl:"La logique fondamentale de Schuman est l'interdépendance économique au service de la paix : si des pays ont des intérêts économiques communs très forts, ils ne peuvent plus se faire la guerre sans se nuire à eux-mêmes. C'est ce que les économistes appellent la 'paix démocratique' par l'interdépendance. Cette logique a réussi : depuis 1945, aucune guerre n'a eu lieu entre les membres de l'UE."}
+];
+var answered={},score=0;
+function showPanel(id,tab){var p=document.querySelectorAll('.panel'),t=document.querySelectorAll('.tab');for(var i=0;i<p.length;i++)p[i].classList.remove('active');for(var i=0;i<t.length;i++)t[i].classList.remove('active');document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');}
+function toggleDetail(id){var all=document.querySelectorAll('.frise-detail');for(var i=0;i<all.length;i++){if(all[i].id!==id)all[i].classList.remove('show');}document.getElementById(id).classList.toggle('show');}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+function buildQuiz(){var c=document.getElementById('quiz-container');c.innerHTML='';answered={};score=0;for(var i=0;i<QUESTIONS.length;i++){var q=QUESTIONS[i],div=document.createElement('div');div.className='quiz-q';var opts='';for(var j=0;j<q.opts.length;j++)opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';c.appendChild(div);}document.getElementById('quiz-score').classList.remove('show');}
+function answer(qi,choice){if(answered[qi]!==undefined)return;answered[qi]=choice;var q=QUESTIONS[qi],opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');for(var i=0;i<opts.length;i++)opts[i].classList.add('disabled');opts[choice].classList.add(choice===q.correct?'correct':'wrong');if(choice!==q.correct)opts[q.correct].classList.add('correct');var ok=choice===q.correct;if(ok)score++;var expl=document.getElementById('expl-'+qi);expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;expl.classList.add('show');if(Object.keys(answered).length===QUESTIONS.length)showScore();}
+function showScore(){var pct=Math.round(score/QUESTIONS.length*100);document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;var msg=pct>=90?'🎉 Excellent Zach ! La construction européenne maîtrisée !':pct>=70?'👍 Très bien ! Relis les points "à revoir".':pct>=50?'💪 Pas mal ! Relis les étapes et retente.':'📋 Relis la fiche étape par étape. Tu vas y arriver !';document.getElementById('score-msg').textContent=msg;document.getElementById('quiz-score').classList.add('show');}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.toggleDetail=toggleDetail;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;
+</script>
+</body>
+</html>

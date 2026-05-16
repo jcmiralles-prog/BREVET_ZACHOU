@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H9 — La Ve République</title>
+<style>
+  :root{--rouge:#C0392B;--rouge-light:#FADBD8;--bleu:#1A5276;--bleu-light:#D6EAF8;--vert:#1E8449;--vert-light:#D5F5E3;--orange:#D35400;--orange-light:#FDEBD0;--violet:#6C3483;--violet-light:#E8DAEF;--gris:#5D6D7E;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--rouge);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--rouge);border-bottom-color:var(--rouge)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.rouge{background:var(--rouge)}.section-head.bleu{background:var(--bleu)}.section-head.vert{background:var(--vert)}.section-head.orange{background:var(--orange)}.section-head.violet{background:var(--violet)}.section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--rouge);font-weight:700}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--rouge-light);color:var(--rouge);font-weight:700;font-size:12px;padding:8px 12px;min-width:150px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .instit-grid{display:-webkit-flex;display:flex;gap:10px;-webkit-flex-wrap:wrap;flex-wrap:wrap;margin:10px 0}
+  .instit-card{-webkit-flex:1 1 160px;flex:1 1 160px;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+  .instit-head{padding:8px 12px;font-size:12px;font-weight:700;color:white;text-align:center}
+  .instit-body{padding:8px 12px;font-size:12px;line-height:1.7;background:white}
+  .perso-row{display:-webkit-flex;display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);-webkit-align-items:flex-start;align-items:flex-start}
+  .perso-row:last-child{border-bottom:none}
+  .perso-avatar{width:40px;height:40px;border-radius:50%;background:var(--rouge);color:white;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+  .perso-info{flex:1}
+  .perso-nom{font-weight:700;font-size:13px;color:var(--rouge);margin-bottom:2px}
+  .perso-camp{font-size:10px;background:var(--rouge-light);color:var(--rouge);padding:1px 8px;border-radius:20px;display:inline-block;margin-bottom:4px}
+  .perso-desc{font-size:12px;color:var(--muted);line-height:1.5}
+  .dates-table{width:100%;border-collapse:collapse;font-size:13px}
+  .dates-table th{background:var(--rouge);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .dates-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .dates-table tr:last-child td{border-bottom:none}
+  .dates-table tr:nth-child(even) td{background:#FFF8F8}
+  .dates-table .date-cell{font-weight:700;color:var(--rouge);white-space:nowrap;min-width:90px}
+  .dates-table .event-cell{font-weight:600}
+  .dates-table .detail-cell{color:var(--muted);font-size:12px}
+  .frise-container{overflow-x:auto;padding-bottom:6px}
+  .frise{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:0;min-width:860px;padding:20px 10px 10px;position:relative}
+  .frise::before{content:'';position:absolute;top:42px;left:10px;right:10px;height:3px;background:linear-gradient(90deg,var(--rouge),var(--orange),var(--bleu));z-index:0}
+  .frise-item{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;position:relative;z-index:1;cursor:pointer}
+  .frise-dot{width:16px;height:16px;border-radius:50%;background:var(--rouge);border:3px solid white;box-shadow:0 0 0 2px var(--rouge);margin-bottom:8px;transition:transform 0.15s}
+  .frise-item:hover .frise-dot{transform:scale(1.4)}
+  .frise-item.important .frise-dot{width:22px;height:22px;background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+  .frise-date{font-size:10px;font-weight:700;color:var(--rouge);text-align:center;margin-bottom:4px;line-height:1.2}
+  .frise-label{font-size:10px;color:var(--muted);text-align:center;max-width:80px;line-height:1.3}
+  .frise-detail{display:none;background:white;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6;margin-top:8px;max-width:160px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.1);position:absolute;top:70px;z-index:10;min-width:140px}
+  .frise-detail.show{display:block}
+  .frise-detail strong{color:var(--rouge);display:block;margin-bottom:4px}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--rouge);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--rouge);background:var(--rouge-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--rouge);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.8}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--rouge-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--rouge);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--rouge);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--rouge)}
+  .btn-corr{background:var(--rouge);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  @media(max-width:500px){header h1{font-size:17px}.instit-grid{-webkit-flex-direction:column;flex-direction:column}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🏛️ H9 — La Ve République</h1>
+  <p>Fiche complète · Séquence 9 · Histoire · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('frise',this)">📅 Frise</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ═══ FICHE ═══ -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head rouge">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>En une phrase :</strong> La <strong>Ve République</strong> est le régime politique de la France depuis 1958. Fondée par le général de Gaulle lors d'une crise liée à la guerre d'Algérie, elle donne un rôle central au Président de la République, élu au suffrage universel direct depuis 1962. La France est une <strong>démocratie semi-présidentielle</strong> : le pouvoir est partagé entre le Président et le Premier ministre.</div>
+      <div class="brevet-box"><strong>🎯 Au brevet :</strong> expliquer la naissance de la Ve République, décrire ses institutions principales, comprendre le rôle du Président et du Premier ministre, savoir ce qu'est la cohabitation.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head rouge">🔥 La naissance de la Ve République (1958)</div>
+    <div class="section-body">
+      <div class="warn-box"><strong>Contexte — la crise de mai 1958 :</strong> La IVe République (1946–1958) est un régime parlementaire instable : 25 gouvernements en 12 ans. La guerre d'Algérie divise profondément la France. Le 13 mai 1958, des militaires et des Européens d'Algérie se soulèvent à Alger et réclament le retour au pouvoir du général de Gaulle. La IVe République s'effondre. De Gaulle accepte de revenir aux affaires à condition qu'on lui donne les moyens de réformer les institutions.</div>
+      <ul class="bull-list">
+        <li><strong>4 octobre 1958 :</strong> la nouvelle Constitution est approuvée par référendum (79 % de "oui"). Elle fonde la Ve République.</li>
+        <li><strong>Caractéristique principale :</strong> elle renforce considérablement le pouvoir exécutif (le Président et le gouvernement) face au Parlement. C'est une rupture avec la IVe République.</li>
+        <li><strong>De Gaulle premier président :</strong> il est élu président en décembre 1958 par un collège de grands électeurs.</li>
+        <li><strong>1962 — réforme majeure :</strong> de Gaulle fait adopter par référendum l'élection du Président de la République au suffrage universel direct. Désormais, tous les Français élisent directement leur président.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">🏛️ Les institutions de la Ve République</div>
+    <div class="section-body">
+      <div class="instit-grid">
+        <div class="instit-card">
+          <div class="instit-head" style="background:var(--rouge)">🎖️ Président de la République</div>
+          <div class="instit-body">
+            <strong>Élu :</strong> au suffrage universel direct (tous les Français de +18 ans), pour 5 ans (quinquennat depuis 2000).<br>
+            <strong>Pouvoirs :</strong> chef des armées, nomme le Premier ministre, préside le Conseil des ministres, peut dissoudre l'Assemblée nationale, peut organiser un référendum, représente la France à l'étranger.<br>
+            <strong>Siège :</strong> Palais de l'Élysée (Paris).
+          </div>
+        </div>
+        <div class="instit-card">
+          <div class="instit-head" style="background:var(--bleu)">👔 Premier ministre</div>
+          <div class="instit-body">
+            <strong>Nommé :</strong> par le Président de la République.<br>
+            <strong>Rôle :</strong> dirige le gouvernement, applique les lois, est responsable devant l'Assemblée nationale. Partage le pouvoir exécutif avec le Président.<br>
+            <strong>Siège :</strong> Hôtel Matignon (Paris).
+          </div>
+        </div>
+        <div class="instit-card">
+          <div class="instit-head" style="background:var(--orange)">🏛️ Parlement</div>
+          <div class="instit-body">
+            Composé de deux chambres :<br>
+            — <strong>Assemblée nationale</strong> : 577 députés élus au suffrage universel direct pour 5 ans. Vote les lois, peut renverser le gouvernement.<br>
+            — <strong>Sénat</strong> : 348 sénateurs élus au suffrage indirect (par les élus locaux). Examine et amende les lois.
+          </div>
+        </div>
+        <div class="instit-card">
+          <div class="instit-head" style="background:var(--violet)">⚖️ Conseil constitutionnel</div>
+          <div class="instit-body">
+            <strong>Rôle :</strong> vérifie que les lois respectent la Constitution. Surveille les élections. Composé de 9 membres nommés pour 9 ans (3 par le Président, 3 par le président de l'AN, 3 par le président du Sénat).
+          </div>
+        </div>
+      </div>
+      <div class="success-box"><strong>✅ Le régime semi-présidentiel :</strong> la Ve République est ni totalement présidentielle (comme aux États-Unis) ni totalement parlementaire (comme au Royaume-Uni). Le Président a de grands pouvoirs, mais il doit nommer un Premier ministre qui a la confiance de l'Assemblée nationale. C'est pourquoi on parle de régime "semi-présidentiel".</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">🔄 Les grandes alternances et la cohabitation</div>
+    <div class="section-body">
+      <div class="info-box"><strong>L'alternance :</strong> depuis 1958, la gauche et la droite se succèdent au pouvoir régulièrement. C'est le signe d'une démocratie qui fonctionne.</div>
+      <ul class="bull-list">
+        <li><strong>1958–1969 :</strong> de Gaulle, fondateur de la Ve République. Il démissionne après l'échec d'un référendum en 1969.</li>
+        <li><strong>1981 :</strong> première alternance politique majeure. François Mitterrand (socialiste, gauche) bat Valéry Giscard d'Estaing (droite). Pour la première fois sous la Ve République, la gauche arrive au pouvoir.</li>
+        <li><strong>La cohabitation :</strong> situation où le Président et le Premier ministre sont de camps politiques opposés. Elle se produit quand les élections législatives donnent une majorité différente du Président. Il y a eu 3 cohabitations : 1986–1988 (Mitterrand/Chirac), 1993–1995 (Mitterrand/Balladur), 1997–2002 (Chirac/Jospin).</li>
+        <li><strong>2002 — le quinquennat :</strong> le mandat présidentiel passe de 7 ans (septennat) à 5 ans, afin d'aligner les élections présidentielles et législatives et éviter les cohabitations.</li>
+      </ul>
+      <div class="warn-box"><strong>⚠️ La cohabitation :</strong> pendant la cohabitation, le Président et le Premier ministre doivent gouverner ensemble malgré leurs différences politiques. Le Président garde la main sur la diplomatie et la défense, le Premier ministre dirige la politique intérieure.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head violet">👤 Les présidents de la Ve République</div>
+    <div class="section-body">
+      <div class="perso-row">
+        <div class="perso-avatar">DG</div>
+        <div class="perso-info">
+          <div class="perso-nom">Charles de Gaulle (1958–1969)</div>
+          <div class="perso-camp">Droite gaulliste · Fondateur</div>
+          <div class="perso-desc">Fonde la Ve République et rédige la Constitution. Règle la guerre d'Algérie. Développe la force nucléaire française. Démissionne en 1969 après l'échec d'un référendum sur la régionalisation.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">PM</div>
+        <div class="perso-info">
+          <div class="perso-nom">Georges Pompidou (1969–1974)</div>
+          <div class="perso-camp">Droite gaulliste</div>
+          <div class="perso-desc">Modernise la France (autoroutes, TGV…). Meurt en fonction en 1974. Proche collaborateur de De Gaulle.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">VG</div>
+        <div class="perso-info">
+          <div class="perso-nom">Valéry Giscard d'Estaing (1974–1981)</div>
+          <div class="perso-camp">Centre-droite</div>
+          <div class="perso-desc">Grandes réformes sociales : abaissement de la majorité à 18 ans, dépénalisation de l'avortement (loi Veil, 1975), divorce par consentement mutuel. Battu par Mitterrand en 1981.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">FM</div>
+        <div class="perso-info">
+          <div class="perso-nom">François Mitterrand (1981–1995)</div>
+          <div class="perso-camp">Gauche socialiste · 14 ans</div>
+          <div class="perso-desc">Première alternance de la gauche en 1981. Abolit la peine de mort (1981), décentralisation, nationalisations. Connaît 2 cohabitations (1986–88 et 1993–95). Plus long mandat de la Ve République.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">JC</div>
+        <div class="perso-info">
+          <div class="perso-nom">Jacques Chirac (1995–2007)</div>
+          <div class="perso-camp">Droite · 12 ans</div>
+          <div class="perso-desc">3e cohabitation (1997–2002). Instaure le quinquennat (2000). Refuse d'engager la France en Irak (2003). Reconstruit le lien avec l'Allemagne de Schröder.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">NS</div>
+        <div class="perso-info">
+          <div class="perso-nom">Nicolas Sarkozy (2007–2012)</div>
+          <div class="perso-camp">Droite UMP</div>
+          <div class="perso-desc">Gère la crise financière de 2008. Réforme des retraites. Politique d'immigration restrictive. Battu par Hollande en 2012.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">FH</div>
+        <div class="perso-info">
+          <div class="perso-nom">François Hollande (2012–2017)</div>
+          <div class="perso-camp">Gauche socialiste</div>
+          <div class="perso-desc">Mariage pour tous (2013). Attentats de 2015 (Charlie Hebdo, Bataclan). Loi Travail très contestée. Renonce à se représenter en 2017.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">EM</div>
+        <div class="perso-info">
+          <div class="perso-nom">Emmanuel Macron (2017–)</div>
+          <div class="perso-camp">Centre / En Marche</div>
+          <div class="perso-desc">Plus jeune président de la Ve République (39 ans en 2017). Crise des Gilets jaunes (2018–2019). Crise Covid (2020–2022). Réforme des retraites (2023). Réélu en 2022.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head gris">📋 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Ve République</div><div class="mc-def">Régime politique de la France depuis 1958. Fondé par de Gaulle. Constitution adoptée le 4 octobre 1958. Régime semi-présidentiel.</div></div>
+      <div class="mc-row"><div class="mc-terme">Suffrage universel direct</div><div class="mc-def">Mode d'élection où tous les citoyens (hommes et femmes de +18 ans) votent directement pour choisir un représentant. Le Président est élu ainsi depuis 1962.</div></div>
+      <div class="mc-row"><div class="mc-terme">Quinquennat</div><div class="mc-def">Mandat présidentiel de 5 ans. Instauré en 2000 pour remplacer le septennat (7 ans). Objectif : éviter les cohabitations en alignant les calendriers électoral et législatif.</div></div>
+      <div class="mc-row"><div class="mc-terme">Cohabitation</div><div class="mc-def">Situation où le Président de la République et le Premier ministre sont de bords politiques opposés. Il y en a eu 3 sous la Ve République (1986–88, 1993–95, 1997–2002).</div></div>
+      <div class="mc-row"><div class="mc-terme">Alternance</div><div class="mc-def">Changement pacifique du parti au pouvoir lors d'une élection. Signe du bon fonctionnement de la démocratie. La première grande alternance sous la Ve République est l'élection de Mitterrand en 1981.</div></div>
+      <div class="mc-row"><div class="mc-terme">Référendum</div><div class="mc-def">Vote direct des citoyens sur une question précise ou un texte. En France, le Président peut organiser un référendum. De Gaulle en a organisé plusieurs et a démissionné quand il en a perdu un (1969).</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FRISE ═══ -->
+<div class="panel" id="panel-frise">
+  <div class="section">
+    <div class="section-head rouge">📅 Frise — La Ve République</div>
+    <div class="section-body">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Clique sur un point pour voir le détail.</p>
+      <div class="frise-container">
+        <div class="frise">
+          <div class="frise-item important" onclick="toggleDetail('fd1')">
+            <div class="frise-date">1958</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Naissance Ve République</div>
+            <div class="frise-detail" id="fd1"><strong>4 octobre 1958</strong>Constitution adoptée par référendum (79 % oui). Naissance de la Ve République. De Gaulle devient Président en décembre.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd2')">
+            <div class="frise-date">1962</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Élection présidentielle au SUD</div>
+            <div class="frise-detail" id="fd2"><strong>1962</strong>Référendum : le Président sera désormais élu au suffrage universel direct. Grande réforme de De Gaulle qui renforce la légitimité présidentielle.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd3')">
+            <div class="frise-date">Mai 1968</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Crise de mai 68</div>
+            <div class="frise-detail" id="fd3"><strong>Mai 1968</strong>Grande révolte étudiante et ouvrière. Grève générale. De Gaulle résiste. Acquis sociaux importants (accords de Grenelle). De Gaulle démissionne en 1969.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd4')">
+            <div class="frise-date">1981</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">1ère alternance — Mitterrand</div>
+            <div class="frise-detail" id="fd4"><strong>Mai 1981</strong>François Mitterrand (socialiste) bat Giscard d'Estaing. Première fois que la gauche accède au pouvoir sous la Ve République. Grande alternance.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd5')">
+            <div class="frise-date">1986</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">1ère cohabitation</div>
+            <div class="frise-detail" id="fd5"><strong>1986–1988</strong>Première cohabitation : Mitterrand (Président socialiste) + Chirac (Premier ministre de droite). La France apprend à gouverner malgré les oppositions.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd6')">
+            <div class="frise-date">1997–2002</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">3e cohabitation</div>
+            <div class="frise-detail" id="fd6"><strong>1997–2002</strong>3e cohabitation : Chirac (Président de droite) + Jospin (Premier ministre socialiste). La plus longue cohabitation (5 ans).</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd7')">
+            <div class="frise-date">2000</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Quinquennat</div>
+            <div class="frise-detail" id="fd7"><strong>2000</strong>Le mandat présidentiel passe de 7 ans (septennat) à 5 ans (quinquennat). Objectif : aligner les élections présidentielles et législatives pour éviter les cohabitations.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd8')">
+            <div class="frise-date">2017</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Macron — rupture</div>
+            <div class="frise-detail" id="fd8"><strong>2017</strong>Emmanuel Macron, 39 ans, devient le plus jeune président de la Ve République. Crée un nouveau mouvement "En Marche" qui bouscule le bipartisme droite/gauche.</div>
+          </div>
+        </div>
+      </div>
+      <div class="section" style="margin-top:14px">
+        <div class="section-head gris">📋 Les présidents — tableau chronologique</div>
+        <div class="section-body">
+          <table class="dates-table">
+            <tr><th>Présidence</th><th>Président</th><th>Parti / Bord</th><th>Événement clé</th></tr>
+            <tr><td class="date-cell">1958–1969</td><td class="event-cell">De Gaulle</td><td class="detail-cell">Droite gaulliste</td><td class="detail-cell">Fondateur — Constitution — algérie — démission 1969</td></tr>
+            <tr><td class="date-cell">1969–1974</td><td class="event-cell">Pompidou</td><td class="detail-cell">Droite gaulliste</td><td class="detail-cell">Modernisation — mort en fonction</td></tr>
+            <tr><td class="date-cell">1974–1981</td><td class="event-cell">Giscard d'Estaing</td><td class="detail-cell">Centre-droite</td><td class="detail-cell">Majorité à 18 ans — loi Veil (IVG)</td></tr>
+            <tr><td class="date-cell">1981–1995</td><td class="event-cell">Mitterrand</td><td class="detail-cell">Gauche</td><td class="detail-cell">1ère alternance — abolition peine de mort — 2 cohabitations</td></tr>
+            <tr><td class="date-cell">1995–2007</td><td class="event-cell">Chirac</td><td class="detail-cell">Droite</td><td class="detail-cell">Quinquennat — 3e cohabitation — refus guerre Irak</td></tr>
+            <tr><td class="date-cell">2007–2012</td><td class="event-cell">Sarkozy</td><td class="detail-cell">Droite</td><td class="detail-cell">Crise financière 2008</td></tr>
+            <tr><td class="date-cell">2012–2017</td><td class="event-cell">Hollande</td><td class="detail-cell">Gauche</td><td class="detail-cell">Mariage pour tous — attentats 2015</td></tr>
+            <tr><td class="date-cell">2017–</td><td class="event-cell">Macron</td><td class="detail-cell">Centre</td><td class="detail-cell">Plus jeune président — Gilets jaunes — réélu 2022</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ QUIZ ═══ -->
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head rouge">❓ Quiz — La Ve République</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Clique sur ta réponse.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score"><div class="score-num" id="score-num"></div><div class="score-msg" id="score-msg"></div><button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ EXERCICE ═══ -->
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head rouge">✏️ Exercice type brevet</div>
+    <div class="section-body"><div class="info-box"><strong>Conditions :</strong> Lis le document, puis réponds. Temps conseillé : 25 minutes.</div></div>
+  </div>
+  <div class="doc-brevet">
+    <h3>📄 Document — Extrait de la Constitution du 4 octobre 1958 (articles choisis)</h3>
+    <p><strong>Article 5 :</strong> Le Président de la République veille au respect de la Constitution. Il assure, par son arbitrage, le fonctionnement régulier des pouvoirs publics ainsi que la continuité de l'État.<br>
+    <strong>Article 8 :</strong> Le Président de la République nomme le Premier ministre. Il met fin à ses fonctions sur la présentation par celui-ci de la démission du gouvernement.<br>
+    <strong>Article 20 :</strong> Le gouvernement détermine et conduit la politique de la Nation. Il est responsable devant le Parlement.<br>
+    <strong>Article 49 :</strong> Le Premier ministre, après délibération du Conseil des ministres, engage devant l'Assemblée nationale la responsabilité du gouvernement sur son programme.</p>
+    <p class="doc-source">Extraits de la Constitution française du 4 octobre 1958, à des fins pédagogiques.</p>
+  </div>
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Présenter le document</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Présente ce document. Dans quel contexte la Constitution de 1958 a-t-elle été rédigée ? Qu'est-ce qu'une Constitution ?</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p>Ce document est un <strong>texte juridique fondamental</strong> : il s'agit d'extraits de la <strong>Constitution française du 4 octobre 1958</strong>, qui fonde la Ve République.</p>
+        <p style="margin-top:8px"><strong>Une Constitution</strong> est la loi suprême d'un État. Elle définit les règles d'organisation du pouvoir politique : qui gouverne, comment les institutions fonctionnent, quels sont les droits des citoyens. Toutes les autres lois doivent la respecter.</p>
+        <p style="margin-top:8px"><strong>Contexte :</strong> La Constitution de 1958 est rédigée dans un contexte de crise grave. La IVe République (1946–1958) était instable (25 gouvernements en 12 ans). La guerre d'Algérie provoque une crise politique majeure en mai 1958. Le général de Gaulle accepte de revenir au pouvoir à condition de pouvoir rédiger une nouvelle Constitution qui renforce l'autorité de l'exécutif. Elle est approuvée par référendum le 4 octobre 1958.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Nature → Auteur (ici l'État français) → Date → Définition du terme clé (Constitution) → Contexte historique.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Constitution</em> = loi fondamentale qui organise le pouvoir dans un État. <em>Référendum</em> = vote direct des citoyens sur une question.</div>
+      </div>
+    </div>
+  </div>
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser les pouvoirs</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>À partir des articles du document, explique comment les pouvoirs sont partagés entre le Président, le Premier ministre et le Parlement. Pourquoi parle-t-on de régime "semi-présidentiel" ?</p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p><strong>Le Président</strong> (article 5) veille au respect de la Constitution et assure la continuité de l'État. Il est au-dessus des institutions et joue le rôle d'arbitre. Il nomme le Premier ministre (article 8) — c'est un pouvoir considérable car il choisit qui dirige le gouvernement.</p>
+        <p style="margin-top:8px"><strong>Le Premier ministre et le gouvernement</strong> (article 20) déterminent et conduisent la politique de la Nation au quotidien. Mais ils sont responsables devant le Parlement (article 49) : si l'Assemblée nationale retire sa confiance au gouvernement, celui-ci doit démissionner.</p>
+        <p style="margin-top:8px"><strong>Pourquoi "semi-présidentiel" ?</strong> La France n'est pas totalement présidentielle (comme les États-Unis où le Président concentre tout le pouvoir exécutif) car le Premier ministre a un rôle réel et doit avoir la confiance du Parlement. Mais elle n'est pas totalement parlementaire (comme le Royaume-Uni) car le Président a des pouvoirs très importants et est élu directement par les citoyens. D'où le terme de régime "semi-présidentiel" ou "mixte".</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour chaque institution → citer l'article → expliquer le pouvoir → relier à la notion de régime semi-présidentiel.</div>
+      </div>
+    </div>
+  </div>
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Développement construit</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>En vous appuyant sur le document et vos connaissances, montrez en 8 à 12 lignes comment la Ve République a su garantir la stabilité politique de la France depuis 1958, tout en permettant l'alternance démocratique.</p>
+      <textarea id="rep3" placeholder="Écris ton développement ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Exemple de développement rédigé</h4>
+        <p>La Ve République, fondée en 1958 par de Gaulle, a réussi à apporter la stabilité politique qui manquait à la IVe République, tout en restant une démocratie dans laquelle les citoyens peuvent changer leur gouvernement par le vote.</p>
+        <p style="margin-top:8px">La stabilité repose sur les institutions. La Constitution (document) donne au Président un rôle central : il est garant de la Constitution, nomme le Premier ministre, peut dissoudre l'Assemblée nationale. Cette concentration du pouvoir exécutif évite les blocages institutionnels qui paralysaient la IVe République (25 gouvernements en 12 ans). Depuis 1958, la Ve République a traversé des crises graves (mai 1968, guerre d'Algérie, crise financière de 2008) sans jamais s'effondrer.</p>
+        <p style="margin-top:8px">Mais la Ve République reste une vraie démocratie grâce à l'alternance. En 1981, la gauche accède au pouvoir pour la première fois sous ce régime avec Mitterrand — signe que les électeurs peuvent changer de majorité. La cohabitation (1986–1988, 1993–1995, 1997–2002) montre que même quand Président et Parlement sont de bords opposés, le système fonctionne. Le quinquennat instauré en 2000 a encore renforcé cette stabilité.</p>
+        <div class="methode-box"><strong>💡 Structure :</strong> Présentation du régime → Stabilité (institutions fortes) → Démocratie (alternance, cohabitation).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS=[
+  {q:"Pourquoi la Ve République est-elle créée en 1958 ?",opts:["La IVe République est instable (25 gouvernements en 12 ans) et la crise de mai 1958 liée à la guerre d'Algérie provoque son effondrement ; de Gaulle revient au pouvoir et rédige une nouvelle Constitution","La France veut rejoindre l'Union soviétique après la défaite de la Seconde Guerre mondiale","La IVe République refuse d'accorder le droit de vote aux femmes","Les partis politiques décident de supprimer le Parlement et de confier le pouvoir à de Gaulle"],correct:0,expl:"La IVe République (1946–1958) souffre d'une grande instabilité : 25 gouvernements en 12 ans, impossibles à maintenir avec une Assemblée très divisée. La guerre d'Algérie provoque en mai 1958 un soulèvement militaire à Alger. Face à cette crise, les dirigeants appellent de Gaulle. Il accepte à condition de pouvoir réformer les institutions et rédige une nouvelle Constitution, adoptée par référendum le 4 octobre 1958."},
+  {q:"Quelle est la caractéristique principale de la Ve République ?",opts:["Un Président fort, élu au suffrage universel direct depuis 1962, qui partage le pouvoir exécutif avec un Premier ministre responsable devant le Parlement","Un Parlement tout-puissant qui nomme le Président","Un régime militaire dirigé par l'armée","Un Président élu par les parlementaires et sans pouvoir réel"],correct:0,expl:"La Ve République est un régime semi-présidentiel : le Président a de grands pouvoirs (chef des armées, nomme le Premier ministre, peut dissoudre l'Assemblée) et est élu directement par tous les citoyens depuis 1962. Mais le Premier ministre dirige le gouvernement et doit avoir la confiance de l'Assemblée nationale. C'est ce partage du pouvoir exécutif qui définit le système français."},
+  {q:"Quelle réforme majeure de Gaulle fait-il adopter en 1962 ?",opts:["L'élection du Président au suffrage universel direct : tous les Français votent directement pour choisir leur Président","La création du Sénat comme deuxième chambre du Parlement","La suppression du Premier ministre pour concentrer le pouvoir au Président","L'adhésion de la France à l'OTAN"],correct:0,expl:"En 1962, de Gaulle organise un référendum pour modifier la Constitution : désormais, le Président de la République sera élu directement par tous les citoyens français (suffrage universel direct). Avant cette réforme, le Président était élu par un collège de grands électeurs. Cette réforme renforce considérablement la légitimité et le pouvoir du Président."},
+  {q:"Qu'est-ce que la cohabitation sous la Ve République ?",opts:["Situation où le Président et le Premier ministre sont de bords politiques opposés ; elle se produit quand les élections législatives donnent une majorité différente du Président","Situation où deux partis gouvernent ensemble en alliance","Le fait que le Président et le Premier ministre partagent le même bureau","Un accord entre droite et gauche pour éviter les élections"],correct:0,expl:"La cohabitation se produit quand les Français élisent une Assemblée nationale dont la majorité politique est différente de celle du Président. Le Président doit alors nommer un Premier ministre de l'opposition. Il y a eu 3 cohabitations : 1986–1988 (Mitterrand/Chirac), 1993–1995 (Mitterrand/Balladur), 1997–2002 (Chirac/Jospin). Pendant la cohabitation, le Président garde la main sur la diplomatie et la défense, mais partage le reste du pouvoir."},
+  {q:"Quelle est la première grande alternance politique de la Ve République ?",opts:["L'élection de François Mitterrand (socialiste, gauche) en 1981, battant Giscard d'Estaing (droite)","L'élection de Chirac en 1995 après Mitterrand","L'élection de De Gaulle en 1958 comme premier président","L'élection de Sarkozy en 2007"],correct:0,expl:"La grande alternance de 1981 est un moment historique : pour la première fois sous la Ve République, la gauche (socialiste) accède au pouvoir avec l'élection de François Mitterrand. Avant cette date, la droite gaulliste et ses alliés avaient toujours gouverné depuis 1958. Cette alternance montre que la Ve République est une vraie démocratie : les électeurs peuvent changer de majorité par le vote."},
+  {q:"Qu'est-ce que le quinquennat et quand a-t-il été instauré ?",opts:["Le mandat présidentiel de 5 ans, instauré en 2000 pour remplacer le septennat (7 ans) et éviter les cohabitations","Le mandat présidentiel de 4 ans, inspiré des États-Unis","Le mandat de 5 ans du Premier ministre","Le mandat de 5 ans des députés à l'Assemblée nationale"],correct:0,expl:"Le quinquennat est instauré en 2000 (sous la présidence Chirac) par référendum. Il remplace le septennat (mandat de 7 ans). Deux objectifs : rapprocher la durée du mandat présidentiel de celui des députés (5 ans), afin que les élections présidentielles et législatives aient lieu à peu près en même temps — ce qui réduit le risque de cohabitation. Depuis 2002, les deux élections ont lieu la même année."},
+  {q:"Quel est le rôle du Premier ministre selon la Constitution de 1958 ?",opts:["Il dirige le gouvernement, conduit la politique intérieure et est responsable devant l'Assemblée nationale","Il remplace le Président quand celui-ci est absent","Il représente la France dans les organisations internationales","Il vote les lois avec le Sénat"],correct:0,expl:"Le Premier ministre (article 20 de la Constitution) dirige le gouvernement qui 'détermine et conduit la politique de la Nation'. Il est nommé par le Président mais doit avoir la confiance de l'Assemblée nationale (article 49). Il engage la responsabilité du gouvernement devant le Parlement. Il gère les affaires intérieures, tandis que le Président se concentre davantage sur la diplomatie et la défense."},
+  {q:"Pourquoi de Gaulle démissionne-t-il en 1969 ?",opts:["Il perd un référendum sur la réforme du Sénat et la régionalisation, et respecte sa promesse de démissionner en cas d'échec","Il est renversé par une révolution lors de mai 1968","Il atteint la limite d'âge pour exercer la présidence","Il démissionne pour protester contre la politique américaine"],correct:0,expl:"De Gaulle avait coutume de lier les référendums à sa propre légitimité : il promettait de démissionner si les Français votaient non. En avril 1969, il organise un référendum sur la réforme du Sénat et la régionalisation. Les Français votent non à 52 %. Conformément à sa promesse, de Gaulle démissionne immédiatement, le 28 avril 1969, et se retire définitivement de la vie politique."},
+  {q:"Quel est le rôle du Conseil constitutionnel ?",opts:["Vérifier que les lois votées par le Parlement respectent la Constitution, et contrôler le bon déroulement des élections","Diriger le gouvernement en l'absence du Premier ministre","Nommer les membres du gouvernement","Juger les affaires criminelles graves"],correct:0,expl:"Le Conseil constitutionnel est la plus haute juridiction constitutionnelle de France. Il vérifie que les lois respectent la Constitution (contrôle de constitutionnalité). Il contrôle aussi le bon déroulement des élections présidentielles et législatives, et valide les résultats. Il est composé de 9 membres nommés pour 9 ans (3 par le Président de la République, 3 par le président de l'Assemblée nationale, 3 par le président du Sénat)."},
+  {q:"Combien y a-t-il eu de cohabitations sous la Ve République ?",opts:["3 cohabitations (1986–88, 1993–95, 1997–2002)","1 cohabitation (1981)","5 cohabitations","Aucune cohabitation, le régime l'interdit"],correct:0,expl:"Il y a eu exactement 3 cohabitations sous la Ve République : 1986–1988 (Mitterrand président socialiste / Chirac Premier ministre de droite), 1993–1995 (Mitterrand / Balladur), et 1997–2002 (Chirac président de droite / Jospin Premier ministre socialiste). La 3e est la plus longue (5 ans). Depuis le quinquennat (2000) et l'alignement des calendriers électoraux, il n'y a plus eu de cohabitation."},
+  {q:"Qu'est-ce qu'un régime semi-présidentiel ?",opts:["Un régime où le Président a de grands pouvoirs mais partage l'exécutif avec un Premier ministre responsable devant le Parlement — ni totalement présidentiel, ni totalement parlementaire","Un régime où le Président est élu pour moitié de mandat","Un régime où la moitié des lois sont votées par le Président","Un régime militaire avec un président civil"],correct:0,expl:"Le régime semi-présidentiel (ou régime mixte) de la Ve République combine des éléments du régime présidentiel (Président fort, élu directement, chef des armées) et du régime parlementaire (le gouvernement est responsable devant le Parlement, le Premier ministre dirige la politique intérieure). Ce système est différent des États-Unis (totalement présidentiel) et du Royaume-Uni (totalement parlementaire)."},
+  {q:"Qui est le plus jeune président de la Ve République et quand a-t-il été élu ?",opts:["Emmanuel Macron, élu en 2017 à 39 ans","Nicolas Sarkozy, élu en 2007 à 52 ans","François Hollande, élu en 2012 à 57 ans","Charles de Gaulle, élu en 1958 à 67 ans"],correct:0,expl:"Emmanuel Macron est élu Président de la République le 7 mai 2017 à seulement 39 ans, devenant le plus jeune président de la Ve République. Il crée un nouveau mouvement politique 'En Marche' (devenu Renaissance), cassant le bipartisme traditionnel droite/gauche. Il est réélu en 2022 pour un second mandat, face à Marine Le Pen."}
+];
+var answered={},score=0;
+function showPanel(id,tab){var p=document.querySelectorAll('.panel'),t=document.querySelectorAll('.tab');for(var i=0;i<p.length;i++)p[i].classList.remove('active');for(var i=0;i<t.length;i++)t[i].classList.remove('active');document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');}
+function toggleDetail(id){var all=document.querySelectorAll('.frise-detail');for(var i=0;i<all.length;i++){if(all[i].id!==id)all[i].classList.remove('show');}document.getElementById(id).classList.toggle('show');}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+function buildQuiz(){var c=document.getElementById('quiz-container');c.innerHTML='';answered={};score=0;for(var i=0;i<QUESTIONS.length;i++){var q=QUESTIONS[i],div=document.createElement('div');div.className='quiz-q';var opts='';for(var j=0;j<q.opts.length;j++)opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';c.appendChild(div);}document.getElementById('quiz-score').classList.remove('show');}
+function answer(qi,choice){if(answered[qi]!==undefined)return;answered[qi]=choice;var q=QUESTIONS[qi],opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');for(var i=0;i<opts.length;i++)opts[i].classList.add('disabled');opts[choice].classList.add(choice===q.correct?'correct':'wrong');if(choice!==q.correct)opts[q.correct].classList.add('correct');var ok=choice===q.correct;if(ok)score++;var expl=document.getElementById('expl-'+qi);expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;expl.classList.add('show');if(Object.keys(answered).length===QUESTIONS.length)showScore();}
+function showScore(){var pct=Math.round(score/QUESTIONS.length*100);document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;var msg=pct>=90?'🎉 Excellent Zach ! La Ve République maîtrisée !':pct>=70?'👍 Très bien ! Relis les points "à revoir".':pct>=50?'💪 Pas mal ! Relis la fiche et retente.':'📋 Relis la fiche, surtout les institutions et les cohabitations.';document.getElementById('score-msg').textContent=msg;document.getElementById('quiz-score').classList.add('show');}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.toggleDetail=toggleDetail;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;
+</script>
+</body>
+</html>

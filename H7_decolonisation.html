@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H7 — La décolonisation</title>
+<style>
+  :root{--rouge:#C0392B;--rouge-light:#FADBD8;--bleu:#1A5276;--bleu-light:#D6EAF8;--vert:#1E8449;--vert-light:#D5F5E3;--orange:#D35400;--orange-light:#FDEBD0;--violet:#6C3483;--violet-light:#E8DAEF;--gris:#5D6D7E;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--rouge);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--rouge);border-bottom-color:var(--rouge)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.rouge{background:var(--rouge)}.section-head.bleu{background:var(--bleu)}.section-head.vert{background:var(--vert)}.section-head.orange{background:var(--orange)}.section-head.violet{background:var(--violet)}.section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--rouge);font-weight:700}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--rouge-light);color:var(--rouge);font-weight:700;font-size:12px;padding:8px 12px;min-width:150px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .cas-card{border-radius:var(--radius);overflow:hidden;margin-bottom:10px;border:1px solid var(--border)}
+  .cas-head{padding:9px 14px;font-size:13px;font-weight:700;color:white;display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .cas-tag{font-size:10px;background:rgba(255,255,255,0.25);padding:2px 8px;border-radius:20px}
+  .cas-body{padding:10px 14px;font-size:13px;line-height:1.7;background:white}
+  .dates-table{width:100%;border-collapse:collapse;font-size:13px}
+  .dates-table th{background:var(--rouge);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .dates-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .dates-table tr:last-child td{border-bottom:none}
+  .dates-table tr:nth-child(even) td{background:#FFF8F8}
+  .dates-table .date-cell{font-weight:700;color:var(--rouge);white-space:nowrap;min-width:90px}
+  .dates-table .event-cell{font-weight:600}
+  .dates-table .detail-cell{color:var(--muted);font-size:12px}
+  .frise-container{overflow-x:auto;padding-bottom:6px}
+  .frise{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:0;min-width:820px;padding:20px 10px 10px;position:relative}
+  .frise::before{content:'';position:absolute;top:42px;left:10px;right:10px;height:3px;background:linear-gradient(90deg,var(--rouge),var(--orange),var(--bleu));z-index:0}
+  .frise-item{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;position:relative;z-index:1;cursor:pointer}
+  .frise-dot{width:16px;height:16px;border-radius:50%;background:var(--rouge);border:3px solid white;box-shadow:0 0 0 2px var(--rouge);margin-bottom:8px;transition:transform 0.15s}
+  .frise-item:hover .frise-dot{transform:scale(1.4)}
+  .frise-item.important .frise-dot{width:22px;height:22px;background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+  .frise-date{font-size:10px;font-weight:700;color:var(--rouge);text-align:center;margin-bottom:4px;line-height:1.2}
+  .frise-label{font-size:10px;color:var(--muted);text-align:center;max-width:80px;line-height:1.3}
+  .frise-detail{display:none;background:white;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6;margin-top:8px;max-width:160px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.1);position:absolute;top:70px;z-index:10;min-width:140px}
+  .frise-detail.show{display:block}
+  .frise-detail strong{color:var(--rouge);display:block;margin-bottom:4px}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--rouge);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--rouge);background:var(--rouge-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--rouge);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.8}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--rouge-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--rouge);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--rouge);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--rouge)}
+  .btn-corr{background:var(--rouge);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  @media(max-width:500px){header h1{font-size:17px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🌍 H7 — La décolonisation (1945–1975)</h1>
+  <p>Fiche complète · Séquence 7 · Histoire · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('frise',this)">📅 Frise</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<div class="panel active" id="panel-fiche">
+  <div class="section">
+    <div class="section-head rouge">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>En une phrase :</strong> La <strong>décolonisation</strong> est le processus par lequel les pays colonisés d'Asie et d'Afrique obtiennent leur indépendance des puissances européennes entre 1945 et 1975. Ce processus se fait parfois pacifiquement (négociations), parfois par des guerres longues et violentes (Algérie, Vietnam). La France est l'une des principales puissances coloniales concernées.</div>
+      <div class="brevet-box"><strong>🎯 Au brevet :</strong> définir la colonisation et la décolonisation, expliquer les causes, distinguer décolonisation pacifique et violente, connaître les cas de l'Inde, de l'Indochine et de l'Algérie.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">🌐 Rappel : qu'est-ce que la colonisation ?</div>
+    <div class="section-body">
+      <div class="info-box"><strong>Colonisation :</strong> entre le 15e et le 20e siècle, les pays européens (France, Royaume-Uni, Belgique, Portugal, Espagne, Pays-Bas…) ont conquis et dominé de nombreux territoires en Afrique, en Asie, en Amérique et en Océanie. Ils y imposent leur autorité politique, exploitent les ressources naturelles et imposent parfois leur culture. Ces territoires dominés s'appellent des <strong>colonies</strong>.</div>
+      <p style="font-size:13px;margin-top:10px">Au début du 20e siècle, la France possède le <strong>deuxième empire colonial mondial</strong> (après le Royaume-Uni) : Afrique du Nord (Algérie, Maroc, Tunisie), Afrique subsaharienne, Indochine (Vietnam, Laos, Cambodge), Antilles, Polynésie…</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head rouge">⚡ Pourquoi la décolonisation après 1945 ?</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li><strong>L'affaiblissement des puissances coloniales :</strong> la Seconde Guerre mondiale a épuisé la France, le Royaume-Uni, la Belgique… Elles n'ont plus les moyens de maintenir leurs empires par la force.</li>
+        <li><strong>La montée des nationalistes dans les colonies :</strong> des élites formées à l'école européenne retournent le discours des droits de l'homme contre les colonisateurs. Comment défendre la liberté contre Hitler et refuser l'indépendance à l'Inde ou à l'Algérie ?</li>
+        <li><strong>La Charte de l'ONU (1945) :</strong> affirme le droit des peuples à disposer d'eux-mêmes (autodétermination). Les États-Unis et l'URSS soutiennent tous les deux la décolonisation, pour des raisons différentes.</li>
+        <li><strong>La conférence de Bandung (1955) :</strong> 29 pays africains et asiatiques nouvellement indépendants se réunissent en Indonésie et affirment leur refus du colonialisme et leur volonté de ne pas choisir entre les deux blocs de la guerre froide (mouvement des "non-alignés").</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head vert">✅ La décolonisation pacifique — le cas de l'Inde (1947)</div>
+    <div class="section-body">
+      <div class="cas-card">
+        <div class="cas-head" style="background:var(--vert)">Inde — Indépendance en 1947 <span class="cas-tag">PACIFIQUE</span></div>
+        <div class="cas-body">
+          Le Royaume-Uni colonise l'Inde depuis le 18e siècle. À partir des années 1920, <strong>Gandhi</strong> dirige le mouvement indépendantiste avec une stratégie originale : la <strong>non-violence</strong> (grèves, boycott des produits britanniques, désobéissance civile). Après la guerre, le Royaume-Uni accepte de négocier. L'Inde obtient son indépendance le <strong>15 août 1947</strong>. Mais la partition entre Inde (hindoue) et Pakistan (musulman) provoque des violences et des millions de réfugiés.<br><br>
+          En Afrique, de nombreux pays obtiennent leur indépendance par la négociation dans les années 1960 : le Sénégal, la Côte d'Ivoire, le Cameroun, le Mali… (1960 est surnommée "l'année de l'Afrique" : 17 indépendances en un an).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head rouge">⚔️ La décolonisation violente</div>
+    <div class="section-body">
+      <div class="cas-card">
+        <div class="cas-head" style="background:var(--orange)">Indochine (Vietnam) — guerre 1945–1954 <span class="cas-tag">VIOLENTE</span></div>
+        <div class="cas-body">
+          Après la guerre, le mouvement nationaliste et communiste du <strong>Viet Minh</strong> (dirigé par <strong>Hô Chi Minh</strong>) proclame l'indépendance du Vietnam (septembre 1945). La France refuse et reprend la guerre. Après 9 ans de conflit, la défaite française à <strong>Diên Biên Phu</strong> (mai 1954) force la France à négocier. Les accords de Genève (1954) reconnaissent l'indépendance du Vietnam, divisé en deux : Nord communiste / Sud pro-occidental. La guerre continue ensuite entre les deux zones jusqu'en 1975 (guerre du Vietnam).
+        </div>
+      </div>
+      <div class="cas-card" style="margin-top:8px">
+        <div class="cas-head" style="background:var(--rouge)">Algérie — guerre 1954–1962 <span class="cas-tag">TRÈS VIOLENTE</span></div>
+        <div class="cas-body">
+          L'Algérie est une colonie française depuis 1830. Elle compte 1 million d'Européens ("pieds-noirs") et 9 millions de musulmans. Le <strong>Front de Libération Nationale (FLN)</strong> déclenche une insurrection armée le <strong>1er novembre 1954</strong>. La guerre dure 8 ans. Elle est marquée par des violences extrêmes des deux côtés : attentats du FLN, tortures pratiquées par l'armée française. En France, la guerre est très impopulaire et divise la société. Le général de Gaulle accepte finalement de négocier. Les accords d'Évian (mars 1962) donnent l'indépendance à l'Algérie. C'est une déchirure pour la France : 1 million de pieds-noirs rapatriés, harkis abandonnés.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head gris">📋 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Décolonisation</div><div class="mc-def">Processus par lequel les pays colonisés obtiennent leur indépendance. Peut être pacifique (négociations) ou violent (guerres d'indépendance).</div></div>
+      <div class="mc-row"><div class="mc-terme">Autodétermination</div><div class="mc-def">Droit des peuples à choisir librement leur système politique et à décider de leur avenir. Principe affirmé par la Charte de l'ONU (1945).</div></div>
+      <div class="mc-row"><div class="mc-terme">Gandhi</div><div class="mc-def">Leader du mouvement indépendantiste indien. Prône la non-violence (grèves, boycotts) contre la domination britannique. L'Inde obtient son indépendance en 1947.</div></div>
+      <div class="mc-row"><div class="mc-terme">FLN</div><div class="mc-def">Front de Libération Nationale algérien. Organisation qui dirige la lutte armée pour l'indépendance de l'Algérie (1954–1962).</div></div>
+      <div class="mc-row"><div class="mc-terme">Diên Biên Phu</div><div class="mc-def">Bataille (mai 1954) où l'armée française est défaite par le Viet Minh en Indochine. Force la France à accorder l'indépendance au Vietnam.</div></div>
+      <div class="mc-row"><div class="mc-terme">Non-alignés</div><div class="mc-def">Pays refusant de choisir entre le bloc américain et le bloc soviétique pendant la guerre froide. Réunis à la conférence de Bandung (1955).</div></div>
+      <div class="mc-row"><div class="mc-terme">Pieds-noirs</div><div class="mc-def">Nom donné aux Européens installés en Algérie depuis des générations. Après l'indépendance (1962), environ 1 million quittent l'Algérie pour la France.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-frise">
+  <div class="section">
+    <div class="section-head rouge">📅 Frise chronologique — La décolonisation</div>
+    <div class="section-body">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Clique sur un point pour voir le détail.</p>
+      <div class="frise-container">
+        <div class="frise">
+          <div class="frise-item important" onclick="toggleDetail('fd1')">
+            <div class="frise-date">1945</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">ONU et autodétermination</div>
+            <div class="frise-detail" id="fd1"><strong>1945</strong>Charte de l'ONU : droit des peuples à l'autodétermination. Les peuples colonisés s'en emparent pour réclamer leur indépendance.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd2')">
+            <div class="frise-date">1947</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Indépendance Inde</div>
+            <div class="frise-detail" id="fd2"><strong>15 août 1947</strong>L'Inde obtient son indépendance du Royaume-Uni après le mouvement de Gandhi. Partition entre Inde (hindoue) et Pakistan (musulman).</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd3')">
+            <div class="frise-date">1945–1954</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Guerre Indochine</div>
+            <div class="frise-detail" id="fd3"><strong>1945–1954</strong>Le Viet Minh de Hô Chi Minh combat la France. Défaite française à Diên Biên Phu (mai 1954). Indépendance du Vietnam accordée aux accords de Genève.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd4')">
+            <div class="frise-date">1955</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Conférence Bandung</div>
+            <div class="frise-detail" id="fd4"><strong>Avril 1955</strong>29 pays d'Asie et d'Afrique se réunissent à Bandung. Affirmation du droit à l'indépendance et refus de choisir entre les deux blocs.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd5')">
+            <div class="frise-date">1er nov. 1954</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Début guerre Algérie</div>
+            <div class="frise-detail" id="fd5"><strong>1er novembre 1954</strong>Insurrection du FLN en Algérie. Début de la guerre d'Algérie qui durera 8 ans.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd6')">
+            <div class="frise-date">1960</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Année de l'Afrique</div>
+            <div class="frise-detail" id="fd6"><strong>1960</strong>17 pays africains obtiennent leur indépendance en une seule année. C'est "l'année de l'Afrique".</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd7')">
+            <div class="frise-date">Mars 1962</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Indépendance Algérie</div>
+            <div class="frise-detail" id="fd7"><strong>Accords d'Évian, mars 1962</strong>La France reconnaît l'indépendance de l'Algérie. Fin de 132 ans de colonisation française. 1 million de pieds-noirs rapatriés.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd8')">
+            <div class="frise-date">1975</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Fin des grandes décolonisations</div>
+            <div class="frise-detail" id="fd8"><strong>1975</strong>Le Portugal accorde l'indépendance à ses colonies (Angola, Mozambique). La grande vague de décolonisation prend fin.</div>
+          </div>
+        </div>
+      </div>
+      <div class="section" style="margin-top:14px">
+        <div class="section-head gris">📋 Tableau des dates clés</div>
+        <div class="section-body">
+          <table class="dates-table">
+            <tr><th>Date</th><th>Événement</th><th>Pays / Signification</th></tr>
+            <tr><td class="date-cell">1945</td><td class="event-cell">Charte de l'ONU</td><td class="detail-cell">Droit des peuples à l'autodétermination</td></tr>
+            <tr><td class="date-cell">15 août 1947</td><td class="event-cell">Indépendance de l'Inde</td><td class="detail-cell">Décolonisation pacifique — modèle de Gandhi</td></tr>
+            <tr><td class="date-cell">Mai 1954</td><td class="event-cell">Défaite à Diên Biên Phu</td><td class="detail-cell">France vaincue — fin de la guerre d'Indochine</td></tr>
+            <tr><td class="date-cell">Avril 1955</td><td class="event-cell">Conférence de Bandung</td><td class="detail-cell">29 pays non-alignés</td></tr>
+            <tr><td class="date-cell">1er nov. 1954</td><td class="event-cell">Insurrection FLN en Algérie</td><td class="detail-cell">Début de la guerre d'Algérie (8 ans)</td></tr>
+            <tr><td class="date-cell">1960</td><td class="event-cell">"Année de l'Afrique"</td><td class="detail-cell">17 indépendances africaines</td></tr>
+            <tr><td class="date-cell">Mars 1962</td><td class="event-cell">Accords d'Évian</td><td class="detail-cell">Indépendance de l'Algérie</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head rouge">❓ Quiz — La décolonisation</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Clique sur ta réponse.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score"><div class="score-num" id="score-num"></div><div class="score-msg" id="score-msg"></div><button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head rouge">✏️ Exercice type brevet</div>
+    <div class="section-body"><div class="info-box"><strong>Conditions :</strong> Lis le document, puis réponds. Temps conseillé : 25 minutes.</div></div>
+  </div>
+  <div class="doc-brevet">
+    <h3>📄 Document — Extrait d'un discours du FLN, 1954</h3>
+    <p>Peuple algérien ! Militants de la cause nationale, à vous qui êtes appelés à nous juger : notre but est l'indépendance nationale dans le cadre des principes islamiques et du respect de toutes les libertés fondamentales sans distinction de race ni de confession. Nous menons un combat difficile et long, mais notre cause est juste. Nous réclamons simplement ce que la Charte de l'ONU reconnaît à tous les peuples : le droit de vivre libres sur notre propre terre. La France dit que l'Algérie est française. Nous disons que l'Algérie est algérienne.</p>
+    <p class="doc-source">Adapté de la Proclamation du FLN, 1er novembre 1954, à des fins pédagogiques.</p>
+  </div>
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Présenter le document</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Présente ce document. Qu'est-ce que le FLN ? Quel est le contexte de sa création ?</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p>Ce document est une <strong>proclamation politique</strong> (un appel au peuple) rédigée par le <strong>Front de Libération Nationale (FLN)</strong> le 1er novembre 1954 — jour du déclenchement de l'insurrection armée en Algérie.</p>
+        <p style="margin-top:8px">Le <strong>FLN</strong> est l'organisation nationaliste algérienne qui dirige la lutte armée pour l'indépendance de l'Algérie. Il est fondé en 1954 par des militants nationalistes (dont Ahmed Ben Bella) qui estiment que seule la lutte armée peut forcer la France à accorder l'indépendance.</p>
+        <p style="margin-top:8px"><strong>Contexte :</strong> L'Algérie est française depuis 1830. La France considère l'Algérie comme une partie de son territoire (elle est divisée en départements français). Mais 9 millions de musulmans algériens vivent sous domination coloniale, avec des droits très limités. Après la décolonisation de l'Indochine en 1954, le FLN décide de passer à l'action armée.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Nature → Auteur → Date → Définir le terme clé (FLN) → Expliquer le contexte précis.</div>
+      </div>
+    </div>
+  </div>
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser les arguments</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Quels arguments le FLN utilise-t-il pour justifier sa lutte ? Relève deux arguments du document et explique-les en lien avec le contexte historique.</p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p><strong>Argument 1 — Le droit des peuples à l'autodétermination :</strong> "Nous réclamons simplement ce que la Charte de l'ONU reconnaît à tous les peuples : le droit de vivre libres sur notre propre terre." Le FLN s'appuie sur la Charte de l'ONU (1945) qui reconnaît le droit de chaque peuple à se gouverner lui-même. Cela donne une légitimité internationale à leur lutte : si la France soutient la liberté dans le monde (elle fait partie des vainqueurs de la 2e Guerre mondiale), elle ne peut pas refuser ce droit aux Algériens.</p>
+        <p style="margin-top:8px"><strong>Argument 2 — L'identité algérienne face au discours français :</strong> "La France dit que l'Algérie est française. Nous disons que l'Algérie est algérienne." Le FLN affirme que l'Algérie a une identité propre — un peuple, une histoire, une culture — que la colonisation ne peut pas effacer. Cet argument national est au cœur de tous les mouvements indépendantistes du 20e siècle.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Citer les mots exacts du document → expliquer l'argument → relier au contexte historique (ONU, guerre froide, décolonisation).</div>
+      </div>
+    </div>
+  </div>
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Développement construit</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>En vous appuyant sur le document et vos connaissances, expliquez en 8 à 12 lignes les causes et le déroulement de la décolonisation, en distinguant une décolonisation pacifique et une décolonisation violente.</p>
+      <textarea id="rep3" placeholder="Écris ton développement ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Exemple de développement rédigé</h4>
+        <p>Après la Seconde Guerre mondiale, les empires coloniaux européens s'effondrent progressivement. Plusieurs causes expliquent ce phénomène : l'affaiblissement des puissances coloniales (France, Royaume-Uni), la Charte de l'ONU (1945) qui affirme le droit des peuples à disposer d'eux-mêmes, et la montée des mouvements nationalistes dans les colonies.</p>
+        <p style="margin-top:8px">La décolonisation peut prendre deux formes. Certains pays obtiennent leur indépendance pacifiquement, par la négociation. C'est le cas de l'Inde en 1947 : Gandhi dirige un mouvement de désobéissance civile non violente (grèves, boycotts) qui force le Royaume-Uni à négocier. En 1960, "l'année de l'Afrique", 17 pays africains obtiennent leur indépendance par la voie diplomatique.</p>
+        <p style="margin-top:8px">D'autres décolonisations sont violentes. En Indochine, la France combat le Viet Minh de Hô Chi Minh pendant 9 ans avant d'être défaite à Diên Biên Phu (1954). En Algérie, le FLN déclenche une insurrection armée le 1er novembre 1954 (document), réclamant l'indépendance au nom du droit des peuples. La guerre dure 8 ans, avec des violences des deux côtés. L'Algérie obtient son indépendance aux accords d'Évian en mars 1962.</p>
+        <div class="methode-box"><strong>💡 Structure :</strong> Causes → Décolonisation pacifique (exemple Inde) → Décolonisation violente (exemples Indochine et Algérie).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS=[
+  {q:"Qu'est-ce que la décolonisation ?",opts:["Le processus par lequel les pays colonisés obtiennent leur indépendance des puissances européennes (1945–1975)","La conquête de nouvelles colonies par les pays européens après 1945","L'aide économique des pays riches aux pays pauvres","Le partage de l'Afrique entre les pays européens au 19e siècle"],correct:0,expl:"La décolonisation est le mouvement d'indépendance qui libère les pays colonisés d'Asie, d'Afrique et d'Océanie de la domination des puissances européennes. Ce processus s'accélère après 1945 et se poursuit jusqu'aux années 1970. Il peut être pacifique (négociation) ou violent (guerre d'indépendance)."},
+  {q:"Quelle est la principale raison pour laquelle la décolonisation s'accélère après 1945 ?",opts:["La Seconde Guerre mondiale a affaibli les puissances coloniales et la Charte de l'ONU affirme le droit des peuples à l'autodétermination","Les colonies ont décidé collectivement de déclarer la guerre aux puissances coloniales","Les États-Unis ont imposé la décolonisation par la force militaire","La décolonisation avait déjà commencé avant 1939 et s'est poursuivie naturellement"],correct:0,expl:"Plusieurs facteurs expliquent l'accélération de la décolonisation après 1945 : la Seconde Guerre mondiale a épuisé les puissances coloniales (elles n'ont plus les moyens militaires et financiers de maintenir leurs empires) ; la Charte de l'ONU (1945) affirme le droit des peuples à l'autodétermination ; les mouvements nationalistes se renforcent dans les colonies."},
+  {q:"Comment Gandhi obtient-il l'indépendance de l'Inde ?",opts:["Par la non-violence : grèves, boycott des produits britanniques, marches de protestation pacifiques","Par une insurrection armée contre les soldats britanniques","Par un accord diplomatique avec Churchill pendant la guerre","Par un vote au Parlement britannique"],correct:0,expl:"Gandhi (Mahatma Gandhi) est le leader du mouvement indépendantiste indien. Sa stratégie est originale et révolutionnaire : la non-violence (ahimsa). Il organise des grèves, des boycotts des produits britanniques (notamment le sel), des marches de protestation (comme la célèbre 'Marche du sel' de 1930). Cette pression pacifique constante force le Royaume-Uni à négocier. L'Inde obtient son indépendance le 15 août 1947."},
+  {q:"Qu'est-ce que la conférence de Bandung (1955) ?",opts:["Réunion de 29 pays africains et asiatiques qui affirment leur indépendance et refusent de choisir entre les deux blocs de la guerre froide","Un accord entre France et Royaume-Uni pour organiser la décolonisation","Une réunion de l'ONU pour voter les indépendances africaines","Un traité de paix entre les pays colonisés et les puissances coloniales"],correct:0,expl:"La conférence de Bandung (Indonésie, avril 1955) réunit 29 pays africains et asiatiques nouvellement indépendants. Ils affirment leur solidarité, leur refus du colonialisme et leur volonté de ne choisir ni le bloc américain ni le bloc soviétique (mouvement des 'non-alignés'). C'est la première fois que les pays du Sud parlent d'une seule voix sur la scène internationale."},
+  {q:"Pourquoi la France perd-elle la guerre d'Indochine en 1954 ?",opts:["La défaite militaire de Diên Biên Phu (mai 1954) force la France à négocier l'indépendance du Vietnam","Les États-Unis imposent à la France de se retirer","La France décide volontairement d'accorder l'indépendance","L'URSS envahit l'Indochine et chasse les Français"],correct:0,expl:"La bataille de Diên Biên Phu (mars–mai 1954) est la défaite décisive de la France en Indochine. Le général Vo Nguyen Giap encercle et assiège le camp français. Après 57 jours, les 15 000 soldats français capitulent. Cette défaite spectaculaire force la France à négocier aux accords de Genève (juillet 1954), qui accordent l'indépendance au Vietnam, au Laos et au Cambodge."},
+  {q:"Quand et comment la guerre d'Algérie commence-t-elle ?",opts:["Le 1er novembre 1954, le FLN déclenche une insurrection armée dans plusieurs villes d'Algérie","En 1830, lors de la conquête française de l'Algérie","En 1962, lors des accords d'Évian","En 1958, lors du coup d'État du général de Gaulle"],correct:0,expl:"La guerre d'Algérie débute le 1er novembre 1954 avec la 'Toussaint rouge' : le FLN (Front de Libération Nationale) déclenche simultanément des attentats dans plusieurs villes d'Algérie. C'est le début d'une guerre qui durera 8 ans (1954–1962) et fera plusieurs centaines de milliers de morts des deux côtés. En France, on ne parle officiellement d''événements d'Algérie' pendant longtemps — le mot 'guerre' n'est reconnu officiellement qu'en 1999."},
+  {q:"Qu'est-ce que les accords d'Évian (mars 1962) ?",opts:["Les accords qui mettent fin à la guerre d'Algérie et accordent l'indépendance à l'Algérie","Le traité de paix entre France et Vietnam après Diên Biên Phu","L'accord de décolonisation de l'Afrique subsaharienne en 1960","Le traité signé entre Gandhi et le Royaume-Uni pour l'indépendance de l'Inde"],correct:0,expl:"Les accords d'Évian sont signés le 18 mars 1962 entre le gouvernement français (représentant de Gaulle) et le FLN. Ils mettent fin à 8 ans de guerre et accordent l'indépendance à l'Algérie. Environ 1 million d'Européens d'Algérie (les 'pieds-noirs') doivent quitter le pays. Les harkis (soldats algériens qui avaient combattu avec l'armée française) sont en grande partie abandonnés et massacrés."},
+  {q:"Pourquoi 1960 est-elle surnommée 'l'année de l'Afrique' ?",opts:["17 pays africains obtiennent leur indépendance en une seule année","La conférence de Bandung réunit les pays africains non-alignés","L'ONU vote une résolution sur l'indépendance de tous les pays africains","La France accorde l'indépendance à toutes ses colonies africaines en même temps"],correct:0,expl:"En 1960, pas moins de 17 pays africains accèdent à l'indépendance, dont le Sénégal, la Côte d'Ivoire, le Cameroun, le Mali, le Niger, le Congo… La plupart sont d'anciennes colonies françaises ou britanniques. Cette année exceptionnelle marque le tournant décisif de la décolonisation africaine. Ces indépendances sont majoritairement pacifiques, négociées avec les puissances coloniales."},
+  {q:"Qu'est-ce que le droit à l'autodétermination ?",opts:["Le droit de chaque peuple à choisir librement son système politique et à décider de son propre avenir, affirmé par la Charte de l'ONU (1945)","Le droit des colonisateurs de rester dans les pays qu'ils ont développés","Le droit des États-Unis à intervenir dans les pays du monde entier","Le droit des colonies à rejoindre le bloc soviétique ou américain"],correct:0,expl:"Le droit à l'autodétermination (ou droit des peuples à disposer d'eux-mêmes) est affirmé dans la Charte fondatrice de l'ONU (1945). Il stipule que chaque peuple a le droit de choisir librement son gouvernement et son système politique. Les mouvements indépendantistes s'en emparent pour justifier leur lutte contre la colonisation : si ce droit vaut pour les Européens, il doit valoir pour tous."},
+  {q:"Quelle est la différence entre une décolonisation pacifique et une décolonisation violente ?",opts:["Pacifique = indépendance obtenue par la négociation (ex : Inde 1947) ; violente = indépendance obtenue après une guerre (ex : Algérie 1962)","Pacifique = les colonisateurs partent seuls ; violente = ils sont chassés par les armées de l'ONU","Pacifique = en Asie ; violente = en Afrique","Pacifique = avant 1950 ; violente = après 1950"],correct:0,expl:"La décolonisation peut prendre deux formes. Pacifique : l'indépendance est obtenue par la négociation et des pressions non-violentes (exemple : l'Inde de Gandhi en 1947, les pays africains en 1960). Violente : l'indépendance est obtenue après une guerre d'indépendance plus ou moins longue (exemple : guerre d'Indochine 1945–1954, guerre d'Algérie 1954–1962, guerre du Kenya contre le Royaume-Uni)."},
+  {q:"Qui sont les 'pieds-noirs' ?",opts:["Les Européens (descendants de colons) installés en Algérie depuis des générations, qui doivent quitter le pays à l'indépendance en 1962","Les soldats algériens qui combattaient pour la France","Les soldats français envoyés en Algérie pour la guerre","Les militants du FLN"],correct:0,expl:"Les 'pieds-noirs' sont les Européens d'Algérie — descendants de colons français, espagnols, italiens ou maltais installés en Algérie depuis le 19e siècle. En 1962, ils étaient environ 1 million. À l'indépendance de l'Algérie (accords d'Évian, mars 1962), la grande majorité est contrainte de quitter l'Algérie pour la France, souvent en quelques jours, abandonnant leurs biens. C'est un traumatisme immense pour cette communauté."},
+  {q:"Pourquoi la guerre d'Algérie est-elle particulièrement difficile pour la France ?",opts:["Car l'Algérie était juridiquement française (divisée en départements), les combats sont violents des deux côtés, et la guerre divise profondément la société française","Car l'armée française est beaucoup moins bien équipée que le FLN","Car les États-Unis soutiennent militairement le FLN contre la France","Car l'ONU interdit à la France de maintenir ses troupes en Algérie"],correct:0,expl:"La guerre d'Algérie est particulièrement douloureuse pour la France pour plusieurs raisons : l'Algérie n'est pas juridiquement une colonie mais trois 'départements français' — y renoncer est donc perdre une partie de la France ; la guerre est très violente des deux côtés (attentats du FLN, tortures pratiquées par l'armée française) ; la société française est profondément divisée (partisans de l'Algérie française vs partisans de la négociation) ; et des millions de personnes sont impliquées (appelés, pieds-noirs, harkis)."}
+];
+var answered={},score=0;
+function showPanel(id,tab){var p=document.querySelectorAll('.panel'),t=document.querySelectorAll('.tab');for(var i=0;i<p.length;i++)p[i].classList.remove('active');for(var i=0;i<t.length;i++)t[i].classList.remove('active');document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');}
+function toggleDetail(id){var all=document.querySelectorAll('.frise-detail');for(var i=0;i<all.length;i++){if(all[i].id!==id)all[i].classList.remove('show');}document.getElementById(id).classList.toggle('show');}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+function buildQuiz(){var c=document.getElementById('quiz-container');c.innerHTML='';answered={};score=0;for(var i=0;i<QUESTIONS.length;i++){var q=QUESTIONS[i],div=document.createElement('div');div.className='quiz-q';var opts='';for(var j=0;j<q.opts.length;j++)opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';c.appendChild(div);}document.getElementById('quiz-score').classList.remove('show');}
+function answer(qi,choice){if(answered[qi]!==undefined)return;answered[qi]=choice;var q=QUESTIONS[qi],opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');for(var i=0;i<opts.length;i++)opts[i].classList.add('disabled');opts[choice].classList.add(choice===q.correct?'correct':'wrong');if(choice!==q.correct)opts[q.correct].classList.add('correct');var ok=choice===q.correct;if(ok)score++;var expl=document.getElementById('expl-'+qi);expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;expl.classList.add('show');if(Object.keys(answered).length===QUESTIONS.length)showScore();}
+function showScore(){var pct=Math.round(score/QUESTIONS.length*100);document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;var msg=pct>=90?'🎉 Excellent Zach ! La décolonisation maîtrisée !':pct>=70?'👍 Très bien ! Relis les points "à revoir".':pct>=50?'💪 Pas mal ! Relis la fiche et retente.':'📋 Relis la fiche, surtout les cas Inde, Indochine et Algérie.';document.getElementById('score-msg').textContent=msg;document.getElementById('quiz-score').classList.add('show');}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.toggleDetail=toggleDetail;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;
+</script>
+</body>
+</html>

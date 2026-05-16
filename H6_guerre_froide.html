@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H6 — La guerre froide</title>
+<style>
+  :root{--rouge:#C0392B;--rouge-light:#FADBD8;--bleu:#1A5276;--bleu-light:#D6EAF8;--vert:#1E8449;--vert-light:#D5F5E3;--orange:#D35400;--orange-light:#FDEBD0;--violet:#6C3483;--violet-light:#E8DAEF;--gris:#5D6D7E;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--rouge);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--rouge);border-bottom-color:var(--rouge)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.rouge{background:var(--rouge)}.section-head.bleu{background:var(--bleu)}.section-head.vert{background:var(--vert)}.section-head.orange{background:var(--orange)}.section-head.violet{background:var(--violet)}.section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--rouge);font-weight:700}
+  .camps-grid{display:-webkit-flex;display:flex;gap:12px;-webkit-flex-wrap:wrap;flex-wrap:wrap;margin-top:4px}
+  .camp{border-radius:8px;overflow:hidden;-webkit-flex:1 1 200px;flex:1 1 200px}
+  .camp-head{padding:8px 12px;font-size:13px;font-weight:700;color:white;text-align:center}
+  .camp-body{padding:10px 12px;font-size:12px;line-height:1.9}
+  .camp-body li{list-style:none;padding:1px 0}
+  .camp-body li::before{content:"→ ";font-weight:700}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--rouge-light);color:var(--rouge);font-weight:700;font-size:12px;padding:8px 12px;min-width:140px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .dates-table{width:100%;border-collapse:collapse;font-size:13px}
+  .dates-table th{background:var(--rouge);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .dates-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .dates-table tr:last-child td{border-bottom:none}
+  .dates-table tr:nth-child(even) td{background:#FFF8F8}
+  .dates-table .date-cell{font-weight:700;color:var(--rouge);white-space:nowrap;min-width:90px}
+  .dates-table .event-cell{font-weight:600}
+  .dates-table .detail-cell{color:var(--muted);font-size:12px}
+  .frise-container{overflow-x:auto;padding-bottom:6px}
+  .frise{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:0;min-width:900px;padding:20px 10px 10px;position:relative}
+  .frise::before{content:'';position:absolute;top:42px;left:10px;right:10px;height:3px;background:linear-gradient(90deg,var(--rouge),var(--orange),var(--bleu));z-index:0}
+  .frise-item{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;position:relative;z-index:1;cursor:pointer}
+  .frise-dot{width:16px;height:16px;border-radius:50%;background:var(--rouge);border:3px solid white;box-shadow:0 0 0 2px var(--rouge);margin-bottom:8px;transition:transform 0.15s}
+  .frise-item:hover .frise-dot{transform:scale(1.4)}
+  .frise-item.important .frise-dot{width:22px;height:22px;background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+  .frise-date{font-size:10px;font-weight:700;color:var(--rouge);text-align:center;margin-bottom:4px;line-height:1.2}
+  .frise-label{font-size:10px;color:var(--muted);text-align:center;max-width:80px;line-height:1.3}
+  .frise-detail{display:none;background:white;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6;margin-top:8px;max-width:160px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.1);position:absolute;top:70px;z-index:10;min-width:140px}
+  .frise-detail.show{display:block}
+  .frise-detail strong{color:var(--rouge);display:block;margin-bottom:4px}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--rouge);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--rouge);background:var(--rouge-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--rouge);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.8}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--rouge-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--rouge);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--rouge);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--rouge)}
+  .btn-corr{background:var(--rouge);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  @media(max-width:500px){header h1{font-size:17px}.camps-grid{-webkit-flex-direction:column;flex-direction:column}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🌐 H6 — La guerre froide (1947–1991)</h1>
+  <p>Fiche complète · Séquence 6 · Histoire · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('frise',this)">📅 Frise</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head rouge">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>En une phrase :</strong> Après la Seconde Guerre mondiale, le monde se divise en deux blocs rivaux : le bloc occidental (États-Unis, démocraties) et le bloc soviétique (URSS, régimes communistes). Cette rivalité — appelée <strong>guerre froide</strong> (1947–1991) — n'est jamais un conflit militaire direct entre les deux superpuissances, mais une tension permanente qui façonne le monde pendant 44 ans.</div>
+      <div class="brevet-box"><strong>🎯 Au brevet :</strong> définir la guerre froide et ses caractéristiques, distinguer les deux blocs, expliquer des crises (Berlin, Cuba), comprendre la fin de la guerre froide en 1991.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">⚖️ Les deux blocs en présence</div>
+    <div class="section-body">
+      <div class="camps-grid">
+        <div class="camp">
+          <div class="camp-head" style="background:var(--bleu)">BLOC OCCIDENTAL (Ouest)</div>
+          <div class="camp-body" style="background:var(--bleu-light);color:var(--bleu)">
+            <ul>
+              <li>Menés par les États-Unis</li>
+              <li>Idéologie : démocratie libérale, capitalisme</li>
+              <li>Alliance militaire : OTAN (1949)</li>
+              <li>Aide économique : Plan Marshall (1948)</li>
+              <li>Pays : Europe de l'Ouest, Japon, Canada…</li>
+            </ul>
+          </div>
+        </div>
+        <div class="camp">
+          <div class="camp-head" style="background:var(--rouge)">BLOC SOVIÉTIQUE (Est)</div>
+          <div class="camp-body" style="background:var(--rouge-light);color:var(--rouge)">
+            <ul>
+              <li>Menés par l'URSS</li>
+              <li>Idéologie : communisme, économie planifiée</li>
+              <li>Alliance militaire : Pacte de Varsovie (1955)</li>
+              <li>Aide économique : COMECON</li>
+              <li>Pays : Europe de l'Est, Chine (au début), Cuba…</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="info-box" style="margin-top:12px"><strong>Pourquoi "froide" ?</strong> Les deux superpuissances ne s'affrontent jamais directement sur un champ de bataille. Elles s'affrontent par pays interposés (guerres de Corée, Vietnam), par la course aux armements, la propagande et l'espionnage. Un affrontement direct signifierait une guerre nucléaire totale — destruction mutuelle assurée.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head rouge">🔥 Les grandes crises de la guerre froide</div>
+    <div class="section-body">
+      <div class="warn-box"><strong>Le blocus de Berlin (1948–1949) :</strong> L'URSS bloque toutes les routes d'accès à Berlin-Ouest (enclave occidentale en zone soviétique). Les Américains organisent un pont aérien (11 mois) pour ravitailler la ville. L'URSS cède. L'Allemagne est définitivement divisée en deux États : la RFA (Ouest) et la RDA (Est).</div>
+      <div class="warn-box" style="margin-top:8px"><strong>La guerre de Corée (1950–1953) :</strong> La Corée du Nord (communiste, soutenue par l'URSS et la Chine) envahit la Corée du Sud (soutenue par les États-Unis et l'ONU). La guerre se termine par une trêve — la Corée reste divisée au 38e parallèle.</div>
+      <div class="warn-box" style="margin-top:8px"><strong>Le mur de Berlin (août 1961) :</strong> L'URSS fait construire un mur de béton qui divise Berlin en deux. But : empêcher les Allemands de l'Est de fuir vers l'Ouest. Ce mur devient le symbole de la guerre froide et du "rideau de fer".</div>
+      <div class="warn-box" style="margin-top:8px"><strong>La crise de Cuba (octobre 1962) :</strong> Les Américains découvrent que l'URSS installe des missiles nucléaires à Cuba (île communiste à 150 km des États-Unis). Pendant 13 jours, le monde frôle la guerre nucléaire. L'URSS retire finalement ses missiles. C'est la crise la plus dangereuse de la guerre froide.</div>
+      <div class="warn-box" style="margin-top:8px"><strong>La guerre du Vietnam (1955–1975) :</strong> Le Nord-Vietnam (communiste) combat le Sud-Vietnam (soutenu par les États-Unis). Les Américains s'enlisent dans une guerre impopulaire. Ils se retirent en 1973. Le Vietnam est réunifié sous régime communiste en 1975. Défaite symbolique pour les États-Unis.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">🏁 La fin de la guerre froide (1985–1991)</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li><strong>Gorbatchev au pouvoir en URSS (1985) :</strong> le nouveau dirigeant lance des réformes : glasnost (liberté d'expression) et perestroïka (réforme économique). L'URSS reconnaît ses difficultés et réduit la tension avec l'Ouest.</li>
+        <li><strong>Chute du mur de Berlin (9 novembre 1989) :</strong> les Berlinois de l'Est et de l'Ouest se retrouvent et démolissent le mur à coups de marteau. Symbole de la fin de la guerre froide. L'Allemagne est réunifiée en 1990.</li>
+        <li><strong>Effondrement du bloc soviétique (1989–1991) :</strong> un à un, les pays d'Europe de l'Est (Pologne, Hongrie, Tchécoslovaquie, Roumanie…) renversent leurs régimes communistes dans des révolutions pacifiques (sauf en Roumanie).</li>
+        <li><strong>Dissolution de l'URSS (25 décembre 1991) :</strong> l'URSS se désintègre en 15 États indépendants. La Russie en est le principal successeur. La guerre froide prend fin officiellement.</li>
+      </ul>
+      <div class="success-box"><strong>Bilan :</strong> La fin de la guerre froide voit les États-Unis rester la seule superpuissance mondiale ("hyperpuissance"). Mais de nouveaux défis apparaissent : conflits régionaux, terrorisme international, montée de nouvelles puissances (Chine…).</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head gris">📋 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Guerre froide</div><div class="mc-def">Rivalité idéologique, politique et militaire entre États-Unis et URSS (1947–1991), sans affrontement direct entre eux. Le monde est divisé en deux blocs.</div></div>
+      <div class="mc-row"><div class="mc-terme">Bloc occidental</div><div class="mc-def">Alliance menée par les États-Unis, regroupant les démocraties libérales et capitalistes. Alliance militaire : l'OTAN (1949).</div></div>
+      <div class="mc-row"><div class="mc-terme">Bloc soviétique</div><div class="mc-def">Alliance menée par l'URSS, regroupant les régimes communistes d'Europe de l'Est et d'Asie. Alliance militaire : le Pacte de Varsovie (1955).</div></div>
+      <div class="mc-row"><div class="mc-terme">Rideau de fer</div><div class="mc-def">Expression de Winston Churchill (1946) pour désigner la frontière invisible qui séparait l'Europe de l'Ouest (libre) de l'Europe de l'Est (sous domination soviétique).</div></div>
+      <div class="mc-row"><div class="mc-terme">Dissuasion nucléaire</div><div class="mc-def">Doctrine selon laquelle chaque camp possède assez d'armes nucléaires pour détruire l'autre. Cette menace de "destruction mutuelle assurée" empêche un affrontement direct.</div></div>
+      <div class="mc-row"><div class="mc-terme">Plan Marshall</div><div class="mc-def">Aide économique massive accordée par les États-Unis aux pays d'Europe de l'Ouest après la guerre (1948) pour les reconstruire et les empêcher de "basculer" vers le communisme.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-frise">
+  <div class="section">
+    <div class="section-head rouge">📅 Frise chronologique — La guerre froide</div>
+    <div class="section-body">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Clique sur un point pour voir le détail.</p>
+      <div class="frise-container">
+        <div class="frise">
+          <div class="frise-item important" onclick="toggleDetail('fd1')">
+            <div class="frise-date">1947</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Début guerre froide</div>
+            <div class="frise-detail" id="fd1"><strong>1947</strong>Doctrine Truman (aide aux pays menacés par le communisme) et Plan Marshall (aide économique à l'Europe). Début officiel de la guerre froide.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd2')">
+            <div class="frise-date">1948–1949</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Blocus de Berlin</div>
+            <div class="frise-detail" id="fd2"><strong>1948–1949</strong>L'URSS bloque Berlin-Ouest. Les Américains organisent un pont aérien de 11 mois. L'URSS cède. L'Allemagne reste divisée.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd3')">
+            <div class="frise-date">1950–1953</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Guerre de Corée</div>
+            <div class="frise-detail" id="fd3"><strong>1950–1953</strong>Nord communiste vs Sud soutenu par les USA. Fin par trêve. Corée reste divisée au 38e parallèle. Premier conflit indirect de la guerre froide.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd4')">
+            <div class="frise-date">1957</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Spoutnik</div>
+            <div class="frise-detail" id="fd4"><strong>4 octobre 1957</strong>L'URSS lance Spoutnik, le premier satellite artificiel. La course à l'espace commence. Les USA répondent avec leur propre programme spatial.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd5')">
+            <div class="frise-date">Août 1961</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Mur de Berlin</div>
+            <div class="frise-detail" id="fd5"><strong>13 août 1961</strong>L'URSS fait construire un mur de béton divisant Berlin. Symbole du "rideau de fer". Empêche les Allemands de l'Est de fuir à l'Ouest.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd6')">
+            <div class="frise-date">Oct. 1962</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Crise de Cuba</div>
+            <div class="frise-detail" id="fd6"><strong>Octobre 1962</strong>L'URSS installe des missiles à Cuba. Kennedy impose un blocus naval. 13 jours au bord de la guerre nucléaire. L'URSS retire ses missiles.</div>
+          </div>
+          <div class="frise-item" onclick="toggleDetail('fd7')">
+            <div class="frise-date">1975</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Défaite USA Vietnam</div>
+            <div class="frise-detail" id="fd7"><strong>1975</strong>Les États-Unis quittent le Vietnam. Le pays est réunifié sous régime communiste. Grande défaite symbolique pour les États-Unis.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd8')">
+            <div class="frise-date">9 nov. 1989</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Chute du mur</div>
+            <div class="frise-detail" id="fd8"><strong>9 novembre 1989</strong>Le mur de Berlin tombe. Symbole de la fin de la guerre froide. L'Allemagne est réunifiée en 1990.</div>
+          </div>
+          <div class="frise-item important" onclick="toggleDetail('fd9')">
+            <div class="frise-date">1991</div>
+            <div class="frise-dot"></div>
+            <div class="frise-label">Fin de l'URSS</div>
+            <div class="frise-detail" id="fd9"><strong>25 déc. 1991</strong>L'URSS se dissolve. 15 États indépendants. Fin officielle de la guerre froide. Les États-Unis restent la seule superpuissance.</div>
+          </div>
+        </div>
+      </div>
+      <div class="section" style="margin-top:14px">
+        <div class="section-head gris">📋 Tableau des dates clés</div>
+        <div class="section-body">
+          <table class="dates-table">
+            <tr><th>Date</th><th>Événement</th><th>Signification</th></tr>
+            <tr><td class="date-cell">1947</td><td class="event-cell">Doctrine Truman / Plan Marshall</td><td class="detail-cell">Début officiel de la guerre froide</td></tr>
+            <tr><td class="date-cell">1948–1949</td><td class="event-cell">Blocus de Berlin</td><td class="detail-cell">1ère grande crise — l'URSS cède</td></tr>
+            <tr><td class="date-cell">1950–1953</td><td class="event-cell">Guerre de Corée</td><td class="detail-cell">1er conflit par procuration</td></tr>
+            <tr><td class="date-cell">Août 1961</td><td class="event-cell">Construction du mur de Berlin</td><td class="detail-cell">Symbole du rideau de fer</td></tr>
+            <tr><td class="date-cell">Oct. 1962</td><td class="event-cell">Crise des missiles de Cuba</td><td class="detail-cell">Moment le plus dangereux de la guerre froide</td></tr>
+            <tr><td class="date-cell">1975</td><td class="event-cell">Défaite américaine au Vietnam</td><td class="detail-cell">Recul du camp américain</td></tr>
+            <tr><td class="date-cell">9 nov. 1989</td><td class="event-cell">Chute du mur de Berlin</td><td class="detail-cell">Fin symbolique de la guerre froide</td></tr>
+            <tr><td class="date-cell">25 déc. 1991</td><td class="event-cell">Dissolution de l'URSS</td><td class="detail-cell">Fin officielle — victoire du bloc occidental</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head rouge">❓ Quiz — La guerre froide</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Clique sur ta réponse.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score"><div class="score-num" id="score-num"></div><div class="score-msg" id="score-msg"></div><button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head rouge">✏️ Exercice type brevet</div>
+    <div class="section-body"><div class="info-box"><strong>Conditions :</strong> Lis le document, puis réponds. Temps conseillé : 25 minutes.</div></div>
+  </div>
+  <div class="doc-brevet">
+    <h3>📄 Document — Discours de J.F. Kennedy à Berlin-Ouest, 26 juin 1963</h3>
+    <p>Il y a beaucoup de gens dans le monde qui ne comprennent vraiment pas, ou qui disent ne pas comprendre, quelle est la grande différence entre le monde libre et le monde communiste. Qu'ils viennent à Berlin. D'autres disent qu'en Europe et ailleurs, on peut travailler avec les communistes. Qu'ils viennent à Berlin. Et il en est quelques-uns qui disent qu'il est vrai que le communisme est un système mauvais, mais il permet tout de même d'atteindre le progrès économique. Qu'ils viennent à Berlin. La liberté est indivisible, et quand un seul homme est esclave, tous les hommes ne sont pas libres. Ich bin ein Berliner !</p>
+    <p class="doc-source">D'après le discours du président américain John F. Kennedy à Berlin-Ouest, 26 juin 1963. Adapté à des fins pédagogiques.</p>
+  </div>
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Présenter le document</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Présente ce document. Quel est le contexte de ce discours ? Pourquoi Kennedy vient-il à Berlin en 1963 ?</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p>Ce document est un <strong>discours politique</strong> prononcé par le président américain <strong>John F. Kennedy</strong> le 26 juin 1963 à Berlin-Ouest, devant une foule immense.</p>
+        <p style="margin-top:8px"><strong>Contexte :</strong> Le discours est prononcé pendant la guerre froide, deux ans après la construction du mur de Berlin (août 1961) par l'URSS, qui a divisé la ville en deux. Berlin-Ouest est une enclave de liberté entourée par le territoire de la RDA (Allemagne communiste). Kennedy vient affirmer le soutien américain à Berlin-Ouest et montrer la solidarité du monde libre face au communisme.</p>
+        <p style="margin-top:8px">Sa phrase finale "Ich bin ein Berliner" (Je suis un Berlinois) est devenue l'une des phrases les plus célèbres de la guerre froide : Kennedy s'identifie aux Berlinois de l'Ouest pour exprimer que leur combat pour la liberté est aussi celui de l'Amérique.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Nature → Auteur → Date → Contexte historique précis → Pourquoi ce discours à ce moment-là.</div>
+      </div>
+    </div>
+  </div>
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser les arguments</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Quels arguments Kennedy utilise-t-il pour défendre le "monde libre" face au communisme ? Relève deux arguments du document et explique-les.</p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p><strong>Argument 1 — L'opposition liberté/communisme incarnée par Berlin :</strong> Kennedy répète trois fois "Qu'ils viennent à Berlin". Berlin, divisée en deux par le mur, est le symbole vivant de la différence entre le monde libre (à l'Ouest) et le monde communiste (à l'Est). Les Berlinois de l'Est ne peuvent pas rejoindre l'Ouest sans risquer leur vie — preuve selon Kennedy que le communisme prive les hommes de liberté.</p>
+        <p style="margin-top:8px"><strong>Argument 2 — La liberté est universelle et indivisible :</strong> "La liberté est indivisible, et quand un seul homme est esclave, tous les hommes ne sont pas libres." Kennedy dit que la liberté ne peut pas être partielle : si des hommes vivent sous la dictature communiste, la liberté du monde entier est menacée. Cela justifie l'engagement américain pour défendre Berlin et le monde libre.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour chaque argument → citer les mots exacts du document → expliquer le raisonnement de l'auteur → lier au contexte de la guerre froide.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Monde libre</em> = expression des États-Unis pour désigner les pays démocratiques et capitalistes. <em>Anaphore</em> = répétition de "Qu'ils viennent à Berlin" — procédé rhétorique pour insister.</div>
+      </div>
+    </div>
+  </div>
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Développement construit</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>À partir du document et de vos connaissances, expliquez en 8 à 12 lignes ce qu'est la guerre froide, comment elle s'est manifestée à travers Berlin, et comment elle a pris fin.</p>
+      <textarea id="rep3" placeholder="Écris ton développement ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Exemple de développement rédigé</h4>
+        <p>La guerre froide est la période de tension entre les États-Unis et l'URSS qui dure de 1947 à 1991. Les deux superpuissances ne s'affrontent jamais directement militairement — car chacune possède l'arme nucléaire — mais se disputent l'influence dans le monde entier. Cette rivalité oppose deux idéologies : la démocratie libérale et capitaliste du bloc occidental contre le communisme du bloc soviétique.</p>
+        <p style="margin-top:8px">Berlin est le symbole le plus fort de cette division. Enclave occidentale en territoire soviétique, la ville est d'abord bloquée par l'URSS en 1948, avant d'être physiquement divisée par le mur de Berlin construit en août 1961. Ce mur empêche les Allemands de l'Est de rejoindre la liberté à l'Ouest. C'est dans ce contexte que Kennedy prononce son discours en 1963 pour affirmer le soutien américain à Berlin-Ouest.</p>
+        <p style="margin-top:8px">La guerre froide prend fin avec l'effondrement du bloc soviétique. Le mur de Berlin tombe le 9 novembre 1989, symbole de la libération de l'Europe de l'Est. L'URSS se dissout le 25 décembre 1991. Les États-Unis restent alors la seule superpuissance mondiale.</p>
+        <div class="methode-box"><strong>💡 Structure :</strong> Définition → Berlin comme symbole → Fin de la guerre froide.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS=[
+  {q:"Pourquoi appelle-t-on cette période la 'guerre froide' ?",opts:["Parce que les deux superpuissances ne s'affrontent jamais directement militairement, mais restent en tension permanente","Parce que les combats ont lieu uniquement en hiver","Parce que les deux camps ont refusé de construire des armes atomiques","Parce que la guerre s'est déroulée principalement dans les régions froides (Arctique, Sibérie)"],correct:0,expl:"La 'guerre froide' désigne la rivalité entre États-Unis et URSS (1947–1991) sans affrontement militaire direct entre eux. La raison : chaque camp possède l'arme nucléaire. Un affrontement direct provoquerait une destruction mutuelle assurée (théorie de la 'dissuasion nucléaire'). Les deux camps s'affrontent par des moyens indirects : propagande, espionnage, course aux armements, conflits par pays interposés."},
+  {q:"Quels sont les deux blocs de la guerre froide ?",opts:["Le bloc occidental (USA, OTAN, démocraties) et le bloc soviétique (URSS, Pacte de Varsovie, communisme)","Le bloc atlantique (USA + UK) et le bloc européen (France + Allemagne)","Le bloc capitaliste (tous les pays riches) et le bloc communiste (tous les pays pauvres)","Le bloc nucléaire (USA + URSS) et le bloc non-nucléaire (reste du monde)"],correct:0,expl:"Les deux blocs : le bloc occidental, mené par les États-Unis, regroupant les démocraties libérales alliées au sein de l'OTAN (1949) ; et le bloc soviétique, mené par l'URSS, regroupant les régimes communistes d'Europe de l'Est et d'Asie au sein du Pacte de Varsovie (1955). Entre les deux, des pays 'non-alignés' essaient de rester neutres."},
+  {q:"Qu'est-ce que le Plan Marshall ?",opts:["L'aide économique américaine accordée à l'Europe de l'Ouest après la guerre pour la reconstruire et l'empêcher de basculer dans le communisme","Le plan militaire américain pour envahir l'URSS en cas de guerre","Le programme soviétique d'industrialisation de l'Europe de l'Est","Le traité de paix signé entre USA et URSS en 1947"],correct:0,expl:"Le Plan Marshall (1948) est un programme d'aide économique massive offert par les États-Unis aux pays d'Europe occidentale dévastés par la guerre. Objectif double : reconstruire l'économie européenne ET empêcher la misère de pousser les populations vers le communisme. L'URSS refuse cette aide et interdit à ses pays satellites d'y participer."},
+  {q:"Qu'est-ce que le blocus de Berlin (1948–1949) et comment se termine-t-il ?",opts:["L'URSS bloque les routes vers Berlin-Ouest ; les USA organisent un pont aérien de 11 mois ; l'URSS cède","Les USA bloquent Berlin-Est pour libérer les Allemands de l'Est","L'URSS bombarde Berlin-Ouest pour la forcer à se rendre","Les Berlinois construisent un mur pour se protéger des Soviétiques"],correct:0,expl:"En juin 1948, l'URSS bloque toutes les routes terrestres vers Berlin-Ouest (enclave occidentale en zone soviétique). Les États-Unis organisent un pont aérien spectaculaire : pendant 11 mois, des centaines d'avions livrent chaque jour nourriture, charbon et médicaments à la ville assiégée. En mai 1949, l'URSS lève le blocus, admettant son échec. Cette crise marque la division définitive de l'Allemagne en deux États."},
+  {q:"Pourquoi l'URSS construit-elle le mur de Berlin en août 1961 ?",opts:["Pour empêcher les Allemands de l'Est de fuir vers Berlin-Ouest et l'Occident","Pour protéger Berlin de l'Ouest d'une invasion américaine","Pour séparer les quartiers militaires des quartiers civils","Pour commémorer la victoire soviétique de la Seconde Guerre mondiale"],correct:0,expl:"Le mur de Berlin est construit le 13 août 1961 pour une raison simple : des millions d'Allemands de l'Est fuyaient vers l'Ouest (Berlin-Ouest était accessible à pied). L'Est perdait ses meilleurs travailleurs, ingénieurs et médecins. Le mur ferme cette 'porte'. Il devient le symbole du rideau de fer et de la privation de liberté dans le bloc soviétique."},
+  {q:"Qu'est-ce que la crise de Cuba (octobre 1962) et pourquoi est-elle si dangereuse ?",opts:["L'URSS installe des missiles nucléaires à Cuba (à 150 km des USA) ; le monde frôle la guerre nucléaire pendant 13 jours avant que l'URSS retire ses missiles","Cuba déclare la guerre aux États-Unis avec l'aide soviétique","Les États-Unis envahissent Cuba pour renverser Castro","Kennedy et Khrouchtchev s'affrontent militairement à Cuba"],correct:0,expl:"En octobre 1962, des avions espions américains photographient l'installation de missiles soviétiques à Cuba — capable de frapper les États-Unis en quelques minutes. Kennedy impose un blocus naval et exige le retrait des missiles. L'URSS refuse d'abord. Pendant 13 jours, le monde est au bord de la guerre nucléaire totale. Finalement, l'URSS retire ses missiles en échange d'engagements américains (non-invasion de Cuba et retrait de missiles US en Turquie)."},
+  {q:"Qu'est-ce que le 'rideau de fer' ?",opts:["La frontière invisible séparant l'Europe de l'Ouest libre de l'Europe de l'Est communiste, selon l'expression de Churchill (1946)","Le mur de Berlin construit en béton en 1961","Le traité de paix signé en 1945 entre USA et URSS","Le réseau de barbelés à la frontière entre Allemagne de l'Ouest et Allemagne de l'Est"],correct:0,expl:"Le 'rideau de fer' est une expression utilisée par Churchill en 1946 pour désigner la frontière invisible mais réelle qui séparait l'Europe libre (à l'Ouest) de l'Europe sous domination soviétique (à l'Est). Cette frontière est ensuite matérialisée par des barbelés, des miradors et finalement le mur de Berlin (1961). Elle symbolise l'impossibilité pour les Européens de l'Est de circuler librement."},
+  {q:"Quelle est la course à l'espace pendant la guerre froide ?",opts:["USA et URSS se disputent la conquête de l'espace pour affirmer leur supériorité technologique : Spoutnik (1957), Gagarine (1961), Armstrong sur la Lune (1969)","Un programme militaire pour placer des missiles dans l'espace","Une compétition sportive internationale remplaçant les Jeux olympiques","Une course pour construire les satellites météorologiques les plus puissants"],correct:0,expl:"La course à l'espace est un aspect de la rivalité technologique entre les deux blocs. L'URSS prend d'abord l'avantage : Spoutnik (premier satellite, 1957), Gagarine (premier homme dans l'espace, 1961). Les États-Unis rattrapent leur retard et envoient Armstrong sur la Lune en juillet 1969. Cette victoire symbolique montre la supériorité technologique américaine."},
+  {q:"Comment la guerre froide prend-elle fin ?",opts:["Gorbatchev réforme l'URSS (1985), le mur de Berlin tombe (1989), l'URSS se dissout (1991)","USA et URSS signent un traité de paix en 1991","L'URSS gagne la course aux armements et les USA capitulent","Une révolution communiste aux États-Unis met fin à l'affrontement"],correct:0,expl:"La fin de la guerre froide est progressive. Gorbatchev, arrivé au pouvoir en 1985, lance des réformes (glasnost, perestroïka). Les pays d'Europe de l'Est renversent leurs régimes communistes en 1989. Le mur de Berlin tombe le 9 novembre 1989, symbole du tournant. L'URSS se désintègre le 25 décembre 1991. Les États-Unis restent la seule superpuissance mondiale."},
+  {q:"Qu'est-ce que la dissuasion nucléaire ?",opts:["La doctrine selon laquelle posséder des armes nucléaires empêche l'ennemi d'attaquer, car une attaque provoque une riposte nucléaire — destruction mutuelle assurée","Le projet américain de détruire l'URSS avec des bombes atomiques","L'accord entre USA et URSS de ne jamais utiliser la bombe atomique","Le programme de désarmement nucléaire de l'ONU"],correct:0,expl:"La dissuasion nucléaire est basée sur un paradoxe : c'est précisément parce que chaque camp peut détruire l'autre que personne n'attaque. Si les USA attaquaient l'URSS, l'URSS riposterait et détruirait les USA — et vice versa. Cette 'destruction mutuelle assurée' (MAD en anglais) explique pourquoi la guerre froide est restée 'froide' malgré une tension extrême."},
+  {q:"Pourquoi la guerre du Vietnam est-elle une défaite symbolique pour les États-Unis ?",opts:["Les USA soutiennent le Sud-Vietnam contre le Nord communiste mais s'enlisent et se retirent en 1973. Le Vietnam est réunifié sous régime communiste en 1975","Les USA envahissent le Vietnam du Nord et perdent face à l'armée soviétique","Le Vietnam rejette l'aide américaine et rejoint le bloc soviétique","Les USA bombardent le Vietnam et sont condamnés par l'ONU"],correct:0,expl:"La guerre du Vietnam (1955–1975) oppose le Nord-Vietnam communiste (soutenu par l'URSS et la Chine) au Sud-Vietnam (soutenu militairement par les États-Unis). Malgré des centaines de milliers de soldats et des bombardements massifs, les Américains ne gagnent pas. La guerre est très impopulaire aux États-Unis. Ils se retirent en 1973. Le Vietnam est réunifié sous régime communiste en 1975. Première grande défaite militaire américaine de l'époque moderne."},
+  {q:"Que signifie 'Ich bin ein Berliner' (Je suis un Berlinois) prononcé par Kennedy en 1963 ?",opts:["Kennedy s'identifie aux Berlinois de l'Ouest pour affirmer que les États-Unis soutiennent Berlin face au communisme soviétique","Kennedy annonce que les USA vont annexer Berlin-Ouest","Kennedy demande la réunification immédiate de l'Allemagne","Kennedy déclare la guerre à l'URSS depuis Berlin"],correct:0,expl:"En disant 'Ich bin ein Berliner' (Je suis un Berlinois) devant une foule immense à Berlin-Ouest en 1963, Kennedy exprime la solidarité des États-Unis avec les Berlinois et, au-delà, avec toutes les personnes vivant sous la menace du communisme soviétique. C'est un message politique fort : les USA ne laisseront pas tomber Berlin libre. Cette phrase est devenue l'une des plus célèbres de la guerre froide."}
+];
+var answered={},score=0;
+function showPanel(id,tab){var p=document.querySelectorAll('.panel'),t=document.querySelectorAll('.tab');for(var i=0;i<p.length;i++)p[i].classList.remove('active');for(var i=0;i<t.length;i++)t[i].classList.remove('active');document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');}
+function toggleDetail(id){var all=document.querySelectorAll('.frise-detail');for(var i=0;i<all.length;i++){if(all[i].id!==id)all[i].classList.remove('show');}document.getElementById(id).classList.toggle('show');}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+function buildQuiz(){var c=document.getElementById('quiz-container');c.innerHTML='';answered={};score=0;for(var i=0;i<QUESTIONS.length;i++){var q=QUESTIONS[i],div=document.createElement('div');div.className='quiz-q';var opts='';for(var j=0;j<q.opts.length;j++)opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';c.appendChild(div);}document.getElementById('quiz-score').classList.remove('show');}
+function answer(qi,choice){if(answered[qi]!==undefined)return;answered[qi]=choice;var q=QUESTIONS[qi],opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');for(var i=0;i<opts.length;i++)opts[i].classList.add('disabled');opts[choice].classList.add(choice===q.correct?'correct':'wrong');if(choice!==q.correct)opts[q.correct].classList.add('correct');var ok=choice===q.correct;if(ok)score++;var expl=document.getElementById('expl-'+qi);expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;expl.classList.add('show');if(Object.keys(answered).length===QUESTIONS.length)showScore();}
+function showScore(){var pct=Math.round(score/QUESTIONS.length*100);document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;var msg=pct>=90?'🎉 Excellent Zach ! La guerre froide maîtrisée !':pct>=70?'👍 Très bien ! Relis les questions "à revoir".':pct>=50?'💪 Pas mal ! Relis la fiche et retente.':'📋 Relis la fiche, surtout les deux blocs et les crises.';document.getElementById('score-msg').textContent=msg;document.getElementById('quiz-score').classList.add('show');}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.toggleDetail=toggleDetail;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;
+</script>
+</body>
+</html>
