@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H2 — La France entre-deux-guerres</title>
+<style>
+  :root{--rouge:#C0392B;--rouge-light:#FADBD8;--bleu:#1A5276;--bleu-light:#D6EAF8;--vert:#1E8449;--vert-light:#D5F5E3;--orange:#D35400;--orange-light:#FDEBD0;--violet:#6C3483;--violet-light:#E8DAEF;--gris:#5D6D7E;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+  header{background:var(--rouge);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;-webkit-transition:all 0.15s;transition:all 0.15s;-webkit-tap-highlight-color:rgba(0,0,0,.05)}
+  .tab.active{color:var(--rouge);border-bottom-color:var(--rouge)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.rouge{background:var(--rouge)}.section-head.bleu{background:var(--bleu)}.section-head.vert{background:var(--vert)}.section-head.orange{background:var(--orange)}.section-head.violet{background:var(--violet)}.section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--rouge);font-weight:700}
+  .frise-container{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+  .frise{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:0;min-width:1000px;padding:20px 0 10px;position:relative}
+  .frise::before{content:'';position:absolute;top:42px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--rouge),var(--orange),var(--bleu));z-index:0}
+  .frise-item{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;position:relative;z-index:1;cursor:pointer}
+  .frise-dot{width:16px;height:16px;border-radius:50%;background:var(--rouge);border:3px solid white;box-shadow:0 0 0 2px var(--rouge);margin-bottom:8px;-webkit-transition:transform 0.15s;transition:transform 0.15s}
+  .frise-item:hover .frise-dot{-webkit-transform:scale(1.4);transform:scale(1.4)}
+  .frise-item.important .frise-dot{width:22px;height:22px;background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+  .frise-date{font-size:10px;font-weight:700;color:var(--rouge);text-align:center;margin-bottom:4px;line-height:1.2}
+  .frise-label{font-size:10px;color:var(--muted);text-align:center;max-width:80px;line-height:1.3}
+  .frise-detail{display:none;background:white;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6;margin-top:8px;max-width:160px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.1);position:absolute;top:70px;z-index:10;min-width:140px}
+  .frise-detail.show{display:block}
+  .frise-detail strong{color:var(--rouge);display:block;margin-bottom:4px}
+  .dates-table{width:100%;border-collapse:collapse;font-size:13px}
+  .dates-table th{background:var(--rouge);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .dates-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .dates-table tr:last-child td{border-bottom:none}
+  .dates-table tr:nth-child(even) td{background:#FFF8F8}
+  .dates-table .date-cell{font-weight:700;color:var(--rouge);white-space:nowrap;min-width:110px}
+  .dates-table .event-cell{font-weight:600;color:var(--text)}
+  .dates-table .detail-cell{color:var(--muted);font-size:12px}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--rouge-light);color:var(--rouge);font-weight:700;font-size:12px;padding:8px 12px;min-width:140px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .perso-row{display:-webkit-flex;display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);-webkit-align-items:flex-start;align-items:flex-start}
+  .perso-row:last-child{border-bottom:none}
+  .perso-avatar{width:40px;height:40px;border-radius:50%;background:var(--rouge);color:white;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:14px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0}
+  .perso-info{-webkit-flex:1;flex:1}
+  .perso-nom{font-weight:700;font-size:13px;color:var(--rouge);margin-bottom:2px}
+  .perso-camp{font-size:10px;background:var(--rouge-light);color:var(--rouge);padding:1px 8px;border-radius:20px;display:inline-block;margin-bottom:4px}
+  .perso-desc{font-size:12px;color:var(--muted);line-height:1.5}
+  .chain-item{display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;-webkit-align-items:flex-start;align-items:flex-start}
+  .chain-num{background:var(--rouge);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0;margin-top:1px}
+  .chain-text{font-size:13px;line-height:1.6;-webkit-flex:1;flex:1}
+  .chain-text strong{color:var(--rouge)}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--rouge);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;-webkit-transition:all 0.15s;transition:all 0.15s;color:var(--text);-webkit-appearance:none;font-family:inherit}
+  .quiz-opt:hover{border-color:var(--rouge);background:var(--rouge-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .btn-reset{background:var(--rouge);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px;-webkit-appearance:none;font-family:inherit}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--rouge-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--rouge);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--rouge);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px}
+  textarea:focus{outline:none;border-color:var(--rouge)}
+  .btn-corr{background:var(--rouge);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px;-webkit-appearance:none;font-family:inherit}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+  @media(max-width:500px){.mc-row{-webkit-flex-direction:column;flex-direction:column}.mc-terme{min-width:auto}}
+</style>
+</head>
+<body>
+<header>
+  <h1>📖 H2 — La France entre-deux-guerres (1919–1939)</h1>
+  <p>Fiche complète · Séquence 2 · Histoire · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('frise',this)">📅 Frise</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+<div class="panel active" id="panel-fiche">
+  <div class="section"><div class="section-head rouge">⚡ L'essentiel à retenir</div><div class="section-body"><div class="info-box"><strong>En une phrase :</strong> La période 1919–1939 est marquée par trois grandes phases : la <strong>reconstruction et la fête</strong> des années 1920 (les "Années folles"), la <strong>crise économique et politique</strong> des années 1930, et la <strong>montée des dangers</strong> qui conduit à la Seconde Guerre mondiale en 1939.</div></div></div>
+  <div class="section"><div class="section-head bleu">🎉 Les Années folles (1919–1929) — la France fête et se reconstruit</div><div class="section-body"><p style="font-size:13px;margin-bottom:10px">Après l'horreur de la guerre, les Français veulent oublier et profiter de la vie. Les années 1920 sont une période de <strong>prospérité économique</strong> et d'effervescence culturelle.</p><ul class="bull-list"><li><strong>L'économie redémarre :</strong> les usines sont reconstruites, la production repart. Raymond Poincaré stabilise le franc en 1926.</li><li><strong>La vie culturelle explose :</strong> jazz, cinéma, cabarets, nouvelles tenues. Paris devient la capitale mondiale des arts.</li><li><strong>Les femmes changent :</strong> elles ont travaillé pendant la guerre et revendiquent plus de liberté — mais elles n'ont toujours pas le droit de vote en France.</li><li><strong>L'instabilité politique reste :</strong> les gouvernements changent très souvent. Entre 1919 et 1939, la France a plus de 40 gouvernements différents !</li></ul><div class="warn-box"><strong>Attention :</strong> Malgré l'apparence de fête, la situation politique est fragile. Les gouvernements durent peu et les problèmes économiques s'accumulent.</div></div></div>
+  <div class="section"><div class="section-head rouge">📉 La crise des années 1930 — tout s'effondre</div><div class="section-body"><p style="font-size:13px;margin-bottom:10px">En octobre 1929, la bourse de New York s'effondre (c'est le "krach de Wall Street"). La crise économique se répand dans le monde entier et atteint la France à partir de 1931–1932.</p><ul class="bull-list"><li><strong>Le chômage explose :</strong> de 12 000 chômeurs en 1930, on passe à plus de 450 000 en 1935.</li><li><strong>Les usines ferment, les salaires baissent</strong> — la misère sociale s'étend dans tout le pays.</li><li><strong>La colère sociale monte :</strong> les ouvriers manifestent. Les partis extrémistes gagnent des sympathisants.</li></ul><div class="success-box"><strong>Chiffre clé :</strong> En 1935, certains historiens estiment qu'environ 1 million de personnes sont sans emploi en France (les chiffres officiels sous-estiment la réalité).</div></div></div>
+  <div class="section"><div class="section-head orange">⚠️ La menace sur la démocratie — les ligues d'extrême droite</div><div class="section-body"><p style="font-size:13px;margin-bottom:10px">La crise économique favorise la montée de mouvements qui rejettent la démocratie, inspirés par les régimes fascistes d'Italie et d'Allemagne.</p><ul class="bull-list"><li><strong>Les ligues d'extrême droite</strong> (Croix-de-Feu, Action française) organisent des manifestations violentes contre le gouvernement républicain.</li><li><strong>Le 6 février 1934 :</strong> une grande émeute éclate à Paris, devant l'Assemblée nationale. Des ligues tentent de renverser le gouvernement. Il y a des morts. La démocratie française est menacée.</li></ul><div class="warn-box"><strong>À retenir :</strong> Le 6 février 1934 montre que la République est menacée de l'intérieur, exactement comme en Italie et en Allemagne.</div></div></div>
+  <div class="section"><div class="section-head vert">✊ Le Front populaire (1936) — la riposte de la gauche</div><div class="section-body"><p style="font-size:13px;margin-bottom:10px">Face à la menace de l'extrême droite et à la crise, les partis de gauche s'unissent pour défendre la démocratie.</p><ul class="bull-list"><li><strong>Alliance :</strong> socialistes (Léon Blum), radicaux et communistes forment le Front populaire en 1935.</li><li><strong>Victoire aux élections de mai 1936 :</strong> Léon Blum devient Président du Conseil. Première fois qu'un socialiste dirige le gouvernement français.</li><li><strong>Grande vague de grèves en juin 1936 :</strong> des millions d'ouvriers font grève et occupent les usines.</li></ul><div class="success-box"><strong>Les Accords Matignon (7 juin 1936) :</strong> hausse des salaires de 7 à 15 %, <strong>2 semaines de congés payés</strong>, semaine de travail réduite à <strong>40 heures</strong>. Une révolution sociale pour les ouvriers !</div></div></div>
+  <div class="section"><div class="section-head rouge">📝 Les mots-clés à maîtriser</div><div class="section-body">
+    <div class="mc-row"><div class="mc-terme">Années folles</div><div class="mc-def">Période de prospérité et de fête des années 1920. Paris rayonne : jazz, cinéma, arts. Mais instabilité politique réelle derrière la fête.</div></div>
+    <div class="mc-row"><div class="mc-terme">Krach de 1929</div><div class="mc-def">Effondrement brutal de la bourse de New York en octobre 1929. Crise économique mondiale. La France touchée à partir de 1931–1932.</div></div>
+    <div class="mc-row"><div class="mc-terme">Instabilité politique</div><div class="mc-def">Sous la Troisième République, les gouvernements changent très souvent (parfois tous les quelques mois). Plus de 40 gouvernements entre 1919 et 1939.</div></div>
+    <div class="mc-row"><div class="mc-terme">Ligues d'extrême droite</div><div class="mc-def">Groupes politiques violents qui rejettent la démocratie et veulent un régime autoritaire. Exemples : Croix-de-Feu, Action française. Émeutes du 6 février 1934.</div></div>
+    <div class="mc-row"><div class="mc-terme">Front populaire</div><div class="mc-def">Alliance de partis de gauche (socialistes, radicaux, communistes) en 1935 pour défendre la démocratie et améliorer les conditions des travailleurs. Victoire en mai 1936.</div></div>
+    <div class="mc-row"><div class="mc-terme">Accords Matignon</div><div class="mc-def">Accords sociaux du 7 juin 1936 : hausse des salaires, 2 semaines de congés payés, semaine de 40 heures. Grande première dans l'histoire des droits des travailleurs français.</div></div>
+    <div class="mc-row"><div class="mc-terme">Congés payés</div><div class="mc-def">Droit de prendre des vacances tout en continuant à être payé. Accordés pour la première fois en France en juin 1936 (2 semaines). Avant cela, les ouvriers ne partaient jamais en vacances.</div></div>
+    <div class="mc-row"><div class="mc-terme">Politique d'apaisement</div><div class="mc-def">Stratégie de la France et du Royaume-Uni : accepter les demandes d'Hitler pour éviter la guerre. Illustrée par les accords de Munich (1938). Échec total : la guerre éclate quand même en 1939.</div></div>
+  </div></div>
+  <div class="section"><div class="section-head rouge">👤 Les personnages clés</div><div class="section-body">
+    <div class="perso-row"><div class="perso-avatar">Bl</div><div class="perso-info"><div class="perso-nom">Léon Blum</div><span class="perso-camp">Chef du Parti socialiste — Président du Conseil 1936</span><div class="perso-desc">Dirige le gouvernement du Front populaire à partir de juin 1936. Fait voter les grandes réformes sociales : Accords Matignon, congés payés, 40 heures. Premier Président du Conseil socialiste de l'histoire de France.</div></div></div>
+    <div class="perso-row"><div class="perso-avatar">Po</div><div class="perso-info"><div class="perso-nom">Raymond Poincaré</div><span class="perso-camp">Président du Conseil — stabilise l'économie 1926</span><div class="perso-desc">Stabilise le franc français en 1926 après des années de difficultés monétaires. Permet à la France de connaître une période de prospérité relative à la fin des années 1920.</div></div></div>
+    <div class="perso-row"><div class="perso-avatar">Da</div><div class="perso-info"><div class="perso-nom">Édouard Daladier</div><span class="perso-camp">Président du Conseil — 1938–1940</span><div class="perso-desc">Signe les accords de Munich en septembre 1938 avec Hitler. Ces accords cèdent des territoires tchécoslovaques pour tenter d'éviter la guerre. Échec : Hitler continue ses conquêtes et la guerre éclate en 1939.</div></div></div>
+    <div class="perso-row"><div class="perso-avatar">Hi</div><div class="perso-info"><div class="perso-nom">Adolf Hitler</div><span class="perso-camp">Dictateur nazi — Allemagne à partir de janvier 1933</span><div class="perso-desc">Prend le pouvoir en Allemagne en janvier 1933. Mène une politique agressive : réarmement, annexion de l'Autriche (1938), des Sudètes (1938), invasion de la Pologne le 1er septembre 1939 — ce qui déclenche la Seconde Guerre mondiale.</div></div></div>
+  </div></div>
+  <div class="section"><div class="section-head bleu">🔗 La logique des événements — enchaînement complet</div><div class="section-body">
+    <div class="chain-item"><div class="chain-num">1</div><div class="chain-text">La victoire de 1918 soulage la France, mais le pays est <strong>épuisé et meurtri</strong>. La reconstruction est longue.</div></div>
+    <div class="chain-item"><div class="chain-num">2</div><div class="chain-text">Les <strong>Années folles (années 1920)</strong> apportent prospérité et fête — mais l'instabilité politique reste forte (40+ gouvernements en 20 ans).</div></div>
+    <div class="chain-item"><div class="chain-num">3</div><div class="chain-text">Le <strong>krach de 1929</strong> déclenche une crise mondiale. La France est touchée à partir de 1931 : chômage, misère, colère sociale.</div></div>
+    <div class="chain-item"><div class="chain-num">4</div><div class="chain-text">La crise favorise la <strong>montée des extrémismes</strong> : les ligues d'extrême droite menacent la démocratie (émeutes du 6 février 1934).</div></div>
+    <div class="chain-item"><div class="chain-num">5</div><div class="chain-text">En réaction, la gauche s'unit dans le <strong>Front populaire</strong> et remporte les élections de mai 1936. Léon Blum forme le gouvernement.</div></div>
+    <div class="chain-item"><div class="chain-num">6</div><div class="chain-text">Les <strong>Accords Matignon (juin 1936)</strong> accordent aux ouvriers : congés payés, 40 heures, hausse des salaires.</div></div>
+    <div class="chain-item"><div class="chain-num">7</div><div class="chain-text">Pendant ce temps, <strong>Hitler menace l'Europe</strong>. La France choisit l'apaisement (accords de Munich, 1938) — sans succès.</div></div>
+    <div class="chain-item"><div class="chain-num">8</div><div class="chain-text">Hitler envahit la Pologne (1er sept. 1939). La France déclare la guerre à l'Allemagne le <strong>3 septembre 1939</strong>.</div></div>
+  </div></div>
+  <div class="section"><div class="section-head violet">🎯 Ce qui tombe souvent au brevet</div><div class="section-body"><ul class="bull-list"><li>Expliquer les <strong>conséquences de la crise de 1929</strong> en France (chômage, montée des extrêmes)</li><li>Décrire les <strong>réformes du Front populaire</strong> et leur importance sociale</li><li>Expliquer pourquoi le <strong>6 février 1934</strong> est une menace pour la démocratie</li><li>Définir : <strong>Front populaire, Accords Matignon, congés payés, instabilité politique</strong></li><li>Rédiger un paragraphe sur "les années 1930, une période de crise pour la France"</li></ul></div></div>
+</div>
+<div class="panel" id="panel-frise">
+  <div class="section"><div class="section-head rouge">📅 Frise chronologique interactive</div><div class="section-body"><p style="font-size:12px;color:var(--muted);margin-bottom:12px">Clique sur chaque point pour voir le détail. Fais défiler vers la droite pour voir toute la frise.</p><div class="frise-container"><div class="frise" id="frise-interactive"></div></div></div></div>
+  <div class="section"><div class="section-head bleu">📋 Tableau complet des dates</div><div class="section-body"><table class="dates-table"><thead><tr><th>Date</th><th>Événement</th><th>Ce qu'il faut comprendre</th></tr></thead><tbody>
+    <tr><td class="date-cell">28 juin 1919</td><td class="event-cell">Traité de Versailles</td><td class="detail-cell">L'Allemagne déclarée responsable de la guerre. Doit payer des indemnités énormes. Humiliation qui favorisera la montée de Hitler.</td></tr>
+    <tr><td class="date-cell">Années 1920</td><td class="event-cell">Les "Années folles"</td><td class="detail-cell">Prospérité et fête. Paris rayonne. Mais instabilité politique forte : plus de 40 gouvernements en 20 ans.</td></tr>
+    <tr><td class="date-cell">1926</td><td class="event-cell">Poincaré stabilise le franc</td><td class="detail-cell">Poincaré assainit les finances françaises. L'économie repart. Quelques années de vraie prospérité.</td></tr>
+    <tr><td class="date-cell">Octobre 1929</td><td class="event-cell">Krach boursier de Wall Street</td><td class="detail-cell">La bourse de New York s'effondre. Crise économique mondiale. La France est touchée à partir de 1931–1932.</td></tr>
+    <tr><td class="date-cell">1931–1935</td><td class="event-cell">La crise frappe la France</td><td class="detail-cell">Le chômage passe de 12 000 à plus de 450 000 officiels. Misère sociale. La colère monte.</td></tr>
+    <tr><td class="date-cell">Janvier 1933</td><td class="event-cell">Hitler prend le pouvoir en Allemagne</td><td class="detail-cell">Adolf Hitler devient chancelier d'Allemagne. Il instaure une dictature nazie. La menace sur l'Europe commence.</td></tr>
+    <tr><td class="date-cell">6 février 1934</td><td class="event-cell">Émeutes d'extrême droite à Paris</td><td class="detail-cell">Les ligues manifestent violemment devant l'Assemblée nationale. Plusieurs morts. La démocratie française est menacée.</td></tr>
+    <tr><td class="date-cell">Mai 1936</td><td class="event-cell">Victoire du Front populaire</td><td class="detail-cell">L'alliance gauche remporte les élections. Léon Blum devient Président du Conseil.</td></tr>
+    <tr><td class="date-cell">7 juin 1936</td><td class="event-cell">Accords Matignon</td><td class="detail-cell">Hausse des salaires + 2 semaines de congés payés + semaine de 40 heures. Révolution sociale pour les ouvriers.</td></tr>
+    <tr><td class="date-cell">Septembre 1938</td><td class="event-cell">Accords de Munich</td><td class="detail-cell">France et Royaume-Uni cèdent des territoires à Hitler pour éviter la guerre. Politique d'apaisement. Elle échoue.</td></tr>
+    <tr><td class="date-cell">3 septembre 1939</td><td class="event-cell">La France déclare la guerre à l'Allemagne</td><td class="detail-cell">Après l'invasion de la Pologne par Hitler (1er septembre), la France entre en guerre. La Seconde Guerre mondiale commence.</td></tr>
+  </tbody></table></div></div>
+</div>
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz H2 :</strong> 10 questions sur la France entre-deux-guerres. Clique sur ta réponse pour voir l'explication détaillée.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score"><div class="score-num" id="score-num">0/10</div><div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div><button class="btn-reset" onclick="resetQuiz()">Recommencer</button></div>
+</div>
+<div class="panel" id="panel-exo">
+  <div style="display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:10px;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap"><span class="duree-badge">⏱ Durée : 40 minutes</span><span style="font-size:12px;color:var(--muted)">Exercice — Analyse de documents (comme au vrai brevet)</span></div>
+  <div class="doc-brevet"><h3>Document 1 — Témoignage d'un ouvrier, été 1936</h3><p>« Cette année, pour la première fois de ma vie, j'ai pu partir en vacances avec ma femme et mes deux enfants. Nous sommes allés à la mer, à Arcachon. Je travaille en usine depuis l'âge de quatorze ans et je n'avais jamais quitté Paris l'été. Grâce aux accords signés en juin, nous avons droit à deux semaines de congés payés. Le gouvernement de Léon Blum a tenu ses promesses. »</p><div class="doc-source">Source : témoignage adapté, archives syndicales, été 1936.</div></div>
+  <div class="doc-brevet"><h3>Document 2 — Chiffres du chômage en France</h3><p>• <strong>1930 :</strong> environ 12 000 chômeurs officiels en France<br>• <strong>1932 :</strong> environ 300 000 chômeurs officiels<br>• <strong>1935 :</strong> plus de 450 000 chômeurs officiels<br>• <strong>Note :</strong> ces chiffres sont sous-estimés — certains historiens estiment que près d'un million de personnes sont réellement sans emploi en 1935.</p><div class="doc-source">Source : données du ministère du Travail, France, 1930–1938.</div></div>
+  <div class="q-exo"><div class="q-exo-head"><span>Question 1 — Comprendre un document</span><span class="pts">4 points</span></div><div class="q-exo-body"><p>En t'appuyant sur le document 1, explique ce que sont les congés payés et pourquoi ils représentent une nouveauté importante pour les ouvriers en 1936.</p><textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea><button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button><div class="corr-panel" id="corr1"><h4>✅ Correction</h4><p>Les congés payés sont des jours de vacances pendant lesquels les travailleurs continuent à recevoir leur salaire. Ils ont été accordés pour la première fois en France par les Accords Matignon de juin 1936 (2 semaines). Le document 1 montre bien leur caractère révolutionnaire : l'ouvrier explique qu'il travaille depuis ses 14 ans et "n'avait jamais quitté Paris l'été". Grâce à cette réforme du gouvernement de Léon Blum, des millions d'ouvriers peuvent partir en vacances pour la première fois de leur vie. C'est une avancée sociale majeure.</p><div class="methode-box"><strong>💡 Méthode :</strong> Pour une question sur un document : définis le terme ("les congés payés sont…"), utilise le document ("Comme le montre le document 1…"), conclus avec une phrase de bilan ("C'est une avancée car…").</div><div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Accords Matignon</em> = accords sociaux du 7 juin 1936. <em>Avancée sociale</em> = amélioration des conditions de vie des travailleurs.</div></div></div></div>
+  <div class="q-exo"><div class="q-exo-head"><span>Question 2 — Analyser des données</span><span class="pts">4 points</span></div><div class="q-exo-body"><p>À partir du document 2, décris l'évolution du chômage en France entre 1930 et 1935. Quelle en est la cause principale ?</p><textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea><button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button><div class="corr-panel" id="corr2"><h4>✅ Correction</h4><p>D'après le document 2, le chômage augmente très fortement en France entre 1930 et 1935. Il passe de 12 000 chômeurs en 1930 à 300 000 en 1932, puis dépasse 450 000 en 1935. En cinq ans, le nombre de chômeurs officiels a été multiplié par plus de 37. En réalité, le chiffre réel est encore plus élevé (proche d'un million).</p><p style="margin-top:8px">La cause principale est le krach boursier de Wall Street d'octobre 1929. Cet effondrement a provoqué une crise économique mondiale qui a atteint la France à partir de 1931–1932 : les entreprises ont fait faillite, les usines ont fermé, les travailleurs ont été licenciés.</p><div class="methode-box"><strong>💡 Méthode :</strong> Pour décrire une évolution : donne les chiffres (au moins deux dates), explique la tendance, puis explique la cause. Dis toujours "d'après le document" pour montrer que tu l'utilises.</div></div></div></div>
+  <div class="q-exo"><div class="q-exo-head"><span>Question 3 — Rédiger un paragraphe argumenté</span><span class="pts">6 points</span></div><div class="q-exo-body"><p>En t'appuyant sur les deux documents et sur tes connaissances, rédige un paragraphe qui explique pourquoi les années 1930 sont une période difficile pour la France.</p><textarea id="rep3" placeholder="Écris ton paragraphe ici (8 à 12 lignes environ)…" style="min-height:140px"></textarea><button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button><div class="corr-panel" id="corr3"><h4>✅ Exemple de réponse rédigée</h4><p>Les années 1930 sont une période particulièrement difficile pour la France, marquée par des crises à la fois économiques, sociales et politiques.</p><p style="margin-top:8px"><em>Tout d'abord</em>, la crise économique mondiale de 1929 frappe durement la France. Comme le montre le document 2, le chômage passe de 12 000 personnes en 1930 à plus de 450 000 en 1935. Des familles entières se retrouvent sans revenus, ce qui provoque une grande misère sociale.</p><p style="margin-top:8px"><em>De plus</em>, cette crise économique entraîne une grave instabilité politique. La colère des Français favorise la montée des extrémismes. Des ligues d'extrême droite qui rejettent la démocratie tentent de renverser le gouvernement républicain lors des violentes émeutes du 6 février 1934.</p><p style="margin-top:8px"><em>Enfin</em>, à partir de 1933, la montée d'Hitler en Allemagne représente une menace croissante pour la paix en Europe. La France tente d'éviter la guerre par la politique d'apaisement (accords de Munich, 1938), mais sans succès. Le 3 septembre 1939, elle doit déclarer la guerre à l'Allemagne.</p><p style="margin-top:8px"><em>Ainsi</em>, les années 1930 sont une décennie de crises multiples qui fragilisent la France et la conduisent vers la Seconde Guerre mondiale.</p><div class="methode-box"><strong>💡 Méthode :</strong> Un bon paragraphe argumenté : introduction → Tout d'abord / De plus / Enfin / Ainsi → exemples précis → conclusion. C'est ce plan qu'il faut utiliser systématiquement au brevet.</div><div class="vocab-box"><strong>📖 Connecteurs utiles :</strong> <em>Tout d'abord</em> — <em>De plus / Ensuite</em> — <em>Enfin</em> — <em>Ainsi / En conclusion</em>.</div></div></div></div>
+</div>
+<script>
+var FRISE_DATA = [
+  {date:'28 juin\n1919',label:'Traité de\nVersailles',important:false,detail:'<strong>Traité de Versailles</strong>Paix signée. L\'Allemagne déclarée responsable, doit payer des indemnités énormes. Humiliation qui favorisera Hitler.'},
+  {date:'Années\n1920',label:'Années\nfolles',important:true,detail:'<strong>Les Années folles</strong>Prospérité, jazz, arts. Paris rayonne. Mais instabilité politique forte : 40+ gouvernements en 20 ans.'},
+  {date:'1926',label:'Poincaré\nstabilise',important:false,detail:'<strong>Stabilisation du franc</strong>Poincaré assainit les finances. L\'économie française repart pour quelques années.'},
+  {date:'Oct.\n1929',label:'Krach de\nWall Street',important:true,detail:'<strong>Krach de 1929</strong>La bourse de New York s\'effondre. Crise économique mondiale. France touchée à partir de 1931.'},
+  {date:'Jan.\n1933',label:'Hitler au\npouvoir',important:true,detail:'<strong>Hitler chancelier</strong>Adolf Hitler prend le pouvoir en Allemagne et instaure une dictature nazie. La menace sur l\'Europe commence.'},
+  {date:'6 fév.\n1934',label:'Émeutes\nParis',important:true,detail:'<strong>Émeutes du 6 février 1934</strong>Ligues d\'extrême droite devant l\'Assemblée nationale. Plusieurs morts. La démocratie française est menacée.'},
+  {date:'Mai\n1936',label:'Front pop.\ngagne',important:true,detail:'<strong>Victoire du Front populaire</strong>Alliance de gauche remporte les élections. Léon Blum devient Président du Conseil.'},
+  {date:'7 juin\n1936',label:'Accords\nMatignon',important:true,detail:'<strong>Accords Matignon</strong>Hausse des salaires + 2 semaines de congés payés + semaine de 40 heures. Révolution sociale !'},
+  {date:'Sept.\n1938',label:'Accords\nde Munich',important:false,detail:'<strong>Accords de Munich</strong>France et Royaume-Uni cèdent des territoires à Hitler. Politique d\'apaisement. Échec total.'},
+  {date:'3 sept.\n1939',label:'France en\nguerre',important:true,detail:'<strong>Déclaration de guerre</strong>Après l\'invasion de la Pologne par Hitler (1er sept.), la France déclare la guerre à l\'Allemagne.'}
+];
+var friseOuvert = null;
+function buildFrise() {
+  var container = document.getElementById('frise-interactive');
+  container.innerHTML = '';
+  for (var i = 0; i < FRISE_DATA.length; i++) {
+    var item = FRISE_DATA[i];
+    var div = document.createElement('div');
+    div.className = 'frise-item' + (item.important ? ' important' : '');
+    div.innerHTML = '<div class="frise-date">' + item.date.replace('\n','<br>') + '</div><div class="frise-dot"></div><div class="frise-label">' + item.label.replace('\n','<br>') + '</div><div class="frise-detail" id="fd-' + i + '">' + item.detail + '</div>';
+    div.onclick = (function(idx){ return function(){ toggleFrise(idx); }; })(i);
+    container.appendChild(div);
+  }
+}
+function toggleFrise(idx) {
+  if (friseOuvert !== null && friseOuvert !== idx) { var prev = document.getElementById('fd-' + friseOuvert); if (prev) prev.className = 'frise-detail'; }
+  var el = document.getElementById('fd-' + idx);
+  if (!el) return;
+  if (el.className.indexOf('show') >= 0) { el.className = 'frise-detail'; friseOuvert = null; } else { el.className = 'frise-detail show'; friseOuvert = idx; }
+}
+var QUESTIONS = [
+  {q:"En quelle année débute la crise économique mondiale qui touche la France ?",opts:["1924","1926","1929","1936"],correct:2,expl:"Le krach boursier de Wall Street a lieu en octobre 1929. C'est le point de départ de la crise économique mondiale. La France en ressent les effets à partir de 1931–1932. 1926 correspond à la stabilisation du franc, 1936 à la victoire du Front populaire."},
+  {q:"Que désigne-t-on par les 'Années folles' ?",opts:["La période de reconstruction difficile après 1918","La période de prospérité et de fête des années 1920","Les années de crise économique des années 1930","La période du Front populaire (1936–1938)"],correct:1,expl:"Les 'Années folles' désignent les années 1920 : prospérité et fête après les horreurs de la guerre. Paris rayonne : jazz, cinéma, arts modernes. Mais cette période cache une forte instabilité politique (plus de 40 gouvernements en 20 ans)."},
+  {q:"Quel est le bilan officiel du chômage en France en 1935 ?",opts:["Environ 12 000 chômeurs","Environ 100 000 chômeurs","Plus de 450 000 chômeurs","Environ 2 millions de chômeurs"],correct:2,expl:"D'après les statistiques officielles du ministère du Travail, la France compte plus de 450 000 chômeurs en 1935. Les historiens estiment que le chiffre réel est encore plus élevé (proche d'un million), car beaucoup de travailleurs ne s'inscrivent pas. Conséquence directe de la crise de 1929."},
+  {q:"Que s'est-il passé le 6 février 1934 à Paris ?",opts:["La victoire du Front populaire aux élections","La signature des Accords Matignon","Des émeutes d'extrême droite contre le gouvernement républicain","La déclaration de guerre à l'Allemagne"],correct:2,expl:"Le 6 février 1934, des ligues d'extrême droite (Croix-de-Feu, Action française) organisent de violentes manifestations devant l'Assemblée nationale. Elles veulent renverser le gouvernement républicain. Il y a des morts. La démocratie française est sérieusement menacée."},
+  {q:"Qu'est-ce que le Front populaire ?",opts:["Un mouvement d'extrême droite contre la démocratie","Une alliance de partis de gauche pour défendre la démocratie et améliorer les conditions des travailleurs","Un parti politique fondé par Léon Blum seul","Un mouvement de grève des ouvriers en 1936"],correct:1,expl:"Le Front populaire est une alliance de partis de gauche : socialistes (Léon Blum), radicaux et communistes. Ils s'unissent en 1935 pour répondre à deux menaces : la montée de l'extrême droite et la crise économique. Ils remportent les élections législatives de mai 1936."},
+  {q:"Qui dirige le gouvernement du Front populaire en 1936 ?",opts:["Raymond Poincaré","Édouard Daladier","Léon Blum","Charles de Gaulle"],correct:2,expl:"Léon Blum, leader du Parti socialiste, devient Président du Conseil (= chef du gouvernement) en juin 1936. C'est la première fois qu'un socialiste dirige le gouvernement français. Il fait voter les grandes réformes sociales des Accords Matignon."},
+  {q:"Que prévoient les Accords Matignon de juin 1936 ?",opts:["La création d'un régime autoritaire","Une alliance militaire contre l'Allemagne","Hausse des salaires, 2 semaines de congés payés et semaine de 40 heures","La dissolution du Front populaire"],correct:2,expl:"Les Accords Matignon sont signés le 7 juin 1936 entre le gouvernement, les patrons et les syndicats. Ils accordent : une hausse des salaires de 7 à 15 %, deux semaines de congés payés (première fois dans l'histoire !), et la réduction de la semaine de travail à 40 heures. Avancée sociale historique."},
+  {q:"Qu'est-ce que la 'politique d'apaisement' pratiquée par la France face à Hitler ?",opts:["Attaquer l'Allemagne avant qu'elle soit trop puissante","Accepter les demandes d'Hitler pour éviter une nouvelle guerre","Signer une alliance militaire avec l'Allemagne","Refuser tout contact diplomatique avec l'Allemagne"],correct:1,expl:"La politique d'apaisement consiste à céder aux exigences d'Hitler pour éviter une nouvelle guerre. Illustrée par les accords de Munich (septembre 1938) : France et Royaume-Uni acceptent qu'Hitler annexe des territoires tchécoslovaques. Cette politique échoue : Hitler continue ses conquêtes et envahit la Pologne en 1939."},
+  {q:"Quand la France déclare-t-elle la guerre à l'Allemagne ?",opts:["1er septembre 1939","3 septembre 1939","11 novembre 1938","28 juin 1936"],correct:1,expl:"La France déclare la guerre à l'Allemagne le 3 septembre 1939, deux jours après l'invasion de la Pologne par Hitler (1er septembre 1939). Le 3 septembre est aussi le jour où le Royaume-Uni déclare la guerre. Le 1er septembre est la date de l'invasion de la Pologne, pas de la déclaration de guerre française."},
+  {q:"Quelle réforme sociale de 1936 permet pour la première fois aux ouvriers de partir en vacances ?",opts:["La semaine de 35 heures","La retraite à 60 ans","Les congés payés","Le salaire minimum"],correct:2,expl:"Les congés payés sont accordés pour la première fois en France par les Accords Matignon de juin 1936 : 2 semaines de vacances payées par an. Avant cette date, les ouvriers ne pouvaient pas partir en vacances : s'ils ne travaillaient pas, ils n'étaient pas payés. Réforme portée par le gouvernement de Léon Blum."}
+];
+var answered = {};
+var score = 0;
+function buildQuiz() {
+  var c = document.getElementById('quiz-container');
+  c.innerHTML = ''; answered = {}; score = 0;
+  for (var i = 0; i < QUESTIONS.length; i++) {
+    var q = QUESTIONS[i];
+    var div = document.createElement('div');
+    div.className = 'quiz-q';
+    var optsHtml = '';
+    for (var j = 0; j < q.opts.length; j++) optsHtml += '<button class="quiz-opt" onclick="answer(' + i + ',' + j + ')">' + q.opts[j] + '</button>';
+    div.innerHTML = '<div class="quiz-q-head"><span class="quiz-q-num">' + (i+1) + '</span>' + q.q + '</div><div class="quiz-options" id="opts-' + i + '">' + optsHtml + '</div><div class="quiz-expl" id="expl-' + i + '"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').className = 'quiz-score';
+}
+function answer(qi, choice) {
+  if (answered[qi] !== undefined) return;
+  answered[qi] = choice;
+  var q = QUESTIONS[qi];
+  var opts = document.querySelectorAll('#opts-' + qi + ' .quiz-opt');
+  for (var k = 0; k < opts.length; k++) opts[k].className = 'quiz-opt disabled';
+  opts[choice].className = 'quiz-opt disabled ' + (choice === q.correct ? 'correct' : 'wrong');
+  if (choice !== q.correct) opts[q.correct].className = 'quiz-opt disabled correct';
+  var ok = (choice === q.correct);
+  if (ok) score++;
+  var expl = document.getElementById('expl-' + qi);
+  expl.innerHTML = '<span class="' + (ok ? 'tag-ok' : 'tag-ar') + '">' + (ok ? '✓ Bonne réponse !' : '✗ À revoir') + '</span><br>' + q.expl;
+  expl.className = 'quiz-expl show';
+  var nb = 0;
+  for (var key in answered) { if (answered.hasOwnProperty(key)) nb++; }
+  if (nb === QUESTIONS.length) showScore();
+}
+function showScore() {
+  var el = document.getElementById('quiz-score');
+  var pct = Math.round(score / QUESTIONS.length * 100);
+  document.getElementById('score-num').textContent = score + '/' + QUESTIONS.length;
+  var msg = '';
+  if (pct >= 90) msg = '🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if (pct >= 70) msg = '👍 Très bien ! Relis les questions "à revoir" et tu seras au top.';
+  else if (pct >= 50) msg = '💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg = '📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent = msg;
+  el.className = 'quiz-score show';
+  try { localStorage.setItem('h2_score', score); } catch(e) {}
+}
+function resetQuiz() { buildQuiz(); }
+function showPanel(id, tab) {
+  var panels = document.querySelectorAll('.panel');
+  for (var i = 0; i < panels.length; i++) panels[i].className = 'panel';
+  var tabs = document.querySelectorAll('.tab');
+  for (var i = 0; i < tabs.length; i++) tabs[i].className = 'tab';
+  document.getElementById('panel-' + id).className = 'panel active';
+  if (tab) tab.className = 'tab active';
+}
+function showCorr(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.className = el.className.indexOf('show') >= 0 ? 'corr-panel' : 'corr-panel show';
+}
+buildFrise();
+buildQuiz();
+</script>
+</body>
+</html>
