@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H1 — La Première Guerre Mondiale</title>
+<style>
+  :root{
+    --rouge:#C0392B;--rouge-light:#FADBD8;--rouge-mid:#E74C3C;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --vert:#1E8449;--vert-light:#D5F5E3;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65}
+  header{background:var(--rouge);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--rouge);border-bottom-color:var(--rouge)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+
+  /* SECTIONS */
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;color:white}
+  .section-head.rouge{background:var(--rouge)}
+  .section-head.bleu{background:var(--bleu)}
+  .section-head.vert{background:var(--vert)}
+  .section-head.orange{background:var(--orange)}
+  .section-head.violet{background:var(--violet)}
+  .section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+
+  /* INFO BOX */
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+
+  /* BULLETS */
+  .bull-list{margin:8px 0 8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--rouge);font-weight:700}
+
+  /* FRISE */
+  .frise-container{overflow-x:auto;padding-bottom:6px}
+  .frise{display:flex;align-items:flex-start;gap:0;min-width:900px;padding:20px 0 10px;position:relative}
+  .frise::before{content:'';position:absolute;top:42px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--rouge),var(--orange),var(--bleu));z-index:0}
+  .frise-item{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;cursor:pointer}
+  .frise-dot{width:16px;height:16px;border-radius:50%;background:var(--rouge);border:3px solid white;box-shadow:0 0 0 2px var(--rouge);margin-bottom:8px;transition:transform 0.15s}
+  .frise-item:hover .frise-dot{transform:scale(1.4)}
+  .frise-item.important .frise-dot{width:22px;height:22px;background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+  .frise-date{font-size:10px;font-weight:700;color:var(--rouge);text-align:center;margin-bottom:4px;line-height:1.2}
+  .frise-label{font-size:10px;color:var(--muted);text-align:center;max-width:80px;line-height:1.3}
+  .frise-detail{display:none;background:white;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6;margin-top:8px;max-width:160px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.1);position:absolute;top:70px;z-index:10;min-width:140px}
+  .frise-detail.show{display:block}
+  .frise-detail strong{color:var(--rouge);display:block;margin-bottom:4px}
+
+  /* TABLE DATES */
+  .dates-table{width:100%;border-collapse:collapse;font-size:13px}
+  .dates-table th{background:var(--rouge);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .dates-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .dates-table tr:last-child td{border-bottom:none}
+  .dates-table tr:nth-child(even) td{background:#FFF8F8}
+  .dates-table .date-cell{font-weight:700;color:var(--rouge);white-space:nowrap;min-width:110px}
+  .dates-table .event-cell{font-weight:600;color:var(--text)}
+  .dates-table .detail-cell{color:var(--muted);font-size:12px}
+
+  /* DEUX CAMPS */
+  .camps-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+  .camp{border-radius:8px;overflow:hidden}
+  .camp-head{padding:8px 12px;font-size:13px;font-weight:700;color:white;text-align:center}
+  .camp-body{padding:10px 12px;font-size:12px;line-height:1.9}
+  .camp-body li{list-style:none;padding:1px 0}
+  .camp-body li::before{content:"→ ";color:inherit;font-weight:700}
+
+  /* MOT CLE */
+  .mc-row{display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--rouge-light);color:var(--rouge);font-weight:700;font-size:12px;padding:8px 12px;min-width:130px;display:flex;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;flex:1;line-height:1.5}
+
+  /* PERSO */
+  .perso-row{display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);align-items:flex-start}
+  .perso-row:last-child{border-bottom:none}
+  .perso-avatar{width:40px;height:40px;border-radius:50%;background:var(--rouge);color:white;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+  .perso-info{flex:1}
+  .perso-nom{font-weight:700;font-size:13px;color:var(--rouge);margin-bottom:2px}
+  .perso-camp{font-size:10px;background:var(--rouge-light);color:var(--rouge);padding:1px 8px;border-radius:20px;display:inline-block;margin-bottom:4px}
+  .perso-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+  /* BILAN */
+  .bilan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:4px}
+  .bilan-card{border-radius:8px;padding:12px;text-align:center}
+  .bilan-card .num{font-size:24px;font-weight:800;margin-bottom:4px}
+  .bilan-card .lbl{font-size:11px;line-height:1.4}
+
+  /* ENCHAINEMENT */
+  .chain{counter-reset:chain}
+  .chain-item{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
+  .chain-num{background:var(--rouge);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+  .chain-text{font-size:13px;line-height:1.6;flex:1}
+  .chain-text strong{color:var(--rouge)}
+
+  /* BREVET BOX */
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+
+  /* QUIZ */
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--rouge);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--rouge);background:var(--rouge-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .btn-reset{background:var(--rouge);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+
+  /* EXOS */
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--rouge-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--rouge);display:flex;justify-content:space-between;align-items:center}
+  .pts{font-size:12px;background:var(--rouge);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px}
+  textarea:focus{outline:none;border-color:var(--rouge)}
+  .btn-corr{background:var(--rouge);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .durée-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+
+  @media(max-width:500px){.camps-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📖 H1 — La Première Guerre Mondiale (1914–1918)</h1>
+  <p>Fiche complète · Séquence 1 · Histoire · Brevet 2026</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('frise',this)">📅 Frise</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ══════════════════════════ FICHE ══════════════════════════ -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head rouge">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> La Première Guerre Mondiale (1914–1918) est le premier conflit mondial, une <strong>guerre totale</strong> qui mobilise toute la société. Elle oppose les <strong>Alliés</strong> (France, Royaume-Uni, Russie, États-Unis…) aux <strong>Empires centraux</strong> (Allemagne, Autriche-Hongrie…). Elle fait environ <strong>10 millions de soldats morts</strong> et transforme profondément l'Europe.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">🌍 Pourquoi la guerre était possible — le contexte avant 1914</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">L'Europe est une <strong>poudrière</strong> depuis les années 1870. Quatre causes profondes :</p>
+      <ul class="bull-list">
+        <li><strong>Le nationalisme :</strong> les peuples veulent former leurs propres États. Les Balkans (Serbie, Bosnie) sont très instables.</li>
+        <li><strong>L'impérialisme :</strong> les grandes puissances se disputent des colonies en Afrique et en Asie.</li>
+        <li><strong>La course aux armements :</strong> l'Allemagne et le Royaume-Uni se concurrencent notamment sur la marine de guerre.</li>
+        <li><strong>Les alliances militaires :</strong> la Triple-Entente (France, Russie, Royaume-Uni) face à la Triple-Alliance (Allemagne, Autriche-Hongrie, Italie). Si un pays est attaqué, tous ses alliés entrent en guerre — c'est l'effet domino.</li>
+      </ul>
+      <div class="warn-box"><strong>À retenir :</strong> L'assassinat de François-Ferdinand n'est que l'étincelle. La poudrière existait bien avant 1914.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head rouge">⚔️ Les deux camps en présence</div>
+    <div class="section-body">
+      <div class="camps-grid">
+        <div class="camp">
+          <div class="camp-head" style="background:var(--bleu)">LES ALLIÉS</div>
+          <div class="camp-body" style="background:var(--bleu-light);color:var(--bleu)">
+            <ul>
+              <li>France</li>
+              <li>Royaume-Uni</li>
+              <li>Russie (jusqu'en 1917)</li>
+              <li>Italie (à partir de 1915)</li>
+              <li>États-Unis (à partir d'avril 1917)</li>
+              <li>Serbie, Belgique, Roumanie…</li>
+            </ul>
+          </div>
+        </div>
+        <div class="camp">
+          <div class="camp-head" style="background:var(--rouge)">LES EMPIRES CENTRAUX</div>
+          <div class="camp-body" style="background:var(--rouge-light);color:var(--rouge)">
+            <ul>
+              <li>Allemagne</li>
+              <li>Autriche-Hongrie</li>
+              <li>Empire ottoman (Turquie)</li>
+              <li>Bulgarie (à partir de 1915)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">🏭 La guerre totale : tout le monde est concerné</div>
+    <div class="section-body">
+      <p style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--bleu)">Au front — les soldats dans les tranchées</p>
+      <p style="font-size:13px;margin-bottom:8px">Les tranchées s'étendent sur <strong>700 km</strong>, de la mer du Nord aux Vosges. Les soldats français (surnommés <strong>"poilus"</strong>) y vivent dans des conditions terribles : boue, froid, rats, poux, gaz, obus. Entre les deux lignes, le <strong>"no man's land"</strong> est une zone de mort que personne ne contrôle.</p>
+      <p style="font-size:13px;font-weight:600;margin-bottom:6px;color:var(--rouge)">Nouvelles armes utilisées pour la première fois :</p>
+      <ul class="bull-list">
+        <li><strong>Gaz de combat</strong> (chlore, gaz moutarde) — utilisés dès 1915 par l'Allemagne</li>
+        <li><strong>Chars d'assaut</strong> — utilisés par les Britanniques en 1916 (bataille de la Somme)</li>
+        <li><strong>Avions militaires</strong> — reconnaissance et combats aériens</li>
+        <li><strong>Artillerie lourde</strong> — canons qui tirent à des dizaines de kilomètres</li>
+      </ul>
+      <p style="font-size:13px;font-weight:700;margin:12px 0 8px;color:var(--bleu)">À l'arrière — les civils mobilisés</p>
+      <ul class="bull-list">
+        <li><strong>Les femmes</strong> remplacent les hommes dans les usines d'armement (on les appelle "munitionnettes"), les champs, les hôpitaux. Cela changera profondément leur place dans la société.</li>
+        <li><strong>Les enfants</strong> collectent du métal, des vêtements pour les soldats.</li>
+        <li><strong>L'économie entière</strong> est tournée vers la guerre : usines d'obus, de fusils, d'uniformes.</li>
+        <li><strong>La propagande</strong> : affiches, journaux contrôlés par l'État pour maintenir le moral.</li>
+        <li><strong>Le rationnement</strong> : nourriture et matières premières réservées en priorité à l'armée.</li>
+      </ul>
+      <div class="success-box"><strong>Chiffre clé :</strong> La France mobilise 8 millions de soldats entre 1914 et 1918. Sur 40 millions d'habitants, presque tous les hommes valides partent au front.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head rouge">📝 Les mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Guerre totale</div><div class="mc-def">Conflit où toutes les ressources humaines, économiques et industrielles d'un pays sont mobilisées. Soldats ET civils, hommes ET femmes participent.</div></div>
+      <div class="mc-row"><div class="mc-terme">Tranchées</div><div class="mc-def">Fossés de 700 km creusés dans la terre. Les soldats y vivent et combattent dans des conditions inhumaines (boue, froid, obus, gaz).</div></div>
+      <div class="mc-row"><div class="mc-terme">No man's land</div><div class="mc-def">Zone de terrain entre les deux lignes de tranchées, que personne ne contrôle. C'est une zone de mort.</div></div>
+      <div class="mc-row"><div class="mc-terme">Poilu</div><div class="mc-def">Surnom des soldats français de la Première Guerre Mondiale vivant dans les tranchées.</div></div>
+      <div class="mc-row"><div class="mc-terme">Armistice</div><div class="mc-def">Accord pour arrêter les combats, signé le 11 novembre 1918 à 11h. Ce n'est pas encore la paix définitive.</div></div>
+      <div class="mc-row"><div class="mc-terme">Traité de Versailles</div><div class="mc-def">Traité de paix du 28 juin 1919 : l'Allemagne est déclarée seule responsable, perd l'Alsace-Lorraine et ses colonies, doit payer 132 milliards de marks-or.</div></div>
+      <div class="mc-row"><div class="mc-terme">Génocide arménien</div><div class="mc-def">Massacre organisé du peuple arménien par l'Empire ottoman (1915–1916) : ~1 million de morts. Premier génocide du XXe siècle.</div></div>
+      <div class="mc-row"><div class="mc-terme">Propagande</div><div class="mc-def">Messages diffusés par les gouvernements (affiches, presse contrôlée) pour maintenir le moral et présenter l'ennemi comme un monstre.</div></div>
+      <div class="mc-row"><div class="mc-terme">Nationalisme</div><div class="mc-def">Idée selon laquelle un peuple doit former sa propre nation. Cause profonde des tensions avant 1914, surtout dans les Balkans.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head rouge">👤 Les personnages clés</div>
+    <div class="section-body">
+      <div class="perso-row">
+        <div class="perso-avatar">Cl</div>
+        <div class="perso-info">
+          <div class="perso-nom">Georges Clemenceau</div>
+          <span class="perso-camp">France — chef du gouvernement 1917–1920</span>
+          <div class="perso-desc">Surnommé "le Tigre". Relève le moral du pays, interdit tout défaitisme, mène la France jusqu'à la victoire. Négocie le traité de Versailles pour la France. Ses adversaires le trouvent trop dur envers l'Allemagne.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">Jo</div>
+        <div class="perso-info">
+          <div class="perso-nom">Maréchal Joffre</div>
+          <span class="perso-camp">France — commandant en chef 1914–1916</span>
+          <div class="perso-desc">Responsable de la victoire de la Marne (septembre 1914) qui stoppe l'avancée allemande à 40 km de Paris. Remplacé en 1916 après les lourdes pertes de la Somme.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">Pé</div>
+        <div class="perso-info">
+          <div class="perso-nom">Maréchal Pétain</div>
+          <span class="perso-camp">France — héros de Verdun</span>
+          <div class="perso-desc">Héros de Verdun (1916). Phrase célèbre : "Ils ne passeront pas". Commandant en chef en 1917 après les mutineries. Sera le chef du régime de Vichy en 1940 — son parcours est donc très ambigu.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">Fo</div>
+        <div class="perso-info">
+          <div class="perso-nom">Maréchal Foch</div>
+          <span class="perso-camp">France — commandant suprême allié 1918</span>
+          <div class="perso-desc">Commande toutes les forces alliées à partir d'avril 1918. Organise l'offensive finale qui contraint l'Allemagne à demander l'armistice. Signe l'armistice le 11 novembre 1918.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">FF</div>
+        <div class="perso-info">
+          <div class="perso-nom">François-Ferdinand</div>
+          <span class="perso-camp">Autriche-Hongrie — héritier du trône</span>
+          <div class="perso-desc">Assassiné à Sarajevo le 28 juin 1914 par Gavrilo Princip (nationaliste serbe). Son meurtre déclenche la crise diplomatique qui, par le jeu des alliances, conduit à la guerre mondiale.</div>
+        </div>
+      </div>
+      <div class="perso-row">
+        <div class="perso-avatar">Wi</div>
+        <div class="perso-info">
+          <div class="perso-nom">Woodrow Wilson</div>
+          <span class="perso-camp">États-Unis — président</span>
+          <div class="perso-desc">Fait entrer les États-Unis en guerre en avril 1917 après le torpillage de navires américains. Propose les "14 points" pour une paix juste. Défend la création d'une Société des Nations pour éviter de futurs conflits.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">📊 Le bilan de la guerre</div>
+    <div class="section-body">
+      <div class="bilan-grid">
+        <div class="bilan-card" style="background:var(--rouge-light)"><div class="num" style="color:var(--rouge)">~10M</div><div class="lbl" style="color:var(--rouge)">soldats morts</div></div>
+        <div class="bilan-card" style="background:#FDE8D8"><div class="num" style="color:var(--orange)">~7M</div><div class="lbl" style="color:var(--orange)">civils morts</div></div>
+        <div class="bilan-card" style="background:var(--bleu-light)"><div class="num" style="color:var(--bleu)">~20M</div><div class="lbl" style="color:var(--bleu)">blessés</div></div>
+        <div class="bilan-card" style="background:var(--vert-light)"><div class="num" style="color:var(--vert)">1919</div><div class="lbl" style="color:var(--vert)">traité de Versailles</div></div>
+      </div>
+      <ul class="bull-list" style="margin-top:12px">
+        <li>La France retrouve <strong>l'Alsace-Lorraine</strong> (perdue en 1870–71)</li>
+        <li>De nouveaux pays naissent en Europe : Pologne, Tchécoslovaquie, Yougoslavie…</li>
+        <li>Les empires austro-hongrois, ottoman et russe s'effondrent</li>
+        <li>Les États-Unis deviennent la première puissance économique mondiale</li>
+        <li>Le traité de Versailles humilie l'Allemagne → rancœur → montée de Hitler (chapitre H2)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">🔗 La logique des événements — enchaînement complet</div>
+    <div class="section-body">
+      <div class="chain">
+        <div class="chain-item"><div class="chain-num">1</div><div class="chain-text">Des <strong>tensions profondes</strong> depuis les années 1870 : nationalisme, impérialisme, armements, alliances fragiles.</div></div>
+        <div class="chain-item"><div class="chain-num">2</div><div class="chain-text">L'<strong>assassinat de François-Ferdinand</strong> (28 juin 1914) → l'Autriche attaque la Serbie.</div></div>
+        <div class="chain-item"><div class="chain-num">3</div><div class="chain-text"><strong>Effet domino des alliances</strong> → toute l'Europe entre en guerre en quelques semaines (août 1914).</div></div>
+        <div class="chain-item"><div class="chain-num">4</div><div class="chain-text">La guerre de mouvement échoue : l'Allemagne est stoppée à la <strong>Marne (septembre 1914)</strong>.</div></div>
+        <div class="chain-item"><div class="chain-num">5</div><div class="chain-text"><strong>Installation des tranchées</strong> : 700 km de fossés, guerre de position immobile pendant 4 ans.</div></div>
+        <div class="chain-item"><div class="chain-num">6</div><div class="chain-text">Batailles meurtrières : <strong>Verdun et la Somme (1916)</strong> — plus d'un million de morts pour quelques km de terrain.</div></div>
+        <div class="chain-item"><div class="chain-num">7</div><div class="chain-text">L'<strong>entrée des États-Unis (avril 1917)</strong> apporte 2 millions de soldats frais aux Alliés épuisés.</div></div>
+        <div class="chain-item"><div class="chain-num">8</div><div class="chain-text">La <strong>Russie sort de la guerre (1917)</strong> après la révolution bolchévique : signe la paix avec l'Allemagne.</div></div>
+        <div class="chain-item"><div class="chain-num">9</div><div class="chain-text">L'<strong>offensive alliée (août 1918)</strong> fait reculer l'Allemagne sur tout le front.</div></div>
+        <div class="chain-item"><div class="chain-num">10</div><div class="chain-text"><strong>Armistice le 11 novembre 1918</strong> à 11h → fin des combats.</div></div>
+        <div class="chain-item"><div class="chain-num">11</div><div class="chain-text"><strong>Traité de Versailles (1919)</strong> : l'Allemagne est humiliée → rancœur → prépare la montée de Hitler → chapitre H2.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head violet">🎯 Ce qui tombe souvent au brevet</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li>Définir la <strong>guerre totale</strong> avec des exemples (front + arrière)</li>
+        <li>Expliquer les <strong>causes</strong> du déclenchement (assassinat + alliances)</li>
+        <li>Décrire les conditions de vie dans les <strong>tranchées</strong></li>
+        <li>Expliquer le <strong>génocide arménien</strong> et pourquoi c'est un génocide</li>
+        <li>Analyser les <strong>conséquences du traité de Versailles</strong></li>
+        <li>Rédiger un paragraphe argumenté sur "la Première Guerre Mondiale, une guerre totale"</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ FRISE ══════════════════════════ -->
+<div class="panel" id="panel-frise">
+
+  <div class="section">
+    <div class="section-head rouge">📅 Frise chronologique interactive</div>
+    <div class="section-body">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Clique sur chaque point pour voir le détail.</p>
+      <div class="frise-container">
+        <div class="frise" id="frise-interactive"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">📋 Tableau complet des dates</div>
+    <div class="section-body">
+      <table class="dates-table">
+        <thead><tr><th>Date</th><th>Événement</th><th>Ce qu'il faut comprendre</th></tr></thead>
+        <tbody>
+          <tr><td class="date-cell">28 juin 1914</td><td class="event-cell">Assassinat de François-Ferdinand</td><td class="detail-cell">Tué à Sarajevo par un nationaliste serbe. Déclenche la crise diplomatique.</td></tr>
+          <tr><td class="date-cell">28 juil. 1914</td><td class="event-cell">L'Autriche déclare la guerre à la Serbie</td><td class="detail-cell">Les alliances s'activent : effet domino entre toutes les puissances européennes.</td></tr>
+          <tr><td class="date-cell">1–4 août 1914</td><td class="event-cell">Entrée en guerre de l'Allemagne, France, Royaume-Uni</td><td class="detail-cell">L'Allemagne envahit la Belgique neutre pour attaquer la France par le nord.</td></tr>
+          <tr><td class="date-cell">Sept. 1914</td><td class="event-cell">Victoire de la Marne</td><td class="detail-cell">Les armées françaises stoppent l'avancée allemande à 40 km de Paris. Paris est sauvée.</td></tr>
+          <tr><td class="date-cell">Fin 1914</td><td class="event-cell">Installation des tranchées</td><td class="detail-cell">700 km de fossés de la mer du Nord aux Vosges. La guerre de mouvement est terminée.</td></tr>
+          <tr><td class="date-cell">1915–1916</td><td class="event-cell">Génocide arménien</td><td class="detail-cell">L'Empire ottoman massacre ~1 million d'Arméniens. Premier génocide du XXe siècle.</td></tr>
+          <tr><td class="date-cell">Fév.–Déc. 1916</td><td class="event-cell">Bataille de Verdun</td><td class="detail-cell">700 000 morts et blessés en 10 mois. Symbole de l'horreur. "Ils ne passeront pas" (Pétain).</td></tr>
+          <tr><td class="date-cell">Juil.–Nov. 1916</td><td class="event-cell">Bataille de la Somme</td><td class="detail-cell">Plus d'un million de victimes. Première utilisation des chars d'assaut (Britanniques).</td></tr>
+          <tr><td class="date-cell">Avril 1917</td><td class="event-cell">Entrée en guerre des États-Unis</td><td class="detail-cell">2 millions de soldats américains renforcent les Alliés épuisés. Tournant de la guerre.</td></tr>
+          <tr><td class="date-cell">1917</td><td class="event-cell">Révolution russe — sortie de Russie</td><td class="detail-cell">La Russie signe la paix avec l'Allemagne (traité de Brest-Litovsk, mars 1918).</td></tr>
+          <tr><td class="date-cell">8 août 1918</td><td class="event-cell">"Journée noire" de l'armée allemande</td><td class="detail-cell">Offensive alliée décisive. L'armée allemande recule sur tout le front occidental.</td></tr>
+          <tr><td class="date-cell">11 nov. 1918</td><td class="event-cell">Armistice — fin des combats à 11h</td><td class="detail-cell">Signé dans un wagon à Rethondes (forêt de Compiègne). Le 11 novembre est un jour férié en France.</td></tr>
+          <tr><td class="date-cell">28 juin 1919</td><td class="event-cell">Traité de Versailles</td><td class="detail-cell">L'Allemagne seule responsable. Perd l'Alsace-Lorraine, ses colonies. Doit payer 132 milliards de marks-or.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ QUIZ ══════════════════════════ -->
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz H1 :</strong> 12 questions sur la Première Guerre Mondiale. Clique sur ta réponse pour voir l'explication.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num">0/12</div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Recommencer</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════ EXERCICE ══════════════════════ -->
+<div class="panel" id="panel-exo">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+    <span class="durée-badge">⏱ Durée : 40 minutes</span>
+    <span style="font-size:12px;color:var(--muted)">Exercice 1 — Analyse de documents (comme au vrai brevet)</span>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Document 1 — Témoignage d'un soldat français, 1916</h3>
+    <p>« Depuis des mois, nous vivons dans la boue. La nuit, les rats courent sur nos visages. Le jour, les obus ne s'arrêtent jamais. Quand nous sortons des tranchées pour attaquer, beaucoup de camarades ne reviennent pas. Mais à l'arrière, nos familles souffrent aussi : ma femme travaille à l'usine depuis que je suis parti. Elle fabrique des obus pour nous. Toute la France est en guerre. »</p>
+    <div class="doc-source">Source : témoignage adapté d'après des lettres de soldats français, archives nationales, 1916.</div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Document 2 — Données chiffrées</h3>
+    <p>
+      • <strong>1914–1918 :</strong> durée de la guerre<br>
+      • <strong>~10 millions</strong> de soldats morts en Europe<br>
+      • <strong>8 millions</strong> de soldats français mobilisés<br>
+      • <strong>700 km</strong> de tranchées du nord au sud de la France<br>
+      • <strong>Verdun (1916) :</strong> plus de 700 000 morts et blessés en 10 mois<br>
+      • <strong>Avril 1917 :</strong> entrée en guerre des États-Unis (2 millions de soldats supplémentaires)<br>
+      • <strong>11 novembre 1918 :</strong> armistice signé à 11h du matin
+    </p>
+    <div class="doc-source">Source : données historiques officielles — Mémoire des hommes, ministère de la Défense.</div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Comprendre les documents</span><span class="pts">5 points</span></div>
+    <div class="q-exo-body">
+      <p>En t'appuyant sur les deux documents, explique ce qu'est une <strong>guerre totale</strong>. Donne au moins deux exemples précis tirés des documents.</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p>Une guerre totale est un conflit dans lequel toute la société est mobilisée pour l'effort de guerre, pas seulement les soldats.</p>
+        <p style="margin-top:8px">Le document 1 montre les deux aspects : au front, le soldat vit dans la boue, subit les obus et risque sa vie à chaque assaut. À l'arrière, sa femme travaille dans une usine pour fabriquer des obus. Le document 2 confirme l'ampleur de cette mobilisation totale : 8 millions de soldats français sont mobilisés sur une population de 40 millions d'habitants.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Commence toujours par définir le terme demandé ("une guerre totale est…"), puis illustre avec les documents en précisant leur numéro ("Comme le montre le document 1…"). Deux exemples bien présentés suffisent pour avoir tous les points.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Mobilisé</em> = appelé à participer à la guerre (soldat ou civil). <em>Effort de guerre</em> = tout ce qu'une société fait pour soutenir son armée.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser un élément précis</span><span class="pts">5 points</span></div>
+    <div class="q-exo-body">
+      <p>En t'appuyant sur le document 2, explique pourquoi la bataille de Verdun (1916) est considérée comme le symbole de l'horreur de cette guerre.</p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p>La bataille de Verdun (de février à décembre 1916) est considérée comme le symbole de l'horreur de la Première Guerre Mondiale car elle a causé plus de 700 000 morts et blessés en seulement 10 mois de combats.</p>
+        <p style="margin-top:8px">Ce chiffre extraordinaire illustre parfaitement la brutalité de la guerre des tranchées. Deux armées immobilisées face à face se bombardent sans cesse pour gagner quelques mètres de terrain. Cette bataille incarne l'absurdité d'une guerre qui fait des centaines de milliers de victimes sans que la situation ne change vraiment.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Un bon chiffre bien utilisé vaut autant qu'un long paragraphe. Cite le chiffre, explique ce qu'il signifie concrètement, puis tire une conclusion ("cela illustre…", "cela montre que…").</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Symbole</em> = quelque chose qui représente une idée plus grande que lui. Verdun symbolise toute l'horreur de 4 ans de tranchées. <em>Absurdité</em> = quelque chose qui ne fait pas de sens, qui est inutile et terrible à la fois.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Développement construit</span><span class="pts">10 points</span></div>
+    <div class="q-exo-body">
+      <p><strong>Sujet :</strong> En t'appuyant sur les documents et sur tes connaissances, explique pourquoi la Première Guerre Mondiale est une guerre totale qui bouleverse toute la société française.</p>
+      <p style="font-size:12px;color:var(--muted);margin-top:4px">Rédige un paragraphe organisé : introduction avec définition, 2 ou 3 arguments illustrés, conclusion. Environ 15–20 lignes.</p>
+      <textarea id="rep3" placeholder="Écris ton paragraphe ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Correction — exemple de paragraphe rédigé</h4>
+        <p><strong>Introduction :</strong> La Première Guerre Mondiale (1914–1918) est bien plus qu'un conflit entre armées. C'est une guerre totale, c'est-à-dire une guerre dans laquelle l'ensemble de la société est mobilisé pour soutenir l'effort de guerre.</p>
+        <p style="margin-top:8px"><strong>Argument 1 — Les soldats au front :</strong> Des millions de soldats français (surnommés "poilus") vivent et meurent dans les tranchées. Sur 700 km de front, ils subissent la boue, le froid, les gaz et les obus. La bataille de Verdun (1916), avec plus de 700 000 morts et blessés en dix mois, illustre l'horreur de ces combats.</p>
+        <p style="margin-top:8px"><strong>Argument 2 — Les civils à l'arrière :</strong> La société entière participe à la guerre. Les femmes remplacent les hommes dans les usines d'armement — on les appelle les "munitionnettes" — ainsi que dans les champs et les hôpitaux. Les enfants collectent du métal. L'économie est entièrement tournée vers la production d'armes et de munitions. Comme le montre le document 1, même les familles restées à l'arrière sont directement impliquées dans l'effort de guerre.</p>
+        <p style="margin-top:8px"><strong>Argument 3 — Les conséquences durables :</strong> Cette guerre totale laisse des traces profondes. Elle fait environ 10 millions de soldats morts et transforme la place des femmes dans la société. Le traité de Versailles (1919) humilie l'Allemagne, ce qui prépare, des années plus tard, la montée d'Adolf Hitler au pouvoir.</p>
+        <p style="margin-top:8px"><strong>Conclusion :</strong> Ainsi, la Première Guerre Mondiale bouleverse profondément la France et l'Europe. Elle marque la fin d'un monde et ouvre une période de crises qui mèneront à la Seconde Guerre Mondiale.</p>
+        <div class="methode-box">
+          <strong>💡 Méthode — Le développement construit en 4 étapes :</strong><br>
+          1. Introduction : présente le sujet, définis le ou les mots-clés importants.<br>
+          2. Arguments : 2 ou 3 idées, chacune illustrée par un exemple précis (date, chiffre, nom, fait).<br>
+          3. Utilise les connecteurs : "D'abord…", "Ensuite…", "Enfin…", "Comme le montre le document…"<br>
+          4. Conclusion : fais un bilan rapide et ouvre vers la suite (ici, la Seconde Guerre Mondiale).
+        </div>
+        <div class="vocab-box">
+          <strong>📖 Vocabulaire utile pour rédiger :</strong><br>
+          — <em>Illustre</em> = montre, prouve par un exemple<br>
+          — <em>Bouleverser</em> = changer profondément et brutalement<br>
+          — <em>Durables</em> = qui durent longtemps dans le temps<br>
+          — <em>Profondément</em> = de manière importante, dans les fondements même de la société
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+// ── TABS ──────────────────────────────────────────────────────────────────
+function showPanel(id,tab){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  tab.classList.add('active');
+}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+
+// ── FRISE ─────────────────────────────────────────────────────────────────
+const FRISE_DATA=[
+  {date:"28 juin 1914",label:"Assassinat de\nFrançois-Ferdinand",detail:"Sarajevo (Bosnie). Déclenche la crise diplomatique qui mène à la guerre.",important:false},
+  {date:"Août 1914",label:"Déclarations\nde guerre",detail:"L'Allemagne envahit la Belgique. La France et le Royaume-Uni entrent en guerre.",important:true},
+  {date:"Sept. 1914",label:"Victoire\nde la Marne",detail:"L'avancée allemande est stoppée à 40 km de Paris. Paris est sauvée.",important:false},
+  {date:"Fin 1914",label:"Tranchées\ninstallées",detail:"700 km de fossés. La guerre de mouvement s'arrête. Début de la guerre de position.",important:false},
+  {date:"1915–1916",label:"Génocide\narménien",detail:"~1 million d'Arméniens massacrés par l'Empire ottoman. 1er génocide du XXe siècle.",important:false},
+  {date:"Verdun 1916",label:"Bataille\nde Verdun",detail:"700 000 morts et blessés en 10 mois. Symbole de l'horreur des tranchées.",important:true},
+  {date:"Avril 1917",label:"Entrée des\nÉtats-Unis",detail:"2 millions de soldats américains renforcent les Alliés. Tournant de la guerre.",important:true},
+  {date:"11 nov. 1918",label:"Armistice\nà 11h",detail:"Fin des combats. Signé dans un wagon à Rethondes. Le 11 novembre est férié en France.",important:true},
+  {date:"28 juin 1919",label:"Traité de\nVersailles",detail:"L'Allemagne est humiliée. Perd l'Alsace-Lorraine. Doit payer des réparations énormes.",important:true},
+];
+const frise=document.getElementById('frise-interactive');
+FRISE_DATA.forEach((item,i)=>{
+  const el=document.createElement('div');
+  el.className='frise-item'+(item.important?' important':'');
+  el.innerHTML=`
+    <div class="frise-date">${item.date.replace('\n','<br>')}</div>
+    <div class="frise-dot"></div>
+    <div class="frise-label">${item.label.replace('\n','<br>')}</div>
+    <div class="frise-detail" id="fd-${i}"><strong>${item.date}</strong>${item.detail}</div>`;
+  el.onclick=()=>{
+    document.querySelectorAll('.frise-detail').forEach((d,j)=>{if(j!==i)d.classList.remove('show');});
+    document.getElementById('fd-'+i).classList.toggle('show');
+  };
+  frise.appendChild(el);
+});
+
+// ── QUIZ ──────────────────────────────────────────────────────────────────
+const QUESTIONS=[
+  {q:"Quelle est la date de l'assassinat qui déclenche la Première Guerre Mondiale ?",opts:["28 juin 1914","4 août 1914","11 novembre 1914","28 juillet 1914"],correct:0,
+   expl:"Le 28 juin 1914, François-Ferdinand, héritier du trône d'Autriche-Hongrie, est assassiné à Sarajevo par Gavrilo Princip, un nationaliste serbe. Cet événement déclenche une crise diplomatique qui, par le jeu des alliances, conduit toute l'Europe en guerre en quelques semaines."},
+  {q:"Qu'est-ce que la Triple-Entente ?",opts:["L'alliance entre l'Allemagne, l'Autriche-Hongrie et l'Italie","L'alliance entre la France, la Russie et le Royaume-Uni","L'alliance entre la France, l'Angleterre et les États-Unis","L'accord de paix signé en 1919"],correct:1,
+   expl:"La Triple-Entente est l'alliance défensive entre la France, la Russie et le Royaume-Uni, formée avant 1914. Elle s'oppose à la Triple-Alliance (Allemagne, Autriche-Hongrie, Italie). Ces alliances font que tout conflit entre deux pays peut très vite entraîner toute l'Europe dans la guerre."},
+  {q:"Qu'est-ce qu'une guerre totale ?",opts:["Une guerre qui dure très longtemps","Une guerre où toute la société (soldats ET civils) est mobilisée pour l'effort de guerre","Une guerre qui se passe sur tous les continents en même temps","Une guerre sans règles ni prisonniers"],correct:1,
+   expl:"Une guerre totale est un conflit dans lequel l'ensemble de la société participe à l'effort de guerre : soldats au front, civils à l'arrière (usines, champs, hôpitaux), économie entière tournée vers la guerre, propagande pour maintenir le moral. Ce n'est pas une question de durée ou de lieu géographique."},
+  {q:"Pourquoi la bataille de Verdun est-elle célèbre ?",opts:["C'est là que l'armistice a été signé","C'est la première bataille de la guerre","Elle a causé plus de 700 000 morts et blessés en 10 mois — symbole de l'horreur des tranchées","C'est là que les États-Unis ont combattu pour la première fois"],correct:2,
+   expl:"La bataille de Verdun (février à décembre 1916) est le symbole de l'horreur de la guerre des tranchées. Plus de 700 000 soldats sont tués ou blessés en dix mois, pour quelques kilomètres de terrain. Le maréchal Pétain y commande les défenses françaises et dit : \"Ils ne passeront pas\"."},
+  {q:"Quel est le rôle des femmes pendant la guerre ?",opts:["Elles n'ont aucun rôle particulier","Elles combattent dans les tranchées","Elles remplacent les hommes dans les usines, les champs et les hôpitaux","Elles sont évacuées à l'étranger pour se protéger"],correct:2,
+   expl:"Pendant la guerre, les femmes jouent un rôle fondamental à l'arrière : elles travaillent dans les usines d'armement (on les appelle \"munitionnettes\"), dans les champs pour nourrir la population, et dans les hôpitaux comme infirmières. Ce rôle nouveau et essentiel renforcera leur lutte pour obtenir le droit de vote (en France en 1944)."},
+  {q:"Qu'est-ce que le génocide arménien ?",opts:["Un massacre de soldats français par l'Allemagne","Le massacre organisé du peuple arménien par l'Empire ottoman entre 1915 et 1916","Une épidémie qui touche les soldats dans les tranchées","La destruction des villes belges par les obus allemands"],correct:1,
+   expl:"Le génocide arménien est le massacre systématique et planifié du peuple arménien par le gouvernement de l'Empire ottoman entre 1915 et 1916. Environ 1 million d'Arméniens sont tués. C'est le premier génocide reconnu du XXe siècle. Un génocide, c'est la volonté d'exterminer un peuple entier en raison de son origine ou de sa religion."},
+  {q:"Pourquoi les États-Unis entrent-ils en guerre en avril 1917 ?",opts:["Parce que l'Allemagne a attaqué le territoire américain","Parce que des sous-marins allemands coulent des navires américains et pour soutenir les démocraties","Parce que la France a appelé les États-Unis à l'aide dès 1914","Parce qu'ils veulent récupérer des territoires en Europe"],correct:1,
+   expl:"Les États-Unis entrent en guerre en avril 1917 après que des sous-marins allemands ont coulé plusieurs navires américains dans l'Atlantique (dont le paquebot Lusitania en 1915). Le président Woodrow Wilson décide alors de rejoindre les Alliés. L'arrivée de 2 millions de soldats américains frais et bien équipés change l'équilibre des forces en faveur des Alliés."},
+  {q:"Quelle est la date de l'armistice qui met fin aux combats ?",opts:["28 juin 1918","11 novembre 1918","11 novembre 1914","28 juin 1919"],correct:1,
+   expl:"L'armistice est signé le 11 novembre 1918 à 11h du matin, dans un wagon de train en forêt de Compiègne. C'est la fin des combats, mais pas encore la paix officielle. Celle-ci sera signée le 28 juin 1919 avec le traité de Versailles. En France, le 11 novembre est aujourd'hui un jour férié pour commémorer les soldats morts."},
+  {q:"Que prévoit le traité de Versailles pour l'Allemagne ?",opts:["L'Allemagne reçoit de nouveaux territoires","L'Allemagne est co-responsable avec la France","L'Allemagne perd l'Alsace-Lorraine, ses colonies, et doit payer 132 milliards de marks-or","L'Allemagne est divisée en deux pays"],correct:2,
+   expl:"Le traité de Versailles (28 juin 1919) est très sévère pour l'Allemagne : elle est déclarée seule responsable de la guerre, perd l'Alsace-Lorraine (restituée à la France), perd toutes ses colonies, voit son armée réduite à 100 000 hommes, et doit payer 132 milliards de marks-or de réparations. Cette humiliation crée une profonde rancœur qui favorisera la montée d'Adolf Hitler."},
+  {q:"Quelle est la conséquence principale du traité de Versailles pour la suite de l'histoire ?",opts:["Il apporte une paix stable et durable","Il permet à l'Allemagne de se reconstruire rapidement","Il humilie l'Allemagne et crée une rancœur qui favorisera la montée du nazisme","Il fonde l'Union européenne pour éviter de nouvelles guerres"],correct:2,
+   expl:"Le traité de Versailles humilie profondément l'Allemagne. Les Allemands vivent les clauses du traité comme une injustice grave. Cette humiliation, combinée à la crise économique des années 1930, crée les conditions favorables à la montée d'Adolf Hitler, qui promet de rendre sa grandeur à l'Allemagne. C'est pourquoi on dit parfois que le traité de Versailles contenait les germes de la Seconde Guerre Mondiale."},
+  {q:"Comment s'appellent les soldats français de la Première Guerre Mondiale ?",opts:["Les grognards","Les poilus","Les bleuets","Les fantassins"],correct:1,
+   expl:"Les soldats français de la Première Guerre Mondiale sont surnommés les \"poilus\" — un surnom qui évoque leur vie dans les tranchées, sans rasoir ni eau pour se laver. Ce surnom est devenu le symbole de leur courage et de leur endurance face à des conditions de vie terribles."},
+  {q:"Quelle nouvelle arme est utilisée pour la première fois lors de la bataille de la Somme (1916) ?",opts:["Les avions de chasse","Les gaz de combat","Les chars d'assaut","Les sous-marins"],correct:2,
+   expl:"Les chars d'assaut (appelés \"tanks\" par les Britanniques) sont utilisés pour la première fois lors de la bataille de la Somme en septembre 1916, par l'armée britannique. Ces engins blindés peuvent traverser les barbelés et les tranchées. Les gaz de combat, eux, avaient été utilisés dès 1915 par l'Allemagne. Les avions militaires existaient depuis le début de la guerre."},
+];
+
+let answered={},score=0;
+function buildQuiz(){
+  const c=document.getElementById('quiz-container');
+  c.innerHTML=''; answered={}; score=0;
+  QUESTIONS.forEach((q,i)=>{
+    const div=document.createElement('div');
+    div.className='quiz-q';
+    div.innerHTML=`<div class="quiz-q-head"><span class="quiz-q-num">${i+1}</span>${q.q}</div>
+      <div class="quiz-options" id="opts-${i}">${q.opts.map((o,j)=>`<button class="quiz-opt" onclick="answer(${i},${j})">${o}</button>`).join('')}</div>
+      <div class="quiz-expl" id="expl-${i}"></div>`;
+    c.appendChild(div);
+  });
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;
+  answered[qi]=choice;
+  const q=QUESTIONS[qi];
+  const opts=document.querySelectorAll(`#opts-${qi} .quiz-opt`);
+  opts.forEach(o=>o.classList.add('disabled'));
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  const ok=choice===q.correct;
+  if(ok) score++;
+  const expl=document.getElementById(`expl-${qi}`);
+  expl.innerHTML=`<span class="${ok?'tag-ok':'tag-ar'}">${ok?'✓ Bonne réponse !':'✗ À revoir'}</span><br>${q.expl}`;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  const el=document.getElementById('quiz-score');
+  const pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  let msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;
+  el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+
+// Exposition globale
+window.showPanel = showPanel;
+window.showCorr = showCorr;
+window.buildQuiz = buildQuiz;
+window.answer = answer;
+window.showScore = showScore;
+window.resetQuiz = resetQuiz;
+});
+</script>
+</body>
+</html>

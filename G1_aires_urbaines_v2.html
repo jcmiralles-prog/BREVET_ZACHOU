@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>G1 — Les aires urbaines en France</title>
+<style>
+:root{
+  --bleu:#1A5276;--bleu-c:#D6EAF8;--bleu-m:#2471A3;
+  --rouge:#C0392B;--rouge-c:#FADBD8;
+  --vert:#1E8449;--vert-c:#D5F5E3;
+  --orange:#D35400;--orange-c:#FDEBD0;
+  --violet:#6C3483;--violet-c:#E8DAEF;
+  --gris:#5D6D7E;
+  --fond:#F8F9FA;--blanc:#FFFFFF;--texte:#2C3E50;--att:#7F8C8D;
+  --bord:#DEE2E6;--r:10px;
+}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--fond);color:var(--texte);font-size:15px;-webkit-font-smoothing:antialiased}
+header{background:var(--bleu);color:white;padding:18px 16px;text-align:center}
+header h1{font-size:19px;font-weight:700;margin-bottom:4px}
+header p{font-size:12px;opacity:.9}
+.onglets{display:-webkit-flex;display:flex;background:var(--blanc);border-bottom:2px solid var(--bord);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.ong{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--att);border-bottom:3px solid transparent;margin-bottom:-2px;-webkit-tap-highlight-color:rgba(0,0,0,.05)}
+.ong.actif{color:var(--bleu);border-bottom-color:var(--bleu)}
+.panneau{display:none;padding:14px;max-width:740px;margin:0 auto}
+.panneau.actif{display:block}
+.bloc{background:var(--blanc);border:1px solid var(--bord);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
+.bloc-tete{padding:11px 14px;font-size:14px;font-weight:700;color:white;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px}
+.bt-bleu{background:var(--bleu)}
+.bt-vert{background:var(--vert)}
+.bt-orange{background:var(--orange)}
+.bt-rouge{background:var(--rouge)}
+.bt-violet{background:var(--violet)}
+.bt-gris{background:var(--gris)}
+.bloc-corps{padding:14px}
+.info{background:var(--bleu-c);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+.info strong{color:var(--bleu)}
+.warn{background:var(--orange-c);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+.warn strong{color:var(--orange)}
+.ok{background:var(--vert-c);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+.ok strong{color:var(--vert)}
+.liste{margin:8px 0;padding:0;list-style:none}
+.liste li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative}
+.liste li::before{content:"•";position:absolute;left:4px;color:var(--bleu);font-weight:700}
+.liste li b{color:var(--bleu)}
+/* Chiffres clés */
+.chiffres{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:10px;margin-bottom:4px}
+.chif{background:var(--bleu);color:white;border-radius:8px;padding:12px 14px;text-align:center;-webkit-flex:1;flex:1;min-width:120px}
+.chif-nb{font-size:22px;font-weight:800;margin-bottom:4px}
+.chif-lb{font-size:11px;line-height:1.3;opacity:.9}
+/* Schéma aire urbaine */
+.schema{background:#F0F4F8;border-radius:8px;padding:14px;margin:10px 0;text-align:center}
+.schema p{font-size:12px;color:var(--att);margin-bottom:8px}
+.zone{display:inline-block;padding:5px 12px;margin:3px;border-radius:20px;font-weight:600;font-size:12px}
+.z1{background:var(--bleu);color:white}
+.z2{background:#2471A3;color:white}
+.z3{background:#85B7EB;color:var(--bleu)}
+.z4{background:var(--bleu-c);color:var(--bleu);border:1px solid #85B7EB}
+/* Tableau villes */
+.tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+.tbl th{background:var(--bleu);color:white;padding:8px 10px;text-align:left;font-weight:600}
+.tbl td{padding:8px 10px;border-bottom:.5px solid var(--bord);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:nth-child(even) td{background:#F4F8FB}
+.tbl .rang{font-weight:800;color:var(--bleu);text-align:center}
+.tbl .ville-nom{font-weight:700;color:var(--bleu)}
+/* Mot-clé */
+.mc{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:.5px solid var(--bord)}
+.mc-t{background:var(--bleu-c);color:var(--bleu);font-weight:700;font-size:12px;padding:8px 12px;min-width:130px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+.mc-d{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+/* Enchainement */
+.chain-item{display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;-webkit-align-items:flex-start;align-items:flex-start}
+.chain-nb{background:var(--bleu);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0;margin-top:1px}
+.chain-txt{font-size:13px;line-height:1.6;-webkit-flex:1;flex:1}
+.chain-txt b{color:var(--bleu)}
+/* QUIZ */
+.quiz-q{background:var(--blanc);border:1px solid var(--bord);border-radius:var(--r);margin-bottom:16px;overflow:hidden}
+.quiz-qh{padding:12px 14px;font-size:14px;font-weight:600;line-height:1.4}
+.quiz-nb{display:inline-block;background:var(--bleu);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px;-webkit-flex-shrink:0;flex-shrink:0}
+.quiz-opts{padding:0 14px 14px}
+.qopt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--bord);border-radius:8px;font-size:13px;cursor:pointer;background:var(--blanc);color:var(--texte);-webkit-appearance:none;-webkit-tap-highlight-color:rgba(0,0,0,.05)}
+.qopt.ok2{background:var(--vert-c);border-color:var(--vert);color:var(--vert);font-weight:600}
+.qopt.ko{background:var(--rouge-c);border-color:var(--rouge);color:var(--rouge)}
+.qopt.off{pointer-events:none}
+.qexpl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-c);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+.qexpl.show{display:block}
+.tag-ar{display:inline-block;background:var(--rouge-c);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+.tag-ok{display:inline-block;background:var(--vert-c);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+.score-bloc{background:var(--blanc);border:2px solid var(--bleu);border-radius:var(--r);padding:16px;text-align:center;margin-top:10px;display:none}
+.score-bloc.show{display:block}
+.score-nb{font-size:36px;font-weight:700;color:var(--bleu)}
+.btn-r{background:var(--bleu);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px;-webkit-appearance:none}
+/* EXOS */
+.doc{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--r);padding:14px;margin-bottom:14px}
+.doc h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.doc p{font-size:13px;line-height:1.7}
+.doc-src{font-size:11px;color:var(--att);margin-top:8px;font-style:italic}
+.qexo{background:var(--blanc);border:1px solid var(--bord);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
+.qexo-tete{background:var(--bleu-c);padding:10px 14px;font-size:13px;font-weight:700;color:var(--bleu);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+.pts{font-size:12px;background:var(--bleu);color:white;padding:2px 8px;border-radius:20px}
+.qexo-corps{padding:14px}
+.qexo-corps p{font-size:13px;margin-bottom:8px}
+textarea{width:100%;border:1.5px solid var(--bord);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-appearance:none}
+textarea:focus{outline:none;border-color:var(--bleu)}
+.btn-c{background:var(--bleu);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px;-webkit-appearance:none}
+.corr{display:none;margin-top:12px;padding:14px;background:var(--vert-c);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+.corr.show{display:block}
+.corr h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+.meth{background:var(--blanc);border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+.meth b{color:var(--vert)}
+.voc{background:var(--violet-c);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+.voc b{color:var(--violet)}
+.dur{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;display:inline-block;margin-bottom:14px}
+@media(max-width:380px){.chif{min-width:90px}.tbl{font-size:12px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🗺️ G1 — Les aires urbaines en France</h1>
+  <p>Séquence 12 · Géographie · Brevet 2026</p>
+</header>
+
+<div class="onglets">
+  <div class="ong actif" onclick="affPanel('fiche',this)">📋 Fiche</div>
+  <div class="ong" onclick="affPanel('quiz',this)">❓ Quiz</div>
+  <div class="ong" onclick="affPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ══ FICHE ══════════════════════════════════════════════════════ -->
+<div class="panneau actif" id="panneau-fiche">
+
+  <div class="bloc">
+    <div class="bloc-tete bt-bleu">⚡ L'essentiel à retenir</div>
+    <div class="bloc-corps">
+      <div class="info"><strong>En une phrase :</strong> En France, <strong>80 % des habitants</strong> vivent dans des grandes aires urbaines. Les villes concentrent de plus en plus d'emplois, d'habitants et de services — c'est la <strong>métropolisation</strong>. Cela crée des <strong>inégalités</strong> entre les grandes villes dynamiques et les zones rurales qui se vident.</div>
+    </div>
+  </div>
+
+  <div class="bloc">
+    <div class="bloc-tete bt-bleu">📊 Les chiffres clés indispensables</div>
+    <div class="bloc-corps">
+      <div class="chiffres">
+        <div class="chif"><div class="chif-nb">80 %</div><div class="chif-lb">des Français vivent dans une aire urbaine</div></div>
+        <div class="chif"><div class="chif-nb">12 M</div><div class="chif-lb">d'habitants dans l'aire urbaine de Paris</div></div>
+        <div class="chif"><div class="chif-nb">+1,5 %</div><div class="chif-lb">de croissance par an à Toulouse</div></div>
+        <div class="chif"><div class="chif-nb">12</div><div class="chif-lb">grandes métropoles reconnues en France</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bloc">
+    <div class="bloc-tete bt-bleu">🏙️ Qu'est-ce qu'une aire urbaine ?</div>
+    <div class="bloc-corps">
+      <p style="font-size:13px;margin-bottom:10px">Une <strong>aire urbaine</strong> est beaucoup plus grande que la ville officielle. Elle comprend :</p>
+      <div class="schema">
+        <p>De l'intérieur vers l'extérieur :</p>
+        <div>
+          <span class="zone z1">Ville-centre</span>
+          <span style="font-size:12px;color:#888"> → </span>
+          <span class="zone z2">Banlieue</span>
+          <span style="font-size:12px;color:#888"> → </span>
+          <span class="zone z3">Couronne périurbaine</span>
+          <span style="font-size:12px;color:#888"> → </span>
+          <span class="zone z4">Communes rurales proches</span>
+        </div>
+        <p style="margin-top:8px;font-size:12px">Toutes ces zones forment ensemble <strong>l'aire urbaine</strong>.</p>
+      </div>
+      <div class="info"><strong>Exemple concret :</strong> L'aire urbaine de Paris s'étend sur un rayon de 50 à 80 km autour de la capitale. Elle englobe des villes comme Versailles, Meaux ou Melun, dont de nombreux habitants travaillent à Paris. La ville de Paris elle-même (2,1 millions d'habitants) ne représente qu'une petite partie de son aire urbaine (12 millions d'habitants).</div>
+    </div>
+  </div>
+
+  <div class="bloc">
+    <div class="bloc-tete bt-bleu">🏆 Les principales métropoles françaises — exemples à connaître</div>
+    <div class="bloc-corps">
+      <table class="tbl">
+        <thead><tr><th style="width:30px">#</th><th>Ville</th><th>Population aire urbaine</th><th>Spécialité économique</th></tr></thead>
+        <tbody>
+          <tr><td class="rang">1</td><td class="ville-nom">Paris</td><td>~12 millions d'hab.</td><td>Métropole mondiale. Finance, culture, politique, tourisme, sièges d'entreprises internationales.</td></tr>
+          <tr><td class="rang">2</td><td class="ville-nom">Lyon</td><td>~2,2 millions d'hab.</td><td>Carrefour européen. Chimie (vallée de la chimie), numérique, santé, gastronomie mondiale.</td></tr>
+          <tr><td class="rang">3</td><td class="ville-nom">Marseille-Aix</td><td>~1,8 million d'hab.</td><td>1er port de France et de Méditerranée. Logistique, pétrochimie, tourisme, secteur maritime.</td></tr>
+          <tr><td class="rang">4</td><td class="ville-nom">Toulouse</td><td>~1,4 million d'hab.</td><td>Capitale européenne de l'aéronautique (Airbus, Safran). Universités et recherche. +1,5 %/an = croissance la plus forte de France.</td></tr>
+          <tr><td class="rang">5</td><td class="ville-nom">Bordeaux</td><td>~1,2 million d'hab.</td><td>Vins, tourisme patrimonial, nouvelles technologies. Très forte attractivité depuis l'arrivée du TGV Paris (2h05).</td></tr>
+          <tr><td class="rang">6</td><td class="ville-nom">Lille</td><td>~1,2 million d'hab.</td><td>Carrefour européen (Paris-Londres-Bruxelles). Commerce, logistique, industries textiles reconverties.</td></tr>
+          <tr><td class="rang">7</td><td class="ville-nom">Nantes</td><td>~900 000 hab.</td><td>Industries agroalimentaires, construction navale, numérique. Une des villes les plus attractives pour les jeunes actifs.</td></tr>
+          <tr><td class="rang">8</td><td class="ville-nom">Strasbourg</td><td>~800 000 hab.</td><td>Siège du Parlement européen. Carrefour franco-allemand, institutions européennes, tourisme.</td></tr>
+        </tbody>
+      </table>
+      <div class="warn" style="margin-top:10px"><strong>Pour le brevet :</strong> retiens au minimum Paris, Lyon, Marseille, Toulouse et Bordeaux avec leur spécialité. Un exemple précis vaut beaucoup dans une réponse développée.</div>
+    </div>
+  </div>
+
+  <div class="bloc">
+    <div class="bloc-tete bt-orange">🏭 Les causes de la métropolisation — pourquoi les villes grandissent</div>
+    <div class="bloc-corps">
+      <ul class="liste">
+        <li><b>La mondialisation :</b> les entreprises s'installent dans les grandes villes bien connectées (aéroports internationaux, lignes TGV, fibre optique, marchés financiers).</li>
+        <li><b>La concentration des emplois qualifiés :</b> les sièges sociaux, les universités, les hôpitaux de référence, les centres de recherche sont en ville. Les diplômés vont là où sont les emplois.</li>
+        <li><b>L'effet d'entraînement :</b> plus une ville grandit, plus elle attire — elle offre davantage de services, de commerces, de loisirs.</li>
+        <li><b>Les transports rapides :</b> le TGV a rapproché les villes. Exemple : depuis l'arrivée du TGV à Bordeaux (2017), sa population a encore accéléré sa croissance.</li>
+        <li><b>La périurbanisation :</b> les logements coûtent cher en ville → des habitants s'installent dans les communes proches mais continuent à travailler en ville. Ces communes rurales deviennent des zones périurbaines.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bloc">
+    <div class="bloc-tete bt-rouge">⚠️ Les inégalités territoriales — un problème majeur</div>
+    <div class="bloc-corps">
+      <p style="font-size:13px;font-weight:700;color:var(--bleu);margin-bottom:8px">Ce qui se passe dans les grandes villes :</p>
+      <ul class="liste">
+        <li>Emplois qualifiés bien rémunérés, universités de rang mondial, hôpitaux de pointe.</li>
+        <li>Accès à des transports performants (TGV, métro, aéroports internationaux).</li>
+        <li>Dynamisme économique et culturel, nombreux commerces et services.</li>
+      </ul>
+      <p style="font-size:13px;font-weight:700;color:var(--rouge);margin-bottom:8px;margin-top:12px">Ce qui se passe dans les zones rurales éloignées :</p>
+      <ul class="liste">
+        <li><b>Désertification médicale :</b> dans certaines zones rurales, il faut parfois attendre des mois pour voir un médecin. On parle de "déserts médicaux". Exemple : dans certaines zones du Massif Central ou de la Creuse, le nombre de médecins généralistes a chuté de moitié en 20 ans.</li>
+        <li><b>Fermeture des services publics :</b> écoles, bureaux de poste, tribunaux, trésoreries sont regroupés dans les grandes villes. Les habitants des zones rurales doivent parfois faire 50 km pour accéder à un service public.</li>
+        <li><b>Fermeture des commerces :</b> les centres-bourgs se vident. Les supermarchés en périphérie ont tué les commerces de proximité.</li>
+        <li><b>Dépendance à la voiture :</b> sans voiture, impossible de vivre dans certaines zones rurales. Cela pèse lourd sur les ménages modestes.</li>
+        <li><b>Sentiment d'abandon :</b> ces inégalités ont alimenté le mouvement des <strong>Gilets Jaunes en 2018–2019</strong>, né en grande partie dans les zones périurbaines et rurales.</li>
+      </ul>
+      <div class="ok" style="margin-top:10px"><strong>À retenir pour le brevet :</strong> La métropolisation crée deux France. D'un côté, les métropoles dynamiques et bien dotées. De l'autre, les espaces ruraux fragilisés. L'État tente de corriger ces inégalités par des <strong>politiques d'aménagement du territoire</strong> (chapitre G4).</div>
+    </div>
+  </div>
+
+  <div class="bloc">
+    <div class="bloc-tete bt-bleu">📝 Les mots-clés à maîtriser</div>
+    <div class="bloc-corps">
+      <div class="mc"><div class="mc-t">Aire urbaine</div><div class="mc-d">Ensemble formé par une ville-centre et les communes environnantes dont les habitants viennent y travailler. Bien plus grande que la commune officielle.</div></div>
+      <div class="mc"><div class="mc-t">Métropolisation</div><div class="mc-d">Processus par lequel les grandes villes (métropoles) concentrent emplois, habitants, services et pouvoirs de décision. S'accélère avec la mondialisation.</div></div>
+      <div class="mc"><div class="mc-t">Pôle urbain</div><div class="mc-d">La ville-centre d'une aire urbaine, qui concentre la majorité des emplois. Exemple : Lyon est le pôle urbain de l'aire urbaine lyonnaise.</div></div>
+      <div class="mc"><div class="mc-t">Périurbanisation</div><div class="mc-d">Extension de la ville vers des communes rurales proches. Les habitants quittent le centre (trop cher) pour s'installer en périphérie, mais continuent à travailler en ville (trajets quotidiens en voiture).</div></div>
+      <div class="mc"><div class="mc-t">Désert médical</div><div class="mc-d">Zone géographique où il manque gravement de médecins. Conséquence directe de la métropolisation : les médecins préfèrent s'installer en ville.</div></div>
+      <div class="mc"><div class="mc-t">Inégalités territoriales</div><div class="mc-d">Différences de richesse, d'emploi, de services et de qualité de vie entre les territoires. Opposition entre grandes métropoles et zones rurales éloignées.</div></div>
+      <div class="mc"><div class="mc-t">Mondialisation</div><div class="mc-d">Processus d'intensification des échanges économiques, culturels et humains à l'échelle mondiale. Renforce les grandes villes bien connectées.</div></div>
+    </div>
+  </div>
+
+  <div class="bloc">
+    <div class="bloc-tete bt-orange">🔗 La logique des événements — enchaînement à comprendre</div>
+    <div class="bloc-corps">
+      <div class="chain-item"><div class="chain-nb">1</div><div class="chain-txt"><b>La mondialisation s'accélère</b> depuis les années 1980 : les entreprises cherchent à être dans les grandes villes bien connectées au réseau mondial.</div></div>
+      <div class="chain-item"><div class="chain-nb">2</div><div class="chain-txt"><b>Les emplois se concentrent en ville</b> (sièges sociaux, universités, hôpitaux de référence) → les actifs qualifiés viennent en ville.</div></div>
+      <div class="chain-item"><div class="chain-nb">3</div><div class="chain-txt"><b>Les villes grandissent</b>, les prix des logements montent → les ménages moins aisés s'installent en périphérie → <b>périurbanisation</b>.</div></div>
+      <div class="chain-item"><div class="chain-nb">4</div><div class="chain-txt"><b>Les zones rurales éloignées se vident</b> : départ des jeunes, fermeture des services (écoles, médecins, bureaux de poste) → <b>désertification rurale</b>.</div></div>
+      <div class="chain-item"><div class="chain-nb">5</div><div class="chain-txt"><b>Les inégalités territoriales se creusent</b> : sentiment d'abandon dans les zones rurales → tensions sociales → mouvement des Gilets Jaunes (2018–2019).</div></div>
+      <div class="chain-item"><div class="chain-nb">6</div><div class="chain-txt"><b>L'État réagit</b> par des politiques d'aménagement du territoire : zones de revitalisation rurale, "maisons France Services", plan fibre optique, désenclavement routier → chapitre G4.</div></div>
+    </div>
+  </div>
+
+  <div class="bloc">
+    <div class="bloc-tete bt-violet">🎯 Ce qui tombe souvent au brevet</div>
+    <div class="bloc-corps">
+      <ul class="liste">
+        <li>Définir une <b>aire urbaine</b> et expliquer sa composition</li>
+        <li>Expliquer la <b>métropolisation</b> avec des exemples de villes françaises</li>
+        <li>Décrire les <b>inégalités territoriales</b> avec des exemples précis (déserts médicaux, Gilets Jaunes)</li>
+        <li>Rédiger un développement construit sur "la métropolisation crée des inégalités en France"</li>
+        <li>Analyser une carte ou un graphique sur les aires urbaines</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ QUIZ ═══════════════════════════════════════════════════════ -->
+<div class="panneau" id="panneau-quiz">
+  <div class="info" style="margin-bottom:14px"><strong>Quiz G1 :</strong> 10 questions sur les aires urbaines. Clique sur ta réponse — tu verras tout de suite si c'est bon, avec l'explication.</div>
+  <div id="quiz-cont"></div>
+  <div class="score-bloc" id="score-bloc">
+    <div class="score-nb" id="score-nb">0/10</div>
+    <div style="font-size:14px;color:var(--att);margin-top:4px" id="score-msg"></div>
+    <button class="btn-r" onclick="razQuiz()">Recommencer</button>
+  </div>
+</div>
+
+<!-- ══ EXERCICE ════════════════════════════════════════════════════ -->
+<div class="panneau" id="panneau-exo">
+  <span class="dur">⏱ Durée : 40 minutes — comme au vrai brevet</span>
+
+  <div class="doc">
+    <h3>Document 1 — Texte</h3>
+    <p>« En France, la population se concentre de plus en plus dans les grandes métropoles. Paris, Lyon, Toulouse et Bordeaux attirent entreprises et habitants. Toulouse connaît la plus forte croissance : +1,5 % d'habitants par an grâce à son industrie aéronautique. À l'opposé, de nombreuses communes rurales se vident. Dans certaines zones, les médecins, les écoles et les commerces disparaissent les uns après les autres. En 2018–2019, le mouvement des Gilets Jaunes a mis en lumière ce sentiment d'abandon ressenti dans les zones périurbaines et rurales. »</p>
+    <div class="doc-src">Source : texte adapté d'après des données de l'Institut national de la statistique et des études économiques, 2021.</div>
+  </div>
+
+  <div class="doc">
+    <h3>Document 2 — Données chiffrées</h3>
+    <p>• <strong>80 %</strong> des Français vivent dans une aire urbaine<br>
+    • <strong>Paris :</strong> ~12 millions d'habitants dans son aire urbaine<br>
+    • <strong>Toulouse :</strong> +1,5 % de croissance annuelle, la plus forte de France<br>
+    • <strong>Bordeaux :</strong> depuis l'arrivée du TGV Paris-Bordeaux (2017, trajet 2h05), la population a accéléré sa croissance<br>
+    • <strong>Zones rurales :</strong> représentent 14 % du territoire mais seulement 12 % de la population<br>
+    • <strong>Déserts médicaux :</strong> 8 millions de Français vivent dans une zone sous-dotée en médecins (source : Ministère de la Santé, 2022)</p>
+    <div class="doc-src">Source : Institut national de la statistique et des études économiques et Ministère de la Santé, données 2021–2022.</div>
+  </div>
+
+  <div class="qexo">
+    <div class="qexo-tete"><span>Question 1 — Comprendre les documents</span><span class="pts">5 pts</span></div>
+    <div class="qexo-corps">
+      <p>En t'appuyant sur les deux documents, explique ce qu'est la <strong>métropolisation</strong> en France. Donne au moins deux exemples précis tirés des documents.</p>
+      <textarea placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-c" onclick="montrerCorr('c1')">Voir la correction</button>
+      <div class="corr" id="c1">
+        <h4>✅ Correction</h4>
+        <p>La métropolisation est le processus par lequel les grandes villes concentrent de plus en plus d'habitants, d'emplois et de services.</p>
+        <p style="margin-top:8px">Le document 2 montre que 80 % des Français vivent dans une aire urbaine et que Paris regroupe à elle seule 12 millions d'habitants dans son aire urbaine. Le document 1 illustre concrètement cette concentration : Toulouse attire 1,5 % d'habitants supplémentaires chaque année grâce à son industrie aéronautique, et Bordeaux a accéléré sa croissance depuis l'arrivée du TGV.</p>
+        <div class="meth"><b>💡 Méthode :</b> Commence toujours par définir le terme demandé, puis illustre avec les documents en précisant leur numéro. Deux exemples chiffrés bien utilisés valent tous les points.</div>
+        <div class="voc"><b>📖 Vocabulaire :</b> <em>Concentrer</em> = rassembler en un même lieu. <em>Attractivité</em> = capacité d'une ville à attirer des habitants et des entreprises.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qexo">
+    <div class="qexo-tete"><span>Question 2 — Analyser un problème</span><span class="pts">5 pts</span></div>
+    <div class="qexo-corps">
+      <p>En t'appuyant sur les deux documents, explique quelles <strong>inégalités territoriales</strong> la métropolisation crée en France. Utilise des exemples précis.</p>
+      <textarea placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-c" onclick="montrerCorr('c2')">Voir la correction</button>
+      <div class="corr" id="c2">
+        <h4>✅ Correction</h4>
+        <p>La métropolisation crée une opposition nette entre deux types de territoires.</p>
+        <p style="margin-top:8px">D'un côté, les grandes métropoles comme Paris (12 millions d'habitants), Toulouse (+1,5 %/an) ou Bordeaux concentrent emplois, universités, hôpitaux de pointe et services de qualité. De l'autre, comme le montre le document 1, les zones rurales se vident : médecins, écoles et commerces disparaissent. Le document 2 précise que 8 millions de Français vivent dans des déserts médicaux. Ces inégalités ont provoqué le mouvement des Gilets Jaunes en 2018–2019.</p>
+        <div class="meth"><b>💡 Méthode :</b> Pour parler d'inégalités, toujours opposer deux situations : "D'un côté… De l'autre…". Cite les chiffres des documents — ils rendent la réponse convaincante.</div>
+        <div class="voc"><b>📖 Vocabulaire :</b> <em>Inégalités territoriales</em> = différences de qualité de vie et d'accès aux services selon les territoires. <em>Désert médical</em> = zone où il manque des médecins.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qexo">
+    <div class="qexo-tete"><span>Question 3 — Développement construit</span><span class="pts">10 pts</span></div>
+    <div class="qexo-corps">
+      <p><strong>Sujet :</strong> En t'appuyant sur les documents et tes connaissances, explique comment la métropolisation transforme l'organisation du territoire français et quelles inégalités elle provoque.</p>
+      <p style="font-size:12px;color:var(--att);margin-top:4px">Environ 15–20 lignes. Structure : introduction (définition) → arguments illustrés → conclusion.</p>
+      <textarea placeholder="Écris ton paragraphe ici…" style="min-height:160px"></textarea>
+      <button class="btn-c" onclick="montrerCorr('c3')">Voir la correction</button>
+      <div class="corr" id="c3">
+        <h4>✅ Exemple de paragraphe rédigé</h4>
+        <p><strong>Introduction :</strong> La métropolisation est le processus par lequel les grandes villes françaises concentrent de plus en plus d'habitants, d'emplois et de services. Ce phénomène transforme profondément l'organisation du territoire français.</p>
+        <p style="margin-top:8px"><strong>Argument 1 — La domination de Paris :</strong> Paris, avec 12 millions d'habitants dans son aire urbaine, est la seule métropole française de rang mondial. Elle concentre les sièges des grandes entreprises, les institutions nationales, les meilleures universités et les hôpitaux de référence. Cette domination écrasante crée un déséquilibre fort entre Paris et le reste du pays.</p>
+        <p style="margin-top:8px"><strong>Argument 2 — La croissance des métropoles régionales :</strong> D'autres villes comme Lyon, Toulouse ou Bordeaux connaissent une croissance rapide. Toulouse, capitale européenne de l'aéronautique (Airbus y a son siège), croît de 1,5 % par an — la plus forte croissance de France. Bordeaux a vu sa population accélérer après l'arrivée du TGV Paris en 2017. Ces métropoles régionales renforcent leur rôle dans le territoire.</p>
+        <p style="margin-top:8px"><strong>Argument 3 — Les inégalités territoriales :</strong> Cette concentration dans les villes fragilise les zones rurales éloignées. Comme le montrent les documents, 8 millions de Français vivent dans des déserts médicaux, les écoles et les commerces ferment dans les bourgs ruraux. Les zones rurales représentent 14 % du territoire mais seulement 12 % de la population. Ce sentiment d'abandon a conduit au mouvement des Gilets Jaunes en 2018–2019.</p>
+        <p style="margin-top:8px"><strong>Conclusion :</strong> Ainsi, la métropolisation divise la France en deux : des métropoles dynamiques et des espaces ruraux fragilisés. Pour corriger ces inégalités, l'État met en place des politiques d'aménagement du territoire (chapitre G4).</p>
+        <div class="meth"><b>💡 Méthode :</b> Chaque argument = une idée + un exemple précis (chiffre, ville, événement). La conclusion ouvre sur la suite : l'aménagement du territoire.</div>
+        <div class="voc"><b>📖 Vocabulaire utile :</b><br>— <em>Déséquilibre</em> = répartition inégale et injuste<br>— <em>Fragiliser</em> = rendre plus vulnérable, plus faible<br>— <em>Aménagement du territoire</em> = actions de l'État pour organiser l'espace et réduire les inégalités</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── ONGLETS ───────────────────────────────────────────────────────────────
+function affPanel(id, ong) {
+  var panneaux = document.querySelectorAll('.panneau');
+  var onglets = document.querySelectorAll('.ong');
+  for (var i = 0; i < panneaux.length; i++) panneaux[i].className = 'panneau';
+  for (var i = 0; i < onglets.length; i++) onglets[i].className = 'ong';
+  document.getElementById('panneau-' + id).className = 'panneau actif';
+  ong.className = 'ong actif';
+}
+function montrerCorr(id) {
+  var el = document.getElementById(id);
+  el.className = el.className === 'corr show' ? 'corr' : 'corr show';
+}
+
+// ── QUIZ ──────────────────────────────────────────────────────────────────
+var QQ = [
+  {q:"Qu'est-ce qu'une aire urbaine ?",
+   opts:["La surface totale du territoire d'une commune","L'ensemble formé par une ville-centre et les communes dont les habitants viennent y travailler","Le centre historique d'une grande ville","Un quartier industriel en périphérie d'une ville"],
+   ok:1,
+   expl:"Une aire urbaine est bien plus grande que la ville officielle. Elle inclut la ville-centre (pôle urbain) ET toutes les communes autour dont les habitants viennent travailler en ville. L'aire urbaine de Paris (12 millions d'hab.) est par exemple bien plus grande que la commune de Paris (2,1 millions d'hab.)."},
+  {q:"Quel pourcentage des Français vit dans une aire urbaine ?",
+   opts:["50 %","65 %","80 %","95 %"],
+   ok:2,
+   expl:"80 % des Français vivent dans une aire urbaine. C'est un chiffre fondamental qui montre à quel point la France est un pays majoritairement urbain. Seulement 20 % habitent dans des espaces vraiment ruraux, éloignés des grandes villes."},
+  {q:"Qu'est-ce que la métropolisation ?",
+   opts:["La construction de nouvelles villes dans les zones rurales","Le processus par lequel les grandes villes concentrent de plus en plus d'habitants, d'emplois et de services","La fusion de plusieurs communes pour former une grande ville","La construction de nouvelles lignes de métro dans les grandes villes"],
+   ok:1,
+   expl:"La métropolisation est le processus par lequel les grandes métropoles captent une part croissante de la population, des emplois et des services. Ce phénomène s'accélère avec la mondialisation, qui favorise les villes bien connectées au réseau mondial (aéroports, TGV, marchés financiers)."},
+  {q:"Quelle ville française a la plus forte croissance annuelle de population ?",
+   opts:["Paris","Lyon","Bordeaux","Toulouse"],
+   ok:3,
+   expl:"Toulouse est la ville française qui croît le plus vite : +1,5 % d'habitants par an. Cette croissance est liée à son industrie aéronautique (Airbus a son siège à Toulouse), à ses nombreuses universités et grandes écoles, et à son attractivité pour les jeunes actifs et les ingénieurs."},
+  {q:"Qu'est-ce que la périurbanisation ?",
+   opts:["La construction de gratte-ciels dans les centres-villes","Le fait que des habitants quittent la ville pour s'installer dans des communes rurales proches tout en continuant à travailler en ville","La création de transports en commun entre les villes","Le regroupement de plusieurs communes rurales pour former une ville"],
+   ok:1,
+   expl:"La périurbanisation, c'est quand des habitants fuient le centre-ville (logements trop chers, trop de bruit) pour s'installer dans des communes rurales proches, mais continuent à travailler en ville. Ils font donc des trajets quotidiens, souvent en voiture. Cela explique pourquoi les communes proches des grandes villes grossissent même si la ville-centre ne change pas."},
+  {q:"Quel événement de 2018–2019 est lié aux inégalités territoriales entre villes et zones rurales ?",
+   opts:["Le mouvement des Gilets Jaunes","La grève des transports","Les manifestations pour le climat","Le mouvement #MeToo"],
+   ok:0,
+   expl:"Le mouvement des Gilets Jaunes (2018–2019) est né en grande partie dans les zones périurbaines et rurales, où les habitants se sentent abandonnés : manque de médecins, fermeture des services publics, dépendance totale à la voiture. Ce mouvement illustre parfaitement les inégalités territoriales créées par la métropolisation."},
+  {q:"Pourquoi Bordeaux a-t-il connu une forte croissance depuis 2017 ?",
+   opts:["Grâce à son industrie aéronautique","Grâce à l'arrivée du TGV Paris-Bordeaux (trajet en 2h05)","Grâce à la découverte de pétrole près de la ville","Grâce à l'ouverture d'une grande université"],
+   ok:1,
+   expl:"Bordeaux a connu une accélération de sa croissance depuis l'inauguration de la LGV (Ligne à Grande Vitesse) Paris-Bordeaux en 2017. Le trajet Paris-Bordeaux est passé de 3h à 2h05, rendant la ville accessible en moins de 2h15 depuis Paris. Cela a attiré des entreprises et des habitants qui peuvent travailler à Paris en restant installés à Bordeaux."},
+  {q:"Qu'est-ce qu'un désert médical ?",
+   opts:["Un hôpital construit en zone désertique","Une zone géographique où il manque gravement de médecins","Un service d'urgences fermé la nuit","Un cabinet médical spécialisé en maladies tropicales"],
+   ok:1,
+   expl:"Un désert médical est une zone géographique où la densité de médecins est très insuffisante par rapport aux besoins de la population. En France, 8 millions de personnes vivent dans une zone sous-dotée en médecins. Les déserts médicaux touchent surtout les zones rurales éloignées des grandes villes, qui peinent à attirer des médecins préférant s'installer en ville."},
+  {q:"Quelle est la spécialité économique principale de Toulouse ?",
+   opts:["La chimie et la pétrochimie","L'industrie aéronautique (Airbus)","La finance internationale","La construction navale"],
+   ok:1,
+   expl:"Toulouse est la capitale européenne de l'industrie aéronautique. Airbus y a son siège mondial et ses principales usines d'assemblage. On y trouve aussi Safran, ATR et de nombreux sous-traitants, ainsi que des grandes écoles d'ingénieurs (Supaéro, INSA). C'est cette spécialisation qui explique la forte croissance de la ville."},
+  {q:"Quelles zones représentent 14 % du territoire français mais seulement 12 % de la population ?",
+   opts:["Les zones de montagne","Les zones industrielles","Les zones rurales","Les zones côtières"],
+   ok:2,
+   expl:"Les zones rurales représentent une grande superficie du territoire français (14 %) mais n'abritent que 12 % de la population. Cet écart illustre la métropolisation : la population se concentre dans les villes, laissant les campagnes de moins en moins peuplées. Ce phénomène s'accélère avec le départ des jeunes vers les villes pour leurs études et leur travail."}
+];
+
+var rep = {};
+var score = 0;
+
+function construireQuiz() {
+  var cont = document.getElementById('quiz-cont');
+  cont.innerHTML = '';
+  rep = {}; score = 0;
+  for (var i = 0; i < QQ.length; i++) {
+    var q = QQ[i];
+    var div = document.createElement('div');
+    div.className = 'quiz-q';
+    var optsHtml = '';
+    for (var j = 0; j < q.opts.length; j++) {
+      optsHtml += '<button class="qopt" onclick="repondre(' + i + ',' + j + ')">' + q.opts[j] + '</button>';
+    }
+    div.innerHTML = '<div class="quiz-qh"><span class="quiz-nb">' + (i+1) + '</span>' + q.q + '</div>' +
+      '<div class="quiz-opts" id="opts-' + i + '">' + optsHtml + '</div>' +
+      '<div class="qexpl" id="expl-' + i + '"></div>';
+    cont.appendChild(div);
+  }
+  document.getElementById('score-bloc').className = 'score-bloc';
+}
+
+function repondre(qi, choix) {
+  if (rep[qi] !== undefined) return;
+  rep[qi] = choix;
+  var q = QQ[qi];
+  var opts = document.querySelectorAll('#opts-' + qi + ' .qopt');
+  for (var i = 0; i < opts.length; i++) opts[i].className += ' off';
+  opts[choix].className += (choix === q.ok ? ' ok2' : ' ko');
+  if (choix !== q.ok) opts[q.ok].className += ' ok2';
+  var estOk = choix === q.ok;
+  if (estOk) score++;
+  var expl = document.getElementById('expl-' + qi);
+  expl.innerHTML = '<span class="' + (estOk ? 'tag-ok' : 'tag-ar') + '">' + (estOk ? '✓ Bonne réponse !' : '✗ À revoir') + '</span><br>' + q.expl;
+  expl.className = 'qexpl show';
+  var nbRep = 0;
+  for (var k in rep) nbRep++;
+  if (nbRep === QQ.length) afficherScore();
+}
+
+function afficherScore() {
+  var pct = Math.round(score / QQ.length * 100);
+  document.getElementById('score-nb').textContent = score + '/' + QQ.length;
+  var msg = '';
+  if (pct >= 90) msg = '🎉 Excellent Zach ! Tu maîtrises ce chapitre !';
+  else if (pct >= 70) msg = '👍 Très bien ! Relis les questions "à revoir".';
+  else if (pct >= 50) msg = '💪 Pas mal ! Relis la fiche et retente.';
+  else msg = '📋 Relis la fiche, puis recommence. Tu vas y arriver !';
+  document.getElementById('score-msg').textContent = msg;
+  document.getElementById('score-bloc').className = 'score-bloc show';
+}
+
+function razQuiz() { construireQuiz(); }
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+construireQuiz();
+</script>
+</body>
+</html>
