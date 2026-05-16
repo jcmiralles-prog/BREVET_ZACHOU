@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Brevet 2026 — Zach</title>
+<style>
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:#F8F9FA;color:#2C3E50;-webkit-font-smoothing:antialiased}
+.hero{background:#1A5276;color:white;padding:28px 20px;text-align:center}
+.hero h1{font-size:22px;font-weight:800;margin-bottom:6px}
+.hero p{font-size:13px;opacity:.85;margin-bottom:6px}
+.hero .dates{font-size:12px;opacity:.7}
+.countdown{background:rgba(255,255,255,.15);border-radius:12px;padding:12px 20px;margin:16px auto;max-width:300px;text-align:center}
+.countdown-nb{font-size:44px;font-weight:800;line-height:1}
+.countdown-lb{font-size:12px;opacity:.85;margin-top:4px}
+.main{padding:16px;max-width:600px;margin:0 auto}
+.section-title{font-size:11px;font-weight:700;color:#7F8C8D;text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px}
+.card{background:white;border:1px solid #DEE2E6;border-radius:12px;margin-bottom:10px;overflow:hidden;text-decoration:none;display:block;-webkit-tap-highlight-color:rgba(0,0,0,.05)}
+.card:active{background:#F8F9FA}
+.card-inner{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;padding:14px 16px;gap:14px}
+.card-icon{font-size:28px;-webkit-flex-shrink:0;flex-shrink:0;width:44px;text-align:center}
+.card-info{-webkit-flex:1;flex:1;min-width:0}
+.card-titre{font-size:14px;font-weight:700;color:#2C3E50;margin-bottom:3px}
+.card-desc{font-size:12px;color:#7F8C8D;line-height:1.4}
+.card-arrow{font-size:18px;color:#BDC3C7;-webkit-flex-shrink:0;flex-shrink:0}
+.card-accent{height:4px}
+.ca-rouge{background:#C0392B}
+.ca-bleu{background:#1A5276}
+.ca-vert{background:#1E8449}
+.ca-orange{background:#D35400}
+.ca-violet{background:#6C3483}
+.ca-gris{background:#5D6D7E}
+.brevet-badge{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;margin-top:8px}
+.motiv{font-size:14px;font-weight:600;color:rgba(255,255,255,.9);margin-top:8px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Salut Zach ! 👋</h1>
+  <p>Ton espace de révision pour le Brevet 2026</p>
+  <div class="countdown">
+    <div class="countdown-nb" id="jours">—</div>
+    <div class="countdown-lb">jours avant le brevet 🎯</div>
+  </div>
+  <div class="motiv" id="motiv"></div>
+  <div class="dates">Épreuves : 26 · 29 · 30 juin 2026</div>
+</div>
+
+<div class="main">
+
+  <div class="section-title">📅 Planning</div>
+  <a class="card" href="0-HISTOIRE_GEO_EMC_planning_brevet_ch....html">
+    <div class="card-accent ca-gris"></div>
+    <div class="card-inner">
+      <div class="card-icon">✅</div>
+      <div class="card-info">
+        <div class="card-titre">Planning de révision</div>
+        <div class="card-desc">Toutes les séquences jour par jour — coche au fur et à mesure</div>
+      </div>
+      <div class="card-arrow">›</div>
+    </div>
+  </a>
+
+  <div class="section-title">📚 Histoire</div>
+  <a class="card" href="H1_premiere_guerre_mondiale_v2.html">
+    <div class="card-accent ca-rouge"></div>
+    <div class="card-inner">
+      <div class="card-icon">🏛️</div>
+      <div class="card-info">
+        <div class="card-titre">H1 — La Première Guerre Mondiale</div>
+        <div class="card-desc">Fiche · Quiz · Exercice brevet</div>
+      </div>
+      <div class="card-arrow">›</div>
+    </div>
+  </a>
+
+  <div class="section-title">🗺️ Géographie</div>
+  <a class="card" href="G1_aires_urbaines_v2.html">
+    <div class="card-accent ca-bleu"></div>
+    <div class="card-inner">
+      <div class="card-icon">🗺️</div>
+      <div class="card-info">
+        <div class="card-titre">G1 — Les aires urbaines en France</div>
+        <div class="card-desc">Fiche · Quiz · Exercice brevet</div>
+      </div>
+      <div class="card-arrow">›</div>
+    </div>
+  </a>
+
+  <div class="section-title">📄 Documents</div>
+  <a class="card" href="Sujet Brevet révisions vacances Paques 202....html">
+    <div class="card-accent ca-orange"></div>
+    <div class="card-inner">
+      <div class="card-icon">📄</div>
+      <div class="card-info">
+        <div class="card-titre">Sujet Brevet — Révisions vacances</div>
+        <div class="card-desc">Sujet complet à travailler</div>
+      </div>
+      <div class="card-arrow">›</div>
+    </div>
+  </a>
+
+</div>
+
+<script>
+var brevet = new Date('2026-06-26T08:00:00');
+var now = new Date();
+var jours = Math.ceil((brevet - now) / (1000*60*60*24));
+var el = document.getElementById('jours');
+var mo = document.getElementById('motiv');
+if (jours > 0) {
+  el.textContent = jours;
+  el.style.color = jours <= 7 ? '#F39C12' : 'white';
+  var msgs = ['Chaque jour compte Zach !','Tu es sur la bonne voie !','Un jour à la fois, tu gères !','Régulier et confiant, c\'est la clé !','Le brevet se prépare maintenant !'];
+  mo.textContent = msgs[Math.floor(Math.random()*msgs.length)];
+} else {
+  el.textContent = '🎉';
+  mo.textContent = 'C\'est le jour J, montre ce que tu vaux !';
+}
+</script>
+</body>
+</html>
