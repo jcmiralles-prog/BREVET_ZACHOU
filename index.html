@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brevet 2026 — Zachou</title>
+<style>
+:root{
+  --rouge:#C0392B;--rouge-light:#FADBD8;
+  --bleu:#1A5276;--bleu-light:#D6EAF8;
+  --vert:#1E8449;--vert-light:#D5F5E3;
+  --orange:#D35400;--orange-light:#FDEBD0;
+  --violet:#6C3483;--violet-light:#E8DAEF;
+  --gris:#5D6D7E;--gris-light:#EAF2FF;
+  --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+  --border:#DEE2E6;--radius:10px;
+}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px}
+.hero{background:var(--bleu);color:white;padding:24px 20px;text-align:center}
+.hero h1{font-size:22px;font-weight:700;margin-bottom:6px}
+.hero h1 span{color:#7EC8E3}
+.hero-sub{font-size:13px;opacity:.88;margin-bottom:16px}
+.date-pills{display:-webkit-flex;display:flex;gap:8px;-webkit-justify-content:center;justify-content:center;-webkit-flex-wrap:wrap;flex-wrap:wrap}
+.date-pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:5px 14px;font-size:12px;color:white}
+.date-pill b{color:#FFD700}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.matiere-head{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:12px;margin:28px 0 12px}
+.matiere-badge{font-size:11px;font-weight:700;letter-spacing:1px;padding:4px 14px;border-radius:20px}
+.badge-h{background:var(--rouge);color:white}
+.badge-g{background:var(--bleu);color:white}
+.badge-f{background:var(--violet);color:white}
+.badge-emc{background:var(--vert);color:white}
+.badge-plan{background:var(--text);color:white}
+.matiere-line{-webkit-flex:1;flex:1;height:1px;background:var(--border)}
+.cards{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:10px}
+.seq-link{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;text-decoration:none;color:var(--text);-webkit-flex:1 1 200px;flex:1 1 200px;display:block;-webkit-transition:border-color 0.15s,box-shadow 0.15s;transition:border-color 0.15s,box-shadow 0.15s}
+.seq-link:hover{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.seq-link.hist:hover{border-color:var(--rouge)}
+.seq-link.geo:hover{border-color:var(--bleu)}
+.seq-link.fran:hover{border-color:var(--violet)}
+.seq-link.emc:hover{border-color:var(--vert)}
+.seq-link.plan:hover{border-color:var(--text)}
+.seq-link.disabled{opacity:.4;pointer-events:none}
+.sl-code{font-size:11px;font-weight:700;margin-bottom:5px}
+.hist .sl-code{color:var(--rouge)}
+.geo .sl-code{color:var(--bleu)}
+.fran .sl-code{color:var(--violet)}
+.emc .sl-code{color:var(--vert)}
+.plan .sl-code{color:var(--gris)}
+.sl-title{font-size:13px;color:var(--text);line-height:1.4;font-weight:600}
+.sl-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.tag-dispo{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:8px}
+.tag-new{display:inline-block;background:var(--orange);color:white;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:8px}
+.tag-coming{display:inline-block;background:var(--gris-light);color:var(--gris);font-size:10px;padding:2px 8px;border-radius:20px;margin-top:8px;border:1px solid var(--border)}
+.tag-pdf{display:inline-block;background:#c0392b;color:white;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:8px}
+@media(max-width:500px){.hero h1{font-size:18px}.seq-link{-webkit-flex:1 1 100%;flex:1 1 100%}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Allez <span>Zachou</span> ! 💪</h1>
+  <div class="hero-sub">Toutes tes séquences de révision · Brevet 2026</div>
+  <div class="date-pills">
+    <div class="date-pill">Histoire-Géo : <b>26 juin</b></div>
+    <div class="date-pill">Maths : <b>29 juin</b></div>
+    <div class="date-pill">Français : <b>30 juin</b></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- PLANNINGS -->
+  <div class="matiere-head"><span class="matiere-badge badge-plan">PLANNINGS</span><div class="matiere-line"></div></div>
+  <div class="cards">
+    <a class="seq-link plan" href="0-HISTOIRE_GEO-EMC_planning_brevet_checklist.html">
+      <div class="sl-code">PLANNING</div>
+      <div class="sl-title">Histoire · Géo · EMC · Français</div>
+      <div class="sl-sub">Toutes les séquences — cases à cocher</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link plan" href="MATH-sujet Brevet révisions vacances Paques 2026 .pdf">
+      <div class="sl-code">PDF</div>
+      <div class="sl-title">Maths — Sujet de révision</div>
+      <div class="sl-sub">Vacances de Pâques 2026</div>
+      <div class="tag-pdf">PDF</div>
+    </a>
+  </div>
+
+  <!-- HISTOIRE -->
+  <div class="matiere-head"><span class="matiere-badge badge-h">HISTOIRE</span><div class="matiere-line"></div></div>
+  <div class="cards">
+    <a class="seq-link hist" href="H1_premiere_guerre_mondiale_v2.html">
+      <div class="sl-code">H1</div><div class="sl-title">La Première Guerre mondiale</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link hist" href="H2_france_entre_deux_guerres.html">
+      <div class="sl-code">H2</div><div class="sl-title">La France entre-deux-guerres</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link hist" href="H3_regimes_totalitaires.html">
+      <div class="sl-code">H3</div><div class="sl-title">Les régimes totalitaires</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link hist" href="H4_seconde_guerre_mondiale.html">
+      <div class="sl-code">H4</div><div class="sl-title">La Seconde Guerre mondiale</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link hist" href="H5_resistance_liberation.html">
+      <div class="sl-code">H5</div><div class="sl-title">La Résistance et la Libération</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link hist" href="H6_guerre_froide.html">
+      <div class="sl-code">H6</div><div class="sl-title">La guerre froide</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link hist" href="H7_decolonisation.html">
+      <div class="sl-code">H7</div><div class="sl-title">La décolonisation</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link hist" href="H8_construction_europeenne.html">
+      <div class="sl-code">H8</div><div class="sl-title">La construction européenne</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link hist" href="H9_ve_republique.html">
+      <div class="sl-code">H9</div><div class="sl-title">La Ve République</div>
+      <div class="tag-new">★ Nouveau</div>
+    </a>
+    <div class="seq-link hist disabled">
+      <div class="sl-code">H10</div><div class="sl-title">La mondialisation</div>
+      <div class="tag-coming">À venir</div>
+    </div>
+    <div class="seq-link hist disabled">
+      <div class="sl-code">H11</div><div class="sl-title">Le monde aujourd'hui</div>
+      <div class="tag-coming">À venir</div>
+    </div>
+  </div>
+
+  <!-- GÉOGRAPHIE -->
+  <div class="matiere-head"><span class="matiere-badge badge-g">GÉOGRAPHIE</span><div class="matiere-line"></div></div>
+  <div class="cards">
+    <a class="seq-link geo" href="G1_aires_urbaines_v2.html">
+      <div class="sl-code">G1</div><div class="sl-title">Les grandes aires urbaines</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link geo" href="G2_espaces_productifs.html">
+      <div class="sl-code">G2</div><div class="sl-title">Les espaces productifs</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <div class="seq-link geo disabled">
+      <div class="sl-code">G3</div><div class="sl-title">Les espaces peu peuplés</div>
+      <div class="tag-coming">À venir</div>
+    </div>
+    <div class="seq-link geo disabled">
+      <div class="sl-code">G4</div><div class="sl-title">Les mobilités humaines</div>
+      <div class="tag-coming">À venir</div>
+    </div>
+    <div class="seq-link geo disabled">
+      <div class="sl-code">G5</div><div class="sl-title">Les inégalités face au développement</div>
+      <div class="tag-coming">À venir</div>
+    </div>
+    <div class="seq-link geo disabled">
+      <div class="sl-code">G6</div><div class="sl-title">L'Union européenne</div>
+      <div class="tag-coming">À venir</div>
+    </div>
+  </div>
+
+  <!-- FRANÇAIS -->
+  <div class="matiere-head"><span class="matiere-badge badge-f">FRANÇAIS</span><div class="matiere-line"></div></div>
+  <div class="cards">
+    <a class="seq-link fran" href="F1_les_accords.html">
+      <div class="sl-code">F1</div><div class="sl-title">Les accords</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link fran" href="F2_les_temps_verbaux.html">
+      <div class="sl-code">F2</div><div class="sl-title">Les temps verbaux</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link fran" href="F3_types_formes_phrases.html">
+      <div class="sl-code">F3</div><div class="sl-title">Types et formes de phrases</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link fran" href="F4_propositions_subordonnees.html">
+      <div class="sl-code">F4</div><div class="sl-title">Les propositions subordonnées</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link fran" href="F5_discours_direct_indirect.html">
+      <div class="sl-code">F5</div><div class="sl-title">Discours direct et indirect</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link fran" href="F6_type_texte_point_de_vue.html">
+      <div class="sl-code">F6</div><div class="sl-title">Type de texte et point de vue</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link fran" href="F7_figures_de_style.html">
+      <div class="sl-code">F7</div><div class="sl-title">Les figures de style</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link fran" href="F8_texte_litteraire.html">
+      <div class="sl-code">F8</div><div class="sl-title">Texte littéraire</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <div class="seq-link fran disabled">
+      <div class="sl-code">F9</div><div class="sl-title">Texte argumentatif</div>
+      <div class="tag-coming">À venir</div>
+    </div>
+    <div class="seq-link fran disabled">
+      <div class="sl-code">F10</div><div class="sl-title">Rédiger un texte narratif</div>
+      <div class="tag-coming">À venir</div>
+    </div>
+    <div class="seq-link fran disabled">
+      <div class="sl-code">F11</div><div class="sl-title">Rédiger un texte argumentatif</div>
+      <div class="tag-coming">À venir</div>
+    </div>
+    <div class="seq-link fran disabled">
+      <div class="sl-code">F12</div><div class="sl-title">La dictée préparée</div>
+      <div class="tag-coming">À venir</div>
+    </div>
+  </div>
+
+  <!-- EMC -->
+  <div class="matiere-head"><span class="matiere-badge badge-emc">EMC</span><div class="matiere-line"></div></div>
+  <div class="cards">
+    <div class="seq-link emc disabled"><div class="sl-code">EMC1</div><div class="sl-title">La démocratie et la citoyenneté</div><div class="tag-coming">À venir</div></div>
+    <div class="seq-link emc disabled"><div class="sl-code">EMC2</div><div class="sl-title">Les institutions de la République</div><div class="tag-coming">À venir</div></div>
+    <div class="seq-link emc disabled"><div class="sl-code">EMC3</div><div class="sl-title">L'engagement citoyen</div><div class="tag-coming">À venir</div></div>
+  </div>
+
+</div>
+</body>
+</html>
