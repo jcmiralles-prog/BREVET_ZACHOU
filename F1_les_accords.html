@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F1 — Les accords</title>
+<style>
+  :root{
+    --vert:#1E8449;--vert-light:#D5F5E3;--vert-mid:#27AE60;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --rouge:#C0392B;--rouge-light:#FADBD8;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--vert);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--vert);border-bottom-color:var(--vert)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.vert{background:var(--vert)}
+  .section-head.bleu{background:var(--bleu)}
+  .section-head.orange{background:var(--orange)}
+  .section-head.violet{background:var(--violet)}
+  .section-head.rouge{background:var(--rouge)}
+  .section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--vert);font-weight:700}
+
+  /* REGLE CARD */
+  .regle-card{background:var(--vert-light);border:1.5px solid var(--vert);border-radius:var(--radius);padding:12px 14px;margin-bottom:12px}
+  .regle-titre{font-size:13px;font-weight:700;color:var(--vert);margin-bottom:6px}
+  .regle-corps{font-size:13px;line-height:1.7}
+  .regle-corps strong{color:var(--vert)}
+
+  /* EXEMPLE */
+  .ex-block{background:#F0FBF4;border-left:4px solid var(--vert-mid);padding:8px 14px;border-radius:0 8px 8px 0;font-size:13px;margin:8px 0;line-height:1.8}
+  .ex-block .bon{color:var(--vert);font-weight:700}
+  .ex-block .mauv{color:var(--rouge);text-decoration:line-through}
+  .ex-label{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+
+  /* PIEGE */
+  .piege-box{background:var(--rouge-light);border-left:4px solid var(--rouge);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin:10px 0;line-height:1.7}
+  .piege-box strong{color:var(--rouge)}
+
+  /* TABLEAU TERMINAISONS */
+  .accord-table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+  .accord-table th{background:var(--vert);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .accord-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .accord-table tr:last-child td{border-bottom:none}
+  .accord-table tr:nth-child(even) td{background:#F0FBF4}
+  .accord-table .cas{font-weight:700;color:var(--vert)}
+
+  /* QUIZ */
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--vert);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--vert);background:var(--vert-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--vert);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+
+  /* EXERCICE BREVET */
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.8}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--vert-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--vert);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--vert);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--vert)}
+  .btn-corr{background:var(--vert);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+
+  @media(max-width:500px){
+    header h1{font-size:17px}
+    .quiz-q-head{font-size:13px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>✏️ F1 — Les accords</h1>
+  <p>Fiche complète · Séquence 1 · Français · Brevet 2026</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche de cours</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ══════════════════════════ FICHE ══════════════════════════ -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head vert">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> En français, les mots <strong>s'accordent</strong> entre eux — c'est-à-dire qu'ils changent de forme selon le genre (masculin/féminin) et le nombre (singulier/pluriel). Il y a <strong>3 grands types d'accords</strong> à maîtriser pour le brevet : l'accord <strong>sujet-verbe</strong>, l'accord de <strong>l'adjectif</strong>, et l'accord du <strong>participe passé</strong>.
+      </div>
+      <div class="brevet-box">
+        <strong>🎯 Au brevet, on te demande :</strong> d'identifier et d'expliquer des accords dans un texte, de corriger des erreurs d'accord, ou d'accorder correctement des mots dans une phrase.
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCORD 1 : SUJET-VERBE -->
+  <div class="section">
+    <div class="section-head vert">1️⃣ L'accord sujet-verbe</div>
+    <div class="section-body">
+      <div class="regle-card">
+        <div class="regle-titre">📌 La règle</div>
+        <div class="regle-corps">Le verbe s'accorde toujours avec son <strong>sujet</strong>. Si le sujet est au singulier → verbe au singulier. Si le sujet est au pluriel → verbe au pluriel.</div>
+      </div>
+      <div class="ex-label">✅ Exemples</div>
+      <div class="ex-block">
+        <span class="bon">Le chien court dans le jardin.</span> → sujet = "Le chien" (singulier) → verbe au singulier<br>
+        <span class="bon">Les enfants jouent dehors.</span> → sujet = "Les enfants" (pluriel) → verbe au pluriel<br>
+        <span class="bon">Marie et Paul partent en voyage.</span> → 2 sujets = pluriel → verbe au pluriel
+      </div>
+      <div class="piege-box">
+        <strong>⚠️ Pièges fréquents :</strong><br>
+        — Le sujet peut être <strong>loin du verbe</strong> : "Les fleurs que ma mère <strong>arrose</strong> chaque matin sont magnifiques." → sujet = "Les fleurs", pas "mère"<br>
+        — Un sujet collectif : "Une foule de gens <strong>envahit</strong> la place." → sujet = "Une foule" (singulier)<br>
+        — Sujet inversé : "<strong>Arrivent</strong> les vacances." → sujet = "les vacances" (pluriel)
+      </div>
+      <table class="accord-table">
+        <tr><th>Sujet</th><th>Terminaison du verbe (présent)</th><th>Exemple</th></tr>
+        <tr><td class="cas">je</td><td>-e, -s, -x</td><td>je <strong>mange</strong>, je <strong>finis</strong></td></tr>
+        <tr><td class="cas">tu</td><td>-es, -s, -x</td><td>tu <strong>manges</strong>, tu <strong>peux</strong></td></tr>
+        <tr><td class="cas">il/elle</td><td>-e, -t, -d</td><td>il <strong>mange</strong>, elle <strong>finit</strong></td></tr>
+        <tr><td class="cas">nous</td><td>-ons</td><td>nous <strong>mangeons</strong></td></tr>
+        <tr><td class="cas">vous</td><td>-ez</td><td>vous <strong>mangez</strong></td></tr>
+        <tr><td class="cas">ils/elles</td><td>-ent</td><td>ils <strong>mangent</strong></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ACCORD 2 : ADJECTIF -->
+  <div class="section">
+    <div class="section-head bleu">2️⃣ L'accord de l'adjectif</div>
+    <div class="section-body">
+      <div class="regle-card">
+        <div class="regle-titre">📌 La règle</div>
+        <div class="regle-corps">L'adjectif s'accorde avec le <strong>nom</strong> qu'il accompagne (ou qu'il décrit) en <strong>genre</strong> (masculin/féminin) et en <strong>nombre</strong> (singulier/pluriel).</div>
+      </div>
+      <div class="ex-label">✅ Exemples</div>
+      <div class="ex-block">
+        <span class="bon">un garçon courageux</span> → masc. sing.<br>
+        <span class="bon">une fille courageuse</span> → fém. sing. → on ajoute <strong>-e</strong><br>
+        <span class="bon">des garçons courageux</span> → masc. plur. → on ajoute <strong>-x</strong> (ou -s)<br>
+        <span class="bon">des filles courageuses</span> → fém. plur. → on ajoute <strong>-es</strong>
+      </div>
+      <table class="accord-table">
+        <tr><th>Genre / Nombre</th><th>Terminaison</th><th>Exemple avec "grand"</th></tr>
+        <tr><td class="cas">Masc. sing.</td><td>(rien)</td><td>un homme <strong>grand</strong></td></tr>
+        <tr><td class="cas">Fém. sing.</td><td>+ e</td><td>une femme <strong>grande</strong></td></tr>
+        <tr><td class="cas">Masc. plur.</td><td>+ s</td><td>des hommes <strong>grands</strong></td></tr>
+        <tr><td class="cas">Fém. plur.</td><td>+ es</td><td>des femmes <strong>grandes</strong></td></tr>
+      </table>
+      <div class="piege-box">
+        <strong>⚠️ Pièges fréquents :</strong><br>
+        — Adjectif avec <strong>plusieurs noms</strong> : "une robe et un manteau <strong>bleus</strong>" → masculin l'emporte si les deux genres sont présents.<br>
+        — Adjectif de <strong>couleur composé</strong> : "des yeux bleu clair" → reste invariable (deux mots)<br>
+        — Adjectifs irréguliers : <em>beau/belle, vieux/vieille, nouveau/nouvelle, long/longue, blanc/blanche</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCORD 3 : PARTICIPE PASSÉ -->
+  <div class="section">
+    <div class="section-head orange">3️⃣ L'accord du participe passé</div>
+    <div class="section-body">
+      <div class="regle-card">
+        <div class="regle-titre">📌 Cas 1 — Avec l'auxiliaire ÊTRE</div>
+        <div class="regle-corps">Le participe passé s'accorde avec le <strong>sujet</strong> du verbe, en genre et en nombre.</div>
+      </div>
+      <div class="ex-block">
+        <span class="bon">Elle est partie.</span> → sujet = "Elle" (fém. sing.) → <strong>partie</strong><br>
+        <span class="bon">Ils sont partis.</span> → sujet = "Ils" (masc. plur.) → <strong>partis</strong><br>
+        <span class="bon">Elles sont parties.</span> → sujet = "Elles" (fém. plur.) → <strong>parties</strong>
+      </div>
+      <div class="regle-card" style="margin-top:12px">
+        <div class="regle-titre">📌 Cas 2 — Avec l'auxiliaire AVOIR</div>
+        <div class="regle-corps">Le participe passé s'accorde avec le <strong>complément d'objet direct (COD)</strong> si celui-ci est <strong>placé avant le verbe</strong>. S'il est après, ou s'il n'y en a pas, <strong>pas d'accord</strong>.</div>
+      </div>
+      <div class="ex-block">
+        <span class="bon">J'ai mangé une pomme.</span> → COD "une pomme" est APRÈS → pas d'accord : <strong>mangé</strong><br>
+        <span class="bon">La pomme que j'ai mangée.</span> → COD "que" (= "la pomme", fém.) est AVANT → accord : <strong>mangée</strong><br>
+        <span class="bon">Les livres que tu as lus.</span> → COD "que" (= "les livres", masc. plur.) AVANT → <strong>lus</strong>
+      </div>
+      <div class="success-box">
+        <strong>✅ Astuce pour l'auxiliaire AVOIR :</strong> Pose la question "J'ai mangé <em>quoi ?</em>" Si la réponse est un mot déjà présent avant le verbe dans la phrase → tu accordes. Sinon → pas d'accord.
+      </div>
+      <div class="piege-box">
+        <strong>⚠️ Cas particulier — verbes pronominaux :</strong><br>
+        Les verbes comme <em>se laver, se regarder, se parler</em> utilisent l'auxiliaire être mais fonctionnent comme avoir pour l'accord.<br>
+        <span class="bon">Elles se sont lavées.</span> (se = COD placé avant → accord)<br>
+        <span class="bon">Elles se sont parlé.</span> (se = COI, pas de COD → pas d'accord)
+      </div>
+    </div>
+  </div>
+
+  <!-- MÉTHODE BREVET -->
+  <div class="section">
+    <div class="section-head violet">🧠 Méthode pour analyser un accord au brevet</div>
+    <div class="section-body">
+      <div class="chain-item" style="display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+        <div style="background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</div>
+        <div style="font-size:13px;line-height:1.6;flex:1"><strong>Identifie le type d'accord</strong> : est-ce un verbe ? un adjectif ? un participe passé ?</div>
+      </div>
+      <div class="chain-item" style="display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+        <div style="background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">2</div>
+        <div style="font-size:13px;line-height:1.6;flex:1"><strong>Trouve le donneur d'accord</strong> : qui commande l'accord ? (le sujet, le nom, le COD…)</div>
+      </div>
+      <div class="chain-item" style="display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+        <div style="background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">3</div>
+        <div style="font-size:13px;line-height:1.6;flex:1"><strong>Vérifie son genre et son nombre</strong> : masculin ou féminin ? singulier ou pluriel ?</div>
+      </div>
+      <div class="chain-item" style="display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+        <div style="background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">4</div>
+        <div style="font-size:13px;line-height:1.6;flex:1"><strong>Applique la terminaison</strong> qui correspond et justifie ta réponse en une phrase.</div>
+      </div>
+      <div class="brevet-box">
+        <strong>💬 Formule de réponse au brevet :</strong> "Le mot <em>[mot]</em> s'accorde avec <em>[donneur d'accord]</em> qui est au <em>[genre + nombre]</em>, donc on écrit <em>[forme accordée]</em>."
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ QUIZ ══════════════════════════ -->
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head vert">❓ Quiz — Les accords</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Clique sur ta réponse pour voir l'explication.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score">
+        <div class="score-num" id="score-num"></div>
+        <div class="score-msg" id="score-msg"></div>
+        <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ EXERCICE ══════════════════════════ -->
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head vert">✏️ Exercice type brevet</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>Conditions d'entraînement :</strong> Lis attentivement le texte, puis réponds aux questions. Pour la question 3, rédige un paragraphe complet. Temps conseillé : 20 minutes.
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>📄 Texte support</h3>
+    <p>
+      Les explorateurs <u>(1)partis</u> depuis plusieurs semaines étaient épuisés. Leurs chaussures, <u>(2)trouées</u> par les cailloux du chemin, laissaient entrer la boue froide. Pourtant, les deux hommes avançaient, <u>(3)déterminés</u> à atteindre le sommet. La montagne qu'ils avaient <u>(4)choisie</u> pour leur expédition était l'une des plus <u>(5)redoutables</u> du continent. Chaque soir, ils <u>(6)dressaient</u> leur tente et <u>(7)mangeaient</u> en silence, trop <u>(8)fatigués</u> pour parler. Les tempêtes qu'ils avaient <u>(9)affrontées</u> les avaient <u>(10)marqués</u> pour toujours.
+    </p>
+    <p class="doc-source">Texte rédigé pour l'entraînement au Brevet 2026.</p>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Identifier et expliquer des accords</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Explique l'accord des mots soulignés numérotés <strong>(1) partis</strong> et <strong>(4) choisie</strong>. Pour chaque mot, indique avec quoi il s'accorde et pourquoi.</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p><strong>(1) "partis"</strong> est un participe passé employé avec l'auxiliaire <em>être</em>. Il s'accorde donc avec le sujet "Les explorateurs", qui est masculin pluriel. On écrit <em>partis</em> (avec -s).</p>
+        <p style="margin-top:8px"><strong>(4) "choisie"</strong> est un participe passé employé avec l'auxiliaire <em>avoir</em>. Le COD "qu'" (qui représente "La montagne", féminin singulier) est placé <em>avant</em> le verbe. On accorde donc le participe avec ce COD : on écrit <em>choisie</em> (avec -e).</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour chaque participe passé, demande-toi d'abord quel auxiliaire est utilisé (être ou avoir). Avec être → accord avec le sujet. Avec avoir → cherche si le COD est avant le verbe.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Participe passé</em> = forme du verbe utilisée dans les temps composés (passé composé, plus-que-parfait…). <em>COD</em> = Complément d'Objet Direct, répond à la question "quoi ?" ou "qui ?" après le verbe.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Corriger des erreurs d'accord</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Les phrases suivantes contiennent des erreurs d'accord. Réécris-les correctement et explique chaque correction.</p>
+      <p style="background:var(--rouge-light);border-left:3px solid var(--rouge);padding:8px 12px;border-radius:0 6px 6px 0;font-size:13px;margin-bottom:8px">
+        a) Les filles que j'ai invité sont arrivée en retard.<br>
+        b) Une foule de spectateurs envahissent le stade.<br>
+        c) Elle s'est lavé les mains soigneusement.
+      </p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p><strong>a)</strong> "Les filles que j'ai <em>invitées</em> sont <em>arrivées</em> en retard."<br>
+        — <em>invitées</em> : participe avec avoir, COD "que" (= "les filles", fém. plur.) est avant → accord en -ées.<br>
+        — <em>arrivées</em> : participe avec être, sujet "Les filles" (fém. plur.) → accord en -ées.</p>
+        <p style="margin-top:8px"><strong>b)</strong> "Une foule de spectateurs <em>envahit</em> le stade."<br>
+        — Le sujet réel est "Une foule" (singulier féminin), pas "spectateurs". Le verbe s'accorde avec "foule" → singulier.</p>
+        <p style="margin-top:8px"><strong>c)</strong> "Elle s'est lavé les mains soigneusement."<br>
+        — Verbe pronominal : le COD est "les mains", placé <em>après</em> le verbe → pas d'accord. On laisse "lavé" sans -e.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Face à une erreur d'accord, identifie d'abord le type (sujet-verbe, adjectif, participe passé), trouve le "donneur d'accord", puis applique la règle.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Verbe pronominal</em> = verbe qui se conjugue avec un pronom réfléchi (se laver, se regarder…). <em>Sujet collectif</em> = nom qui désigne un groupe mais reste singulier (une foule, un groupe, une équipe…).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Rédaction avec accords maîtrisés</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>En t'inspirant du texte, rédige un court paragraphe (8 à 10 lignes) dans lequel tu raconteras une aventure difficile. Tu devras utiliser et souligner au moins :</p>
+      <ul class="bull-list" style="margin-bottom:10px">
+        <li>2 participes passés avec l'auxiliaire <em>être</em> correctement accordés</li>
+        <li>2 participes passés avec l'auxiliaire <em>avoir</em> correctement accordés</li>
+        <li>3 adjectifs correctement accordés</li>
+      </ul>
+      <textarea id="rep3" placeholder="Écris ton paragraphe ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Exemple de paragraphe rédigé</h4>
+        <p>Les deux alpinistes <u>épuisés</u> (adj. masc. plur.) étaient <u>partis</u> (pp. être, sujet masc. plur.) à l'aube. La tempête qu'ils avaient <u>affrontée</u> (pp. avoir, COD "qu'" fém. sing. avant) les avait <u>surpris</u> (pp. avoir, COD "les" masc. plur. avant). Pourtant, <u>déterminés</u> (adj. masc. plur.) à réussir, ils continuèrent. Les falaises <u>vertigineuses</u> (adj. fém. plur.) qu'ils avaient <u>escaladées</u> (pp. avoir, COD fém. plur. avant) semblaient interminables. Finalement, ils sont <u>arrivés</u> (pp. être, sujet masc. plur.) au sommet, les larmes aux yeux.</p>
+        <div class="methode-box">
+          <strong>💡 Méthode — comment obtenir tous les points :</strong><br>
+          1. Rédige d'abord librement ton texte sans te bloquer sur les accords.<br>
+          2. Relis en soulignant les mots à accorder (verbes, adjectifs, participes).<br>
+          3. Pour chaque mot souligné, applique la règle correspondante.<br>
+          4. Vérifie que tu as bien le bon nombre d'exemples demandés.
+        </div>
+        <div class="vocab-box">
+          <strong>📖 Connecteurs utiles pour raconter :</strong><br>
+          D'abord… — Ensuite… — Puis… — Cependant… — Pourtant… — Finalement… — Malgré cela…
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS = [
+  {q:"Dans la phrase "Les chiens aboient.", avec quoi s'accorde le verbe "aboient" ?",
+   opts:["Avec "chiens" (pluriel) → terminaison -ent","Avec "Les" (article) → terminaison -ons","Avec le narrateur → terminaison -e","Avec l'objet de l'action → terminaison -ez"],
+   correct:0,
+   expl:"Le verbe s'accorde toujours avec son sujet. Ici, le sujet est "Les chiens" qui est masculin pluriel → le verbe prend la terminaison -ent : ils aboient. Pour trouver le sujet, pose la question "Qui est-ce qui aboie ?" → Les chiens."},
+
+  {q:"Quelle est la forme correcte de l'adjectif dans : "une robe et un manteau ___ (bleu)" ?",
+   opts:["bleus (masc. plur. car deux noms dont un masculin)","bleue (fém. sing.)","bleu (masc. sing.)","bleues (fém. plur.)"],
+   correct:0,
+   expl:"Quand un adjectif qualifie plusieurs noms de genres différents, le masculin l'emporte : on met l'adjectif au masculin pluriel. Ici "robe" est féminin et "manteau" est masculin → l'adjectif "bleu" se met au masculin pluriel : bleus."},
+
+  {q:"Choisir la bonne forme : "La lettre que j'ai ___ (écrire)."",
+   opts:["écrite","écrit","écrits","écrites"],
+   correct:0,
+   expl:""Écrire" est un participe passé avec l'auxiliaire avoir. Le COD est "que" (= "la lettre", féminin singulier), et il est placé AVANT le verbe → on accorde le participe avec ce COD féminin singulier : écrite (avec -e)."},
+
+  {q:"Dans "Elles sont arrivées.", pourquoi "arrivées" prend-il -ées ?",
+   opts:["Parce qu'il s'accorde avec le sujet "Elles" (fém. plur.) via l'auxiliaire être","Parce que le COD est féminin pluriel","Parce que c'est un adjectif féminin pluriel","Parce que le verbe arriver est toujours féminin"],
+   correct:0,
+   expl:"Avec l'auxiliaire être, le participe passé s'accorde avec le sujet du verbe. Le sujet est "Elles" (féminin pluriel) → on ajoute -es : arrivées. C'est la règle de base des participes passés avec être."},
+
+  {q:"Quelle phrase contient une erreur d'accord sujet-verbe ?",
+   opts:["Une foule de fans envahissent le stade.","Les élèves travaillent sérieusement.","Mon frère et ma sœur partent demain.","Les oiseaux chantent le matin."],
+   correct:0,
+   expl:""Une foule de fans envahissent" est incorrect. Le sujet réel est "Une foule" (singulier), pas "fans". Le verbe doit donc être au singulier : "Une foule de fans envahit le stade." C'est un piège classique : le sujet collectif reste singulier même s'il est suivi d'un nom pluriel."},
+
+  {q:"Comment accorde-t-on l'adjectif "long" au féminin singulier ?",
+   opts:["longue","longs","longe","longues"],
+   correct:0,
+   expl:""Long" est un adjectif irrégulier au féminin : on ajoute -ue et on double le g : long → longue. Ce sont des adjectifs à mémoriser car ils ne suivent pas la règle simple d'ajout d'un -e."},
+
+  {q:"Dans "Elle s'est lavé les mains.", pourquoi "lavé" ne prend-il pas de -e ?",
+   opts:["Parce que le COD est "les mains", placé après le verbe → pas d'accord","Parce que le sujet est masculin","Parce qu'on utilise l'auxiliaire avoir","Parce que les verbes pronominaux sont invariables"],
+   correct:0,
+   expl:"Avec les verbes pronominaux, l'accord fonctionne comme avec avoir : on cherche le COD. Ici, le COD est "les mains", mais il est placé APRÈS le verbe → pas d'accord. "Lavé" reste sans -e. Si on avait dit "Ses mains, elle se les est lavées" → COD avant → accord."},
+
+  {q:"Quelle est la bonne orthographe dans : "Les devoirs que tu as ___ (rendre) étaient parfaits." ?",
+   opts:["rendus","rendu","rendue","rendues"],
+   correct:0,
+   expl:"Participe passé avec avoir. Le COD est "que" (= "les devoirs", masculin pluriel), placé AVANT le verbe → accord au masculin pluriel : rendus (avec -s). Méthode : "Tu as rendu quoi ? → Les devoirs (que)" → devoirs = masc. plur. → rendus."},
+
+  {q:"Choisir la forme correcte : "Des résultats ___ (satisfaisant) ont été obtenus."",
+   opts:["satisfaisants","satisfaisant","satisfaisante","satisfaisantes"],
+   correct:0,
+   expl:"Ici "satisfaisant" est un adjectif (il qualifie "résultats"). Il s'accorde avec "résultats" : masculin pluriel → on ajoute -s : satisfaisants. Attention à ne pas confondre avec le participe présent "satisfaisant" qui, lui, est invariable."},
+
+  {q:"Dans quelle phrase le participe passé est-il correctement accordé ?",
+   opts:["Les fleurs que j'ai cueillies sont belles.","Les fleurs que j'ai cueilli sont belles.","Les fleurs que j'ai cueillie sont belles.","Les fleurs que j'ai cueillit sont belles."],
+   correct:0,
+   expl:""Cueillies" est correct. Participe passé avec avoir. COD = "que" (= "les fleurs", féminin pluriel), placé AVANT → accord au féminin pluriel : cueillies (avec -ies). Les autres formes sont fausses : "cueilli" (pas d'accord), "cueillie" (fém. sing. seulement), "cueillit" (forme conjuguée, pas participe passé)."},
+
+  {q:"Avec quel mot s'accorde le participe passé dans "La chanson qu'il a composée était magnifique." ?",
+   opts:["Avec "chanson" (fém. sing.) car c'est le COD placé avant le verbe","Avec "il" (masc. sing.)","Avec "magnifique" qui suit","Avec rien, il ne s'accorde pas"],
+   correct:0,
+   expl:""Que" reprend "La chanson" (féminin singulier) et est le COD du verbe "composer". Ce COD est placé AVANT le verbe → le participe "composée" s'accorde avec lui au féminin singulier. C'est la règle avec avoir : COD avant = accord."},
+
+  {q:"Laquelle de ces phrases est entièrement correcte ?",
+   opts:["Les messages qu'il a envoyés étaient clairs.","Les messages qu'il a envoyé étaient claires.","Les messages qu'il a envoyées étaient clair.","Les messages qu'il a envoyé étaient claire."],
+   correct:0,
+   expl:"Seule la première phrase est juste. "Envoyés" : COD "que" (= "messages", masc. plur.) avant → accord en -s. "Clairs" : adjectif qui qualifie "messages" (masc. plur.) → accord en -s. Toutes les autres phrases ont au moins une erreur d'accord."}
+];
+
+var answered = {};
+var score = 0;
+
+function showPanel(id, tab) {
+  var panels = document.querySelectorAll('.panel');
+  var tabs = document.querySelectorAll('.tab');
+  for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-' + id).classList.add('active');
+  tab.classList.add('active');
+}
+
+function showCorr(id) {
+  document.getElementById(id).classList.toggle('show');
+}
+
+function buildQuiz() {
+  var c = document.getElementById('quiz-container');
+  c.innerHTML = '';
+  answered = {};
+  score = 0;
+  for (var i = 0; i < QUESTIONS.length; i++) {
+    var q = QUESTIONS[i];
+    var div = document.createElement('div');
+    div.className = 'quiz-q';
+    var opts = '';
+    for (var j = 0; j < q.opts.length; j++) {
+      opts += '<button class="quiz-opt" onclick="answer(' + i + ',' + j + ')">' + q.opts[j] + '</button>';
+    }
+    div.innerHTML = '<div class="quiz-q-head"><span class="quiz-q-num">' + (i+1) + '</span>' + q.q + '</div>'
+      + '<div class="quiz-options" id="opts-' + i + '">' + opts + '</div>'
+      + '<div class="quiz-expl" id="expl-' + i + '"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+
+function answer(qi, choice) {
+  if (answered[qi] !== undefined) return;
+  answered[qi] = choice;
+  var q = QUESTIONS[qi];
+  var opts = document.querySelectorAll('#opts-' + qi + ' .quiz-opt');
+  for (var i = 0; i < opts.length; i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice === q.correct ? 'correct' : 'wrong');
+  if (choice !== q.correct) opts[q.correct].classList.add('correct');
+  var ok = choice === q.correct;
+  if (ok) score++;
+  var expl = document.getElementById('expl-' + qi);
+  expl.innerHTML = '<span class="' + (ok ? 'tag-ok' : 'tag-ar') + '">' + (ok ? '✓ Bonne réponse !' : '✗ À revoir') + '</span><br>' + q.expl;
+  expl.classList.add('show');
+  if (Object.keys(answered).length === QUESTIONS.length) showScore();
+}
+
+function showScore() {
+  var el = document.getElementById('quiz-score');
+  var pct = Math.round(score / QUESTIONS.length * 100);
+  document.getElementById('score-num').textContent = score + '/' + QUESTIONS.length;
+  var msg = '';
+  if (pct >= 90) msg = '🎉 Excellent Zach ! Tu maîtrises les accords, c\'est du solide !';
+  else if (pct >= 70) msg = '👍 Très bien ! Relis les questions "à revoir" et tu seras au top pour le brevet.';
+  else if (pct >= 50) msg = '💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg = '📋 Relis bien la fiche de cours, puis retente le quiz. Les accords ça s\'apprend !';
+  document.getElementById('score-msg').textContent = msg;
+  el.classList.add('show');
+}
+
+function resetQuiz() { buildQuiz(); }
+
+buildQuiz();
+
+window.showPanel = showPanel;
+window.showCorr = showCorr;
+window.answer = answer;
+window.resetQuiz = resetQuiz;
+</script>
+</body>
+</html>

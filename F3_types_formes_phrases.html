@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F3 — Types et formes de phrases</title>
+<style>
+  :root{
+    --vert:#1E8449;--vert-light:#D5F5E3;--vert-mid:#27AE60;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --rouge:#C0392B;--rouge-light:#FADBD8;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--vert);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--vert);border-bottom-color:var(--vert)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.vert{background:var(--vert)}
+  .section-head.bleu{background:var(--bleu)}
+  .section-head.orange{background:var(--orange)}
+  .section-head.violet{background:var(--violet)}
+  .section-head.rouge{background:var(--rouge)}
+  .section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+  .piege-box{background:var(--rouge-light);border-left:4px solid var(--rouge);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin:10px 0;line-height:1.7}
+  .piege-box strong{color:var(--rouge)}
+
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--vert);font-weight:700}
+
+  /* GRILLE 2 COLONNES */
+  .grid2{display:-webkit-flex;display:flex;gap:12px;margin-bottom:12px;-webkit-flex-wrap:wrap;flex-wrap:wrap}
+  .grid2 > div{-webkit-flex:1 1 200px;flex:1 1 200px}
+
+  /* CARTE TYPE/FORME */
+  .tf-card{border-radius:var(--radius);overflow:hidden;margin-bottom:10px;border:1px solid var(--border)}
+  .tf-head{padding:9px 14px;font-size:13px;font-weight:700;color:white}
+  .tf-body{padding:12px 14px;font-size:13px;line-height:1.7;background:white}
+  .tf-ex{background:var(--vert-light);border-left:3px solid var(--vert);padding:7px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:13px;font-style:italic}
+  .tf-ponct{display:inline-block;font-size:18px;font-weight:900;background:var(--vert);color:white;width:32px;height:32px;border-radius:50%;text-align:center;line-height:32px;margin-right:8px;vertical-align:middle}
+
+  /* TABLEAU */
+  .tf-table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+  .tf-table th{background:var(--vert);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .tf-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .tf-table tr:last-child td{border-bottom:none}
+  .tf-table tr:nth-child(even) td{background:#F0FBF4}
+  .tf-table .nom{font-weight:700;color:var(--vert)}
+
+  /* QUIZ */
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--vert);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--vert);background:var(--vert-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--vert);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+
+  /* EXOS */
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.8}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--vert-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--vert);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--vert);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--vert)}
+  .btn-corr{background:var(--vert);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+
+  @media(max-width:500px){header h1{font-size:17px}.grid2{-webkit-flex-direction:column;flex-direction:column}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>💬 F3 — Types et formes de phrases</h1>
+  <p>Fiche complète · Séquence 3 · Français · Brevet 2026</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche de cours</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ══════════════════════════ FICHE ══════════════════════════ -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head vert">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> Une phrase peut être classée selon deux critères <strong>indépendants</strong> : son <strong>type</strong> (ce qu'elle exprime : une affirmation, une question, un ordre, une exclamation) et sa <strong>forme</strong> (affirmative ou négative). Toute phrase a UN type et UNE forme.
+      </div>
+      <div class="brevet-box">
+        <strong>🎯 Au brevet :</strong> identifier le type et la forme d'une phrase, expliquer l'effet produit sur le lecteur, ou transformer une phrase en changeant son type ou sa forme.
+      </div>
+    </div>
+  </div>
+
+  <!-- LES 4 TYPES -->
+  <div class="section">
+    <div class="section-head vert">1️⃣ Les 4 types de phrases</div>
+    <div class="section-body">
+      <div class="info-box"><strong>Important :</strong> Une phrase appartient toujours à UN SEUL type. Les types ne se combinent pas entre eux.</div>
+
+      <div class="tf-card">
+        <div class="tf-head" style="background:var(--bleu)"><span class="tf-ponct">.</span> Phrase déclarative</div>
+        <div class="tf-body">
+          <strong>Rôle :</strong> donner une information, raconter, décrire, expliquer.<br>
+          <strong>Ponctuation :</strong> point ( . )<br>
+          <strong>Structure :</strong> sujet + verbe + (complément). Ordre normal des mots.
+          <div class="tf-ex">"Le soleil se couche à l'ouest." — "Marie a réussi son brevet."</div>
+        </div>
+      </div>
+
+      <div class="tf-card">
+        <div class="tf-head" style="background:var(--orange)"><span class="tf-ponct">?</span> Phrase interrogative</div>
+        <div class="tf-body">
+          <strong>Rôle :</strong> poser une question, demander une information.<br>
+          <strong>Ponctuation :</strong> point d'interrogation ( ? )<br>
+          <strong>3 façons de poser une question :</strong>
+          <ul class="bull-list" style="margin-top:6px">
+            <li><strong>Intonation :</strong> "Tu viens ?" (à l'oral, on monte la voix)</li>
+            <li><strong>Est-ce que :</strong> "Est-ce que tu viens ?"</li>
+            <li><strong>Inversion sujet-verbe :</strong> "Viens-tu ?" (registre soutenu)</li>
+          </ul>
+          <div class="tf-ex">"Où vas-tu ?" — "Est-ce que tu as fini ?" — "Pourquoi pleures-tu ?"</div>
+        </div>
+      </div>
+
+      <div class="tf-card">
+        <div class="tf-head" style="background:var(--rouge)"><span class="tf-ponct">!</span> Phrase exclamative</div>
+        <div class="tf-body">
+          <strong>Rôle :</strong> exprimer un sentiment fort (joie, surprise, peur, colère, admiration).<br>
+          <strong>Ponctuation :</strong> point d'exclamation ( ! )<br>
+          <strong>Souvent introduite par :</strong> quel(le), comme, que, combien…
+          <div class="tf-ex">"Quelle belle journée !" — "Comme il fait froid !" — "Attention !"</div>
+          <div class="piege-box" style="margin-top:8px"><strong>⚠️ Piège :</strong> Une phrase impérative peut aussi se terminer par ! mais ce n'est pas une phrase exclamative. "Viens ici !" reste une phrase impérative.</div>
+        </div>
+      </div>
+
+      <div class="tf-card">
+        <div class="tf-head" style="background:var(--gris)"><span class="tf-ponct">!</span> Phrase impérative</div>
+        <div class="tf-body">
+          <strong>Rôle :</strong> donner un ordre, un conseil, une interdiction, une prière, un souhait.<br>
+          <strong>Ponctuation :</strong> point ou point d'exclamation ( . ou ! )<br>
+          <strong>Particularités :</strong> pas de sujet exprimé, verbe à l'impératif (2e pers. sing., 1re pers. plur., 2e pers. plur.)
+          <div class="tf-ex">"Écoute-moi." — "Ne cours pas !" — "Prenons le bus." — "Soyez prudents."</div>
+        </div>
+      </div>
+
+      <table class="tf-table" style="margin-top:12px">
+        <tr><th>Type</th><th>Rôle</th><th>Ponctuation</th><th>Indice clé</th></tr>
+        <tr><td class="nom">Déclarative</td><td>informer</td><td>.</td><td>ordre normal sujet + verbe</td></tr>
+        <tr><td class="nom">Interrogative</td><td>questionner</td><td>?</td><td>question, est-ce que, inversion</td></tr>
+        <tr><td class="nom">Exclamative</td><td>exprimer un sentiment</td><td>!</td><td>quel, comme, que + sentiment</td></tr>
+        <tr><td class="nom">Impérative</td><td>ordonner / conseiller</td><td>. ou !</td><td>pas de sujet, verbe à l'impératif</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- LES 2 FORMES -->
+  <div class="section">
+    <div class="section-head bleu">2️⃣ Les 2 formes de phrases</div>
+    <div class="section-body">
+      <div class="info-box"><strong>Rappel :</strong> La forme est <strong>indépendante</strong> du type. Une phrase interrogative peut être affirmative ou négative. Une phrase impérative aussi. Et ainsi de suite.</div>
+
+      <div class="grid2">
+        <div>
+          <div class="tf-card">
+            <div class="tf-head" style="background:var(--vert)">✅ Forme affirmative</div>
+            <div class="tf-body">
+              La phrase affirme quelque chose. Pas de mot de négation.<br>
+              <div class="tf-ex">"Il mange." — "Elle viendra." — "Mange !"</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="tf-card">
+            <div class="tf-head" style="background:var(--rouge)">❌ Forme négative</div>
+            <div class="tf-body">
+              La phrase nie quelque chose. Contient une négation.<br>
+              <div class="tf-ex">"Il ne mange pas." — "Elle ne viendra pas." — "Ne mange pas !"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="warn-box">
+        <strong>⚠️ Les mots de la négation à connaître :</strong><br>
+        ne … pas — ne … plus — ne … jamais — ne … rien — ne … personne — ne … que (restriction) — ne … guère — ne … point (littéraire)
+      </div>
+      <div class="piege-box">
+        <strong>⚠️ Piège fréquent — le "ne" seul :</strong> À l'oral, on oublie souvent le "ne" : "Je sais pas." Mais à l'écrit, une phrase négative correcte contient toujours les DEUX parties : ne … pas.
+      </div>
+    </div>
+  </div>
+
+  <!-- COMBINAISONS -->
+  <div class="section">
+    <div class="section-head orange">3️⃣ Combiner type + forme</div>
+    <div class="section-body">
+      <div class="info-box"><strong>Méthode :</strong> Pour décrire une phrase complètement, donne toujours son TYPE et sa FORME.</div>
+      <table class="tf-table">
+        <tr><th>Exemple</th><th>Type</th><th>Forme</th></tr>
+        <tr><td>"Il part demain."</td><td class="nom">Déclarative</td><td>Affirmative</td></tr>
+        <tr><td>"Il ne part pas demain."</td><td class="nom">Déclarative</td><td>Négative</td></tr>
+        <tr><td>"Est-ce qu'il part ?"</td><td class="nom">Interrogative</td><td>Affirmative</td></tr>
+        <tr><td>"N'est-il pas parti ?"</td><td class="nom">Interrogative</td><td>Négative</td></tr>
+        <tr><td>"Pars !"</td><td class="nom">Impérative</td><td>Affirmative</td></tr>
+        <tr><td>"Ne pars pas !"</td><td class="nom">Impérative</td><td>Négative</td></tr>
+        <tr><td>"Quelle belle journée !"</td><td class="nom">Exclamative</td><td>Affirmative</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- EFFET STYLISTIQUE -->
+  <div class="section">
+    <div class="section-head violet">🎨 L'effet produit sur le lecteur</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Au brevet, on te demande souvent d'expliquer <strong>l'effet</strong> du type ou de la forme choisie par l'auteur. Voici les effets courants :</p>
+      <ul class="bull-list">
+        <li><strong>Phrase interrogative</strong> → implique le lecteur, l'invite à réfléchir, crée une attente ou du suspense</li>
+        <li><strong>Phrase exclamative</strong> → transmet l'émotion de l'auteur ou du personnage avec intensité</li>
+        <li><strong>Phrase impérative</strong> → crée une relation de proximité ou d'autorité avec le lecteur</li>
+        <li><strong>Phrase négative</strong> → insiste sur une absence, un refus, une contradiction</li>
+        <li><strong>Phrase courte et déclarative</strong> → frappe par sa simplicité, donne un effet de choc ou de certitude</li>
+      </ul>
+      <div class="brevet-box">
+        <strong>💬 Formule de réponse au brevet :</strong> "Cette phrase est de type [type] et de forme [forme]. Elle produit un effet de [effet] car [explication]."
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ QUIZ ══════════════════════════ -->
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head vert">❓ Quiz — Types et formes de phrases</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Clique sur ta réponse pour voir l'explication.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score">
+        <div class="score-num" id="score-num"></div>
+        <div class="score-msg" id="score-msg"></div>
+        <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ EXERCICE ══════════════════════════ -->
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head vert">✏️ Exercice type brevet</div>
+    <div class="section-body">
+      <div class="info-box"><strong>Conditions d'entraînement :</strong> Lis attentivement le texte, puis réponds aux questions. Temps conseillé : 20 minutes.</div>
+    </div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>📄 Texte support</h3>
+    <p>
+      <strong>(1)</strong> Le guide s'arrêta brusquement au bord du précipice.<br>
+      <strong>(2)</strong> "Regardez en bas !" cria-t-il.<br>
+      <strong>(3)</strong> Personne n'osa s'approcher du bord.<br>
+      <strong>(4)</strong> "N'avez-vous jamais vu quelque chose d'aussi vertigineux ?"<br>
+      <strong>(5)</strong> Quelle profondeur extraordinaire !<br>
+      <strong>(6)</strong> Les voyageurs ne dirent rien pendant de longues minutes.<br>
+      <strong>(7)</strong> Ne restons pas ici trop longtemps.
+    </p>
+    <p class="doc-source">Texte rédigé pour l'entraînement au Brevet 2026.</p>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Identifier type et forme</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Pour chacune des phrases numérotées <strong>(2), (4), (5) et (7)</strong>, indique son type et sa forme.</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p><strong>(2) "Regardez en bas !"</strong> → Type : <em>impérative</em> (ordre, verbe à l'impératif sans sujet). Forme : <em>affirmative</em> (pas de négation).</p>
+        <p style="margin-top:6px"><strong>(4) "N'avez-vous jamais vu quelque chose d'aussi vertigineux ?"</strong> → Type : <em>interrogative</em> (question, point d'interrogation, inversion sujet-verbe). Forme : <em>négative</em> (ne … jamais).</p>
+        <p style="margin-top:6px"><strong>(5) "Quelle profondeur extraordinaire !"</strong> → Type : <em>exclamative</em> (sentiment d'admiration/surprise, introduite par "Quelle", point d'exclamation). Forme : <em>affirmative</em>.</p>
+        <p style="margin-top:6px"><strong>(7) "Ne restons pas ici trop longtemps."</strong> → Type : <em>impérative</em> (conseil collectif, verbe à l'impératif sans sujet). Forme : <em>négative</em> (ne … pas).</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour chaque phrase → 1. regarde la ponctuation (? ! .) → 2. cherche si le verbe est à l'impératif (pas de sujet exprimé) → 3. cherche si c'est une question → 4. cherche une négation (ne … pas, ne … jamais…).</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Vertigineux</em> = qui donne le vertige, très haut ou très profond. <em>Précipice</em> = falaise très profonde, abîme.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Expliquer un effet</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Explique l'effet produit par la phrase <strong>(5)</strong> "Quelle profondeur extraordinaire !" et par la phrase <strong>(4)</strong> "N'avez-vous jamais vu quelque chose d'aussi vertigineux ?"<br>Que cherche à exprimer l'auteur avec ces deux types de phrases ?</p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p><strong>Phrase (5) — exclamative :</strong> "Quelle profondeur extraordinaire !" exprime l'admiration et la stupéfaction devant le paysage. La phrase exclamative permet à l'auteur de transmettre une émotion forte et intense au lecteur, sans avoir besoin d'expliquer longuement ce que ressent le personnage.</p>
+        <p style="margin-top:8px"><strong>Phrase (4) — interrogative négative :</strong> "N'avez-vous jamais vu quelque chose d'aussi vertigineux ?" implique le lecteur et les voyageurs dans la scène. La forme négative renforce l'idée que ce spectacle est unique, exceptionnel. L'interrogation crée un effet de connivence : le guide partage son émerveillement en interrogeant les autres.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour expliquer l'effet d'un type de phrase, demande-toi toujours : "Qu'est-ce que l'auteur cherche à faire ressentir ou comprendre au lecteur grâce à CE choix ?" Nomme l'émotion, l'intention, l'effet sur le lecteur.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Stupéfaction</em> = grande surprise, étonnement. <em>Connivence</em> = complicité, sentiment de partager quelque chose avec quelqu'un. <em>Émerveillement</em> = admiration mêlée de surprise.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Transformer des phrases</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>Transforme les phrases suivantes selon les indications données. Justifie chaque transformation en une phrase.</p>
+      <ul class="bull-list" style="margin-bottom:10px">
+        <li><strong>a)</strong> "Tu viendras demain." → Transforme en phrase <em>interrogative affirmative</em> (2 façons différentes)</li>
+        <li><strong>b)</strong> "Les élèves travaillent." → Transforme en phrase <em>déclarative négative</em></li>
+        <li><strong>c)</strong> "Ferme la fenêtre." → Transforme en phrase <em>impérative négative</em></li>
+        <li><strong>d)</strong> "Il fait beau." → Transforme en phrase <em>exclamative affirmative</em></li>
+      </ul>
+      <textarea id="rep3" placeholder="Écris tes transformations ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Correction</h4>
+        <p><strong>a)</strong> Déclarative affirmative → interrogative affirmative :<br>
+        — "Est-ce que tu viendras demain ?" (avec est-ce que)<br>
+        — "Viendras-tu demain ?" (avec inversion sujet-verbe)<br>
+        <em>Justification : on transforme en question en ajoutant "est-ce que" ou en inversant le sujet et le verbe.</em></p>
+        <p style="margin-top:8px"><strong>b)</strong> "Les élèves <em>ne</em> travaillent <em>pas</em>." → déclarative négative<br>
+        <em>Justification : on ajoute la négation "ne … pas" autour du verbe.</em></p>
+        <p style="margin-top:8px"><strong>c)</strong> "<em>Ne</em> ferme <em>pas</em> la fenêtre." → impérative négative<br>
+        <em>Justification : on ajoute "ne … pas" sans changer le verbe ni ajouter de sujet.</em></p>
+        <p style="margin-top:8px"><strong>d)</strong> "Quel beau temps !" ou "Comme il fait beau !" → exclamative affirmative<br>
+        <em>Justification : on utilise "quel" ou "comme" pour exprimer une émotion forte et on ajoute un point d'exclamation.</em></p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour transformer une phrase → identifie ce qu'on te demande (type + forme voulus) → modifie uniquement les éléments nécessaires (ponctuation, négation, mot introducteur, ordre des mots) → ne change pas le sens général.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Inversion sujet-verbe</em> = on met le verbe avant le sujet pour former une question soutenue : "Viens-tu ?" au lieu de "Tu viens ?" <em>Négation</em> = ensemble des mots qui expriment le refus ou l'absence.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS = [
+  {q:"Quel est le type de la phrase : 'Ferme la porte.'",
+   opts:["Impérative","Déclarative","Interrogative","Exclamative"],
+   correct:0,
+   expl:"'Ferme la porte.' est une phrase impérative car elle donne un ordre. Elle n'a pas de sujet exprimé et le verbe est à l'impératif. La ponctuation peut être un point ou un point d'exclamation pour les phrases impératives."},
+
+  {q:"Quel est le type de la phrase : 'Pourquoi pleures-tu ?'",
+   opts:["Interrogative","Déclarative","Exclamative","Impérative"],
+   correct:0,
+   expl:"'Pourquoi pleures-tu ?' est une phrase interrogative : elle pose une question (mot interrogatif 'pourquoi', inversion sujet-verbe 'pleures-tu', point d'interrogation). Elle n'exprime pas un ordre ni un sentiment, elle demande une information."},
+
+  {q:"Quelle est la forme de la phrase : 'Je n'ai jamais vu ce film.'",
+   opts:["Négative","Affirmative","Interrogative","Exclamative"],
+   correct:0,
+   expl:"La forme d'une phrase est affirmative ou négative. Ici, la phrase contient 'ne … jamais', qui est une négation → la forme est négative. Attention : 'interrogative' et 'exclamative' sont des TYPES, pas des formes."},
+
+  {q:"Quelle phrase est à la fois interrogative ET négative ?",
+   opts:["N'as-tu pas fini ?","Tu n'as pas fini.","As-tu fini ?","Finis ton travail !"],
+   correct:0,
+   expl:"'N'as-tu pas fini ?' est interrogative (point d'interrogation, inversion sujet-verbe) ET négative (ne … pas). 'Tu n'as pas fini.' est déclarative négative. 'As-tu fini ?' est interrogative affirmative. 'Finis ton travail !' est impérative affirmative."},
+
+  {q:"Quel mot indique généralement une phrase exclamative ?",
+   opts:["Quel, comme, que (+ sentiment fort)","Est-ce que","Ne … pas","Sujet + verbe inversés"],
+   correct:0,
+   expl:"Les phrases exclamatives sont souvent introduites par 'quel/quelle', 'comme', 'que', 'combien', et expriment toujours un sentiment fort (admiration, surprise, colère, joie…). Le point d'exclamation en est la ponctuation. 'Est-ce que' introduit une interrogation. 'Ne … pas' marque la négation."},
+
+  {q:"Transforme 'Il mange une pomme.' en phrase interrogative avec inversion.",
+   opts:["Mange-t-il une pomme ?","Est-ce qu'il mange une pomme ?","Il mange-t-il une pomme ?","Qu'il mange une pomme !"],
+   correct:0,
+   expl:"Avec inversion sujet-verbe : le verbe passe avant le sujet et on relie les deux par un trait d'union. 'Il mange' → 'Mange-il' → mais comme 'mange' finit par une voyelle et 'il' commence par une voyelle, on ajoute un -t- euphonique : 'Mange-t-il'. 'Est-ce qu'il mange ?' est correct mais c'est la construction avec 'est-ce que', pas l'inversion."},
+
+  {q:"Une phrase peut-elle être à la fois déclarative ET interrogative ?",
+   opts:["Non, une phrase a UN SEUL type","Oui, si elle pose une question informative","Oui, si elle est longue","Non seulement si elle est négative"],
+   correct:0,
+   expl:"Non. Une phrase appartient toujours à UN SEUL type : déclarative, interrogative, exclamative ou impérative. Les types s'excluent mutuellement. En revanche, la forme (affirmative ou négative) se combine avec tous les types."},
+
+  {q:"Quel est le type et la forme de : 'Ne cours pas !'",
+   opts:["Impérative négative","Exclamative négative","Interrogative négative","Déclarative négative"],
+   correct:0,
+   expl:"'Ne cours pas !' est impérative (ordre, verbe à l'impératif sans sujet) et négative (ne … pas). Le point d'exclamation renforce l'ordre mais ne change pas le type : c'est bien une phrase impérative, pas exclamative."},
+
+  {q:"Quel effet produit généralement une phrase exclamative dans un texte ?",
+   opts:["Elle transmet une émotion forte au lecteur (admiration, surprise, joie…)","Elle donne un ordre au lecteur","Elle pose une question au lecteur","Elle informe objectivement le lecteur"],
+   correct:0,
+   expl:"La phrase exclamative sert à exprimer une émotion intense. Elle permet à l'auteur de montrer ce que ressent le personnage ou lui-même avec beaucoup d'intensité. C'est un outil stylistique important : l'auteur choisit ce type quand les mots seuls ne suffisent pas à rendre la force du sentiment."},
+
+  {q:"Transforme 'Il ne vient jamais.' en phrase affirmative.",
+   opts:["Il vient toujours.","Il ne vient pas.","Il vient jamais.","Il viendrait."],
+   correct:0,
+   expl:"Pour passer de la forme négative à la forme affirmative, on supprime la négation. 'ne … jamais' disparaît et on adapte le sens : 'jamais' devient son contraire 'toujours' pour que la phrase ait un sens correct. 'Il vient jamais.' serait une erreur de registre (langue familière) et reste négatif sans le 'ne'."},
+
+  {q:"Quelle est la ponctuation d'une phrase déclarative ?",
+   opts:["Le point simple ( . )","Le point d'interrogation ( ? )","Le point d'exclamation ( ! )","Les points de suspension ( … )"],
+   correct:0,
+   expl:"La phrase déclarative se termine par un point simple ( . ). Elle donne une information, raconte, décrit ou explique. Le point d'interrogation ( ? ) est pour la phrase interrogative, et le point d'exclamation ( ! ) pour les phrases exclamative et impérative (mais pas obligatoirement)."},
+
+  {q:"Comment reconnaît-on une phrase impérative ?",
+   opts:["Le verbe est à l'impératif et il n'y a pas de sujet exprimé","La phrase se termine toujours par !","La phrase contient toujours 'tu' ou 'vous'","Le verbe est à l'infinitif"],
+   correct:0,
+   expl:"La phrase impérative se reconnaît à deux caractéristiques : le verbe est à l'impératif (mode particulier) et il n'y a pas de sujet exprimé. Exemples : 'Viens !' (pas de 'tu'), 'Allons-y !' (pas de 'nous'), 'Soyez calmes !' (pas de 'vous'). Elle peut se terminer par un point ou par un point d'exclamation."}
+];
+
+var answered = {};
+var score = 0;
+
+function showPanel(id, tab) {
+  var panels = document.querySelectorAll('.panel');
+  var tabs = document.querySelectorAll('.tab');
+  for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-' + id).classList.add('active');
+  tab.classList.add('active');
+}
+
+function showCorr(id) {
+  document.getElementById(id).classList.toggle('show');
+}
+
+function buildQuiz() {
+  var c = document.getElementById('quiz-container');
+  c.innerHTML = '';
+  answered = {};
+  score = 0;
+  for (var i = 0; i < QUESTIONS.length; i++) {
+    var q = QUESTIONS[i];
+    var div = document.createElement('div');
+    div.className = 'quiz-q';
+    var opts = '';
+    for (var j = 0; j < q.opts.length; j++) {
+      opts += '<button class="quiz-opt" onclick="answer(' + i + ',' + j + ')">' + q.opts[j] + '</button>';
+    }
+    div.innerHTML = '<div class="quiz-q-head"><span class="quiz-q-num">' + (i+1) + '</span>' + q.q + '</div>'
+      + '<div class="quiz-options" id="opts-' + i + '">' + opts + '</div>'
+      + '<div class="quiz-expl" id="expl-' + i + '"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+
+function answer(qi, choice) {
+  if (answered[qi] !== undefined) return;
+  answered[qi] = choice;
+  var q = QUESTIONS[qi];
+  var opts = document.querySelectorAll('#opts-' + qi + ' .quiz-opt');
+  for (var i = 0; i < opts.length; i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice === q.correct ? 'correct' : 'wrong');
+  if (choice !== q.correct) opts[q.correct].classList.add('correct');
+  var ok = choice === q.correct;
+  if (ok) score++;
+  var expl = document.getElementById('expl-' + qi);
+  expl.innerHTML = '<span class="' + (ok ? 'tag-ok' : 'tag-ar') + '">' + (ok ? '✓ Bonne réponse !' : '✗ À revoir') + '</span><br>' + q.expl;
+  expl.classList.add('show');
+  if (Object.keys(answered).length === QUESTIONS.length) showScore();
+}
+
+function showScore() {
+  var el = document.getElementById('quiz-score');
+  var pct = Math.round(score / QUESTIONS.length * 100);
+  document.getElementById('score-num').textContent = score + '/' + QUESTIONS.length;
+  var msg = '';
+  if (pct >= 90) msg = '🎉 Excellent Zach ! Types et formes de phrases : maîtrisés !';
+  else if (pct >= 70) msg = '👍 Très bien ! Relis les questions "à revoir" et tu seras au top.';
+  else if (pct >= 50) msg = '💪 Pas mal ! Relis la fiche, surtout le tableau récap, et retente.';
+  else msg = '📋 Relis la fiche de cours calmement et recommence. Tu vas y arriver !';
+  document.getElementById('score-msg').textContent = msg;
+  el.classList.add('show');
+}
+
+function resetQuiz() { buildQuiz(); }
+
+buildQuiz();
+
+window.showPanel = showPanel;
+window.showCorr = showCorr;
+window.answer = answer;
+window.resetQuiz = resetQuiz;
+</script>
+</body>
+</html>

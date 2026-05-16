@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F4 — Les propositions subordonnées</title>
+<style>
+  :root{
+    --vert:#1E8449;--vert-light:#D5F5E3;--vert-mid:#27AE60;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --rouge:#C0392B;--rouge-light:#FADBD8;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--vert);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--vert);border-bottom-color:var(--vert)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.vert{background:var(--vert)}
+  .section-head.bleu{background:var(--bleu)}
+  .section-head.orange{background:var(--orange)}
+  .section-head.violet{background:var(--violet)}
+  .section-head.rouge{background:var(--rouge)}
+  .section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+  .piege-box{background:var(--rouge-light);border-left:4px solid var(--rouge);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin:10px 0;line-height:1.7}
+  .piege-box strong{color:var(--rouge)}
+
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--vert);font-weight:700}
+
+  /* SCHÉMA VISUEL PROPOSITION */
+  .schema-phrase{background:#F0FBF4;border:1.5px solid var(--vert);border-radius:var(--radius);padding:14px;margin:10px 0;font-size:14px;line-height:2}
+  .prop-princ{background:var(--bleu);color:white;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:700}
+  .prop-sub{background:var(--orange);color:white;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:700}
+  .prop-rel{background:var(--violet);color:white;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:700}
+  .prop-conj{background:var(--rouge);color:white;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:700}
+  .prop-circ{background:var(--gris);color:white;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:700}
+
+  /* CARTE SUBORDONNÉE */
+  .sub-card{border-radius:var(--radius);overflow:hidden;margin-bottom:12px;border:1px solid var(--border)}
+  .sub-head{padding:10px 14px;font-size:13px;font-weight:700;color:white}
+  .sub-body{padding:12px 14px;font-size:13px;line-height:1.7;background:white}
+  .sub-ex{padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:13px;font-style:italic}
+  .sub-mots{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .mot-tag{background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);border-radius:20px;padding:2px 10px;font-size:12px;font-weight:600}
+
+  /* TABLEAU */
+  .sub-table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+  .sub-table th{background:var(--vert);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .sub-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .sub-table tr:last-child td{border-bottom:none}
+  .sub-table tr:nth-child(even) td{background:#F0FBF4}
+  .sub-table .nom{font-weight:700;color:var(--vert)}
+
+  /* QUIZ */
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--vert);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--vert);background:var(--vert-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--vert);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+
+  /* EXOS */
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.8}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--vert-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--vert);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--vert);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--vert)}
+  .btn-corr{background:var(--vert);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+
+  @media(max-width:500px){header h1{font-size:17px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🔗 F4 — Les propositions subordonnées</h1>
+  <p>Fiche complète · Séquence 4 · Français · Brevet 2026</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche de cours</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ══════════════════════════ FICHE ══════════════════════════ -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head vert">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> Une <strong>proposition subordonnée</strong> est un groupe de mots qui contient un verbe conjugué, mais qui <strong>dépend</strong> d'une autre proposition (appelée la <strong>proposition principale</strong>). Elle ne peut pas exister seule. Il existe 3 grands types de subordonnées à connaître pour le brevet : la <strong>relative</strong>, la <strong>conjonctive</strong> et la <strong>circonstancielle</strong>.
+      </div>
+      <div class="brevet-box">
+        <strong>🎯 Au brevet :</strong> identifier et nommer une proposition subordonnée, expliquer son rôle dans la phrase, ou analyser la relation logique qu'elle exprime.
+      </div>
+    </div>
+  </div>
+
+  <!-- SCHÉMA DE BASE -->
+  <div class="section">
+    <div class="section-head gris">🏗️ La structure de base</div>
+    <div class="section-body">
+      <div class="schema-phrase">
+        <span class="prop-princ">PROPOSITION PRINCIPALE</span> + <span class="prop-sub">PROPOSITION SUBORDONNÉE</span><br><br>
+        <em>Exemple :</em><br>
+        <span class="prop-princ">Je sais</span> <span class="prop-conj">que tu viendras.</span><br>
+        <span class="prop-princ">Le chien</span> <span class="prop-rel">que j'ai acheté</span> <span class="prop-princ">est gentil.</span><br>
+        <span class="prop-princ">Il sourit</span> <span class="prop-circ">parce qu'il est heureux.</span>
+      </div>
+      <div class="success-box">
+        <strong>✅ Test simple :</strong> Si tu enlèves la subordonnée, la phrase principale doit encore avoir un sens. Si la phrase entière s'effondre → c'est que ce n'est pas une subordonnée.
+      </div>
+    </div>
+  </div>
+
+  <!-- TYPE 1 : RELATIVE -->
+  <div class="section">
+    <div class="section-head violet">1️⃣ La subordonnée relative</div>
+    <div class="section-body">
+      <div class="sub-card">
+        <div class="sub-head" style="background:var(--violet)">Définition</div>
+        <div class="sub-body">
+          Elle <strong>complète un nom</strong> (ou un pronom) de la proposition principale : on l'appelle aussi <strong>complément du nom</strong>. Elle est introduite par un <strong>pronom relatif</strong>.
+          <div class="sub-mots">
+            <span class="mot-tag">qui</span><span class="mot-tag">que / qu'</span><span class="mot-tag">dont</span><span class="mot-tag">où</span><span class="mot-tag">lequel</span><span class="mot-tag">auquel</span><span class="mot-tag">duquel</span>
+          </div>
+          <div class="sub-ex" style="background:var(--violet-light);border-left:3px solid var(--violet)">
+            "Le livre <strong>que j'ai lu</strong> était passionnant." → "que j'ai lu" complète "le livre"<br>
+            "L'homme <strong>qui chante</strong> est mon voisin." → "qui chante" complète "l'homme"<br>
+            "La ville <strong>où je suis né</strong> est belle." → "où je suis né" complète "la ville"
+          </div>
+        </div>
+      </div>
+      <div class="piege-box">
+        <strong>⚠️ Piège — qui vs que :</strong><br>
+        <strong>qui</strong> = sujet de la subordonnée ("l'homme <em>qui</em> court" → c'est l'homme qui court)<br>
+        <strong>que</strong> = COD de la subordonnée ("le gâteau <em>que</em> je mange" → je mange LE GÂTEAU)
+      </div>
+      <div class="warn-box">
+        <strong>⚠️ dont</strong> = remplace "de + nom". "Le livre <em>dont</em> je parle" = "le livre <em>de lequel</em> je parle". "dont" exprime souvent l'appartenance ou une relation introduite par "de".
+      </div>
+    </div>
+  </div>
+
+  <!-- TYPE 2 : CONJONCTIVE -->
+  <div class="section">
+    <div class="section-head rouge">2️⃣ La subordonnée conjonctive complétive</div>
+    <div class="section-body">
+      <div class="sub-card">
+        <div class="sub-head" style="background:var(--rouge)">Définition</div>
+        <div class="sub-body">
+          Elle <strong>complète le verbe</strong> de la proposition principale comme un complément d'objet. Elle est toujours introduite par la conjonction <strong>"que"</strong>.
+          <div class="sub-ex" style="background:var(--rouge-light);border-left:3px solid var(--rouge)">
+            "Je pense <strong>que tu as raison.</strong>" → la subordonnée est le COD de "pense"<br>
+            "Il dit <strong>qu'il viendra demain.</strong>" → complète "dit"<br>
+            "Elle espère <strong>que le temps sera beau.</strong>"
+          </div>
+        </div>
+      </div>
+      <div class="info-box">
+        <strong>Comment la reconnaître :</strong> Tu peux souvent la remplacer par "cela" ou "ça" : "Je pense <em>que tu as raison</em>" → "Je pense <em>cela</em>". Si ça marche → c'est une complétive.
+      </div>
+      <div class="piege-box">
+        <strong>⚠️ Piège — "que" relatif vs "que" conjonction :</strong><br>
+        → "que" <em>relatif</em> reprend un nom : "le film <em>que</em> j'ai vu" (remplace "le film")<br>
+        → "que" <em>conjonction</em> introduit une complétive : "Je sais <em>que</em> tu mens" (ne remplace aucun nom)
+      </div>
+    </div>
+  </div>
+
+  <!-- TYPE 3 : CIRCONSTANCIELLE -->
+  <div class="section">
+    <div class="section-head orange">3️⃣ La subordonnée circonstancielle</div>
+    <div class="section-body">
+      <div class="sub-card">
+        <div class="sub-head" style="background:var(--orange)">Définition</div>
+        <div class="sub-body">
+          Elle indique les <strong>circonstances</strong> de l'action : le temps, la cause, la conséquence, le but, la condition, l'opposition… Elle est introduite par une <strong>conjonction de subordination</strong> (autre que "que" seul).
+        </div>
+      </div>
+
+      <table class="sub-table">
+        <tr><th>Sens exprimé</th><th>Conjonctions principales</th><th>Exemple</th></tr>
+        <tr><td class="nom">Temps</td><td>quand, lorsque, quand, dès que, avant que, après que, pendant que</td><td>"Il est parti <strong>quand la nuit est tombée</strong>."</td></tr>
+        <tr><td class="nom">Cause</td><td>parce que, puisque, car, comme, étant donné que</td><td>"Elle pleure <strong>parce qu'elle est triste</strong>."</td></tr>
+        <tr><td class="nom">Conséquence</td><td>si bien que, de sorte que, tellement… que</td><td>"Il criait <strong>si fort qu'on l'entendait dehors</strong>."</td></tr>
+        <tr><td class="nom">But</td><td>pour que, afin que, de peur que</td><td>"Il chuchote <strong>pour qu'on ne l'entende pas</strong>."</td></tr>
+        <tr><td class="nom">Condition</td><td>si, à condition que, pourvu que</td><td>"<strong>Si tu travailles</strong>, tu réussiras."</td></tr>
+        <tr><td class="nom">Opposition</td><td>bien que, quoique, même si, alors que</td><td>"<strong>Bien qu'il soit fatigué</strong>, il continue."</td></tr>
+      </table>
+
+      <div class="success-box">
+        <strong>✅ Astuce :</strong> Pour identifier le sens d'une circonstancielle, pose une question sur l'action principale :<br>
+        → "Quand ?" → temps. "Pourquoi ?" → cause. "Pour quoi faire ?" → but. "Si quoi ?" → condition.
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLEAU RÉCAP -->
+  <div class="section">
+    <div class="section-head bleu">📊 Tableau récapitulatif des 3 subordonnées</div>
+    <div class="section-body">
+      <table class="sub-table">
+        <tr><th>Type</th><th>Rôle</th><th>Introduite par</th><th>Exemple</th></tr>
+        <tr><td class="nom">Relative</td><td>complète un nom</td><td>qui, que, dont, où…</td><td>"l'homme <em>qui parle</em>"</td></tr>
+        <tr><td class="nom">Conjonctive (complétive)</td><td>complète le verbe (COD)</td><td>que</td><td>"Je sais <em>que tu mens</em>"</td></tr>
+        <tr><td class="nom">Circonstancielle</td><td>indique une circonstance</td><td>quand, parce que, si, bien que…</td><td>"<em>Parce qu'il pleut</em>, je reste"</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- MÉTHODE BREVET -->
+  <div class="section">
+    <div class="section-head violet">🧠 Méthode pour analyser une subordonnée au brevet</div>
+    <div class="section-body">
+      <div style="display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+        <div style="background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</div>
+        <div style="font-size:13px;line-height:1.6;flex:1"><strong>Identifie la proposition subordonnée</strong> : repère le verbe conjugué qui dépend d'un autre verbe.</div>
+      </div>
+      <div style="display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+        <div style="background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">2</div>
+        <div style="font-size:13px;line-height:1.6;flex:1"><strong>Regarde le mot qui l'introduit</strong> : pronom relatif (qui, que, dont…) → relative. "que" → complétive. Autre conjonction → circonstancielle.</div>
+      </div>
+      <div style="display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+        <div style="background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">3</div>
+        <div style="font-size:13px;line-height:1.6;flex:1"><strong>Pour les circonstancielles</strong> : identifie le sens exprimé (temps, cause, but, condition, opposition…).</div>
+      </div>
+      <div style="display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+        <div style="background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">4</div>
+        <div style="font-size:13px;line-height:1.6;flex:1"><strong>Explique son rôle</strong> dans la phrase : à quoi sert-elle, qu'ajoute-t-elle ?</div>
+      </div>
+      <div class="brevet-box">
+        <strong>💬 Formule de réponse au brevet :</strong> "La proposition <em>[cite la proposition]</em> est une subordonnée <em>[relative / conjonctive / circonstancielle de + sens]</em> introduite par <em>[mot introducteur]</em>. Elle complète <em>[nom ou verbe]</em> / Elle exprime <em>[le sens]</em>."
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ QUIZ ══════════════════════════ -->
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head vert">❓ Quiz — Les propositions subordonnées</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Clique sur ta réponse pour voir l'explication.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score">
+        <div class="score-num" id="score-num"></div>
+        <div class="score-msg" id="score-msg"></div>
+        <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ EXERCICE ══════════════════════════ -->
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head vert">✏️ Exercice type brevet</div>
+    <div class="section-body">
+      <div class="info-box"><strong>Conditions d'entraînement :</strong> Lis attentivement le texte, puis réponds aux questions. Temps conseillé : 25 minutes.</div>
+    </div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>📄 Texte support — extrait de roman</h3>
+    <p>
+      Le vieil homme savait <u>(A) que ses forces l'abandonnaient</u>. Il regardait la montagne <u>(B) qui se dressait devant lui</u>, majestueuse et silencieuse. <u>(C) Bien qu'il fût épuisé</u>, il refusait de renoncer. <u>(D) Parce que cette montagne représentait toute sa vie</u>, il avançait encore. Il cherchait la force <u>(E) dont il avait besoin</u> pour continuer. Il espérait <u>(F) que ses jambes le porteraient</u> encore un peu. <u>(G) Dès que le soleil se coucherait</u>, il s'arrêterait pour la nuit.
+    </p>
+    <p class="doc-source">Texte rédigé pour l'entraînement au Brevet 2026.</p>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Identifier et nommer les subordonnées</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Identifie et nomme précisément les propositions subordonnées <strong>(A), (C), (D) et (G)</strong>. Pour chacune, indique son type et le mot qui l'introduit.</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p><strong>(A) "que ses forces l'abandonnaient"</strong> → Subordonnée <em>conjonctive complétive</em>, introduite par "que". Elle est le COD du verbe "savait" (il savait QUOI ? → que ses forces l'abandonnaient).</p>
+        <p style="margin-top:6px"><strong>(C) "Bien qu'il fût épuisé"</strong> → Subordonnée <em>circonstancielle d'opposition</em>, introduite par "bien que". Elle exprime un contraste avec la proposition principale (il est épuisé mais refuse de renoncer).</p>
+        <p style="margin-top:6px"><strong>(D) "Parce que cette montagne représentait toute sa vie"</strong> → Subordonnée <em>circonstancielle de cause</em>, introduite par "parce que". Elle explique pourquoi il avançait encore.</p>
+        <p style="margin-top:6px"><strong>(G) "Dès que le soleil se coucherait"</strong> → Subordonnée <em>circonstancielle de temps</em>, introduite par "dès que". Elle indique le moment où il s'arrêterait.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Regarde toujours le mot introducteur en premier. "que" seul → complétive. Pronom relatif (qui, que, dont, où) → relative. Autre conjonction → circonstancielle + identifie le sens (temps, cause, opposition…).</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Complétive</em> = subordonnée qui joue le rôle de complément d'objet. <em>Circonstancielle</em> = subordonnée qui indique les circonstances (quand, pourquoi, comment, malgré quoi…).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser les subordonnées relatives</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Pour les propositions <strong>(B) "qui se dressait devant lui"</strong> et <strong>(E) "dont il avait besoin"</strong> :<br>
+      — Identifie le type de subordonnée<br>
+      — Indique quel nom chacune complète<br>
+      — Explique le rôle de "qui" dans (B) et de "dont" dans (E)</p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p><strong>(B) "qui se dressait devant lui"</strong> → Subordonnée <em>relative</em>, introduite par "qui". Elle complète le nom "la montagne". "Qui" est le sujet de la subordonnée : c'est la montagne qui se dresse.</p>
+        <p style="margin-top:8px"><strong>(E) "dont il avait besoin"</strong> → Subordonnée <em>relative</em>, introduite par "dont". Elle complète le nom "la force". "Dont" remplace "de la force" : il avait besoin <em>de la force</em>. "Avoir besoin de" → le "de" est inclus dans "dont".</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour analyser "dont", cherche le verbe de la subordonnée et demande-toi s'il est suivi normalement de "de" : "avoir besoin DE", "parler DE", "se souvenir DE" → dans ces cas, on utilise "dont".</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Antécédent</em> = le nom que la subordonnée relative complète (ici "la montagne" et "la force"). Le pronom relatif "reprend" l'antécédent pour éviter la répétition.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Rédiger avec des subordonnées variées</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>Rédige un paragraphe de 8 à 10 lignes dans lequel tu décris un défi que tu as relevé (réel ou imaginaire). Tu dois utiliser et souligner :</p>
+      <ul class="bull-list" style="margin-bottom:10px">
+        <li>Au moins <strong>une subordonnée relative</strong> (avec qui, que, dont ou où)</li>
+        <li>Au moins <strong>une subordonnée conjonctive</strong> (avec que après un verbe)</li>
+        <li>Au moins <strong>deux subordonnées circonstancielles</strong> (de deux sens différents : temps, cause, but, condition ou opposition)</li>
+      </ul>
+      <textarea id="rep3" placeholder="Écris ton paragraphe ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Exemple de paragraphe rédigé</h4>
+        <p>Le jour de l'examen, je savais <u>que j'avais bien travaillé</u> (subordonnée conjonctive complétive). La salle <u>où nous attendions</u> (subordonnée relative) était silencieuse et froide. <u>Parce que j'avais révisé pendant des semaines</u> (subordonnée circonstancielle de cause), je me sentais prêt. <u>Bien que mes mains tremblaient légèrement</u> (subordonnée circonstancielle d'opposition), je pris ma feuille et commençai à écrire. Je cherchais les mots <u>dont j'avais besoin</u> (subordonnée relative). <u>Dès que je relus ma copie</u> (subordonnée circonstancielle de temps), je compris que j'avais réussi.</p>
+        <div class="methode-box">
+          <strong>💡 Méthode — construire des phrases complexes :</strong><br>
+          1. Écris d'abord une phrase simple (proposition principale).<br>
+          2. Demande-toi : est-ce que je veux préciser un nom ? → ajoute une relative.<br>
+          3. Veux-je expliquer pourquoi, quand, malgré quoi ? → ajoute une circonstancielle.<br>
+          4. Le verbe demande un complément ? → ajoute une complétive avec "que".
+        </div>
+        <div class="vocab-box">
+          <strong>📖 Connecteurs logiques utiles :</strong><br>
+          Cause : parce que, puisque, comme, car<br>
+          Temps : quand, lorsque, dès que, avant que, après que<br>
+          Opposition : bien que, même si, alors que, pourtant<br>
+          But : pour que, afin que<br>
+          Condition : si, à condition que
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS = [
+  {q:"Qu'est-ce qu'une proposition subordonnée ?",
+   opts:["Une proposition qui contient un verbe conjugué mais dépend d'une autre proposition","Une proposition qui peut exister seule","Une proposition sans verbe conjugué","La proposition la plus importante de la phrase"],
+   correct:0,
+   expl:"Une proposition subordonnée contient un verbe conjugué (ce qui la distingue d'un simple groupe nominal) mais elle DÉPEND d'une proposition principale : elle ne peut pas exister seule. Si tu enlèves la principale, la subordonnée n'a plus de sens complet."},
+
+  {q:"Dans 'Le chien que j'ai adopté est gentil.', quelle est la nature de la subordonnée 'que j'ai adopté' ?",
+   opts:["Relative : elle complète le nom 'chien'","Conjonctive complétive : elle complète le verbe","Circonstancielle de cause","Circonstancielle de temps"],
+   correct:0,
+   expl:"'que j'ai adopté' est une subordonnée relative car 'que' est un pronom relatif qui reprend 'le chien'. Elle complète et précise le nom 'chien' : quel chien ? → celui que j'ai adopté. Les relatives complètent toujours un nom ou un pronom, jamais directement un verbe."},
+
+  {q:"Dans 'Il pense que tu as tort.', quel est le type de la subordonnée 'que tu as tort' ?",
+   opts:["Conjonctive complétive : COD du verbe 'pense'","Relative : elle complète un nom","Circonstancielle de cause","Circonstancielle d'opposition"],
+   correct:0,
+   expl:"'que tu as tort' est une subordonnée conjonctive complétive. 'que' est ici une conjonction de subordination (pas un pronom relatif). La subordonnée est le COD du verbe 'pense' : il pense QUOI ? → que tu as tort. Tu peux vérifier en remplaçant par 'cela' : 'Il pense cela' → ça marche → c'est une complétive."},
+
+  {q:"Quel sens exprime la subordonnée dans : 'Il a réussi parce qu'il a travaillé dur.' ?",
+   opts:["La cause : explique pourquoi il a réussi","Le but : dit pour quoi il a travaillé","Le temps : dit quand il a travaillé","L'opposition : dit malgré quoi il a réussi"],
+   correct:0,
+   expl:"'parce qu'il a travaillé dur' est une subordonnée circonstancielle de CAUSE introduite par 'parce que'. Elle répond à la question 'Pourquoi a-t-il réussi ?' → parce qu'il a travaillé dur. La cause explique l'origine ou la raison de l'action principale."},
+
+  {q:"Dans 'Bien qu'il pleuve, je sors.', quel sens exprime la subordonnée ?",
+   opts:["L'opposition : il pleut mais je sors quand même","La cause : il pleut donc je sors","Le temps : quand il pleut, je sors","La condition : si il pleut, je sors"],
+   correct:0,
+   expl:"'Bien qu'il pleuve' est une subordonnée circonstancielle d'OPPOSITION introduite par 'bien que'. Elle exprime un contraste : malgré la pluie (qui devrait empêcher de sortir), je sors quand même. L'opposition s'oppose à la cause : la cause explique, l'opposition contraste."},
+
+  {q:"Quel pronom relatif utilise-t-on pour remplacer 'de + nom' dans une relative ?",
+   opts:["dont","que","qui","où"],
+   correct:0,
+   expl:"'dont' remplace 'de + nom'. On l'utilise quand le verbe de la subordonnée est normalement suivi de 'de' : 'parler de', 'avoir besoin de', 'se souvenir de', 'être fier de'… Exemple : 'Le livre dont je te parle' = 'le livre DE LEQUEL je te parle'."},
+
+  {q:"Comment vérifier qu'une subordonnée est bien une conjonctive complétive ?",
+   opts:["On peut remplacer toute la subordonnée par 'cela' ou 'ça'","On peut supprimer la subordonnée et la phrase garde le même sens","Le mot introducteur est 'qui'","La subordonnée se place toujours en début de phrase"],
+   correct:0,
+   expl:"Le test de la complétive : remplace la subordonnée par 'cela'. Si ça marche, c'est une complétive. 'Je sais que tu mens' → 'Je sais cela' → ça marche → complétive. 'La fille que je vois' → 'La fille cela' → ça ne marche pas → c'est une relative."},
+
+  {q:"Dans 'Pour qu'il réussisse, elle l'aide chaque jour.', quel est le sens de la subordonnée ?",
+   opts:["Le but : elle l'aide dans le but qu'il réussisse","La cause : il réussit parce qu'elle l'aide","La condition : si elle l'aide, il réussira","Le temps : quand il réussit, elle l'aide"],
+   correct:0,
+   expl:"'Pour qu'il réussisse' est une subordonnée circonstancielle de BUT introduite par 'pour que'. Elle indique l'objectif visé par l'action de la principale : elle l'aide POUR QUOI ? → pour qu'il réussisse. Le subjonctif ('réussisse') est souvent utilisé après les conjonctions de but."},
+
+  {q:"Dans 'La maison où j'habite est ancienne.', quel est le rôle de la subordonnée ?",
+   opts:["Relative : elle complète le nom 'maison'","Circonstancielle de lieu","Conjonctive complétive","Circonstancielle de temps"],
+   correct:0,
+   expl:"'où j'habite' est une subordonnée relative introduite par le pronom relatif 'où'. Elle complète le nom 'maison'. 'Où' peut introduire soit une subordonnée relative (quand il complète un nom), soit une subordonnée circonstancielle de lieu (quand il complète le verbe principal). Ici c'est une relative : quel maison ? → la maison où j'habite."},
+
+  {q:"Quelle est la différence entre 'que' pronom relatif et 'que' conjonction de subordination ?",
+   opts:["Le 'que' relatif reprend un nom ; le 'que' conjonction introduit une complétive sans reprendre de nom","Il n'y a pas de différence, ils s'utilisent dans les mêmes contextes","Le 'que' relatif introduit une circonstancielle ; le 'que' conjonction introduit une relative","Le 'que' relatif est invariable ; le 'que' conjonction s'accorde"],
+   correct:0,
+   expl:"La différence est dans leur rôle : le 'que' RELATIF reprend (= remplace) un nom de la principale : 'le film QUE j'ai vu' (que = le film). Le 'que' CONJONCTION n'a pas d'antécédent, il introduit simplement la subordonnée complétive : 'Je sais QUE tu viens' (que ne reprend rien)."},
+
+  {q:"Dans quelle phrase trouve-t-on une subordonnée circonstancielle de condition ?",
+   opts:["Si tu travailles, tu réussiras.","Parce que tu travailles, tu réussiras.","Bien que tu travailles, tu réussiras.","Pour que tu travailles, il faut de la motivation."],
+   correct:0,
+   expl:"'Si tu travailles' est une subordonnée circonstancielle de CONDITION introduite par 'si'. Elle pose une condition : la réussite n'est assurée que SI cette condition est remplie. 'Parce que' = cause. 'Bien que' = opposition. 'Pour que' = but."},
+
+  {q:"Parmi ces propositions, laquelle est une subordonnée relative ?",
+   opts:["Le livre dont tout le monde parle est épuisé.","Je pense que ce livre est excellent.","Dès que tu arrives, appelle-moi.","Bien qu'il soit court, ce livre est riche."],
+   correct:0,
+   expl:"'dont tout le monde parle' est une subordonnée relative : elle est introduite par le pronom relatif 'dont' et complète le nom 'le livre'. Les autres sont : 'que ce livre est excellent' → complétive ; 'Dès que tu arrives' → circonstancielle de temps ; 'Bien qu'il soit court' → circonstancielle d'opposition."}
+];
+
+var answered = {};
+var score = 0;
+
+function showPanel(id, tab) {
+  var panels = document.querySelectorAll('.panel');
+  var tabs = document.querySelectorAll('.tab');
+  for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-' + id).classList.add('active');
+  tab.classList.add('active');
+}
+
+function showCorr(id) {
+  document.getElementById(id).classList.toggle('show');
+}
+
+function buildQuiz() {
+  var c = document.getElementById('quiz-container');
+  c.innerHTML = '';
+  answered = {};
+  score = 0;
+  for (var i = 0; i < QUESTIONS.length; i++) {
+    var q = QUESTIONS[i];
+    var div = document.createElement('div');
+    div.className = 'quiz-q';
+    var opts = '';
+    for (var j = 0; j < q.opts.length; j++) {
+      opts += '<button class="quiz-opt" onclick="answer(' + i + ',' + j + ')">' + q.opts[j] + '</button>';
+    }
+    div.innerHTML = '<div class="quiz-q-head"><span class="quiz-q-num">' + (i+1) + '</span>' + q.q + '</div>'
+      + '<div class="quiz-options" id="opts-' + i + '">' + opts + '</div>'
+      + '<div class="quiz-expl" id="expl-' + i + '"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+
+function answer(qi, choice) {
+  if (answered[qi] !== undefined) return;
+  answered[qi] = choice;
+  var q = QUESTIONS[qi];
+  var opts = document.querySelectorAll('#opts-' + qi + ' .quiz-opt');
+  for (var i = 0; i < opts.length; i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice === q.correct ? 'correct' : 'wrong');
+  if (choice !== q.correct) opts[q.correct].classList.add('correct');
+  var ok = choice === q.correct;
+  if (ok) score++;
+  var expl = document.getElementById('expl-' + qi);
+  expl.innerHTML = '<span class="' + (ok ? 'tag-ok' : 'tag-ar') + '">' + (ok ? '✓ Bonne réponse !' : '✗ À revoir') + '</span><br>' + q.expl;
+  expl.classList.add('show');
+  if (Object.keys(answered).length === QUESTIONS.length) showScore();
+}
+
+function showScore() {
+  var el = document.getElementById('quiz-score');
+  var pct = Math.round(score / QUESTIONS.length * 100);
+  document.getElementById('score-num').textContent = score + '/' + QUESTIONS.length;
+  var msg = '';
+  if (pct >= 90) msg = '🎉 Excellent Zach ! Les subordonnées n\'ont plus de secrets pour toi !';
+  else if (pct >= 70) msg = '👍 Très bien ! Relis les points "à revoir" et tu seras au top pour le brevet.';
+  else if (pct >= 50) msg = '💪 Pas mal ! C\'est un chapitre difficile — relis la fiche et retente.';
+  else msg = '📋 Les subordonnées, c\'est le chapitre le plus dur. Relis calmement la fiche, puis recommence.';
+  document.getElementById('score-msg').textContent = msg;
+  el.classList.add('show');
+}
+
+function resetQuiz() { buildQuiz(); }
+
+buildQuiz();
+
+window.showPanel = showPanel;
+window.showCorr = showCorr;
+window.answer = answer;
+window.resetQuiz = resetQuiz;
+</script>
+</body>
+</html>

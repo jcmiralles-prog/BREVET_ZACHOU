@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F2 — Les temps verbaux</title>
+<style>
+  :root{
+    --vert:#1E8449;--vert-light:#D5F5E3;--vert-mid:#27AE60;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --rouge:#C0392B;--rouge-light:#FADBD8;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+  header{background:var(--vert);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:-webkit-sticky;position:sticky;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+  .tab.active{color:var(--vert);border-bottom-color:var(--vert)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.vert{background:var(--vert)}
+  .section-head.bleu{background:var(--bleu)}
+  .section-head.orange{background:var(--orange)}
+  .section-head.violet{background:var(--violet)}
+  .section-head.rouge{background:var(--rouge)}
+  .section-head.gris{background:var(--gris)}
+  .section-body{padding:14px}
+
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+  .piege-box{background:var(--rouge-light);border-left:4px solid var(--rouge);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin:10px 0;line-height:1.7}
+  .piege-box strong{color:var(--rouge)}
+
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--vert);font-weight:700}
+
+  /* TEMPS CARD */
+  .temps-card{border-radius:var(--radius);overflow:hidden;margin-bottom:12px;border:1px solid var(--border)}
+  .temps-head{padding:10px 14px;font-size:13px;font-weight:700;color:white;display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .temps-head .tag-temps{font-size:11px;font-weight:600;background:rgba(255,255,255,0.25);padding:2px 10px;border-radius:20px}
+  .temps-body{padding:12px 14px;font-size:13px;line-height:1.7;background:white}
+  .temps-ex{background:var(--vert-light);border-left:3px solid var(--vert);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:13px}
+
+  /* TABLEAU */
+  .temps-table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+  .temps-table th{background:var(--vert);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .temps-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .temps-table tr:last-child td{border-bottom:none}
+  .temps-table tr:nth-child(even) td{background:#F0FBF4}
+  .temps-table .nom-temps{font-weight:700;color:var(--vert)}
+
+  /* FRISE TEMPORELLE */
+  .ligne-temps{overflow-x:auto;padding:10px 0 16px}
+  .lt-inner{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;min-width:600px;padding:0 10px;gap:0}
+  .lt-zone{-webkit-flex:1;flex:1;text-align:center;padding:6px 4px;border-radius:8px;font-size:11px;font-weight:700;color:white}
+  .lt-arrow{font-size:18px;color:var(--muted);padding:0 4px;flex-shrink:0}
+  .lt-label{font-size:10px;color:var(--muted);margin-top:4px}
+
+  /* QUIZ */
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--vert);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--vert);background:var(--vert-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .score-msg{font-size:14px;color:var(--text);margin-top:8px}
+  .btn-reset{background:var(--vert);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+
+  /* EXOS */
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.8}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--vert-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--vert);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--vert);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--vert)}
+  .btn-corr{background:var(--vert);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+
+  @media(max-width:500px){header h1{font-size:17px}.quiz-q-head{font-size:13px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⏰ F2 — Les temps verbaux</h1>
+  <p>Fiche complète · Séquence 2 · Français · Brevet 2026</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche de cours</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ══════════════════════════ FICHE ══════════════════════════ -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head vert">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> Les temps verbaux indiquent <strong>quand</strong> se passe une action : dans le passé, le présent ou le futur. Chaque temps a une <strong>valeur précise</strong> (ce qu'il exprime) et des <strong>terminaisons</strong> spécifiques. Au brevet, tu dois savoir identifier un temps, l'expliquer, et l'utiliser correctement.
+      </div>
+      <div class="brevet-box">
+        <strong>🎯 Au brevet, on te demande :</strong> d'identifier et de nommer un temps verbal, d'expliquer sa valeur (pourquoi l'auteur l'a choisi), ou de conjuguer correctement des verbes dans un texte.
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGNE DU TEMPS VISUELLE -->
+  <div class="section">
+    <div class="section-head gris">📅 La ligne du temps</div>
+    <div class="section-body">
+      <div class="ligne-temps">
+        <div class="lt-inner">
+          <div style="flex:1;text-align:center">
+            <div class="lt-zone" style="background:var(--bleu)">PASSÉ COMPOSÉ<br><span style="font-weight:400;font-size:10px">j'ai mangé</span></div>
+            <div class="lt-label">action terminée</div>
+          </div>
+          <div class="lt-arrow">→</div>
+          <div style="flex:1;text-align:center">
+            <div class="lt-zone" style="background:var(--gris)">IMPARFAIT<br><span style="font-weight:400;font-size:10px">je mangeais</span></div>
+            <div class="lt-label">action en cours / habitude</div>
+          </div>
+          <div class="lt-arrow">→</div>
+          <div style="flex:1;text-align:center">
+            <div class="lt-zone" style="background:var(--vert)">PRÉSENT<br><span style="font-weight:400;font-size:10px">je mange</span></div>
+            <div class="lt-label">maintenant / vérité</div>
+          </div>
+          <div class="lt-arrow">→</div>
+          <div style="flex:1;text-align:center">
+            <div class="lt-zone" style="background:var(--orange)">FUTUR SIMPLE<br><span style="font-weight:400;font-size:10px">je mangerai</span></div>
+            <div class="lt-label">action à venir</div>
+          </div>
+          <div class="lt-arrow">→</div>
+          <div style="flex:1;text-align:center">
+            <div class="lt-zone" style="background:var(--violet)">CONDITIONNEL<br><span style="font-weight:400;font-size:10px">je mangerais</span></div>
+            <div class="lt-label">hypothèse / politesse</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LES TEMPS UN PAR UN -->
+  <div class="section">
+    <div class="section-head vert">📖 Les temps à connaître pour le brevet</div>
+    <div class="section-body">
+
+      <div class="temps-card">
+        <div class="temps-head" style="background:var(--vert)">
+          <span>1. Le présent de l'indicatif</span>
+          <span class="tag-temps">je mange</span>
+        </div>
+        <div class="temps-body">
+          <strong>Formation :</strong> radical + terminaisons (-e, -es, -e, -ons, -ez, -ent pour les verbes en -er)<br>
+          <strong>Valeurs :</strong>
+          <ul class="bull-list">
+            <li><strong>Action en cours</strong> au moment où on parle : "Il <em>mange</em> en ce moment."</li>
+            <li><strong>Vérité générale</strong> ou fait universel : "La Terre <em>tourne</em> autour du Soleil."</li>
+            <li><strong>Présent de narration</strong> : dans un récit au passé, le présent rend l'action plus vivante</li>
+            <li><strong>Habitude</strong> : "Chaque matin, il <em>court</em>."</li>
+          </ul>
+          <div class="temps-ex">💬 "Le soleil <em>se lève</em> à l'est." → vérité générale</div>
+        </div>
+      </div>
+
+      <div class="temps-card">
+        <div class="temps-head" style="background:var(--gris)">
+          <span>2. L'imparfait de l'indicatif</span>
+          <span class="tag-temps">je mangeais</span>
+        </div>
+        <div class="temps-body">
+          <strong>Formation :</strong> radical du présent (nous) + terminaisons (-ais, -ais, -ait, -ions, -iez, -aient)<br>
+          <strong>Valeurs :</strong>
+          <ul class="bull-list">
+            <li><strong>Action en cours dans le passé</strong> (durée, arrière-plan) : "Il <em>pleuvait</em> quand je suis sorti."</li>
+            <li><strong>Habitude dans le passé</strong> : "Chaque été, nous <em>allions</em> à la mer."</li>
+            <li><strong>Description dans le passé</strong> : "La maison <em>était</em> vieille et sombre."</li>
+          </ul>
+          <div class="temps-ex">💬 "Quand j'<em>étais</em> petit, je <em>jouais</em> dans le jardin." → habitude passée</div>
+          <div class="piege-box" style="margin-top:8px">
+            <strong>⚠️ Imparfait vs Passé composé :</strong> L'imparfait = action qui dure, sert de décor. Le passé composé = action précise, terminée, qui fait avancer le récit.
+          </div>
+        </div>
+      </div>
+
+      <div class="temps-card">
+        <div class="temps-head" style="background:var(--bleu)">
+          <span>3. Le passé composé</span>
+          <span class="tag-temps">j'ai mangé</span>
+        </div>
+        <div class="temps-body">
+          <strong>Formation :</strong> auxiliaire être ou avoir au présent + participe passé<br>
+          <strong>Valeurs :</strong>
+          <ul class="bull-list">
+            <li><strong>Action terminée et précise</strong> dans le passé : "J'<em>ai terminé</em> mon devoir."</li>
+            <li><strong>Fait passé avec conséquence dans le présent</strong> : "Il <em>a perdu</em> ses clés." (et il ne les a toujours pas)</li>
+            <li><strong>Action qui fait avancer le récit</strong> (opposé à l'imparfait)</li>
+          </ul>
+          <div class="temps-ex">💬 "Il <em>faisait</em> nuit (imparfait = décor) quand soudain un bruit <em>a retenti</em> (passé composé = action)."</div>
+        </div>
+      </div>
+
+      <div class="temps-card">
+        <div class="temps-head" style="background:#6E2C0E">
+          <span>4. Le passé simple</span>
+          <span class="tag-temps">je mangeai</span>
+        </div>
+        <div class="temps-body">
+          <strong>Formation :</strong> terminaisons en -ai/-as/-a/-âmes/-âtes/-èrent (verbes en -er) ou -is/-is/-it/-îmes/-îtes/-irent<br>
+          <strong>Valeurs :</strong>
+          <ul class="bull-list">
+            <li>Même rôle que le passé composé, mais utilisé à l'<strong>écrit littéraire</strong> uniquement</li>
+            <li>Action passée, terminée, précise : "Le roi <em>ordonna</em> le silence."</li>
+          </ul>
+          <div class="warn-box"><strong>⚠️ Important :</strong> Le passé simple s'utilise dans les romans, les contes, les récits historiques écrits. On ne l'emploie jamais à l'oral.</div>
+        </div>
+      </div>
+
+      <div class="temps-card">
+        <div class="temps-head" style="background:var(--orange)">
+          <span>5. Le futur simple</span>
+          <span class="tag-temps">je mangerai</span>
+        </div>
+        <div class="temps-body">
+          <strong>Formation :</strong> infinitif + terminaisons (-ai, -as, -a, -ons, -ez, -ont)<br>
+          <strong>Valeurs :</strong>
+          <ul class="bull-list">
+            <li><strong>Action à venir</strong> : "Demain, il <em>pleuvra</em>."</li>
+            <li><strong>Ordre atténué</strong> (plus poli qu'un impératif) : "Tu <em>rendras</em> ce livre."</li>
+            <li><strong>Certitude sur l'avenir</strong> : "Il <em>réussira</em>, j'en suis sûr."</li>
+          </ul>
+          <div class="temps-ex">💬 "Dans dix ans, les voitures <em>rouleront</em> toutes à l'électrique." → action future certaine</div>
+        </div>
+      </div>
+
+      <div class="temps-card">
+        <div class="temps-head" style="background:var(--violet)">
+          <span>6. Le conditionnel présent</span>
+          <span class="tag-temps">je mangerais</span>
+        </div>
+        <div class="temps-body">
+          <strong>Formation :</strong> infinitif + terminaisons de l'imparfait (-ais, -ais, -ait, -ions, -iez, -aient)<br>
+          <strong>Valeurs :</strong>
+          <ul class="bull-list">
+            <li><strong>Hypothèse</strong> (souvent avec "si") : "Si j'avais de l'argent, j'<em>achèterais</em> une voiture."</li>
+            <li><strong>Politesse</strong> : "Je <em>voudrais</em> un café, s'il vous plaît."</li>
+            <li><strong>Fait incertain, non vérifié</strong> (presse, rumeur) : "Il y <em>aurait</em> eu un accident."</li>
+          </ul>
+          <div class="temps-ex">💬 "Si tu <em>travaillais</em> plus (imparfait), tu <em>réussirais</em> (conditionnel)." → hypothèse</div>
+        </div>
+      </div>
+
+      <div class="temps-card">
+        <div class="temps-head" style="background:var(--rouge)">
+          <span>7. Le subjonctif présent</span>
+          <span class="tag-temps">que je mange</span>
+        </div>
+        <div class="temps-body">
+          <strong>Formation :</strong> que + radical (ils au présent) + terminaisons (-e, -es, -e, -ions, -iez, -ent)<br>
+          <strong>Valeurs :</strong>
+          <ul class="bull-list">
+            <li>Exprime un <strong>doute, une volonté, un sentiment, une obligation</strong></li>
+            <li>Toujours après : <em>il faut que, je veux que, bien que, pour que, avant que…</em></li>
+          </ul>
+          <div class="temps-ex">💬 "Il faut que tu <em>finisses</em> ce travail." — "Je veux qu'il <em>vienne</em>."</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TABLEAU RÉCAP -->
+  <div class="section">
+    <div class="section-head bleu">📊 Tableau récapitulatif — les 7 temps</div>
+    <div class="section-body">
+      <table class="temps-table">
+        <tr><th>Temps</th><th>Exemple</th><th>Valeur principale</th></tr>
+        <tr><td class="nom-temps">Présent</td><td>je mange</td><td>action en cours / vérité générale</td></tr>
+        <tr><td class="nom-temps">Imparfait</td><td>je mangeais</td><td>action qui dure / description / habitude passée</td></tr>
+        <tr><td class="nom-temps">Passé composé</td><td>j'ai mangé</td><td>action terminée (à l'oral et dans les textes modernes)</td></tr>
+        <tr><td class="nom-temps">Passé simple</td><td>je mangeai</td><td>action terminée (écrit littéraire uniquement)</td></tr>
+        <tr><td class="nom-temps">Futur simple</td><td>je mangerai</td><td>action à venir / certitude</td></tr>
+        <tr><td class="nom-temps">Conditionnel</td><td>je mangerais</td><td>hypothèse / politesse / fait incertain</td></tr>
+        <tr><td class="nom-temps">Subjonctif</td><td>que je mange</td><td>doute / volonté / obligation (après "que")</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- MÉTHODE BREVET -->
+  <div class="section">
+    <div class="section-head violet">🧠 Méthode pour analyser un temps au brevet</div>
+    <div class="section-body">
+      <div style="display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+        <div style="background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</div>
+        <div style="font-size:13px;line-height:1.6;flex:1"><strong>Identifie le verbe</strong> et son auxiliaire éventuel (être ou avoir).</div>
+      </div>
+      <div style="display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+        <div style="background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">2</div>
+        <div style="font-size:13px;line-height:1.6;flex:1"><strong>Nomme le temps</strong> : présent, imparfait, passé composé, futur…</div>
+      </div>
+      <div style="display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+        <div style="background:var(--vert);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">3</div>
+        <div style="font-size:13px;line-height:1.6;flex:1"><strong>Explique sa valeur</strong> : pourquoi l'auteur a-t-il choisi CE temps ? Qu'est-ce qu'il exprime ici ?</div>
+      </div>
+      <div class="brevet-box">
+        <strong>💬 Formule de réponse au brevet :</strong> "Le verbe <em>[verbe]</em> est conjugué au <em>[nom du temps]</em>. Ce temps exprime ici <em>[valeur]</em> car <em>[explication]</em>."
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ QUIZ ══════════════════════════ -->
+<div class="panel" id="panel-quiz">
+  <div class="section">
+    <div class="section-head vert">❓ Quiz — Les temps verbaux</div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">12 questions · Clique sur ta réponse pour voir l'explication.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score">
+        <div class="score-num" id="score-num"></div>
+        <div class="score-msg" id="score-msg"></div>
+        <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ EXERCICE ══════════════════════════ -->
+<div class="panel" id="panel-exo">
+  <div class="section">
+    <div class="section-head vert">✏️ Exercice type brevet</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>Conditions d'entraînement :</strong> Lis attentivement le texte, puis réponds aux questions. Temps conseillé : 20 minutes.
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>📄 Texte support — extrait de récit</h3>
+    <p>
+      Chaque soir, le vieux pêcheur <u>(1)rentrait</u> au port avec ses filets vides. Les autres villageois <u>(2)riaient</u> de lui et <u>(3)racontaient</u> partout qu'il <u>(4)avait perdu</u> la raison. Pourtant, ce soir-là, quelque chose <u>(5)changea</u>. Une lumière étrange <u>(6)surgit</u> de l'horizon et le vieux <u>(7)comprit</u> que sa vie ne <u>(8)serait</u> plus jamais la même. Il <u>(9)lèvera</u> les yeux vers le ciel et <u>(10)murmurera</u> une prière. Si seulement il <u>(11)avait</u> su plus tôt, il <u>(12)aurait agi</u> différemment.
+    </p>
+    <p class="doc-source">Texte rédigé pour l'entraînement au Brevet 2026.</p>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Identifier et nommer des temps</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Identifie le temps des verbes soulignés <strong>(1) rentrait</strong>, <strong>(5) changea</strong>, <strong>(9) lèvera</strong> et <strong>(12) aurait agi</strong>. Pour chacun, nomme le temps et explique sa valeur dans le texte.</p>
+      <textarea id="rep1" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p><strong>(1) "rentrait"</strong> → Imparfait. Valeur : action habituelle dans le passé ("chaque soir" le confirme). L'imparfait sert ici de décor, d'arrière-plan à l'histoire.</p>
+        <p style="margin-top:6px"><strong>(5) "changea"</strong> → Passé simple. Valeur : action précise et terminée dans le passé, qui fait avancer le récit. C'est l'événement déclencheur de l'histoire.</p>
+        <p style="margin-top:6px"><strong>(9) "lèvera"</strong> → Futur simple. Valeur : action à venir, certaine dans le récit. Elle annonce ce qui va se passer.</p>
+        <p style="margin-top:6px"><strong>(12) "aurait agi"</strong> → Conditionnel passé. Valeur : hypothèse dans le passé (regret). Le pêcheur imagine ce qu'il aurait fait s'il avait su.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour chaque verbe, nomme d'abord le temps précisément, puis explique SA valeur dans CE contexte. Un même temps peut avoir plusieurs valeurs : c'est le contexte qui détermine laquelle s'applique.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Valeur d'un temps</em> = ce que ce temps exprime dans ce contexte précis (durée, habitude, action terminée, hypothèse…). <em>Récit</em> = texte qui raconte une histoire avec des personnages et des actions.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Expliquer l'emploi de deux temps dans un même passage</span><span class="pts">4 points</span></div>
+    <div class="q-exo-body">
+      <p>Dans la phrase : <em>"Les autres villageois <strong>riaient</strong> (2) de lui et <strong>racontaient</strong> (3) partout […] Pourtant, ce soir-là, quelque chose <strong>changea</strong> (5)."</em><br>Explique pourquoi l'auteur utilise l'imparfait pour (2) et (3), mais le passé simple pour (5).</p>
+      <textarea id="rep2" placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p>L'auteur utilise l'<strong>imparfait</strong> pour "riaient" et "racontaient" car ces actions <em>duraient dans le temps</em> : c'était une habitude des villageois, une situation qui se répétait. L'imparfait sert ici à décrire le décor et l'ambiance habituelle.</p>
+        <p style="margin-top:8px">En revanche, il utilise le <strong>passé simple</strong> pour "changea" car cette action est <em>précise, unique, terminée</em> : c'est l'événement qui rompt l'habitude et fait avancer le récit. C'est le tournant de l'histoire.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Imparfait = décor, durée, habitude. Passé simple (ou passé composé) = événement précis qui fait avancer le récit. Ces deux temps fonctionnent souvent ensemble dans un récit au passé.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Arrière-plan</em> = ce qui sert de décor, de contexte. <em>Premier plan</em> = les événements principaux qui font avancer l'histoire.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Réécriture et conjugaison</span><span class="pts">6 points</span></div>
+    <div class="q-exo-body">
+      <p>Réécris le passage suivant en transposant tous les verbes au passé (imparfait ou passé composé selon le sens). Explique tes choix pour deux verbes.</p>
+      <p style="background:var(--vert-light);border-left:3px solid var(--vert);padding:8px 12px;border-radius:0 6px 6px 0;font-size:13px;margin-bottom:8px;font-style:italic">"Le vent souffle fort. Les arbres plient sous les rafales. Soudain, une branche tombe et bloque le chemin. Le randonneur s'arrête, observe la situation et décide de faire demi-tour."</p>
+      <textarea id="rep3" placeholder="Écris ta réécriture ici, et explique 2 choix…" style="min-height:140px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Correction</h4>
+        <p><strong>Réécriture :</strong> "Le vent <em>soufflait</em> fort. Les arbres <em>pliaient</em> sous les rafales. Soudain, une branche <em>est tombée</em> et <em>a bloqué</em> le chemin. Le randonneur <em>s'est arrêté</em>, <em>a observé</em> la situation et <em>a décidé</em> de faire demi-tour."</p>
+        <p style="margin-top:8px"><strong>Explication :</strong><br>
+        — "soufflait" et "pliaient" → imparfait car ces actions <em>durent</em>, elles servent de décor (arrière-plan).<br>
+        — "est tombée", "a bloqué", "a décidé" → passé composé car ce sont des actions <em>précises, ponctuelles</em> qui font avancer le récit.</p>
+        <div class="methode-box">
+          <strong>💡 Méthode — la question à se poser :</strong><br>
+          → "Cette action dure ou se répète ?" → imparfait<br>
+          → "Cette action est précise, unique, elle fait avancer l'histoire ?" → passé composé (ou passé simple à l'écrit)
+        </div>
+        <div class="vocab-box">
+          <strong>📖 Vocabulaire :</strong> <em>Transposer</em> = réécrire en changeant un ou plusieurs éléments grammaticaux (temps, personne…). <em>Rafale</em> = coup de vent violent et bref.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUESTIONS = [
+  {q:"Quel temps verbal exprime une action habituelle dans le passé ?",
+   opts:["L'imparfait","Le passé composé","Le futur simple","Le présent"],
+   correct:0,
+   expl:"L'imparfait exprime les actions habituelles ou répétées dans le passé. Exemple : 'Chaque été, nous allions à la mer.' Le passé composé, lui, exprime une action précise et terminée. Le présent et le futur ne parlent pas du passé."},
+
+  {q:"Dans 'Demain, il pleuvra.', quel temps est utilisé et quelle est sa valeur ?",
+   opts:["Futur simple → action à venir certaine","Conditionnel → hypothèse","Présent → action en cours","Imparfait → action future dans un récit"],
+   correct:0,
+   expl:"'Pleuvra' est au futur simple (infinitif pleuvoir + terminaison -a). Sa valeur ici est une action à venir, considérée comme certaine (une prévision météo). Le futur simple sert à parler d'événements futurs présentés comme sûrs."},
+
+  {q:"Quelle est la différence principale entre imparfait et passé composé dans un récit ?",
+   opts:["Imparfait = arrière-plan/durée, Passé composé = action précise qui fait avancer l'histoire","Imparfait = à l'écrit seulement, Passé composé = à l'oral seulement","Imparfait = futur dans le passé, Passé composé = présent","Il n'y a pas de différence, on peut les utiliser indifféremment"],
+   correct:0,
+   expl:"Dans un récit au passé, l'imparfait sert de décor : il décrit ce qui durait, le contexte, les habitudes. Le passé composé exprime les événements précis qui font avancer l'histoire. Exemple : 'Il faisait nuit (imparfait = décor) quand un bruit a retenti (passé composé = événement).'"},
+
+  {q:"Conjugue 'aller' à la 3e personne du pluriel au futur simple.",
+   opts:["ils iront","ils alleront","ils vont","ils iraient"],
+   correct:0,
+   expl:"'Aller' est un verbe irrégulier au futur : son radical change en 'ir-'. Les terminaisons du futur sont -ai, -as, -a, -ons, -ez, -ont. Donc ils ir- + -ont = 'ils iront'. 'Ils alleront' est une erreur fréquente mais fausse. 'Ils iraient' est le conditionnel, pas le futur."},
+
+  {q:"Dans quelle situation utilise-t-on le conditionnel présent ?",
+   opts:["Pour exprimer une hypothèse ou une politesse","Pour décrire une habitude passée","Pour raconter une action terminée","Pour exprimer une certitude future"],
+   correct:0,
+   expl:"Le conditionnel présent s'emploie pour : une hypothèse ('Si j'avais de l'argent, j'achèterais une voiture'), la politesse ('Je voudrais un café'), ou un fait incertain ('Il y aurait eu un accident'). Pour une certitude future → futur simple. Pour une habitude passée → imparfait."},
+
+  {q:"Le passé simple s'emploie principalement :",
+   opts:["Dans les récits littéraires écrits (romans, contes, récits historiques)","Dans les conversations de tous les jours","Dans les textes argumentatifs modernes","Dans les textes scientifiques"],
+   correct:0,
+   expl:"Le passé simple est un temps de l'écrit littéraire. On le trouve dans les romans, les contes, les textes historiques. On ne l'utilise jamais à l'oral. Dans la conversation, on utilise le passé composé pour les mêmes valeurs."},
+
+  {q:"Quelle valeur a le présent dans 'La Terre tourne autour du Soleil.' ?",
+   opts:["Vérité générale / fait universel","Action en cours au moment où on parle","Habitude personnelle","Présent de narration"],
+   correct:0,
+   expl:"Ce présent exprime une vérité générale, un fait scientifique qui est toujours vrai, quelle que soit l'époque. C'est l'une des valeurs importantes du présent de l'indicatif. Il ne s'agit pas d'une action en cours au moment précis de la parole."},
+
+  {q:"Comment se forme le conditionnel présent ?",
+   opts:["Infinitif + terminaisons de l'imparfait (-ais, -ais, -ait, -ions, -iez, -aient)","Infinitif + terminaisons du futur (-ai, -as, -a, -ons, -ez, -ont)","Radical du présent + terminaisons en -rait","Auxiliaire avoir + participe passé"],
+   correct:0,
+   expl:"Le conditionnel présent = infinitif + terminaisons de l'imparfait. Par exemple : manger → mange- + -rais = je mangerais. Attention : la terminaison ressemble au futur (mêmes syllabes mais avec les sons de l'imparfait). 'Il mangerait' = conditionnel. 'Il mangera' = futur."},
+
+  {q:"Dans 'Il faut que tu finisses ce travail.', quel mode est utilisé ?",
+   opts:["Le subjonctif présent","L'indicatif présent","L'impératif","Le conditionnel présent"],
+   correct:0,
+   expl:"'Finisses' est au subjonctif présent. On reconnaît le subjonctif car il est introduit par 'que' après une expression d'obligation, de volonté ou de doute ('il faut que', 'je veux que', 'bien que'…). Le subjonctif a des terminaisons proches du présent mais différentes (tu finisses, pas tu finis)."},
+
+  {q:"Quelle est la bonne conjugaison de 'faire' à l'imparfait, 1ère personne du pluriel ?",
+   opts:["nous faisions","nous faisissions","nous fesions","nous faisions pas"],
+   correct:0,
+   expl:"L'imparfait se forme sur le radical du présent à 'nous'. Au présent : nous faisons → radical fais- + terminaison -ions = nous faisions. Attention, le radical 'fais-' se conserve, on n'écrit pas 'fesions'."},
+
+  {q:"Quelle phrase utilise correctement le conditionnel pour exprimer la politesse ?",
+   opts:["Je voudrais un verre d'eau, s'il vous plaît.","Je veux un verre d'eau.","Je voudrai un verre d'eau.","Je voulais un verre d'eau."],
+   correct:0,
+   expl:"'Je voudrais' est le conditionnel présent de 'vouloir'. Utilisé seul (sans 'si'), il exprime la politesse : on atténue la demande pour qu'elle soit plus respectueuse. 'Je veux' est direct et moins poli. 'Je voudrai' serait le futur (peu naturel ici). 'Je voulais' est l'imparfait."},
+
+  {q:"Dans un texte, comment distinguer un imparfait d'un conditionnel présent à la 1ère personne du singulier ?",
+   opts:["Par le sens : imparfait = passé réel ; conditionnel = hypothèse/politesse. La terminaison -ais est commune aux deux.","Par la terminaison : imparfait en -ais, conditionnel en -ait","Par l'auxiliaire : imparfait avec être, conditionnel avec avoir","On ne peut pas les distinguer, ils sont identiques"],
+   correct:0,
+   expl:"À la 1ère personne du singulier (je), l'imparfait et le conditionnel ont la même terminaison : -ais. Par exemple : 'je mangeais' (imparfait) et 'je mangerais' (conditionnel) se terminent tous les deux par -ais. On les distingue uniquement par le contexte et le sens : imparfait = action passée réelle ; conditionnel = hypothèse, politesse ou fait incertain."}
+];
+
+var answered = {};
+var score = 0;
+
+function showPanel(id, tab) {
+  var panels = document.querySelectorAll('.panel');
+  var tabs = document.querySelectorAll('.tab');
+  for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-' + id).classList.add('active');
+  tab.classList.add('active');
+}
+
+function showCorr(id) {
+  document.getElementById(id).classList.toggle('show');
+}
+
+function buildQuiz() {
+  var c = document.getElementById('quiz-container');
+  c.innerHTML = '';
+  answered = {};
+  score = 0;
+  for (var i = 0; i < QUESTIONS.length; i++) {
+    var q = QUESTIONS[i];
+    var div = document.createElement('div');
+    div.className = 'quiz-q';
+    var opts = '';
+    for (var j = 0; j < q.opts.length; j++) {
+      opts += '<button class="quiz-opt" onclick="answer(' + i + ',' + j + ')">' + q.opts[j] + '</button>';
+    }
+    div.innerHTML = '<div class="quiz-q-head"><span class="quiz-q-num">' + (i+1) + '</span>' + q.q + '</div>'
+      + '<div class="quiz-options" id="opts-' + i + '">' + opts + '</div>'
+      + '<div class="quiz-expl" id="expl-' + i + '"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+
+function answer(qi, choice) {
+  if (answered[qi] !== undefined) return;
+  answered[qi] = choice;
+  var q = QUESTIONS[qi];
+  var opts = document.querySelectorAll('#opts-' + qi + ' .quiz-opt');
+  for (var i = 0; i < opts.length; i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice === q.correct ? 'correct' : 'wrong');
+  if (choice !== q.correct) opts[q.correct].classList.add('correct');
+  var ok = choice === q.correct;
+  if (ok) score++;
+  var expl = document.getElementById('expl-' + qi);
+  expl.innerHTML = '<span class="' + (ok ? 'tag-ok' : 'tag-ar') + '">' + (ok ? '✓ Bonne réponse !' : '✗ À revoir') + '</span><br>' + q.expl;
+  expl.classList.add('show');
+  if (Object.keys(answered).length === QUESTIONS.length) showScore();
+}
+
+function showScore() {
+  var el = document.getElementById('quiz-score');
+  var pct = Math.round(score / QUESTIONS.length * 100);
+  document.getElementById('score-num').textContent = score + '/' + QUESTIONS.length;
+  var msg = '';
+  if (pct >= 90) msg = '🎉 Excellent Zach ! Les temps verbaux n\'ont plus de secrets pour toi !';
+  else if (pct >= 70) msg = '👍 Très bien ! Relis les questions "à revoir" et tu seras au top.';
+  else if (pct >= 50) msg = '💪 Pas mal ! Relis la fiche de cours et retente le quiz.';
+  else msg = '📋 Pas de panique ! Relis bien la fiche, surtout le tableau récapitulatif.';
+  document.getElementById('score-msg').textContent = msg;
+  el.classList.add('show');
+}
+
+function resetQuiz() { buildQuiz(); }
+
+buildQuiz();
+
+window.showPanel = showPanel;
+window.showCorr = showCorr;
+window.answer = answer;
+window.resetQuiz = resetQuiz;
+</script>
+</body>
+</html>
