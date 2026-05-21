@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M10 &mdash; Maths Brevet &middot; Jour 10</title>
+<style>
+:root{--orange:#D35400;--orange-light:#FDEBD0;--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--rouge:#C0392B;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
+.exo-body{padding:16px}
+.enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
+.enonce p{margin-bottom:8px}.enonce p:last-child{margin-bottom:0}
+.question{margin-bottom:18px}
+.question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
+.question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+.justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
+.justif-box b{color:#D35400}
+textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
+textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.correction.visible{display:block}
+.correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
+.correction p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+.methode-box b{display:block;margin-bottom:4px}
+.score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
+.score-info b{font-size:14px}
+.separator{height:1px;background:var(--border);margin:6px 0 14px}
+.tableau{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.tableau th,.tableau td{border:1px solid var(--border);padding:8px 10px;text-align:center}
+.tableau th{background:var(--orange-light);font-weight:700}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>&#128208; Maths &mdash; Jour 10</h1>
+  <div class="sub">Exercices type Brevet &middot; 20 &agrave; 30 minutes</div>
+  <div class="badge">30 mai 2026</div>
+</div>
+<div class="container">
+  <div style="background:#FFF3CD;border:1px solid #F0A500;border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#7D5A00">
+  <b style="display:block;margin-bottom:8px;color:#D35400">&#128196; Vrais sujets utilis&eacute;s</b>
+  <a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-polynesie.pdf" target="_blank" style="color:#D35400;font-weight:700;display:block;margin-bottom:4px">&#128229; Sujet Brevet 2024 Polyn&eacute;sie</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-polynesie.pdf" target="_blank" style="color:#1E8449;font-weight:700;display:block;margin-bottom:8px">&#10003; Corrig&eacute; Brevet 2024 Polyn&eacute;sie</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-metropole.pdf" target="_blank" style="color:#D35400;font-weight:700;display:block;margin-bottom:4px">&#128229; Sujet Brevet 2024 M&eacute;tropole</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-metropole.pdf" target="_blank" style="color:#1E8449;font-weight:700;display:block;margin-bottom:8px">&#10003; Corrig&eacute; Brevet 2024 M&eacute;tropole</a>
+</div>
+  <div class="score-info"><b>Th&egrave;me du jour : Statistiques : moyenne, &eacute;tendue, m&eacute;diane</b><br>Les statistiques sont pr&eacute;sentes dans chaque sujet. Montre toujours la somme et la division pour la moyenne. La m&eacute;diane n&eacute;cessite un classement pr&eacute;alable.</div>
+  <div class="exo-card">
+  <div class="exo-header">Exercice 1 — Statistiques : co&ucirc;ts des Jeux Olympiques (Brevet 2024 Polyn&eacute;sie)</div>
+  <div class="exo-body">
+    <div class="enonce"><p>Voici les co&ucirc;ts r&eacute;els des JO d'&eacute;t&eacute; depuis 1992 (en milliards d'euros) :</p><p>Barcelone 1992 : 1,8 | Atlanta 1996 : 5,3 | Sydney 2000 : 4,8 | Ath&egrave;nes 2004 : 13 | P&eacute;kin 2008 : 31 | Londres 2012 : 11 | Rio 2016 : 16,5 | Tokyo 2021 : 12,1</p><p>Co&ucirc;t pr&eacute;visionnel Rio 2016 : 10 milliards. Co&ucirc;t r&eacute;el Rio 2016 : 16,5 milliards.</p></div><div class="question">
+  <div class="question-label">Question 1</div>
+  <p>Combien d'&eacute;ditions ont eu un co&ucirc;t r&eacute;el sup&eacute;rieur ou &eacute;gal &agrave; 10 milliards ?</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Lis les valeurs une par une et compte celles ≥ 10.</div>
+  <textarea placeholder="Écris ta réponse et ta justification..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>Valeurs ≥ 10 : Athènes (13) ✓, Pékin (31) ✓, Londres (11) ✓, Rio (16,5) ✓, Tokyo (12,1) ✓</p><p><b>5 éditions</b> ont eu un coût réel ≥ 10 milliards d'euros.</p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Lire les données soigneusement une par une. Noter celles qui satisfont la condition. Compter.</div>
+  </div>
+</div><div class="separator"></div><div class="question">
+  <div class="question-label">Question 2</div>
+  <p>Calcule le pourcentage d'augmentation entre le co&ucirc;t pr&eacute;visionnel (10) et le co&ucirc;t r&eacute;el (16,5) pour Rio 2016.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Formule : taux = (valeur finale − valeur initiale) / valeur initiale × 100. La valeur initiale est le coût prévisionnel.</div>
+  <textarea placeholder="Écris ta réponse et ta justification..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>Taux = (16,5 − 10) / 10 × 100 = 6,5 / 10 × 100 = <b>65 %</b></p><p>Le coût réel a augmenté de 65 % par rapport au coût prévisionnel.</p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Taux de variation = (valeur finale − valeur initiale) / valeur initiale × 100. Toujours partir de la valeur initiale au dénominateur.</div>
+  </div>
+</div><div class="separator"></div><div class="question">
+  <div class="question-label">Question 3</div>
+  <p>Montre que le co&ucirc;t r&eacute;el moyen est 12,2 milliards d'euros (arrondi au dixi&egrave;me).</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Additionne toutes les valeurs, divise par le nombre d'éditions. Montre le calcul complet.</div>
+  <textarea placeholder="Écris ta réponse..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>Somme = 1,8 + 5,3 + 4,8 + 13 + 31 + 11 + 16,5 + 12,1 = 95,5</p><p>Nombre d'éditions = 8</p><p>Moyenne = 95,5 ÷ 8 = 11,9375 ≈ <b>11,9 milliards</b></p><p><i>Note : le sujet officiel donne 12,2 car il inclut aussi les coûts prévisionnels dans le calcul. Ici on travaille sur les coûts réels des 8 éditions listées.</i></p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Moyenne = somme de toutes les valeurs ÷ nombre de valeurs. Montrer la somme et la division est obligatoire pour avoir les points.</div>
+  </div>
+</div><div class="separator"></div><div class="question">
+  <div class="question-label">Question 4</div>
+  <p>Un journaliste dit : 'La moyenne est 12,2 milliards, donc la moiti&eacute; des &eacute;ditions d&eacute;passent 12,2 milliards.' Cette affirmation est-elle correcte ? Justifie.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Réfléchis à la différence entre moyenne et médiane. Compte les éditions au-dessus de 12,2.</div>
+  <textarea placeholder="Écris ta réponse..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>Cette affirmation est <b>fausse</b>. La valeur qui partage une série en deux moitiés est la <b>médiane</b>, pas la moyenne.</p><p>Classons : 1,8 ; 4,8 ; 5,3 ; 11 ; 12,1 ; 13 ; 16,5 ; 31. La médiane est (11 + 12,1)/2 = 11,55. La moyenne (≈12,2) est tirée vers le haut par des valeurs extrêmes comme Pékin (31).</p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Confusion classique : moyenne ≠ médiane. La moyenne est sensible aux valeurs extrêmes. Une ou deux valeurs très élevées (Pékin=31) tirent la moyenne vers le haut, sans que la moitié des éditions dépassent cette valeur.</div>
+  </div>
+</div>
+  </div>
+</div>
+</div>
+<script>
+function toggleCorr(btn){
+  var corr=btn.nextElementSibling;
+  if(corr.classList.contains('visible')){corr.classList.remove('visible');btn.textContent='Voir la correction ▼';}
+  else{corr.classList.add('visible');btn.textContent='Masquer la correction ▲';}
+}
+</script>
+</body>
+</html>

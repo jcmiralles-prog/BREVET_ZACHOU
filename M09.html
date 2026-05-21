@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M09 &mdash; Maths Brevet &middot; Jour 9</title>
+<style>
+:root{--orange:#D35400;--orange-light:#FDEBD0;--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--rouge:#C0392B;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
+.exo-body{padding:16px}
+.enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
+.enonce p{margin-bottom:8px}.enonce p:last-child{margin-bottom:0}
+.question{margin-bottom:18px}
+.question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
+.question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+.justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
+.justif-box b{color:#D35400}
+textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
+textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.correction.visible{display:block}
+.correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
+.correction p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+.methode-box b{display:block;margin-bottom:4px}
+.score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
+.score-info b{font-size:14px}
+.separator{height:1px;background:var(--border);margin:6px 0 14px}
+.tableau{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.tableau th,.tableau td{border:1px solid var(--border);padding:8px 10px;text-align:center}
+.tableau th{background:var(--orange-light);font-weight:700}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>&#128208; Maths &mdash; Jour 9</h1>
+  <div class="sub">Exercices type Brevet &middot; 20 &agrave; 30 minutes</div>
+  <div class="badge">29 mai 2026</div>
+</div>
+<div class="container">
+  <div style="background:#FFF3CD;border:1px solid #F0A500;border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#7D5A00">
+  <b style="display:block;margin-bottom:8px;color:#D35400">&#128196; Vrais sujets utilis&eacute;s</b>
+  <a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-polynesie.pdf" target="_blank" style="color:#D35400;font-weight:700;display:block;margin-bottom:4px">&#128229; Sujet Brevet 2024 Polyn&eacute;sie</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-polynesie.pdf" target="_blank" style="color:#1E8449;font-weight:700;display:block;margin-bottom:8px">&#10003; Corrig&eacute; Brevet 2024 Polyn&eacute;sie</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-metropole.pdf" target="_blank" style="color:#D35400;font-weight:700;display:block;margin-bottom:4px">&#128229; Sujet Brevet 2024 M&eacute;tropole</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-metropole.pdf" target="_blank" style="color:#1E8449;font-weight:700;display:block;margin-bottom:8px">&#10003; Corrig&eacute; Brevet 2024 M&eacute;tropole</a>
+</div>
+  <div class="score-info"><b>Th&egrave;me du jour : Ratio, proportionnalit&eacute; et PGCD</b><br>Deux th&egrave;mes classiques du brevet. Pour le ratio, montre toujours le calcul de la valeur d'une part. Pour le PGCD, &eacute;cris la d&eacute;composition compl&egrave;te.</div>
+  <div class="exo-card">
+  <div class="exo-header">Exercice 1 — Ratio et proportionnalit&eacute; (Brevet 2024 Polyn&eacute;sie)</div>
+  <div class="exo-body">
+    <div class="enonce"><p>Un cocktail Bora-Bora est compos&eacute; de jus d'ananas, de jus de fruit de la passion et de jus de citron dans le <b>ratio 10&nbsp;: 6&nbsp;: 2</b>.</p><p>On veut pr&eacute;parer <b>90 cL</b> de ce cocktail.</p></div><div class="question">
+  <div class="question-label">Question 1</div>
+  <p>Calcule la quantit&eacute; totale de parts dans le ratio.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Additionne les 3 nombres du ratio pour trouver le total de parts.</div>
+  <textarea placeholder="Écris ta réponse..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>Total des parts = 10 + 6 + 2 = <b>18 parts</b></p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Le ratio donne les proportions relatives. On commence toujours par additionner toutes les parts pour trouver le total.</div>
+  </div>
+</div><div class="separator"></div><div class="question">
+  <div class="question-label">Question 2</div>
+  <p>Calcule le volume de jus de fruit de la passion dans 90 cL de cocktail.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Valeur d'une part = 90 ÷ 18. Puis multiplie par 6 (parts de fruit de la passion). Montre le calcul.</div>
+  <textarea placeholder="Écris ta réponse et ta justification..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>Valeur d'une part = 90 ÷ 18 = 5 cL</p><p>Jus de fruit de la passion = 6 × 5 = <b>30 cL</b></p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Ratio : on divise la quantité totale par le total des parts → valeur d'une part. On multiplie par le nombre de parts voulu. Vérification : ananas = 10×5=50, passion = 30, citron = 2×5=10 → total = 90 cL ✓</div>
+  </div>
+</div><div class="separator"></div><div class="question">
+  <div class="question-label">Question 3</div>
+  <p>V&eacute;rifie que la r&eacute;ponse A (6 cL) est fausse et que la r&eacute;ponse B (30 cL) est exacte.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Calcule ce que donnerait 6 cL et explique l'erreur possible.</div>
+  <textarea placeholder="Écris ta justification..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>Si on prend 6 cL, on a supposé que le ratio indique directement des centilitres, ce qui est faux : le ratio donne des <b>proportions</b>, pas des quantités directes. La bonne réponse est bien <b>30 cL</b> comme calculé ci-dessus.</p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Erreur classique : confondre le chiffre du ratio avec la quantité réelle. Le ratio 10:6:2 ne signifie pas 10 cL, 6 cL, 2 cL — ça dépend du volume total voulu.</div>
+  </div>
+</div>
+  </div>
+</div><div class="exo-card">
+  <div class="exo-header">Exercice 2 — PGCD et partage (Brevet 2024 Polyn&eacute;sie)</div>
+  <div class="exo-body">
+    <div class="enonce"><p>Un mara&icirc;cher a cueilli <b>408 pommes</b> et <b>168 poires</b>. Il veut remplir des sacs identiques en utilisant <b>tous les fruits</b>, chaque sac contenant le m&ecirc;me nombre de pommes et le m&ecirc;me nombre de poires.</p></div><div class="question">
+  <div class="question-label">Question 1</div>
+  <p>D&eacute;compose 408 et 168 en produits de facteurs premiers.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Divise successivement par 2, puis 3, puis 5, puis 7… Montre toutes les étapes.</div>
+  <textarea placeholder="Écris ta décomposition..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>408 = 2 × 204 = 2 × 2 × 102 = 2 × 2 × 2 × 51 = 2 × 2 × 2 × 3 × 17 = <b>2³ × 3 × 17</b></p><p>168 = 2 × 84 = 2 × 2 × 42 = 2 × 2 × 2 × 21 = 2 × 2 × 2 × 3 × 7 = <b>2³ × 3 × 7</b></p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Décomposition : on divise par le plus petit nombre premier possible, on recommence jusqu'à obtenir 1. On écrit les facteurs avec des exposants.</div>
+  </div>
+</div><div class="separator"></div><div class="question">
+  <div class="question-label">Question 2</div>
+  <p>Calcule le PGCD(408&nbsp;; 168) et d&eacute;duis-en le nombre maximum de sacs.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> PGCD = produit des facteurs communs avec le plus petit exposant.</div>
+  <textarea placeholder="Écris ta réponse..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>Facteurs communs : 2³ et 3.<br>PGCD = 2³ × 3 = 8 × 3 = <b>24</b></p><p>Le maraîcher peut faire au maximum <b>24 sacs</b>.</p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> PGCD = produit des facteurs premiers communs, chacun pris avec son plus petit exposant. Le PGCD donne le nombre maximum de groupes égaux possibles.</div>
+  </div>
+</div><div class="separator"></div><div class="question">
+  <div class="question-label">Question 3</div>
+  <p>Combien y a-t-il de pommes et de poires par sac ?</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Divise chaque quantité par le PGCD.</div>
+  <textarea placeholder="Écris ta réponse..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>Pommes par sac : 408 ÷ 24 = <b>17</b><br>Poires par sac : 168 ÷ 24 = <b>7</b></p><p>Vérification : 17 × 24 = 408 ✓ et 7 × 24 = 168 ✓</p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> On divise chaque quantité par le PGCD. On vérifie toujours en multipliant.</div>
+  </div>
+</div>
+  </div>
+</div>
+</div>
+<script>
+function toggleCorr(btn){
+  var corr=btn.nextElementSibling;
+  if(corr.classList.contains('visible')){corr.classList.remove('visible');btn.textContent='Voir la correction ▼';}
+  else{corr.classList.add('visible');btn.textContent='Masquer la correction ▲';}
+}
+</script>
+</body>
+</html>

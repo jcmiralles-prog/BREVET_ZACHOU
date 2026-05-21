@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M14 &mdash; Maths Brevet &middot; Jour 14</title>
+<style>
+:root{--orange:#D35400;--orange-light:#FDEBD0;--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--rouge:#C0392B;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
+.exo-body{padding:16px}
+.enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
+.enonce p{margin-bottom:8px}.enonce p:last-child{margin-bottom:0}
+.question{margin-bottom:18px}
+.question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
+.question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+.justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
+.justif-box b{color:#D35400}
+textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
+textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.correction.visible{display:block}
+.correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
+.correction p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+.methode-box b{display:block;margin-bottom:4px}
+.score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
+.score-info b{font-size:14px}
+.separator{height:1px;background:var(--border);margin:6px 0 14px}
+.tableau{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.tableau th,.tableau td{border:1px solid var(--border);padding:8px 10px;text-align:center}
+.tableau th{background:var(--orange-light);font-weight:700}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>&#128208; Maths &mdash; Jour 14</h1>
+  <div class="sub">Exercices type Brevet &middot; 20 &agrave; 30 minutes</div>
+  <div class="badge">3 juin 2026</div>
+</div>
+<div class="container">
+  <div style="background:#FFF3CD;border:1px solid #F0A500;border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#7D5A00">
+  <b style="display:block;margin-bottom:8px;color:#D35400">&#128196; Vrais sujets utilis&eacute;s</b>
+  <a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-asie.pdf" target="_blank" style="color:#D35400;font-weight:700;display:block;margin-bottom:4px">&#128229; Sujet Brevet 2024 Asie</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-asie.pdf" target="_blank" style="color:#1E8449;font-weight:700;display:block;margin-bottom:8px">&#10003; Corrig&eacute; Brevet 2024 Asie</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-metropole.pdf" target="_blank" style="color:#D35400;font-weight:700;display:block;margin-bottom:4px">&#128229; Sujet Brevet 2024 M&eacute;tropole</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-metropole.pdf" target="_blank" style="color:#1E8449;font-weight:700;display:block;margin-bottom:8px">&#10003; Corrig&eacute; Brevet 2024 M&eacute;tropole</a>
+</div>
+  <div class="score-info"><b>Th&egrave;me du jour : Fonctions affines : interpr&eacute;tation et &eacute;quations</b><br>&Eacute;cris toujours la formule de la fonction avant de calculer. Pour r&eacute;soudre f(x)=g(x), montre toutes les &eacute;tapes.</div>
+  <div class="exo-card">
+  <div class="exo-header">Exercice 1 — Fonctions affines : location de voiture (Brevet 2024 Asie)</div>
+  <div class="exo-body">
+    <div class="enonce"><p>Une agence propose 3 formules pour louer une voiture :</p><p><b>Formule A</b> : 0,50 € par km | <b>Formule B</b> : 300 € + 0,25 € par km | <b>Formule C</b> : 900 € kilométrage illimité</p><p>La distance Strasbourg-Marseille aller-retour est de <b>2 × 803 = 1606 km</b>.</p></div><div class="question">
+  <div class="question-label">Question 1</div>
+  <p>Exprime en fonction de x (nombre de km) le co&ucirc;t de chaque formule.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Formule A : pas de forfait fixe. Formule B : forfait + coût/km. Formule C : prix fixe.</div>
+  <textarea placeholder="Écris les trois expressions..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p><b>Formule A</b> : f_A(x) = 0,50x</p><p><b>Formule B</b> : f_B(x) = 0,25x + 300</p><p><b>Formule C</b> : f_C(x) = 900</p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Une fonction affine s'écrit f(x) = ax + b. Ici a = coût par km (pente) et b = forfait fixe (ordonnée à l'origine).</div>
+  </div>
+</div><div class="separator"></div><div class="question">
+  <div class="question-label">Question 2</div>
+  <p>Montre que la Formule B co&ucirc;te <b>701,50 €</b> pour 1606 km.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Remplace x par 1606 dans f_B(x). Montre le calcul.</div>
+  <textarea placeholder="Écris ta réponse..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>f_B(1606) = 0,25 × 1606 + 300 = 401,50 + 300 = <b>701,50 €</b> ✓</p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Calcul de l'image : on remplace x par la valeur numérique et on effectue les opérations dans l'ordre.</div>
+  </div>
+</div><div class="separator"></div><div class="question">
+  <div class="question-label">Question 3</div>
+  <p>Calcule le co&ucirc;t des formules A et C pour 1606 km. Quelle est la formule la plus avantageuse ?</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Calcule f_A(1606) et f_C(1606), puis compare les trois prix.</div>
+  <textarea placeholder="Écris ta réponse..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>f_A(1606) = 0,50 × 1606 = <b>803 €</b></p><p>f_C(1606) = <b>900 €</b></p><p>Comparaison : Formule B (701,50) &lt; Formule A (803) &lt; Formule C (900)</p><p><b>La Formule B est la plus avantageuse pour ce trajet.</b></p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Comparer des fonctions affines : calculer l'image pour la valeur x donnée et comparer les résultats. Toujours conclure en nommant la meilleure option.</div>
+  </div>
+</div><div class="separator"></div><div class="question">
+  <div class="question-label">Question 4</div>
+  <p>R&eacute;sous l'&eacute;quation 0,25x + 300 = 0,5x. Interpr&egrave;te ce r&eacute;sultat.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Regroupe les x d'un côté. Résous. Puis explique ce que signifie ce résultat en termes de location.</div>
+  <textarea placeholder="Écris ta réponse..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>0,25x + 300 = 0,5x<br>300 = 0,5x − 0,25x<br>300 = 0,25x<br>x = 300 / 0,25 = <b>1200 km</b></p><p><b>Interprétation :</b> pour 1200 km, les formules A et B coûtent le même prix. En dessous de 1200 km, la formule A est moins chère. Au-delà, la formule B est plus avantageuse.</p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Résoudre f_A(x) = f_B(x) donne le point d'intersection des deux droites, c'est-à-dire la distance à partir de laquelle une formule devient plus intéressante que l'autre.</div>
+  </div>
+</div>
+  </div>
+</div>
+</div>
+<script>
+function toggleCorr(btn){
+  var corr=btn.nextElementSibling;
+  if(corr.classList.contains('visible')){corr.classList.remove('visible');btn.textContent='Voir la correction ▼';}
+  else{corr.classList.add('visible');btn.textContent='Masquer la correction ▲';}
+}
+</script>
+</body>
+</html>

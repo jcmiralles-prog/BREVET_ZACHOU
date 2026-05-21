@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M17 &mdash; Maths Brevet &middot; Jour 17</title>
+<style>
+:root{--orange:#D35400;--orange-light:#FDEBD0;--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--rouge:#C0392B;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
+.exo-body{padding:16px}
+.enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
+.enonce p{margin-bottom:8px}.enonce p:last-child{margin-bottom:0}
+.question{margin-bottom:18px}
+.question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
+.question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+.justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
+.justif-box b{color:#D35400}
+textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
+textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.correction.visible{display:block}
+.correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
+.correction p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+.methode-box b{display:block;margin-bottom:4px}
+.score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
+.score-info b{font-size:14px}
+.separator{height:1px;background:var(--border);margin:6px 0 14px}
+.tableau{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.tableau th,.tableau td{border:1px solid var(--border);padding:8px 10px;text-align:center}
+.tableau th{background:var(--orange-light);font-weight:700}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>&#128208; Maths &mdash; Jour 17</h1>
+  <div class="sub">Exercices type Brevet &middot; 20 &agrave; 30 minutes</div>
+  <div class="badge">6 juin 2026</div>
+</div>
+<div class="container">
+  <div style="background:#FFF3CD;border:1px solid #F0A500;border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#7D5A00">
+  <b style="display:block;margin-bottom:8px;color:#D35400">&#128196; Vrais sujets utilis&eacute;s</b>
+  <a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-polynesie.pdf" target="_blank" style="color:#D35400;font-weight:700;display:block;margin-bottom:4px">&#128229; Sujet Brevet 2024 Polyn&eacute;sie</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-polynesie.pdf" target="_blank" style="color:#1E8449;font-weight:700;display:block;margin-bottom:8px">&#10003; Corrig&eacute; Brevet 2024 Polyn&eacute;sie</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-metropole.pdf" target="_blank" style="color:#D35400;font-weight:700;display:block;margin-bottom:4px">&#128229; Sujet Brevet 2024 M&eacute;tropole</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-metropole.pdf" target="_blank" style="color:#1E8449;font-weight:700;display:block;margin-bottom:8px">&#10003; Corrig&eacute; Brevet 2024 M&eacute;tropole</a>
+</div>
+  <div class="score-info"><b>Th&egrave;me du jour : Volumes et &eacute;nergie</b><br>&Eacute;cris la formule du volume avant de calculer. V&eacute;rifie les unit&eacute;s &agrave; chaque &eacute;tape.</div>
+  <div class="exo-card">
+  <div class="exo-header">Exercice 1 — Volume et &eacute;nergie : piscine olympique (Brevet 2024 Polyn&eacute;sie)</div>
+  <div class="exo-body">
+    <div class="enonce"><p>La piscine olympique de Saint-Denis est un pav&eacute; droit : longueur 50 m, largeur 25 m, profondeur 3 m.</p><p>L'eau est &agrave; 18°C et on veut la chauffer &agrave; 26°C.</p><p>Il faut environ <b>9,3 kWh</b> pour chauffer 1 m³ d'eau de 18° &agrave; 26°.</p></div><div class="question">
+  <div class="question-label">Question 1</div>
+  <p>Calcule le volume d'eau de la piscine en m³.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Volume du pavé droit = longueur × largeur × hauteur. Montre le calcul.</div>
+  <textarea placeholder="Écris ta réponse..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>Volume = 50 × 25 × 3 = <b>3 750 m³</b></p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Volume pavé droit = L × l × h. Toujours vérifier les unités : ici tout est en mètres, donc le volume est en m³.</div>
+  </div>
+</div><div class="separator"></div><div class="question">
+  <div class="question-label">Question 2</div>
+  <p>Calcule l'&eacute;nergie n&eacute;cessaire pour chauffer toute l'eau de la piscine.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Énergie totale = volume × énergie par m³. Montre le calcul.</div>
+  <textarea placeholder="Écris ta réponse..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>Énergie = 3 750 × 9,3 = <b>34 875 kWh</b></p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Énergie totale = volume total × énergie par unité de volume. On multiplie les deux quantités en vérifiant les unités : m³ × kWh/m³ = kWh.</div>
+  </div>
+</div><div class="separator"></div><div class="question">
+  <div class="question-label">Question 3</div>
+  <p>Le toit est recouvert de <b>4 678,4 m²</b> de panneaux photovolta&iuml;ques de 1 m × 1,7 m produisant 350 kWh/an. Montre que l'&eacute;nergie annuelle produite est <b>963 200 kWh</b>.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Calcule le nombre de panneaux, puis multiplie par 350. Montre toutes les étapes.</div>
+  <textarea placeholder="Écris ta démonstration..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>Aire d'un panneau = 1 × 1,7 = 1,7 m²</p><p>Nombre de panneaux = 4 678,4 ÷ 1,7 = <b>2 752 panneaux</b></p><p>Énergie totale = 2 752 × 350 = <b>963 200 kWh</b> ✓</p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Problème en plusieurs étapes : 1) calculer le nombre de panneaux (surface totale ÷ surface d'un panneau). 2) Multiplier par l'énergie par panneau. Montrer chaque étape.</div>
+  </div>
+</div>
+  </div>
+</div>
+</div>
+<script>
+function toggleCorr(btn){
+  var corr=btn.nextElementSibling;
+  if(corr.classList.contains('visible')){corr.classList.remove('visible');btn.textContent='Voir la correction ▼';}
+  else{corr.classList.add('visible');btn.textContent='Masquer la correction ▲';}
+}
+</script>
+</body>
+</html>

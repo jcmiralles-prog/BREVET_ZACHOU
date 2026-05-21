@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M12 &mdash; Maths Brevet &middot; Jour 12</title>
+<style>
+:root{--orange:#D35400;--orange-light:#FDEBD0;--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--rouge:#C0392B;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
+.exo-body{padding:16px}
+.enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
+.enonce p{margin-bottom:8px}.enonce p:last-child{margin-bottom:0}
+.question{margin-bottom:18px}
+.question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
+.question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+.justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
+.justif-box b{color:#D35400}
+textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
+textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.correction.visible{display:block}
+.correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
+.correction p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+.methode-box b{display:block;margin-bottom:4px}
+.score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
+.score-info b{font-size:14px}
+.separator{height:1px;background:var(--border);margin:6px 0 14px}
+.tableau{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.tableau th,.tableau td{border:1px solid var(--border);padding:8px 10px;text-align:center}
+.tableau th{background:var(--orange-light);font-weight:700}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>&#128208; Maths &mdash; Jour 12</h1>
+  <div class="sub">Exercices type Brevet &middot; 20 &agrave; 30 minutes</div>
+  <div class="badge">1 juin 2026</div>
+</div>
+<div class="container">
+  <div style="background:#FFF3CD;border:1px solid #F0A500;border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#7D5A00">
+  <b style="display:block;margin-bottom:8px;color:#D35400">&#128196; Vrais sujets utilis&eacute;s</b>
+  <a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-polynesie.pdf" target="_blank" style="color:#D35400;font-weight:700;display:block;margin-bottom:4px">&#128229; Sujet Brevet 2024 Polyn&eacute;sie</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-polynesie.pdf" target="_blank" style="color:#1E8449;font-weight:700;display:block;margin-bottom:8px">&#10003; Corrig&eacute; Brevet 2024 Polyn&eacute;sie</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-metropole.pdf" target="_blank" style="color:#D35400;font-weight:700;display:block;margin-bottom:4px">&#128229; Sujet Brevet 2024 M&eacute;tropole</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-metropole.pdf" target="_blank" style="color:#1E8449;font-weight:700;display:block;margin-bottom:8px">&#10003; Corrig&eacute; Brevet 2024 M&eacute;tropole</a>
+</div>
+  <div class="score-info"><b>Th&egrave;me du jour : Probabilit&eacute;s : tableau double entr&eacute;e</b><br>Construis le tableau complet avant de calculer les probabilit&eacute;s. P = cas favorables / cas totaux.</div>
+  <div class="exo-card">
+  <div class="exo-header">Exercice 1 — Probabilit&eacute;s : tableau &agrave; double entr&eacute;e (Brevet 2024 Polyn&eacute;sie)</div>
+  <div class="exo-body">
+    <div class="enonce"><p>Deux bo&icirc;tes contiennent des boules num&eacute;rot&eacute;es.</p><p>Bo&icirc;te 1 : boules 2, 3, 5. Bo&icirc;te 2 : boules 3, 5.</p><p>On tire une boule de chaque bo&icirc;te et on multiplie les deux num&eacute;ros.</p></div><div class="question">
+  <div class="question-label">Question 1</div>
+  <p>Compl&egrave;te le tableau de tous les r&eacute;sultats possibles.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Il y a 3 × 2 = 6 cases à remplir. Calcule chaque produit.</div>
+  <textarea placeholder="Écris le tableau complet..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <table class='tableau'><tr><th></th><th>Boîte 2 : 3</th><th>Boîte 2 : 5</th></tr><tr><th>Boîte 1 : 2</th><td>2×3=6</td><td>2×5=10</td></tr><tr><th>Boîte 1 : 3</th><td>3×3=9</td><td>3×5=15</td></tr><tr><th>Boîte 1 : 5</th><td>5×3=15</td><td>5×5=25</td></tr></table><p>Les 6 résultats possibles sont : 6, 10, 9, 15, 15, 25.</p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Tableau double entrée : chaque case = produit de la ligne × colonne. Il y a autant de cases que de combinaisons possibles (ici 3 × 2 = 6).</div>
+  </div>
+</div><div class="separator"></div><div class="question">
+  <div class="question-label">Question 2</div>
+  <p>Quelle est la probabilit&eacute; d'obtenir 15 comme r&eacute;sultat ?</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Compte combien de cases donnent 15 sur le total de 6 cases.</div>
+  <textarea placeholder="Écris ta réponse et ta justification..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>Le résultat 15 apparaît 2 fois (3×5 et 5×3) sur 6 résultats possibles.</p><p>P(15) = 2/6 = <b>1/3</b></p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Probabilité = nombre de cas favorables / nombre total de cas. Ici les 6 cases sont équiprobables.</div>
+  </div>
+</div><div class="separator"></div><div class="question">
+  <div class="question-label">Question 3</div>
+  <p>L'affirmation 'Il y a 2 chances sur 3 d'obtenir un multiple de 3' est-elle vraie ? Justifie.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Identifie les multiples de 3 dans le tableau. Calcule la probabilité et compare à 2/3.</div>
+  <textarea placeholder="Écris ta réponse et ta justification..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>Multiples de 3 dans le tableau : 6 (=2×3), 9 (=3×3), 15 (=3×5), 15 (=5×3) → <b>4 cases sur 6</b></p><p>P(multiple de 3) = 4/6 = 2/3</p><p><b>L'affirmation est vraie.</b></p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Un multiple de 3 est un nombre divisible par 3 : 6, 9, 15 sont des multiples de 3. 10 et 25 ne le sont pas. On compte les cases favorables.</div>
+  </div>
+</div>
+  </div>
+</div><div class="exo-card">
+  <div class="exo-header">Exercice 2 — Probabilit&eacute;s : urne (Brevet 2024 Asie)</div>
+  <div class="exo-body">
+    <div class="enonce"><p>Une urne contient <b>4 boules rouges</b> et <b>6 boules bleues</b>, indiscernables au toucher.</p><p>On tire une boule au hasard.</p><p>On lance aussi un d&eacute; &agrave; 6 faces.</p></div><div class="question">
+  <div class="question-label">Question</div>
+  <p>L'affirmation 'La probabilit&eacute; d'obtenir une boule bleue est sup&eacute;rieure &agrave; la probabilit&eacute; d'obtenir un nombre pair avec le d&eacute;' est-elle vraie ? Justifie.</p>
+  
+  <div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Calcule les deux probabilités séparément, puis compare.</div>
+  <textarea placeholder="Écris ta réponse et ta justification..."></textarea>
+  <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+  <div class="correction">
+    <h4>&#10003;&#65038; Correction</h4>
+    <p>P(boule bleue) = 6/10 = <b>3/5 = 0,6</b></p><p>P(nombre pair avec le dé) = 3/6 = <b>1/2 = 0,5</b> (les nombres pairs sont 2, 4, 6)</p><p>0,6 > 0,5, donc <b>l'affirmation est vraie.</b></p>
+    <div class="methode-box"><b>&#128204; M&eacute;thode</b> Pour comparer deux probabilités, on les réduit au même dénominateur ou on les convertit en décimaux. Toujours expliciter le calcul de chaque probabilité.</div>
+  </div>
+</div>
+  </div>
+</div>
+</div>
+<script>
+function toggleCorr(btn){
+  var corr=btn.nextElementSibling;
+  if(corr.classList.contains('visible')){corr.classList.remove('visible');btn.textContent='Voir la correction ▼';}
+  else{corr.classList.add('visible');btn.textContent='Masquer la correction ▲';}
+}
+</script>
+</body>
+</html>
