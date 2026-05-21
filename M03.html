@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M03 — Maths Brevet · Jour 3</title>
+<style>
+:root{
+  --orange:#D35400;--orange-light:#FDEBD0;
+  --vert:#1E8449;--vert-light:#D5F5E3;
+  --bleu:#1A5276;
+  --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+  --border:#DEE2E6;--radius:10px;
+}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
+.exo-body{padding:16px}
+.enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
+.enonce p{margin-bottom:8px}
+.enonce p:last-child{margin-bottom:0}
+.question{margin-bottom:18px}
+.question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
+.question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+.justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
+.justif-box b{color:#D35400}
+textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
+textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.btn-correction:active{opacity:.85}
+.correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.correction.visible{display:block}
+.correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
+.correction p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+.methode-box b{display:block;margin-bottom:4px}
+.score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
+.score-info b{font-size:14px}
+.separator{height:1px;background:var(--border);margin:6px 0 14px}
+.tableau{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.tableau th,.tableau td{border:1px solid var(--border);padding:8px 10px;text-align:center}
+.tableau th{background:var(--orange-light);font-weight:700}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📐 Maths — Jour 3</h1>
+  <div class="sub">Exercices type Brevet · 20 à 30 minutes</div>
+  <div class="badge">23 mai 2026</div>
+</div>
+<div class="container">
+
+  <div class="score-info">
+    <b>Thème du jour : Statistiques + Arithmétique (PGCD)</b><br>
+    Deux grands classiques du brevet. Pense à justifier chaque résultat : médiane, moyenne, décomposition en facteurs premiers.
+  </div>
+
+  <!-- EXERCICE 1 : Statistiques -->
+  <div class="exo-card">
+    <div class="exo-header">Exercice 1 — Statistiques (d'après Brevet 2023 Métropole)</div>
+    <div class="exo-body">
+
+      <div class="enonce">
+        <p>Un opticien a vendu 5 modèles de lunettes en 2022. Voici les informations :</p>
+        <table class="tableau">
+          <tr><th>Modèle</th><th>Prix (€)</th><th>Nb vendues</th></tr>
+          <tr><td>A</td><td>45</td><td>120</td></tr>
+          <tr><td>B</td><td>80</td><td>95</td></tr>
+          <tr><td>C</td><td>110</td><td>60</td></tr>
+          <tr><td>D</td><td>130</td><td>40</td></tr>
+          <tr><td>E</td><td>65</td><td>85</td></tr>
+        </table>
+      </div>
+
+      <div class="question">
+        <div class="question-label">Question 1</div>
+        <p>Montre que l'étendue des prix est de 85 euros.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> l'étendue = valeur max − valeur min. Identifie les deux valeurs et montre le calcul.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>Le prix le plus élevé est <b>130 €</b> (modèle D) et le prix le plus bas est <b>45 €</b> (modèle A).</p>
+          <p>Étendue = 130 − 45 = <b>85 €</b> ✓</p>
+          <div class="methode-box"><b>📌 Méthode "étendue"</b> Étendue = valeur maximale − valeur minimale. Il faut identifier et nommer les deux valeurs, puis faire la soustraction. L'étendue mesure la dispersion des données.</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="question">
+        <div class="question-label">Question 2</div>
+        <p>a) Calcule le nombre total de paires vendues en 2022.</p>
+        <p>b) Calcule le montant total des ventes en euros.</p>
+        <p>c) Calcule le prix moyen d'une paire vendue, arrondi au centime près.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> pour le montant total, multiplie chaque prix par le nombre vendu puis additionne. Pour la moyenne, divise le montant total par le nombre total de paires.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p><b>a)</b> Total = 120 + 95 + 60 + 40 + 85 = <b>400 paires</b></p>
+          <p><b>b)</b> Montant total :<br>
+          A : 45 × 120 = 5 400<br>
+          B : 80 × 95 = 7 600<br>
+          C : 110 × 60 = 6 600<br>
+          D : 130 × 40 = 5 200<br>
+          E : 65 × 85 = 5 525<br>
+          Total = 5400 + 7600 + 6600 + 5200 + 5525 = <b>30 325 €</b></p>
+          <p><b>c)</b> Prix moyen = 30 325 / 400 = <b>75,81 €</b></p>
+          <div class="methode-box"><b>📌 Méthode "moyenne pondérée"</b> Quand les valeurs n'ont pas toutes le même poids (ici les prix ont des quantités différentes), on calcule : (somme de prix × quantités) / (total des quantités). Ce n'est pas la même chose que la moyenne des prix !</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EXERCICE 2 : PGCD -->
+  <div class="exo-card">
+    <div class="exo-header">Exercice 2 — PGCD et nombres premiers (d'après Brevet 2024 Métropole)</div>
+    <div class="exo-body">
+
+      <div class="enonce">
+        <p>Une présidente de club veut préparer des sachets cadeaux identiques avec <b>330 autocollants</b> et <b>132 drapeaux</b>. Elle veut tout utiliser, et chaque sachet doit contenir exactement le même nombre d'autocollants et le même nombre de drapeaux.</p>
+      </div>
+
+      <div class="question">
+        <div class="question-label">Question 1</div>
+        <p>Pourquoi n'est-il pas possible de faire <b>15 sachets</b> ?</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> vérifie si 15 divise 330 ET si 15 divise 132. S'il y a un reste, c'est impossible. Montre le calcul de division.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>Pour faire 15 sachets, il faut que 15 divise 330 ET 132.</p>
+          <p>330 ÷ 15 = 22 → OK, 15 divise 330.</p>
+          <p>132 ÷ 15 = 8,8 → <b>pas un nombre entier</b>. 15 ne divise pas 132.</p>
+          <p>Donc il est impossible de faire 15 sachets identiques en utilisant tous les drapeaux.</p>
+          <div class="methode-box"><b>📌 Méthode</b> Pour qu'un partage soit possible, le nombre de sachets doit être un diviseur commun des deux quantités. On vérifie en faisant la division : si le résultat n'est pas entier, c'est impossible.</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="question">
+        <div class="question-label">Question 2</div>
+        <p>a) Décompose 330 et 132 en produits de facteurs premiers.</p>
+        <p>b) Déduis-en le PGCD de 330 et 132.</p>
+        <p>c) Dans ce cas, combien d'autocollants et de drapeaux y a-t-il dans chaque sachet ?</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> décompose en divisant successivement par les petits nombres premiers (2, 3, 5, 7…). Le PGCD est le produit des facteurs communs avec le plus petit exposant.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p><b>a)</b><br>
+          330 = 2 × 165 = 2 × 3 × 55 = 2 × 3 × 5 × 11<br>
+          132 = 2 × 66 = 2 × 2 × 33 = 2 × 2 × 3 × 11 = 2² × 3 × 11</p>
+          <p><b>b)</b> Les facteurs communs sont 2, 3 et 11 (en prenant le plus petit exposant de chaque).<br>
+          PGCD(330 ; 132) = 2 × 3 × 11 = <b>66</b></p>
+          <p>On peut donc faire au maximum <b>66 sachets</b>.</p>
+          <p><b>c)</b><br>
+          Autocollants par sachet : 330 ÷ 66 = <b>5</b><br>
+          Drapeaux par sachet : 132 ÷ 66 = <b>2</b></p>
+          <div class="methode-box"><b>📌 Méthode "PGCD par décomposition"</b> 1) Décomposer chaque nombre en facteurs premiers. 2) Repérer les facteurs communs. 3) PGCD = produit des facteurs communs avec le plus petit exposant. Le PGCD donne le nombre maximum de groupes égaux qu'on peut former.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleCorr(btn) {
+  var corr = btn.nextElementSibling;
+  if (corr.classList.contains('visible')) {
+    corr.classList.remove('visible');
+    btn.textContent = 'Voir la correction ▼';
+  } else {
+    corr.classList.add('visible');
+    btn.textContent = 'Masquer la correction ▲';
+  }
+}
+</script>
+</body>
+</html>

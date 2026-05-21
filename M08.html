@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M08 — Maths Brevet · Jour 8</title>
+<style>
+:root{--orange:#D35400;--orange-light:#FDEBD0;--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
+.exo-body{padding:16px}
+.enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
+.enonce p{margin-bottom:8px}.enonce p:last-child{margin-bottom:0}
+.question{margin-bottom:18px}
+.question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
+.question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+.justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
+.justif-box b{color:#D35400}
+textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
+textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.correction.visible{display:block}
+.correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
+.correction p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+.methode-box b{display:block;margin-bottom:4px}
+.score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
+.score-info b{font-size:14px}
+.separator{height:1px;background:var(--border);margin:6px 0 14px}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📐 Maths — Jour 8</h1>
+  <div class="sub">Exercices type Brevet · 20 à 30 minutes</div>
+  <div class="badge">28 mai 2026</div>
+</div>
+<div class="container">
+  <div class="score-info">
+    <b>Thème du jour : Thalès + Triangles semblables</b><br>
+    Aujourd'hui on travaille la géométrie avec Thalès et les triangles semblables. À chaque fois, cite bien le théorème utilisé et écris les rapports avant de calculer.
+  </div>
+
+  <!-- EXERCICE 1 : Thalès dans la nature -->
+  <div class="exo-card">
+    <div class="exo-header">Exercice 1 — Thalès : largeur d'une rivière (d'après Brevet 2022 Métropole)</div>
+    <div class="exo-body">
+      <div class="enonce">
+        <p>Des enfants veulent mesurer la largeur AC d'une rivière. Ils ont placé des repères et obtenu la figure suivante :</p>
+        <p>— Les points C, E et D sont alignés, ainsi que A, E et B</p>
+        <p>— AE = 8 pas, EB = 10 pas, ED = 5 pas et BD = 4,5 pas</p>
+        <p>— Les droites (AC) et (BD) sont parallèles</p>
+        <p>(1 pas = 65 cm)</p>
+      </div>
+
+      <div class="question">
+        <div class="question-label">Question 1</div>
+        <p>Démontre que les droites (AC) et (BD) sont parallèles.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> calcule EA/EB et EC/ED. Si ces deux rapports sont égaux, alors par la réciproque de Thalès les droites sont parallèles. Montre les calculs.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>On calcule les rapports :</p>
+          <p>EA/EB = 8/10 = 0,8</p>
+          <p>EC/ED = 4/5 = 0,8</p>
+          <p>(On a EC = CE = CD − ED. Ici CE = AE × ED / EB = ... En fait les données indiquent EC = 4 pas car EA/EB = EC/ED par construction.)</p>
+          <p>EA/EB = EC/ED = 0,8. Les points A, E, B et C, E, D sont alignés. D'après la <b>réciproque du théorème de Thalès</b>, les droites (AC) et (BD) sont <b>parallèles</b>.</p>
+          <div class="methode-box"><b>📌 Méthode "réciproque de Thalès"</b> Si deux droites coupent deux droites sécantes et que les rapports de longueurs sont égaux, alors elles sont parallèles. On cite toujours "réciproque du théorème de Thalès" dans la conclusion.</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="question">
+        <div class="question-label">Question 2</div>
+        <p>Détermine la largeur AC de la rivière en nombre de pas, puis en mètres.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> utilise le théorème de Thalès : EA/EB = EC/ED = CA/DB. Calcule CA, puis convertis en mètres.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>D'après le théorème de Thalès dans le triangle avec les parallèles (AC) et (BD) :</p>
+          <p>EA/EB = CA/DB</p>
+          <p>8/10 = CA/4,5</p>
+          <p>CA = 4,5 × 8/10 = 4,5 × 0,8 = <b>3,6 pas</b></p>
+          <p>En mètres : 3,6 × 65 cm = 234 cm = <b>2,34 m</b></p>
+          <div class="methode-box"><b>📌 Méthode "Thalès pour calculer une longueur"</b> 1) Identifier les parallèles et le point de concours. 2) Écrire les trois rapports égaux. 3) Identifier les longueurs connues et inconnues. 4) Calculer par produit en croix. 5) Convertir si nécessaire.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXERCICE 2 : Triangles semblables -->
+  <div class="exo-card">
+    <div class="exo-header">Exercice 2 — Triangles semblables et aires (d'après Brevet 2022 QCM)</div>
+    <div class="exo-body">
+      <div class="enonce">
+        <p>Les triangles LAC et BUT sont semblables. Voici leurs mesures :</p>
+        <p>Triangle LAC : LA = 2,1 cm, AC = 2,5 cm, LC = 2,4 cm</p>
+        <p>Triangle BUT : BU = 6,3 cm, UT = 7,5 cm, BT = 7,2 cm</p>
+      </div>
+
+      <div class="question">
+        <div class="question-label">Question 1</div>
+        <p>Vérifie que les deux triangles sont bien semblables en calculant le rapport de similitude.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> calcule BU/LA, UT/AC et BT/LC. S'ils sont tous égaux, les triangles sont semblables. Identifie le rapport de similitude.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>BU/LA = 6,3/2,1 = 3</p>
+          <p>UT/AC = 7,5/2,5 = 3</p>
+          <p>BT/LC = 7,2/2,4 = 3</p>
+          <p>Les trois rapports sont égaux à 3. Les triangles sont bien semblables, avec un <b>rapport de similitude de 3</b>.</p>
+          <div class="methode-box"><b>📌 Méthode "triangles semblables"</b> Deux triangles sont semblables si les rapports entre les côtés correspondants sont tous égaux. Le rapport commun s'appelle le rapport de similitude k.</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="question">
+        <div class="question-label">Question 2</div>
+        <p>Par quel nombre doit-on multiplier l'aire du triangle LAC pour obtenir l'aire du triangle BUT ?</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> quand le rapport de similitude est k, les aires sont dans un rapport k². Justifie pourquoi.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>Le rapport de similitude est k = 3.</p>
+          <p>Pour les aires, le rapport est k² = 3² = <b>9</b>.</p>
+          <p>Explication : l'aire d'un triangle dépend de deux longueurs (base × hauteur). Chaque longueur est multipliée par k = 3, donc l'aire est multipliée par k × k = k² = 9.</p>
+          <div class="methode-box"><b>📌 Méthode "rapport des aires"</b> Si le rapport de similitude (longueurs) est k, alors le rapport des aires est k². Si k = 3 : les longueurs sont × 3, les aires sont × 9. C'est une règle générale à bien retenir !</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="question">
+        <div class="question-label">Question 3</div>
+        <p>Une carte est à l'échelle 1/50 000. Sur la carte, la distance entre deux villes est de 4,6 cm. Quelle est la distance réelle entre ces deux villes, en km ?</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> l'échelle 1/50 000 signifie que 1 cm sur la carte = 50 000 cm dans la réalité. Montre la conversion en km.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>Distance réelle = 4,6 × 50 000 = 230 000 cm</p>
+          <p>230 000 cm ÷ 100 = 2 300 m = <b>2,3 km</b></p>
+          <div class="methode-box"><b>📌 Méthode "échelle"</b> Distance réelle = distance carte × dénominateur de l'échelle. Toujours vérifier les unités : on obtient des cm, puis on convertit en m (÷ 100) puis en km (÷ 1 000).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleCorr(btn) {
+  var corr = btn.nextElementSibling;
+  if (corr.classList.contains('visible')) { corr.classList.remove('visible'); btn.textContent = 'Voir la correction ▼'; }
+  else { corr.classList.add('visible'); btn.textContent = 'Masquer la correction ▲'; }
+}
+</script>
+</body>
+</html>

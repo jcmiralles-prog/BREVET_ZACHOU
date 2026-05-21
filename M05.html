@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M05 — Maths Brevet · Jour 5</title>
+<style>
+:root{--orange:#D35400;--orange-light:#FDEBD0;--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
+.exo-body{padding:16px}
+.enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
+.enonce p{margin-bottom:8px}.enonce p:last-child{margin-bottom:0}
+.question{margin-bottom:18px}
+.question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
+.question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+.justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
+.justif-box b{color:#D35400}
+textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
+textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.correction.visible{display:block}
+.correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
+.correction p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+.methode-box b{display:block;margin-bottom:4px}
+.score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
+.score-info b{font-size:14px}
+.separator{height:1px;background:var(--border);margin:6px 0 14px}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📐 Maths — Jour 5</h1>
+  <div class="sub">Exercices type Brevet · 20 à 30 minutes</div>
+  <div class="badge">25 mai 2026</div>
+</div>
+<div class="container">
+  <div class="score-info">
+    <b>Thème du jour : Volumes + Pourcentages</b><br>
+    Deux thèmes très souvent au brevet. Écris toujours la formule du volume avant de calculer, et la formule du pourcentage avant de l'appliquer.
+  </div>
+
+  <!-- EXERCICE 1 : Volume cylindre -->
+  <div class="exo-card">
+    <div class="exo-header">Exercice 1 — Volume et problème concret (d'après Brevet 2022 Métropole)</div>
+    <div class="exo-body">
+      <div class="enonce">
+        <p>Dans une salle de bain, un robinet fuit à raison d'<b>une goutte par seconde</b>. En moyenne, <b>20 gouttes = 1 ml</b>.</p>
+        <p>La vasque est un cylindre de <b>diamètre intérieur 40 cm</b> et de <b>hauteur intérieure 15 cm</b>.</p>
+        <p>Rappel : Volume d'un cylindre = π × rayon² × hauteur</p>
+      </div>
+
+      <div class="question">
+        <div class="question-label">Question 1</div>
+        <p>Montre qu'il tombe <b>86 400 gouttes</b> dans la vasque en une journée complète.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> 1 journée = combien de secondes ? Montre le calcul complet.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>1 journée = 24 heures × 60 minutes × 60 secondes = 86 400 secondes.</p>
+          <p>Le robinet fuit à raison d'1 goutte par seconde, donc en 86 400 secondes, il tombe <b>86 400 gouttes</b> ✓</p>
+          <div class="methode-box"><b>📌 Méthode "montrer"</b> Ne pas juste écrire 86 400. Il faut montrer le calcul : 24 × 60 × 60 = 86 400. C'est cette démarche qui est notée.</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="question">
+        <div class="question-label">Question 2</div>
+        <p>Calcule en litres le volume d'eau qui tombe dans la vasque en <b>une semaine</b>.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> 1 semaine = 7 jours. Calcule le nombre de gouttes, convertis en ml, puis en litres. Montre chaque étape.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>En 1 semaine : 86 400 × 7 = 604 800 gouttes.</p>
+          <p>Volume en ml : 604 800 ÷ 20 = 30 240 ml.</p>
+          <p>Volume en litres : 30 240 ÷ 1 000 = <b>30,24 litres</b></p>
+          <div class="methode-box"><b>📌 Méthode "conversions"</b> ml → litres : on divise par 1 000. Toujours convertir les unités à la fin et préciser l'unité dans la réponse.</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="question">
+        <div class="question-label">Question 3</div>
+        <p>a) Montre que la vasque a un volume d'environ <b>18,85 litres</b>.<br>
+        (Rappel : rayon = diamètre ÷ 2 ; 1 dm³ = 1 litre)</p>
+        <p>b) L'évacuation est fermée pendant une semaine. L'eau va-t-elle déborder ? Justifie.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> a) écris la formule, remplace par les valeurs en cm, calcule. Convertis en litres. b) compare le volume de fuite (Q.2) au volume de la vasque.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p><b>a)</b> Rayon = 40 ÷ 2 = 20 cm = 2 dm. Hauteur = 15 cm = 1,5 dm.</p>
+          <p>Volume = π × 2² × 1,5 = π × 4 × 1,5 = π × 6 ≈ 18,85 dm³ = <b>18,85 litres</b> ✓</p>
+          <p><b>b)</b> Volume de fuite en 1 semaine = 30,24 litres. Volume de la vasque ≈ 18,85 litres.</p>
+          <p>30,24 > 18,85 donc <b>oui, l'eau va déborder.</b></p>
+          <div class="methode-box"><b>📌 Méthode "volume du cylindre"</b> V = π × r² × h. Attention aux unités : travailler en dm pour avoir directement des litres (1 dm³ = 1 litre). Toujours conclure en répondant à la question posée.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXERCICE 2 : Pourcentages -->
+  <div class="exo-card">
+    <div class="exo-header">Exercice 2 — Pourcentages (d'après Brevet 2022 Métropole)</div>
+    <div class="exo-body">
+      <div class="enonce">
+        <p>La consommation d'eau par habitant en France était de <b>165 litres/jour</b> en 2004, puis de <b>148 litres/jour</b> en 2018.</p>
+      </div>
+
+      <div class="question">
+        <div class="question-label">Question 1</div>
+        <p>Calcule le <b>pourcentage de diminution</b> de la consommation entre 2004 et 2018. Arrondi à l'unité.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> formule : taux = (valeur finale − valeur initiale) / valeur initiale × 100. C'est négatif car c'est une diminution. Montre le calcul.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>Taux de variation = (valeur finale − valeur initiale) / valeur initiale × 100</p>
+          <p>= (148 − 165) / 165 × 100</p>
+          <p>= (−17) / 165 × 100</p>
+          <p>≈ −10,3 %</p>
+          <p>La consommation a diminué d'environ <b>10 %</b>.</p>
+          <div class="methode-box"><b>📌 Méthode "taux de variation"</b> Taux = (valeur finale − valeur initiale) / valeur initiale × 100. Si le résultat est négatif : c'est une diminution. Si positif : c'est une augmentation. Toujours partir de la valeur initiale au dénominateur.</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="question">
+        <div class="question-label">Question 2</div>
+        <p>Dans une classe de 25 élèves, 60 % des élèves sont des filles. Combien y a-t-il de filles ?</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> 60 % de 25 = 60/100 × 25. Montre le calcul.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>Nombre de filles = 60 % × 25 = 60/100 × 25 = 0,6 × 25 = <b>15 filles</b></p>
+          <div class="methode-box"><b>📌 Méthode "calculer un pourcentage"</b> p % de n = (p/100) × n. Exemple : 60 % de 25 = 0,6 × 25 = 15. Toujours écrire la formule avant de calculer.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleCorr(btn) {
+  var corr = btn.nextElementSibling;
+  if (corr.classList.contains('visible')) {
+    corr.classList.remove('visible');
+    btn.textContent = 'Voir la correction ▼';
+  } else {
+    corr.classList.add('visible');
+    btn.textContent = 'Masquer la correction ▲';
+  }
+}
+</script>
+</body>
+</html>

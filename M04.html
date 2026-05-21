@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M04 — Maths Brevet · Jour 4</title>
+<style>
+:root{--orange:#D35400;--orange-light:#FDEBD0;--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
+.exo-body{padding:16px}
+.enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
+.enonce p{margin-bottom:8px}.enonce p:last-child{margin-bottom:0}
+.question{margin-bottom:18px}
+.question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
+.question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+.justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
+.justif-box b{color:#D35400}
+textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
+textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.btn-correction:active{opacity:.85}
+.correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.correction.visible{display:block}
+.correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
+.correction p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+.methode-box b{display:block;margin-bottom:4px}
+.score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
+.score-info b{font-size:14px}
+.separator{height:1px;background:var(--border);margin:6px 0 14px}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📐 Maths — Jour 4</h1>
+  <div class="sub">Exercices type Brevet · 20 à 30 minutes</div>
+  <div class="badge">24 mai 2026</div>
+</div>
+<div class="container">
+  <div class="score-info">
+    <b>Thème du jour : Fonctions + Trigonométrie</b><br>
+    Deux thèmes fréquents au brevet. Pour les fonctions, montre toujours tes calculs d'image et d'antécédent. Pour la trigo, écris bien la formule cosinus, sinus ou tangente avant de calculer.
+  </div>
+
+  <!-- EXERCICE 1 : Fonctions -->
+  <div class="exo-card">
+    <div class="exo-header">Exercice 1 — Fonctions linéaires et affines (d'après Brevet 2024 QCM)</div>
+    <div class="exo-body">
+      <div class="enonce">
+        <p>On considère la fonction f définie par <b>f(x) = 3x − 2</b>.</p>
+      </div>
+
+      <div class="question">
+        <div class="question-label">Question 1</div>
+        <p>a) Calcule l'image de −4 par la fonction f.</p>
+        <p>b) Calcule l'antécédent de 7 par la fonction f (c'est-à-dire le nombre x tel que f(x) = 7).</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> a) remplace x par −4 dans la formule. b) pose l'équation f(x) = 7 et résous-la. Montre tous les calculs.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p><b>a)</b> f(−4) = 3 × (−4) − 2 = −12 − 2 = <b>−14</b></p>
+          <p><b>b)</b> On cherche x tel que f(x) = 7 :<br>
+          3x − 2 = 7<br>
+          3x = 7 + 2<br>
+          3x = 9<br>
+          x = 9 ÷ 3 = <b>3</b><br>
+          L'antécédent de 7 est <b>3</b>.</p>
+          <div class="methode-box"><b>📌 Méthode "image et antécédent"</b> Image : on remplace x par la valeur dans la formule → on obtient f(x). Antécédent : on pose f(x) = valeur cherchée, on résout l'équation → on obtient x. Ces deux notions sont souvent confondues !</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="question">
+        <div class="question-label">Question 2</div>
+        <p>On a représenté ci-contre deux fonctions f et g :<br>
+        f(x) = −2x + 5 et g(x) = 3x − 4.</p>
+        <p>a) Par lecture graphique, donne le plus précisément possible le nombre dont l'image est la même par f et g.</p>
+        <p>b) Détermine ce nombre <b>par le calcul</b> (c'est-à-dire résous l'équation f(x) = g(x)).</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> b) pose −2x + 5 = 3x − 4 et résous. Montre toutes les étapes.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p><b>a)</b> Par lecture graphique : les deux droites se croisent approximativement en x = 1,8.</p>
+          <p><b>b)</b> On résout f(x) = g(x) :<br>
+          −2x + 5 = 3x − 4<br>
+          5 + 4 = 3x + 2x<br>
+          9 = 5x<br>
+          x = 9/5 = <b>1,8</b></p>
+          <p>Le nombre est <b>1,8</b>. On vérifie : f(1,8) = −2×1,8+5 = 1,4 et g(1,8) = 3×1,8−4 = 1,4 ✓</p>
+          <div class="methode-box"><b>📌 Méthode "intersection de deux droites"</b> Pour trouver le point d'intersection, on pose f(x) = g(x). On regroupe les x d'un côté et les nombres de l'autre. On divise. Toujours vérifier en remplaçant dans les deux expressions.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXERCICE 2 : Trigonométrie -->
+  <div class="exo-card">
+    <div class="exo-header">Exercice 2 — Trigonométrie (d'après Brevet 2023 Métropole)</div>
+    <div class="exo-body">
+      <div class="enonce">
+        <p>On veut construire un escalier de hauteur totale <b>272 cm</b>.</p>
+        <p>Chaque marche a une <b>hauteur de 17 cm</b> et une <b>profondeur de 27 cm</b>.</p>
+        <p>L'angle BAC est l'angle d'inclinaison de l'escalier par rapport au sol.</p>
+      </div>
+
+      <div class="question">
+        <div class="question-label">Question 1</div>
+        <p>a) Montre qu'il faut prévoir <b>16 marches</b> pour cet escalier.</p>
+        <p>b) Montre que la longueur AB (projection horizontale de l'escalier) est égale à <b>432 cm</b>.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> a) divise la hauteur totale par la hauteur d'une marche. b) multiplie le nombre de marches par la profondeur d'une marche.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p><b>a)</b> Nombre de marches = hauteur totale ÷ hauteur d'une marche = 272 ÷ 17 = <b>16 marches</b> ✓</p>
+          <p><b>b)</b> AB = nombre de marches × profondeur = 16 × 27 = <b>432 cm</b> ✓</p>
+          <div class="methode-box"><b>📌 Méthode "montrer"</b> Même quand le calcul semble évident, il faut écrire la formule et le calcul complet. Ne jamais juste écrire le résultat.</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="question">
+        <div class="question-label">Question 2</div>
+        <p>Pour une montée agréable, l'angle BAC doit être compris entre 25° et 40°.</p>
+        <p>a) Calcule la mesure de l'angle BAC, arrondie au degré près.<br>
+        (BC = 272 cm, AB = 432 cm ; utilise tan(BAC) = BC/AB)</p>
+        <p>b) L'escalier permet-il une montée agréable ? Justifie.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> a) calcule tan(BAC), puis utilise la touche arctan (tan⁻¹) de la calculatrice. b) compare l'angle obtenu à l'intervalle [25° ; 40°].</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p><b>a)</b> tan(BAC) = BC / AB = 272 / 432 ≈ 0,6296<br>
+          BAC = arctan(0,6296) ≈ <b>32°</b></p>
+          <p><b>b)</b> L'angle BAC ≈ 32°. Or 25° ≤ 32° ≤ 40°.<br>
+          <b>Oui, l'escalier permet une montée agréable.</b></p>
+          <div class="methode-box"><b>📌 Méthode "trigonométrie"</b> Dans un triangle rectangle, on choisit la bonne formule selon ce qu'on connaît : tan(angle) = côté opposé / côté adjacent. Pour trouver l'angle, on utilise arctan sur la calculatrice (touche tan⁻¹ ou shift+tan). Toujours conclure en répondant à la question posée.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleCorr(btn) {
+  var corr = btn.nextElementSibling;
+  if (corr.classList.contains('visible')) {
+    corr.classList.remove('visible');
+    btn.textContent = 'Voir la correction ▼';
+  } else {
+    corr.classList.add('visible');
+    btn.textContent = 'Masquer la correction ▲';
+  }
+}
+</script>
+</body>
+</html>

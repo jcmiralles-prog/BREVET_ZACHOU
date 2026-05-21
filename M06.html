@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M06 — Maths Brevet · Jour 6</title>
+<style>
+:root{--orange:#D35400;--orange-light:#FDEBD0;--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
+.exo-body{padding:16px}
+.enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
+.enonce p{margin-bottom:8px}.enonce p:last-child{margin-bottom:0}
+.question{margin-bottom:18px}
+.question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
+.question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+.justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
+.justif-box b{color:#D35400}
+textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
+textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.correction.visible{display:block}
+.correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
+.correction p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+.methode-box b{display:block;margin-bottom:4px}
+.score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
+.score-info b{font-size:14px}
+.separator{height:1px;background:var(--border);margin:6px 0 14px}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📐 Maths — Jour 6</h1>
+  <div class="sub">Exercices type Brevet · 20 à 30 minutes</div>
+  <div class="badge">26 mai 2026</div>
+</div>
+<div class="container">
+  <div class="score-info">
+    <b>Thème du jour : Calcul littéral et équations</b><br>
+    Développer, factoriser, résoudre une équation : ce sont des points qui reviennent à chaque brevet. Montre bien toutes tes étapes de calcul !
+  </div>
+
+  <!-- EXERCICE 1 : Développement et factorisation -->
+  <div class="exo-card">
+    <div class="exo-header">Exercice 1 — Calcul littéral (d'après Brevet 2022 Métropole)</div>
+    <div class="exo-body">
+      <div class="enonce">
+        <p>On considère un rectangle de côtés <b>(x − 3)</b> et <b>(x + 7)</b>, où x est un nombre strictement supérieur à 3.</p>
+      </div>
+
+      <div class="question">
+        <div class="question-label">Question 1</div>
+        <p>Montre que l'aire du rectangle est égale à <b>x² + 4x − 21</b>.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> développe le produit (x − 3)(x + 7) en utilisant la distributivité double. Montre chaque étape.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>Aire = (x − 3) × (x + 7)</p>
+          <p>= x × x + x × 7 − 3 × x − 3 × 7</p>
+          <p>= x² + 7x − 3x − 21</p>
+          <p>= <b>x² + 4x − 21</b> ✓</p>
+          <div class="methode-box"><b>📌 Méthode "double distributivité"</b> (a + b)(c + d) = ac + ad + bc + bd. On multiplie chaque terme du premier par chaque terme du second. On n'oublie pas les signes !</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="question">
+        <div class="question-label">Question 2</div>
+        <p>Si on choisit x = 8, quelle est l'aire du rectangle ?</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> remplace x par 8 dans l'expression x² + 4x − 21. Montre le calcul.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>Aire = 8² + 4 × 8 − 21 = 64 + 32 − 21 = <b>75</b></p>
+          <p>On peut vérifier : (8 − 3) × (8 + 7) = 5 × 15 = 75 ✓</p>
+          <div class="methode-box"><b>📌 Méthode "vérification"</b> Quand c'est possible, toujours vérifier le résultat d'une autre façon. Ici on calcule directement avec les mesures du rectangle.</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="question">
+        <div class="question-label">Question 3</div>
+        <p>On a aussi un carré de côté x. Pour quelle valeur de x l'aire du rectangle est-elle égale à l'aire du carré ?</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> aire du carré = x². Pose x² + 4x − 21 = x² et résous l'équation.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>Aire rectangle = Aire carré :</p>
+          <p>x² + 4x − 21 = x²</p>
+          <p>4x − 21 = 0 (on soustrait x² des deux côtés)</p>
+          <p>4x = 21</p>
+          <p>x = 21/4 = <b>5,25</b></p>
+          <p>Vérification : x = 5,25 > 3 ✓ (condition de l'énoncé respectée)</p>
+          <div class="methode-box"><b>📌 Méthode "équation"</b> On part de l'égalité des deux aires. Les x² se simplifient. On résout l'équation simple qui reste. Toujours vérifier que la solution respecte les conditions de l'énoncé.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXERCICE 2 : Vitesse et conversion -->
+  <div class="exo-card">
+    <div class="exo-header">Exercice 2 — Vitesse et conversions (d'après Brevet 2022 Métropole)</div>
+    <div class="exo-body">
+      <div class="enonce">
+        <p>Un enfant lâche un bâton dans une rivière au point E. Le bâton se déplace en ligne droite en <b>5 secondes</b> jusqu'au point C. La distance EC = 13,3 m.</p>
+      </div>
+
+      <div class="question">
+        <div class="question-label">Question 1</div>
+        <p>Calcule la vitesse du bâton en m/s.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> formule : vitesse = distance / temps. Montre le calcul.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>Vitesse = distance / temps = 13,3 / 5 = <b>2,66 m/s</b></p>
+          <div class="methode-box"><b>📌 Méthode "vitesse"</b> v = d / t. Distance en mètres, temps en secondes → vitesse en m/s. Toujours écrire la formule avant de calculer.</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="question">
+        <div class="question-label">Question 2</div>
+        <p>Est-il vrai que "le bâton se déplace à une vitesse <b>inférieure à 10 km/h</b>" ? Justifie en convertissant la vitesse en km/h.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> convertis 2,66 m/s en km/h. Rappel : 1 m/s = 3,6 km/h. Montre la conversion et compare.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>2,66 m/s × 3,6 = <b>9,576 km/h</b></p>
+          <p>9,576 < 10, donc <b>oui, l'affirmation est vraie.</b></p>
+          <div class="methode-box"><b>📌 Méthode "conversion m/s → km/h"</b> On multiplie par 3,6 (car 1 m/s = 3 600 m/h = 3,6 km/h). Pour aller dans l'autre sens (km/h → m/s), on divise par 3,6.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleCorr(btn) {
+  var corr = btn.nextElementSibling;
+  if (corr.classList.contains('visible')) {
+    corr.classList.remove('visible');
+    btn.textContent = 'Voir la correction ▼';
+  } else {
+    corr.classList.add('visible');
+    btn.textContent = 'Masquer la correction ▲';
+  }
+}
+</script>
+</body>
+</html>

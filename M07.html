@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M07 — Maths Brevet · Jour 7</title>
+<style>
+:root{--orange:#D35400;--orange-light:#FDEBD0;--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--rouge:#C0392B;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
+.exo-body{padding:16px}
+.enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
+.enonce p{margin-bottom:8px}.enonce p:last-child{margin-bottom:0}
+.qcm-item{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:12px}
+.qcm-question{font-size:14px;font-weight:600;margin-bottom:10px;color:var(--text)}
+.qcm-options{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:8px}
+.qcm-option{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border);border-radius:6px;cursor:pointer;background:white;-webkit-tap-highlight-color:transparent;font-size:14px}
+.qcm-option:hover{border-color:var(--orange)}
+.qcm-option.selected-correct{background:#D5F5E3;border-color:var(--vert);color:var(--vert);font-weight:700}
+.qcm-option.selected-wrong{background:#FADBD8;border-color:var(--rouge);color:var(--rouge)}
+.qcm-option.reveal-correct{background:#D5F5E3;border-color:var(--vert)}
+.qcm-expl{display:none;margin-top:10px;font-size:13px;line-height:1.6;padding:10px;border-radius:6px}
+.qcm-expl.correct-expl{background:#D5F5E3;color:var(--vert);border:1px solid var(--vert)}
+.qcm-expl.wrong-expl{background:#FADBD8;color:var(--rouge);border:1px solid var(--rouge)}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+.methode-box b{display:block;margin-bottom:4px}
+.score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
+.score-info b{font-size:14px}
+.question{margin-bottom:18px}
+.question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
+.question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+.justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
+.justif-box b{color:#D35400}
+textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
+textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.correction.visible{display:block}
+.correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
+.correction p:last-child{margin-bottom:0}
+.separator{height:1px;background:var(--border);margin:6px 0 14px}
+.score-box{background:var(--orange);color:white;border-radius:8px;padding:14px;text-align:center;margin-top:16px;font-size:16px;font-weight:700;display:none}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📐 Maths — Jour 7</h1>
+  <div class="sub">Exercices type Brevet · 20 à 30 minutes</div>
+  <div class="badge">27 mai 2026</div>
+</div>
+<div class="container">
+  <div class="score-info">
+    <b>Thème du jour : QCM + Médiane</b><br>
+    Le QCM du brevet ne demande pas de justification, mais tu dois connaître le raisonnement. Ici, la correction explique tout ! Pour la médiane, la méthode de classement est obligatoire.
+  </div>
+
+  <!-- QCM -->
+  <div class="exo-card">
+    <div class="exo-header">Exercice 1 — QCM (d'après Brevet 2022 et 2023 Métropole)</div>
+    <div class="exo-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Clique sur la bonne réponse. La correction apparaît aussitôt.</p>
+
+      <!-- Q1 -->
+      <div class="qcm-item" id="q1">
+        <div class="qcm-question">1. On considère la fonction f définie par f(x) = 3x² − 7. Quelle affirmation est correcte ?</div>
+        <div class="qcm-options">
+          <div class="qcm-option" onclick="checkQCM(this,'q1','A')">A. 29 est l'image de 2 par f</div>
+          <div class="qcm-option" onclick="checkQCM(this,'q1','B')">B. f(3) = 20</div>
+          <div class="qcm-option" onclick="checkQCM(this,'q1','C')">C. f est une fonction affine</div>
+        </div>
+        <div class="qcm-expl correct-expl" id="q1-expl-A">✓ Bonne réponse ! f(2) = 3×4 − 7 = 12 − 7 = 5. Attends, recalculons : f(2) = 3×2² − 7 = 12 − 7 = 5. Mais "29 est l'image de 2" signifie f(2) = 29, ce qui est faux. En fait la bonne réponse est B car f(3) = 3×9 − 7 = 27 − 7 = 20.</div>
+        <div class="qcm-expl wrong-expl" id="q1-expl-B-wrong"></div>
+        <div class="qcm-expl correct-expl" id="q1-expl-B">✓ Bonne réponse ! f(3) = 3 × 3² − 7 = 3 × 9 − 7 = 27 − 7 = <b>20</b>. C'est bien vrai.<br>A est fausse : f(2) = 3×4 − 7 = 5, pas 29.<br>C est fausse : f(x) = 3x² − 7 est une fonction du second degré, pas affine (une fonction affine s'écrit ax + b).</div>
+        <div class="qcm-expl wrong-expl" id="q1-expl-C">✗ À revoir. Une fonction affine s'écrit f(x) = ax + b. Ici f(x) = 3x² − 7 contient un x², ce n'est pas une fonction affine. La bonne réponse est B : f(3) = 3×9 − 7 = 20.</div>
+        <div class="methode-box" id="q1-methode" style="display:none"><b>📌 Méthode</b> Pour vérifier une affirmation sur une fonction, on remplace x par la valeur dans la formule et on calcule. Ne pas oublier d'appliquer l'exposant avant de multiplier.</div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="qcm-item" id="q2">
+        <div class="qcm-question">2. On a mesuré les tailles (en m) de 7 élèves : 1,46 ; 1,65 ; 1,6 ; 1,72 ; 1,7 ; 1,67 ; 1,75. Quelle est la médiane ?</div>
+        <div class="qcm-options">
+          <div class="qcm-option" onclick="checkQCM(this,'q2','A')">A. 1,72</div>
+          <div class="qcm-option" onclick="checkQCM(this,'q2','B')">B. 1,67</div>
+          <div class="qcm-option" onclick="checkQCM(this,'q2','C')">C. 1,65</div>
+        </div>
+        <div class="qcm-expl wrong-expl" id="q2-expl-A">✗ À revoir. Il faut d'abord classer les valeurs dans l'ordre croissant : 1,46 ; 1,6 ; 1,65 ; 1,67 ; 1,70 ; 1,72 ; 1,75. Il y a 7 valeurs, donc la médiane est la 4e valeur : <b>1,67</b>.</div>
+        <div class="qcm-expl correct-expl" id="q2-expl-B">✓ Bonne réponse ! On classe dans l'ordre croissant : 1,46 ; 1,6 ; 1,65 ; <b>1,67</b> ; 1,70 ; 1,72 ; 1,75. Il y a 7 valeurs. La médiane est la valeur du milieu, c'est-à-dire la 4e valeur : <b>1,67</b>.</div>
+        <div class="qcm-expl wrong-expl" id="q2-expl-C">✗ À revoir. Il faut classer les valeurs : 1,46 ; 1,6 ; 1,65 ; 1,67 ; 1,70 ; 1,72 ; 1,75. La médiane est la 4e valeur (il y en a 7), donc c'est 1,67, pas 1,65.</div>
+        <div class="methode-box" id="q2-methode" style="display:none"><b>📌 Méthode "médiane"</b> 1) Classer toutes les valeurs en ordre croissant. 2) Si nombre de valeurs impair : médiane = valeur du milieu (position (n+1)/2). 3) Si nombre de valeurs pair : médiane = moyenne des deux valeurs du milieu.</div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="qcm-item" id="q3">
+        <div class="qcm-question">3. Dans le triangle ABC rectangle en A, avec AB = 3, BC = 5, AC = 4. Quelle est la valeur de cos(angle en B) ?</div>
+        <div class="qcm-options">
+          <div class="qcm-option" onclick="checkQCM(this,'q3','A')">A. 0,8</div>
+          <div class="qcm-option" onclick="checkQCM(this,'q3','B')">B. 0,75</div>
+          <div class="qcm-option" onclick="checkQCM(this,'q3','C')">C. 0,6</div>
+        </div>
+        <div class="qcm-expl wrong-expl" id="q3-expl-A">✗ À revoir. cos(B) = côté adjacent / hypoténuse = AB / BC = 3/5 = 0,6. Le côté adjacent à l'angle B est AB (= 3), pas AC.</div>
+        <div class="qcm-expl wrong-expl" id="q3-expl-B">✗ À revoir. cos(B) = côté adjacent / hypoténuse = AB / BC = 3/5 = 0,6. L'hypoténuse est le côté opposé à l'angle droit (ici BC = 5).</div>
+        <div class="qcm-expl correct-expl" id="q3-expl-C">✓ Bonne réponse ! cos(B) = côté adjacent à B / hypoténuse = AB / BC = 3/5 = <b>0,6</b>. Le côté adjacent à l'angle B est AB = 3. L'hypoténuse est BC = 5 (côté opposé à l'angle droit en A).</div>
+        <div class="methode-box" id="q3-methode" style="display:none"><b>📌 Méthode "cosinus"</b> cos(angle) = côté adjacent / hypoténuse. L'hypoténuse est toujours le côté opposé à l'angle droit. Le côté adjacent est le côté qui "touche" l'angle sans être l'hypoténuse.</div>
+      </div>
+
+      <div id="score-final" class="score-box"></div>
+    </div>
+  </div>
+
+  <!-- Exercice médiane détaillé -->
+  <div class="exo-card">
+    <div class="exo-header">Exercice 2 — Médiane et analyse de données (d'après Brevet 2022)</div>
+    <div class="exo-body">
+      <div class="enonce">
+        <p>On relève les performances au lancer du poids (en mètres) de 13 élèves :</p>
+        <p><b>3,41 ; 5,25 ; 5,42 ; 4,30 ; 6,11 ; 4,28 ; 5,15 ; 3,70 ; 6,07 ; 5,82 ; 4,62 ; 4,91 ; 4,01</b></p>
+      </div>
+
+      <div class="question">
+        <div class="question-label">Question 1</div>
+        <p>Classe ces valeurs dans l'ordre croissant et détermine la médiane.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> écris toutes les valeurs classées, puis identifie la valeur du milieu. Il y a 13 valeurs, donc la médiane est la 7e.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>Classement croissant : 3,41 ; 3,70 ; 4,01 ; 4,28 ; 4,30 ; 4,62 ; <b>4,91</b> ; 5,15 ; 5,25 ; 5,42 ; 5,82 ; 6,07 ; 6,11</p>
+          <p>Il y a 13 valeurs. La médiane est la valeur de rang (13 + 1) / 2 = 7e valeur.</p>
+          <p>La 7e valeur est <b>4,91 m</b>.</p>
+          <div class="methode-box"><b>📌 Méthode "médiane avec n impair"</b> 1) Classer en ordre croissant. 2) Médiane = valeur de rang (n+1)/2. Ici n = 13 donc rang = 7. La médiane partage la série en deux moitiés : 6 valeurs en-dessous, 6 valeurs au-dessus.</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="question">
+        <div class="question-label">Question 2</div>
+        <p>Calcule la moyenne de ces performances, arrondie au centième.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> moyenne = somme de toutes les valeurs ÷ nombre de valeurs. Montre la somme et la division.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>Somme = 3,41 + 5,25 + 5,42 + 4,30 + 6,11 + 4,28 + 5,15 + 3,70 + 6,07 + 5,82 + 4,62 + 4,91 + 4,01 = <b>63,05</b></p>
+          <p>Moyenne = 63,05 ÷ 13 ≈ <b>4,85 m</b></p>
+          <div class="methode-box"><b>📌 Méthode "moyenne"</b> Moyenne = (somme de toutes les valeurs) / (nombre de valeurs). Attention : médiane ≠ moyenne. La médiane est la valeur du milieu après classement ; la moyenne est le "résultat équitable" si on partage tout également.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+var qcmAnswers = {q1:'B', q2:'B', q3:'C'};
+var qcmDone = {};
+
+function checkQCM(el, qid, chosen) {
+  if (qcmDone[qid]) return;
+  qcmDone[qid] = true;
+  var correct = qcmAnswers[qid];
+  var options = el.parentNode.querySelectorAll('.qcm-option');
+  for (var i = 0; i < options.length; i++) { options[i].style.pointerEvents = 'none'; }
+  if (chosen === correct) {
+    el.classList.add('selected-correct');
+    var expl = document.getElementById(qid + '-expl-' + chosen);
+    if (expl) { expl.style.display = 'block'; }
+  } else {
+    el.classList.add('selected-wrong');
+    var wrongExpl = document.getElementById(qid + '-expl-' + chosen);
+    if (wrongExpl) { wrongExpl.style.display = 'block'; }
+    var correctOpt = el.parentNode.querySelectorAll('.qcm-option');
+    for (var j = 0; j < correctOpt.length; j++) {
+      if (correctOpt[j].textContent.trim().startsWith(correct + '.')) { correctOpt[j].classList.add('reveal-correct'); }
+    }
+  }
+  var methode = document.getElementById(qid + '-methode');
+  if (methode) { methode.style.display = 'block'; }
+  checkAllDone();
+}
+
+function checkAllDone() {
+  var keys = Object.keys(qcmAnswers);
+  var done = 0; var correct = 0;
+  for (var i = 0; i < keys.length; i++) {
+    if (qcmDone[keys[i]]) { done++; }
+  }
+  if (done === keys.length) {
+    var score = document.getElementById('score-final');
+    score.style.display = 'block';
+    score.textContent = 'QCM terminé ! Consulte les explications pour bien comprendre chaque réponse. 💪';
+  }
+}
+
+function toggleCorr(btn) {
+  var corr = btn.nextElementSibling;
+  if (corr.classList.contains('visible')) { corr.classList.remove('visible'); btn.textContent = 'Voir la correction ▼'; }
+  else { corr.classList.add('visible'); btn.textContent = 'Masquer la correction ▲'; }
+}
+</script>
+</body>
+</html>
