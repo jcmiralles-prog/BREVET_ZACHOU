@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Annales Maths Brevet — Zachou</title>
+<style>
+:root{
+  --orange:#D35400;--orange-light:#FDEBD0;
+  --vert:#1E8449;--vert-light:#D5F5E3;
+  --bleu:#1A5276;--bleu-light:#D6EAF8;
+  --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+  --border:#DEE2E6;--radius:10px;
+}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88;margin-bottom:12px}
+.back-btn{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:5px 16px;font-size:12px;color:white;text-decoration:none;margin-top:8px}
+
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+
+.conseil{background:var(--bleu-light);border:1px solid var(--bleu);border-radius:10px;padding:14px 16px;margin-bottom:24px;font-size:13px;color:var(--bleu);line-height:1.7}
+.conseil b{display:block;margin-bottom:6px;font-size:14px}
+
+.annee-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.annee-header{background:var(--orange);color:white;padding:12px 16px;font-size:15px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:10px}
+.annee-header .annee-badge{background:rgba(255,255,255,.25);border-radius:20px;padding:2px 12px;font-size:13px}
+.annee-body{padding:14px 16px}
+
+.sujet-row{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:space-between;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);gap:10px;-webkit-flex-wrap:wrap;flex-wrap:wrap}
+.sujet-row:last-child{border-bottom:none;padding-bottom:0}
+.sujet-row:first-child{padding-top:0}
+
+.sujet-label{font-size:13px;font-weight:600;color:var(--text);-webkit-flex:1;flex:1;min-width:160px}
+.sujet-label .zone{font-size:11px;color:var(--muted);font-weight:400;display:block;margin-top:2px}
+
+.btn-links{display:-webkit-flex;display:flex;gap:8px;-webkit-flex-wrap:wrap;flex-wrap:wrap}
+.btn-sujet{display:inline-block;background:var(--orange);color:white;text-decoration:none;padding:7px 14px;border-radius:6px;font-size:12px;font-weight:700;-webkit-tap-highlight-color:transparent}
+.btn-sujet:active{opacity:.85}
+.btn-corrige{display:inline-block;background:var(--vert);color:white;text-decoration:none;padding:7px 14px;border-radius:6px;font-size:12px;font-weight:700;-webkit-tap-highlight-color:transparent}
+.btn-corrige:active{opacity:.85}
+.btn-indispo{display:inline-block;background:var(--bg);color:var(--muted);border:1px solid var(--border);padding:7px 14px;border-radius:6px;font-size:12px;font-weight:400}
+
+.section-head{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--muted);margin:20px 0 10px;text-transform:uppercase}
+
+.tip-box{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:12px 14px;margin-bottom:16px;font-size:13px;color:var(--orange);line-height:1.6}
+.tip-box b{display:block;margin-bottom:4px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📚 Annales Maths — Brevet</h1>
+  <div class="sub">Tous les vrais sujets et corrigés officiels · Accès direct PDF</div>
+  <a class="back-btn" href="index.html">← Retour à l'accueil</a>
+</div>
+
+<div class="container">
+
+  <div class="conseil">
+    <b>💡 Comment utiliser ces annales ?</b>
+    1. Fais d'abord les exercices guidés (M01, M02…) pour apprendre les méthodes.<br>
+    2. Ensuite, entraîne-toi sur les vrais sujets en conditions réelles : <b>2h chronomètre, sans aide</b>.<br>
+    3. Corrige avec le corrigé officiel. Pour chaque erreur, note <b>pourquoi</b> tu t'es trompé.<br>
+    4. Les sujets <b>Métropole</b> sont les plus proches de ce que tu auras le 29 juin.
+  </div>
+
+  <div class="tip-box">
+    <b>⚠️ Ce qui compte au brevet :</b>
+    "Toutes les réponses doivent être justifiées, sauf indication contraire." — C'est écrit en tête de chaque sujet officiel. Ne jamais donner un résultat sans expliquer comment tu y es arrivé !
+  </div>
+
+  <!-- 2024 -->
+  <div class="annee-card">
+    <div class="annee-header">Brevet <span class="annee-badge">2024</span></div>
+    <div class="annee-body">
+      <div class="sujet-row">
+        <div class="sujet-label">Métropole — Antilles-Guyane<span class="zone">1er juillet 2024 · Sujet de référence</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-metropole.pdf" target="_blank">📥 Sujet</a>
+          <a class="btn-corrige" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-metropole.pdf" target="_blank">✅ Corrigé</a>
+        </div>
+      </div>
+      <div class="sujet-row">
+        <div class="sujet-label">Amérique du Nord<span class="zone">2024</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-amerique-nord.pdf" target="_blank">📥 Sujet</a>
+          <a class="btn-corrige" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-amerique-nord.pdf" target="_blank">✅ Corrigé</a>
+        </div>
+      </div>
+      <div class="sujet-row">
+        <div class="sujet-label">Polynésie<span class="zone">2024</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-polynesie.pdf" target="_blank">📥 Sujet</a>
+          <a class="btn-corrige" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-polynesie.pdf" target="_blank">✅ Corrigé</a>
+        </div>
+      </div>
+      <div class="sujet-row">
+        <div class="sujet-label">Centres étrangers<span class="zone">2024</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-centres-etrangers.pdf" target="_blank">📥 Sujet</a>
+          <a class="btn-corrige" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-centres-etrangers.pdf" target="_blank">✅ Corrigé</a>
+        </div>
+      </div>
+      <div class="sujet-row">
+        <div class="sujet-label">Asie<span class="zone">2024</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-asie.pdf" target="_blank">📥 Sujet</a>
+          <a class="btn-corrige" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-asie.pdf" target="_blank">✅ Corrigé</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2023 -->
+  <div class="annee-card">
+    <div class="annee-header">Brevet <span class="annee-badge">2023</span></div>
+    <div class="annee-body">
+      <div class="sujet-row">
+        <div class="sujet-label">Métropole — Antilles-Guyane<span class="zone">26 juin 2023 · Sujet de référence</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2023-metropole-antilles-guyane.pdf" target="_blank">📥 Sujet</a>
+          <a class="btn-corrige" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2023-metropole-antilles-guyane.pdf" target="_blank">✅ Corrigé</a>
+        </div>
+      </div>
+      <div class="sujet-row">
+        <div class="sujet-label">Amérique du Nord<span class="zone">2023</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2023-amerique-nord.pdf" target="_blank">📥 Sujet</a>
+          <a class="btn-corrige" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2023-amerique-nord.pdf" target="_blank">✅ Corrigé</a>
+        </div>
+      </div>
+      <div class="sujet-row">
+        <div class="sujet-label">Polynésie<span class="zone">2023</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2023-polynesie.pdf" target="_blank">📥 Sujet</a>
+          <a class="btn-corrige" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2023-polynesie.pdf" target="_blank">✅ Corrigé</a>
+        </div>
+      </div>
+      <div class="sujet-row">
+        <div class="sujet-label">Centres étrangers Groupe 1<span class="zone">2023</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2023-centre-etrangers-groupe-1.pdf" target="_blank">📥 Sujet</a>
+          <a class="btn-corrige" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2023-centre-etrangers-groupe-1.pdf" target="_blank">✅ Corrigé</a>
+        </div>
+      </div>
+      <div class="sujet-row">
+        <div class="sujet-label">Asie<span class="zone">2023</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2023-asie.pdf" target="_blank">📥 Sujet</a>
+          <a class="btn-corrige" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2023-asie.pdf" target="_blank">✅ Corrigé</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2022 -->
+  <div class="annee-card">
+    <div class="annee-header">Brevet <span class="annee-badge">2022</span></div>
+    <div class="annee-body">
+      <div class="sujet-row">
+        <div class="sujet-label">Métropole — Antilles-Guyane<span class="zone">30 juin 2022 · Sujet de référence</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2022-metropole.pdf" target="_blank">📥 Sujet</a>
+          <a class="btn-corrige" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2022-metropole.pdf" target="_blank">✅ Corrigé</a>
+        </div>
+      </div>
+      <div class="sujet-row">
+        <div class="sujet-label">Amérique du Nord<span class="zone">2022</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2022-amerique-nord.pdf" target="_blank">📥 Sujet</a>
+          <a class="btn-corrige" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2022-amerique-nord.pdf" target="_blank">✅ Corrigé</a>
+        </div>
+      </div>
+      <div class="sujet-row">
+        <div class="sujet-label">Centres étrangers<span class="zone">2022</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2022-centres-etrangers.pdf" target="_blank">📥 Sujet</a>
+          <a class="btn-corrige" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2022-centres-etrangers.pdf" target="_blank">✅ Corrigé</a>
+        </div>
+      </div>
+      <div class="sujet-row">
+        <div class="sujet-label">Polynésie<span class="zone">2022</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2022-polynesie.pdf" target="_blank">📥 Sujet</a>
+          <a class="btn-corrige" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2022-polynesie.pdf" target="_blank">✅ Corrigé</a>
+        </div>
+      </div>
+      <div class="sujet-row">
+        <div class="sujet-label">Asie<span class="zone">2022</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2022-asie.pdf" target="_blank">📥 Sujet</a>
+          <a class="btn-corrige" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2022-asie.pdf" target="_blank">✅ Corrigé</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2021 -->
+  <div class="annee-card">
+    <div class="annee-header">Brevet <span class="annee-badge">2021</span></div>
+    <div class="annee-body">
+      <div class="sujet-row">
+        <div class="sujet-label">Métropole — Réunion<span class="zone">2021</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2021-metropole-reunion.pdf" target="_blank">📥 Sujet</a>
+          <span class="btn-indispo">Corrigé non dispo</span>
+        </div>
+      </div>
+      <div class="sujet-row">
+        <div class="sujet-label">Antilles-Guyane<span class="zone">2021</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2021-antilles-guyane.pdf" target="_blank">📥 Sujet</a>
+          <span class="btn-indispo">Corrigé non dispo</span>
+        </div>
+      </div>
+      <div class="sujet-row">
+        <div class="sujet-label">Polynésie<span class="zone">2021</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2021-polynesie.pdf" target="_blank">📥 Sujet</a>
+          <span class="btn-indispo">Corrigé non dispo</span>
+        </div>
+      </div>
+      <div class="sujet-row">
+        <div class="sujet-label">Asie<span class="zone">2021</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2021-asie.pdf" target="_blank">📥 Sujet</a>
+          <span class="btn-indispo">Corrigé non dispo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2020 -->
+  <div class="annee-card">
+    <div class="annee-header">Brevet <span class="annee-badge">2020</span></div>
+    <div class="annee-body">
+      <div class="sujet-row">
+        <div class="sujet-label">Polynésie<span class="zone">2020</span></div>
+        <div class="btn-links">
+          <a class="btn-sujet" href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2020-polynesie.pdf" target="_blank">📥 Sujet</a>
+          <span class="btn-indispo">Corrigé non dispo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conseils utilisation -->
+  <div class="annee-card">
+    <div class="annee-header" style="background:var(--bleu)">📌 Comment travailler les vrais sujets ?</div>
+    <div class="annee-body" style="font-size:14px;line-height:1.8">
+      <p style="margin-bottom:10px"><b>Étape 1 — Entraînement guidé</b><br>
+      Fais les exercices M01, M02… pour apprendre les méthodes avec des corrections expliquées.</p>
+      <p style="margin-bottom:10px"><b>Étape 2 — Sujet complet en conditions réelles</b><br>
+      Prends un sujet Métropole, chronomètre-toi 2 heures, sans aide. Essaie de tout faire.</p>
+      <p style="margin-bottom:10px"><b>Étape 3 — Correction</b><br>
+      Compare avec le corrigé. Pour chaque erreur, écris pourquoi tu t'es trompé et relis la méthode dans les fiches M.</p>
+      <p><b>⚠️ Point clé pour Zachou</b><br>
+      Sur chaque copie du brevet, il est écrit : <i>"Toutes les réponses doivent être justifiées."</i> C'est obligatoire. Un résultat sans justification = zéro point. Toujours écrire la formule utilisée et les calculs intermédiaires.</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

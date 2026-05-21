@@ -3,56 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>M02 — Maths Brevet · Jour 2</title>
+<title>M01 — Maths Brevet · Jour 1</title>
 <style>
 :root{
   --orange:#D35400;--orange-light:#FDEBD0;
   --vert:#1E8449;--vert-light:#D5F5E3;
-  --bleu:#1A5276;--bleu-light:#D6EAF8;
+  --rouge:#C0392B;--rouge-light:#FADBD8;
   --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
   --border:#DEE2E6;--radius:10px;
 }
 *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+
 .header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
 .header h1{font-size:20px;font-weight:700;margin-bottom:4px}
 .header .sub{font-size:13px;opacity:.88}
 .header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+
 .container{max-width:740px;margin:0 auto;padding:20px 14px}
+
 .exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
 .exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
 .exo-body{padding:16px}
+
 .enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
 .enonce p{margin-bottom:8px}
 .enonce p:last-child{margin-bottom:0}
+
 .question{margin-bottom:18px}
 .question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
 .question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+
 .justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
 .justif-box b{color:#D35400}
+
 textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
 textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+
 .btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
 .btn-correction:active{opacity:.85}
+
 .correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
 .correction.visible{display:block}
 .correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
 .correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
 .correction p:last-child{margin-bottom:0}
-.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+
+.methode-box{background:#E8F4F8;border-left:4px solid #1A5276;border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:#1A5276}
 .methode-box b{display:block;margin-bottom:4px}
+
 .score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
 .score-info b{font-size:14px}
+
 .separator{height:1px;background:var(--border);margin:6px 0 14px}
 </style>
 </head>
 <body>
+
 <div class="header">
-  <h1>📐 Maths — Jour 2</h1>
+  <h1>📐 Maths — Jour 1</h1>
   <div class="sub">Exercices type Brevet · 20 à 30 minutes</div>
-  <div class="badge">22 mai 2026</div>
+  <div class="badge">21 mai 2026</div>
 </div>
+
 <div class="container">
   <div style="background:#FFF3CD;border:1px solid #F0A500;border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#7D5A00">
     <b style="display:block;margin-bottom:8px;color:#D35400">&#128196; Vrais sujets utilisés pour ces exercices</b>
@@ -65,33 +79,30 @@ textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
 
 
   <div class="score-info">
-    <b>Thème du jour : Géométrie</b><br>
-    Théorème de Pythagore et théorème de Thalès. Pour chaque question, écris la propriété utilisée, puis les calculs. C'est obligatoire au brevet !
+    <b>Comment travailler ces exercices ?</b><br>
+    Lis bien l'énoncé. Réponds dans la zone de texte. Puis clique sur "Voir la correction". Pour chaque question, tu dois <b>justifier ta réponse</b> : c'est ce qui compte au brevet !
   </div>
 
-  <!-- EXERCICE 1 : Pythagore -->
+  <!-- EXERCICE 1 : Probabilités -->
   <div class="exo-card">
-    <div class="exo-header">Exercice 1 — Théorème de Pythagore (d'après Brevet 2024 Métropole)</div>
+    <div class="exo-header">Exercice 1 — Probabilités (d'après Brevet 2024 Métropole)</div>
     <div class="exo-body">
 
       <div class="enonce">
-        <p>Dans la figure ci-dessous :</p>
-        <p>— C est un cercle de centre O et de rayon 4,5 cm</p>
-        <p>— [AB] est un diamètre du cercle, et D est un point du cercle</p>
-        <p>— BD = 5,4 cm et DA = 7,2 cm</p>
+        <p>Une roue de jeu est divisée en <b>37 cases</b> numérotées de 0 à 36. Une bille a la même probabilité de s'arrêter sur chacune des cases. Parmi les cases numérotées de 1 à 36, exactement <b>18 sont noires et paires</b>.</p>
       </div>
 
       <div class="question">
         <div class="question-label">Question 1</div>
-        <p>Justifie que le diamètre [AB] mesure 9 cm.</p>
-        <div class="justif-box"><b>💡 Ce qu'on attend :</b> le rayon est donné. Le diamètre est le double du rayon. Écris la formule et le calcul.</div>
+        <p>Explique pourquoi la probabilité que la bille s'arrête sur le numéro 7 est 1/37.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> tu dois expliquer le raisonnement, pas juste donner le nombre.</div>
         <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
         <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
         <div class="correction">
           <h4>✅ Correction</h4>
-          <p>Le rayon du cercle est 4,5 cm. Le diamètre est le <b>double du rayon</b>.</p>
-          <p>Diamètre = 2 × 4,5 = <b>9 cm</b> ✓</p>
-          <div class="methode-box"><b>📌 Méthode</b> Même si le calcul est simple, il faut écrire la propriété utilisée (diamètre = 2 × rayon) et montrer le calcul complet. Ne jamais juste écrire "9 cm".</div>
+          <p>La roue comporte <b>37 cases au total</b> (les numéros 0, 1, 2, …, 36). La bille a la même probabilité de tomber sur chacune. Il y a donc <b>37 cas possibles</b>, et <b>1 seul cas favorable</b> (tomber sur le 7).</p>
+          <p>Donc : probabilité = nombre de cas favorables ÷ nombre de cas possibles = <b>1/37</b>.</p>
+          <div class="methode-box"><b>📌 Méthode "justification"</b> Au brevet, il faut toujours écrire la formule : P = (cas favorables) / (cas possibles), puis remplacer par les nombres. Ne jamais donner le résultat sans expliquer d'où il vient.</div>
         </div>
       </div>
 
@@ -99,19 +110,15 @@ textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
 
       <div class="question">
         <div class="question-label">Question 2</div>
-        <p>Démontre que le triangle ABD est rectangle en D.</p>
-        <div class="justif-box"><b>💡 Ce qu'on attend :</b> utilise le théorème de Pythagore (ou une propriété du cercle). Calcule BD² + DA² et compare à AB².</div>
+        <p>Détermine la probabilité que la bille s'arrête sur une case à la fois <b>noire et paire</b>.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> identifie le nombre de cas favorables, puis applique la formule.</div>
         <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
         <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
         <div class="correction">
           <h4>✅ Correction</h4>
-          <p>On calcule les carrés des trois côtés :</p>
-          <p>BD² = 5,4² = 29,16<br>
-          DA² = 7,2² = 51,84<br>
-          AB² = 9² = 81</p>
-          <p>BD² + DA² = 29,16 + 51,84 = <b>81 = AB²</b></p>
-          <p>D'après la <b>réciproque du théorème de Pythagore</b>, le triangle ABD est rectangle en D.</p>
-          <div class="methode-box"><b>📌 Méthode "réciproque de Pythagore"</b> On calcule les carrés des 3 côtés. Si le carré du plus grand côté = somme des carrés des deux autres, alors le triangle est rectangle (en face du plus grand côté). Il faut écrire "d'après la réciproque du théorème de Pythagore".</div>
+          <p>Il y a <b>18 cases noires et paires</b> sur 37 cases au total.</p>
+          <p>Probabilité = 18/37.</p>
+          <div class="methode-box"><b>📌 Méthode</b> On compte d'abord les cas favorables (ici les cases noires ET paires), puis on divise par le nombre total de cases. Les deux conditions doivent être vraies en même temps.</div>
         </div>
       </div>
 
@@ -119,47 +126,54 @@ textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
 
       <div class="question">
         <div class="question-label">Question 3</div>
-        <p>a) Justifie que l'aire du triangle ABD est égale à 19,44 cm².</p>
-        <p>b) Calcule l'aire du disque, arrondie au centième. (Rappel : Aire = π × R²)</p>
-        <div class="justif-box"><b>💡 Ce qu'on attend :</b> le triangle est rectangle en D, donc la base et la hauteur sont BD et DA. Montre le calcul complet.</div>
+        <p>a) Détermine la probabilité que la bille s'arrête sur un numéro <b>inférieur ou égal à 6</b>.</p>
+        <p>b) En déduis la probabilité qu'elle s'arrête sur un numéro <b>supérieur ou égal à 7</b>.</p>
+        <p>c) Un joueur dit qu'on a plus de 3 chances sur 4 d'obtenir un numéro ≥ 7. A-t-il raison ?</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> pour b), utilise le fait que la somme des probabilités vaut toujours 1. Pour c), compare les fractions.</div>
         <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
         <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
         <div class="correction">
           <h4>✅ Correction</h4>
-          <p><b>a)</b> Le triangle ABD est rectangle en D, donc les côtés BD et DA sont perpendiculaires. On prend BD comme base et DA comme hauteur.</p>
-          <p>Aire = (BD × DA) / 2 = (5,4 × 7,2) / 2 = 38,88 / 2 = <b>19,44 cm²</b> ✓</p>
-          <p><b>b)</b> R = 4,5 cm. Aire du disque = π × 4,5² = π × 20,25 ≈ <b>63,62 cm²</b></p>
-          <div class="methode-box"><b>📌 Méthode "aire du triangle rectangle"</b> Dans un triangle rectangle, les deux côtés de l'angle droit sont la base et la hauteur. Aire = (côté 1 × côté 2) / 2.</div>
+          <p><b>a)</b> Les numéros ≤ 6 sont : 0, 1, 2, 3, 4, 5, 6 → <b>7 numéros</b>. Probabilité = 7/37.</p>
+          <p><b>b)</b> Les deux événements (≤ 6 et ≥ 7) sont complémentaires, donc leur probabilité s'additionne pour faire 1.<br>
+          P(≥ 7) = 1 − 7/37 = 30/37.</p>
+          <p><b>c)</b> 3/4 = 27,75/37. Or 30/37 > 27,75/37. <b>Le joueur a raison.</b></p>
+          <div class="methode-box"><b>📌 Méthode "événement complémentaire"</b> Si P(A) + P(non A) = 1, alors P(non A) = 1 − P(A). C'est un outil très utile au brevet. Pour comparer des fractions, on les ramène au même dénominateur.</div>
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- EXERCICE 2 : Thalès -->
+  <!-- EXERCICE 2 : Calcul littéral / programmes de calcul -->
   <div class="exo-card">
-    <div class="exo-header">Exercice 2 — Théorème de Thalès (d'après Brevet 2023 Métropole)</div>
+    <div class="exo-header">Exercice 2 — Calcul littéral (d'après Brevet 2023 Métropole)</div>
     <div class="exo-body">
 
       <div class="enonce">
-        <p>Dans la figure :</p>
-        <p>— BCDE est un rectangle avec AB = BC = 4,2 cm et EB = EF = 7 cm</p>
-        <p>— BAE est un triangle rectangle en A</p>
-        <p>— La droite (AH) est perpendiculaire à (CD)</p>
-        <p>— Les droites (ED) et (HA) sont parallèles</p>
+        <p><b>Programme A :</b></p>
+        <p>① Choisir un nombre. ② Multiplier par −2. ③ Ajouter 5.</p>
+        <p style="margin-top:8px"><b>Programme B :</b></p>
+        <p>① Choisir un nombre. ② Soustraire 5. ③ Multiplier le résultat par 3. ④ Ajouter 11.</p>
       </div>
 
       <div class="question">
         <div class="question-label">Question 1</div>
-        <p>Montre que l'aire du rectangle BCDE est égale à 29,4 cm².</p>
-        <div class="justif-box"><b>💡 Ce qu'on attend :</b> formule de l'aire d'un rectangle + calcul complet.</div>
+        <p>a) Montre que si on choisit −3 comme nombre de départ, le résultat du programme A est 11.</p>
+        <p>b) Quel résultat obtient-on avec le programme B si on choisit 5,5 ?</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> pour "montrer", tu dois détailler chaque étape du calcul, pas juste donner le résultat final.</div>
         <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
         <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
         <div class="correction">
           <h4>✅ Correction</h4>
-          <p>BCDE est un rectangle avec BC = 4,2 cm et CD = EB = 7 cm (côtés opposés d'un rectangle).</p>
-          <p>Aire = longueur × largeur = 7 × 4,2 = <b>29,4 cm²</b> ✓</p>
-          <div class="methode-box"><b>📌 Méthode</b> Écrire la formule, identifier les mesures, puis calculer. Justifier pourquoi CD = 7 cm (côtés opposés d'un rectangle sont égaux).</div>
+          <p><b>a)</b> On part de −3.<br>
+          Étape ② : −3 × (−2) = 6<br>
+          Étape ③ : 6 + 5 = <b>11</b> ✓</p>
+          <p><b>b)</b> On part de 5,5.<br>
+          Étape ② : 5,5 − 5 = 0,5<br>
+          Étape ③ : 0,5 × 3 = 1,5<br>
+          Étape ④ : 1,5 + 11 = <b>12,5</b></p>
+          <div class="methode-box"><b>📌 Méthode "montrer"</b> Quand l'énoncé dit "montrer que…", il faut écrire chaque calcul étape par étape. Le résultat final doit apparaître naturellement. Ne jamais partir du résultat pour revenir en arrière.</div>
         </div>
       </div>
 
@@ -167,23 +181,38 @@ textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
 
       <div class="question">
         <div class="question-label">Question 2</div>
-        <p>a) Montre que AE = 5,6 cm. (Le triangle BAE est rectangle en A, avec AB = 4,2 cm et BE = 7 cm)</p>
-        <p>b) Calcule AH en utilisant le théorème de Thalès dans le triangle. (Les droites (ED) et (HA) sont parallèles, avec AE = 5,6 cm, EF = EB = 7 cm)</p>
-        <div class="justif-box"><b>💡 Ce qu'on attend :</b> a) utilise Pythagore. b) écris bien les rapports de Thalès et montre le calcul.</div>
+        <p>On appelle x le nombre de départ. Le programme A donne −2x + 5.</p>
+        <p>Montre que le programme B donne 3x − 4.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> applique chaque étape du programme B à x, en développant.</div>
         <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
         <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
         <div class="correction">
           <h4>✅ Correction</h4>
-          <p><b>a)</b> Le triangle BAE est rectangle en A, donc d'après le théorème de Pythagore :</p>
-          <p>BE² = AB² + AE²<br>
-          7² = 4,2² + AE²<br>
-          49 = 17,64 + AE²<br>
-          AE² = 49 − 17,64 = 31,36<br>
-          AE = √31,36 = <b>5,6 cm</b> ✓</p>
-          <p><b>b)</b> Les droites (ED) et (HA) sont parallèles. D'après le <b>théorème de Thalès</b> dans le triangle EFA :</p>
-          <p>AH/ED = EA/EF → AH/4,2 = 5,6/7<br>
-          AH = 4,2 × 5,6/7 = 4,2 × 0,8 = <b>3,36 cm</b></p>
-          <div class="methode-box"><b>📌 Méthode "Thalès"</b> 1) Vérifier que les droites sont bien parallèles (le citer). 2) Écrire les trois rapports égaux. 3) Identifier les longueurs connues. 4) Calculer l'inconnue par produit en croix.</div>
+          <p>On part de x.</p>
+          <p>Étape ② : x − 5</p>
+          <p>Étape ③ : (x − 5) × 3 = 3x − 15</p>
+          <p>Étape ④ : 3x − 15 + 11 = <b>3x − 4</b> ✓</p>
+          <div class="methode-box"><b>📌 Méthode "calcul littéral"</b> On remplace le nombre par x et on applique chaque opération dans l'ordre. On développe et on simplifie. Ne pas oublier de distribuer (ici ×3 s'applique à tout (x−5)).</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="question">
+        <div class="question-label">Question 3</div>
+        <p>Détermine par le calcul le nombre de départ pour lequel les deux programmes donnent le même résultat.</p>
+        <div class="justif-box"><b>💡 Ce qu'on attend :</b> pose une équation en écrivant que programme A = programme B, puis résous-la.</div>
+        <textarea placeholder="Écris ta réponse et ta justification ici..."></textarea>
+        <button class="btn-correction" onclick="toggleCorr(this)">Voir la correction ▼</button>
+        <div class="correction">
+          <h4>✅ Correction</h4>
+          <p>On cherche x tel que Programme A = Programme B :</p>
+          <p>−2x + 5 = 3x − 4</p>
+          <p>5 + 4 = 3x + 2x</p>
+          <p>9 = 5x</p>
+          <p>x = 9/5 = <b>1,8</b></p>
+          <p>Le nombre de départ est <b>1,8</b>.</p>
+          <div class="methode-box"><b>📌 Méthode "équation"</b> On regroupe les x d'un côté et les nombres de l'autre. On vérifie en remplaçant : Programme A : −2×1,8+5 = −3,6+5 = 1,4. Programme B : 3×1,8−4 = 5,4−4 = 1,4 ✓</div>
         </div>
       </div>
 
@@ -191,6 +220,7 @@ textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
   </div>
 
 </div>
+
 <script>
 function toggleCorr(btn) {
   var corr = btn.nextElementSibling;
