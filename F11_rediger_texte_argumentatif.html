@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F11 — Rédiger un texte argumentatif</title>
+<style>
+  :root{
+    --c:#1E8449;--c-light:#D5F5E3;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;padding-bottom:40px}
+  header{background:var(--c);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:relative;z-index:50;-webkit-tap-highlight-color:transparent}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px}
+  .tab.active{color:var(--c);border-bottom-color:var(--c)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .sh-c{background:var(--c)}.sh-b{background:var(--bleu)}.sh-o{background:var(--orange)}.sh-v{background:var(--violet)}.sh-g{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--c-light);border-left:4px solid var(--c);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--c)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--c);font-weight:700}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--c-light);color:var(--c);font-weight:700;font-size:12px;padding:8px 12px;min-width:130px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .chain-item{display:-webkit-flex;display:flex;gap:12px;margin-bottom:12px;-webkit-align-items:flex-start;align-items:flex-start}
+  .chain-num{background:var(--c);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0;margin-top:1px}
+  .chain-text{font-size:13px;line-height:1.6;-webkit-flex:1;flex:1}
+  .chain-text strong{color:var(--c)}
+  .plan-box{background:white;border:2px solid var(--c);border-radius:var(--radius);overflow:hidden;margin:10px 0}
+  .plan-row{display:-webkit-flex;display:flex;-webkit-align-items:stretch;align-items:stretch;border-bottom:1px solid var(--border)}
+  .plan-row:last-child{border-bottom:none}
+  .plan-label{background:var(--c);color:white;font-size:12px;font-weight:700;padding:10px 12px;min-width:110px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;text-align:center}
+  .plan-content{padding:10px 14px;font-size:13px;line-height:1.6;-webkit-flex:1;flex:1}
+  .exemple-box{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:14px;margin:10px 0;font-size:13px;line-height:1.7}
+  .exemple-box h4{color:#7D6608;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--c);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;color:var(--text);-webkit-tap-highlight-color:transparent}
+  .quiz-opt:hover{border-color:var(--c);background:var(--c-light)}
+  .quiz-opt.correct{background:var(--c-light);border-color:var(--c);color:var(--c);font-weight:600}
+  .quiz-opt.wrong{background:#FADBD8;border-color:#C0392B;color:#C0392B}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:#FADBD8;color:#C0392B;border:1px solid #C0392B;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--c-light);color:var(--c);border:1px solid var(--c);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .btn-reset{background:var(--c);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--c-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--c);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--c);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--c)}
+  .btn-corr{background:var(--c);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--c-light);border-left:4px solid var(--c);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--c);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--c);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--c)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🗣️ F11 — Rédiger un texte argumentatif</h1>
+  <p>Fiche complète · Séquence 11 · Français · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<div class="panel active" id="panel-fiche">
+  <div class="section">
+    <div class="section-head sh-c">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>En une phrase :</strong> Rédiger un texte argumentatif, c'est défendre une opinion (ta thèse) en suivant un <strong>plan structuré</strong> : introduction → développement (arguments + exemples) → conclusion. La clé du brevet : être organisé, clair et utiliser des connecteurs logiques.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-b">📐 Le plan d'un texte argumentatif</div>
+    <div class="section-body">
+      <div class="plan-box">
+        <div class="plan-row">
+          <div class="plan-label">INTRODUCTION</div>
+          <div class="plan-content">
+            <strong>1. Accroche :</strong> une phrase qui attire l'attention (question, citation, fait surprenant).<br>
+            <strong>2. Présentation du sujet :</strong> tu reformules la question posée en tes propres mots.<br>
+            <strong>3. Annonce de la thèse :</strong> tu dis clairement ce que tu vas défendre.
+          </div>
+        </div>
+        <div class="plan-row">
+          <div class="plan-label">DÉVELOPPEMENT</div>
+          <div class="plan-content">
+            <strong>Paragraphe 1 :</strong> Argument 1 + exemple + explication.<br>
+            <strong>Paragraphe 2 :</strong> Argument 2 + exemple + explication.<br>
+            <strong>(Paragraphe 3 optionnel) :</strong> Concession + réfutation de l'argument adverse.
+          </div>
+        </div>
+        <div class="plan-row">
+          <div class="plan-label">CONCLUSION</div>
+          <div class="plan-content">
+            <strong>1. Bilan :</strong> tu rappelles ta thèse et résumes tes arguments.<br>
+            <strong>2. Ouverture :</strong> tu poses une question plus large ou tu proposes une réflexion sur l'avenir.
+          </div>
+        </div>
+      </div>
+      <div class="warn-box"><strong>Au brevet :</strong> même si le texte demandé n'est que de 15 à 20 lignes, tu dois respecter cette structure. Introduction + développement + conclusion, même courts.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-o">✍️ Comment rédiger chaque partie</div>
+    <div class="section-body">
+      <p style="font-size:13px;font-weight:700;color:var(--c);margin-bottom:8px">L'introduction (3 à 5 lignes) :</p>
+      <div class="chain-item">
+        <div class="chain-num">1</div>
+        <div class="chain-text"><strong>L'accroche :</strong> commence par une question rhétorique, un fait marquant ou une citation. Ex : <em>"Peut-on imaginer notre quotidien sans internet ?"</em></div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">2</div>
+        <div class="chain-text"><strong>La présentation :</strong> reformule le sujet sans le copier mot pour mot. Ex : <em>"La question de la place du numérique dans nos vies est aujourd'hui centrale."</em></div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">3</div>
+        <div class="chain-text"><strong>La thèse :</strong> annonce clairement ta position. Ex : <em>"Je suis convaincu que le numérique, bien utilisé, est une chance pour les élèves."</em></div>
+      </div>
+
+      <p style="font-size:13px;font-weight:700;color:var(--c);margin:12px 0 8px">Le paragraphe de développement (5 à 8 lignes chacun) :</p>
+      <div class="exemple-box">
+        <h4>Structure AECE : Argument → Explication → exemple → Connecteur</h4>
+        <p><strong>[Argument]</strong> Le numérique facilite l'accès au savoir. <strong>[Explication]</strong> En effet, un élève peut aujourd'hui trouver en quelques secondes des explications sur n'importe quel sujet, à n'importe quelle heure. <strong>[Exemple]</strong> Par exemple, des plateformes comme Khan Academy proposent des milliers de cours gratuits en mathématiques et en sciences. <strong>[Connecteur]</strong> De plus, ces outils permettent de travailler à son rythme, ce qui est particulièrement utile pour les élèves en difficulté.</p>
+      </div>
+
+      <p style="font-size:13px;font-weight:700;color:var(--c);margin:12px 0 8px">La conclusion (3 à 4 lignes) :</p>
+      <ul class="bull-list">
+        <li>Commence par "En conclusion" ou "Pour conclure".</li>
+        <li>Rappelle ta thèse en d'autres mots.</li>
+        <li>Résume tes arguments en une phrase.</li>
+        <li>Termine par une ouverture (une question ou une idée plus large).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-v">⚠️ Les erreurs classiques à éviter</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li><strong>Oublier de prendre position :</strong> ton texte doit défendre une thèse claire. "D'un côté, d'un autre côté" sans conclure = pas de thèse. C'est une erreur.</li>
+        <li><strong>Donner un exemple sans argument :</strong> "Par exemple, les téléphones sont utiles" n'est pas un argument, c'est un exemple sans raison générale.</li>
+        <li><strong>Ne pas utiliser de connecteurs :</strong> "En effet", "De plus", "Cependant", "En conclusion" organisent ton texte et montrent que tu sais raisonner.</li>
+        <li><strong>Rédiger sans introduction ni conclusion :</strong> même courtes, elles sont obligatoires au brevet.</li>
+        <li><strong>Copier le sujet mot pour mot :</strong> reformule toujours en tes propres mots.</li>
+        <li><strong>Répéter plusieurs fois les mêmes mots :</strong> varie le vocabulaire (numérique / technologie / outils numériques / internet).</li>
+      </ul>
+      <div class="success-box"><strong>Conseil :</strong> Avant de rédiger, prends 3 minutes pour noter sur le brouillon : ta thèse en une phrase, 2 arguments, 1 exemple par argument. Ce plan rapide t'évitera de t'égarer.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-g">📚 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Introduction</div><div class="mc-def">La partie qui ouvre le texte : accroche + présentation du sujet + annonce de la thèse.</div></div>
+      <div class="mc-row"><div class="mc-terme">Développement</div><div class="mc-def">La partie centrale : 2 ou 3 paragraphes avec chacun un argument, une explication et un exemple.</div></div>
+      <div class="mc-row"><div class="mc-terme">Conclusion</div><div class="mc-def">La partie finale : bilan des arguments + rappel de la thèse + ouverture vers une idée plus large.</div></div>
+      <div class="mc-row"><div class="mc-terme">Accroche</div><div class="mc-def">La première phrase de l'introduction, qui attire l'attention du lecteur (question, fait, citation).</div></div>
+      <div class="mc-row"><div class="mc-terme">Ouverture</div><div class="mc-def">La dernière phrase de la conclusion, qui élargit la réflexion vers une idée plus générale ou une question nouvelle.</div></div>
+      <div class="mc-row"><div class="mc-terme">Réfutation</div><div class="mc-def">Répondre à un argument adverse pour montrer qu'il est peu solide ou incomplet.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz :</strong> 12 questions sur la rédaction d'un texte argumentatif.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num"></div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-exo">
+  <div style="display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:8px">
+    <div style="font-size:14px;font-weight:700">Exercice type brevet</div>
+    <span class="duree-badge">⏱ Durée conseillée : 40 min</span>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Sujet de rédaction — Brevet type</h3>
+    <p>En vous appuyant sur vos connaissances et votre expérience personnelle, rédigez un texte argumentatif d'environ 20 lignes pour répondre à la question suivante :</p>
+    <p style="margin-top:10px;font-size:14px;font-weight:700;color:#7D6608">Faut-il interdire les téléphones portables au collège ?</p>
+    <p style="margin-top:8px">Vous défendrez une thèse claire (pour ou contre), avec au moins deux arguments illustrés d'exemples, des connecteurs logiques, une introduction et une conclusion.</p>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Étape 1 — Préparer son plan<span class="pts">4 pts</span></div>
+    <div class="q-exo-body">
+      <p>Avant de rédiger, notez votre plan : votre thèse (pour ou contre), vos deux arguments et un exemple pour chacun.</p>
+      <textarea placeholder="Thèse : ...\nArgument 1 : ...\nExemple 1 : ...\nArgument 2 : ...\nExemple 2 : ..." style="min-height:120px"></textarea>
+      <button class="btn-corr" onclick="showCorr('c1')">Voir un exemple de plan</button>
+      <div class="corr-panel" id="c1">
+        <h4>✓ Exemple de plan (thèse : pour l'interdiction)</h4>
+        <p><strong>Thèse :</strong> L'interdiction du téléphone au collège est une bonne mesure pour améliorer les conditions d'apprentissage.</p>
+        <p style="margin-top:6px"><strong>Argument 1 :</strong> Le téléphone distrait les élèves et nuit à leur concentration en cours.</p>
+        <p><strong>Exemple 1 :</strong> Une étude de 2023 montre que les élèves qui n'ont pas de téléphone en classe obtiennent de meilleurs résultats aux évaluations.</p>
+        <p style="margin-top:6px"><strong>Argument 2 :</strong> Le téléphone favorise le harcèlement scolaire via les réseaux sociaux.</p>
+        <p><strong>Exemple 2 :</strong> Des insultes et des photos humiliantes peuvent circuler entre élèves dans la cour de récréation grâce aux téléphones.</p>
+        <div class="methode-box"><strong>Méthode :</strong> Le plan se fait toujours avant de rédiger, sur brouillon. Il t'évite de te répéter ou de t'égarer. 3 minutes de plan = 15 minutes de rédaction gagnées.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Étape 2 — Rédiger le texte complet<span class="pts">16 pts</span></div>
+    <div class="q-exo-body">
+      <p>Rédigez votre texte argumentatif complet : introduction + développement + conclusion (environ 20 lignes).</p>
+      <textarea placeholder="Rédigez votre texte ici..." style="min-height:240px"></textarea>
+      <button class="btn-corr" onclick="showCorr('c2')">Voir la correction</button>
+      <div class="corr-panel" id="c2">
+        <h4>✓ Exemple de texte rédigé (thèse : pour l'interdiction)</h4>
+        <p><strong>[Introduction]</strong> Combien de fois, en classe, avons-nous été distraits par la vibration d'un téléphone ? La question de la place du téléphone portable au collège est aujourd'hui au cœur des débats sur l'école. Je suis convaincu que l'interdire est une mesure nécessaire pour améliorer les conditions d'apprentissage.</p>
+        <p style="margin-top:8px"><strong>[Développement — Argument 1]</strong> En premier lieu, le téléphone portable nuit à la concentration des élèves. En effet, la simple présence d'un téléphone sur la table, même éteint, diminue la capacité d'attention. Par exemple, une étude menée en 2023 auprès d'élèves de collège a montré que ceux qui n'avaient pas de téléphone pendant les cours obtenaient en moyenne 10 % de meilleures notes aux contrôles.</p>
+        <p style="margin-top:8px"><strong>[Développement — Argument 2]</strong> De plus, le téléphone favorise les comportements de harcèlement scolaire. En effet, les réseaux sociaux et les messageries permettent de diffuser des messages blessants ou des photos humiliantes en quelques secondes. Ainsi, de nombreux cas de cyberharcèlement ont leur origine dans la cour de récréation, grâce aux téléphones des élèves. Cependant, il faut reconnaître que le téléphone peut aussi servir d'outil pédagogique. C'est pourquoi certains établissements autorisent son usage uniquement sous contrôle du professeur.</p>
+        <p style="margin-top:8px"><strong>[Conclusion]</strong> En conclusion, l'interdiction du téléphone au collège est une mesure qui protège les élèves des distractions et des risques de harcèlement. Certes, les outils numériques ont leur place dans l'éducation, mais leur usage doit être encadré et réfléchi. La vraie question n'est pas "faut-il interdire ?", mais "comment apprendre aux jeunes à utiliser ces outils de manière responsable ?"</p>
+        <div class="methode-box"><strong>Ce qu'on vérifie dans cet exemple :</strong><br>
+        ✓ Introduction : accroche + présentation + thèse<br>
+        ✓ 2 arguments avec exemples + connecteurs (En premier lieu, De plus, En effet, Par exemple, Ainsi, Cependant)<br>
+        ✓ Concession ("il faut reconnaître que")<br>
+        ✓ Conclusion : bilan + ouverture<br>
+        ✓ Vocabulaire varié, pas de répétition</div>
+        <div class="vocab-box"><strong>Vocabulaire utile :</strong> <em>Cyberharcèlement</em> = harcèlement qui se passe via les outils numériques. <em>Pédagogique</em> = qui sert à l'enseignement et à l'apprentissage. <em>Encadré</em> = surveillé, organisé par un adulte responsable.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPanel(id,tab){
+  var panels=document.querySelectorAll('.panel');
+  var tabs=document.querySelectorAll('.tab');
+  for(var i=0;i<panels.length;i++) panels[i].classList.remove('active');
+  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-'+id).classList.add('active');
+  tab.classList.add('active');
+}
+function showCorr(id){var el=document.getElementById(id);if(el) el.classList.toggle('show');}
+var QUESTIONS=[
+  {q:"Quelle est la structure correcte d'un texte argumentatif ?",opts:["Arguments → Introduction → Conclusion","Introduction → Conclusion → Développement","Introduction → Développement → Conclusion","Conclusion → Développement → Introduction"],correct:2,
+   expl:"Un texte argumentatif suit toujours l'ordre : Introduction (accroche + présentation + thèse) → Développement (paragraphes avec arguments et exemples) → Conclusion (bilan + ouverture). Cet ordre est logique : on annonce ce qu'on va dire, on le dit, puis on le résume."},
+  {q:"Qu'est-ce qu'une accroche ?",opts:["La dernière phrase du texte","La première phrase de l'introduction qui attire l'attention du lecteur","Le premier argument du développement","Le résumé de la thèse"],correct:1,
+   expl:"L'accroche est la toute première phrase de l'introduction. Son but est d'attirer l'attention du lecteur et de l'inciter à lire la suite. On peut utiliser une question ('Peut-on imaginer…?'), un fait surprenant ou une citation. Elle doit être en lien direct avec le sujet."},
+  {q:"Qu'appelle-t-on l'ouverture dans une conclusion ?",opts:["La répétition exacte de la thèse","La liste de tous les arguments du développement","Une question ou une idée plus large qui prolonge la réflexion","Une nouvelle thèse différente de celle du début"],correct:2,
+   expl:"L'ouverture est la dernière phrase de la conclusion. Elle élargit la réflexion vers une idée plus générale, une question nouvelle ou une piste pour l'avenir. Elle ne doit pas introduire une nouvelle thèse, mais proposer un prolongement de la réflexion. Ex : 'La vraie question est de savoir comment…'"},
+  {q:"Quel est le but d'une concession dans un texte argumentatif ?",opts:["Abandonner sa thèse","Reconnaître un point valable dans l'opinion adverse avant de revenir à sa thèse","Introduire un exemple concret","Conclure le texte"],correct:1,
+   expl:"La concession montre qu'on a réfléchi aux deux côtés du problème. On reconnaît qu'un aspect de l'opinion adverse est vrai ('Il est vrai que…', 'Certes…'), puis on réaffirme sa thèse ('mais…', 'cependant…'). C'est une technique avancée qui rend le texte plus solide et plus honnête."},
+  {q:"Combien de paragraphes doit comporter le développement au minimum ?",opts:["1","2","4","6"],correct:1,
+   expl:"Le développement doit comporter au minimum 2 paragraphes, chacun avec un argument différent. Au brevet, 2 arguments bien développés (avec exemple et explication) suffisent pour une bonne note. Un seul argument est insuffisant, quatre arguments mal développés valent moins que deux bien travaillés."},
+  {q:"Pourquoi ne faut-il pas copier le sujet mot pour mot dans son introduction ?",opts:["Parce que c'est interdit par le règlement","Parce que cela montre qu'on sait reformuler et comprendre le sujet","Parce que l'introduction doit être plus longue que le sujet","Parce que le sujet est toujours faux"],correct:1,
+   expl:"Reformuler le sujet montre que tu l'as compris et que tu sais l'exprimer en tes propres mots. C'est une compétence évaluée au brevet. Copier mot pour mot est considéré comme du manque d'effort et peut être pénalisé. Une reformulation, même simple, montre ta maîtrise de la langue."},
+  {q:"Quel est le rôle de la conclusion dans un texte argumentatif ?",opts:["Introduire un nouvel argument oublié dans le développement","Raconter une histoire pour illustrer la thèse","Rappeler la thèse et les arguments principaux, puis ouvrir la réflexion","Donner la liste de tous les exemples utilisés"],correct:2,
+   expl:"La conclusion a deux fonctions : (1) faire le bilan en rappelant la thèse et en résumant les arguments (bref, en une ou deux phrases), et (2) ouvrir la réflexion vers une idée plus large. Elle ne doit pas introduire un nouvel argument : tout ce qu'on dit dans le développement doit être annoncé dans l'introduction."},
+  {q:"Quelle erreur commet-on quand on défend les deux positions sans trancher ?",opts:["On utilise trop de connecteurs logiques","On n'a pas de thèse claire, ce qui est une faute structurelle","On a trop d'exemples dans le développement","On oublie l'accroche dans l'introduction"],correct:1,
+   expl:"Un texte argumentatif doit défendre UNE thèse claire. Si on dit 'd'un côté ceci, de l'autre côté cela' sans jamais prendre position, il n'y a pas de thèse. C'est une faute structurelle. On peut mentionner l'opinion adverse via une concession, mais on doit toujours revenir à sa propre position."},
+  {q:"Comment s'appelle la technique qui consiste à répondre à l'argument adverse ?",opts:["La comparaison","La narration","La réfutation","L'accroche"],correct:2,
+   expl:"La réfutation consiste à mentionner l'argument adverse (parfois sous forme de concession) puis à lui répondre pour montrer qu'il est peu solide ou incomplet. Ex : 'Certes, les téléphones peuvent être utiles en classe (concession), mais sans encadrement, ils restent avant tout une source de distraction (réfutation).'"},
+  {q:"Quel connecteur convient le mieux pour introduire le premier argument ?",opts:["En conclusion","En premier lieu","Par exemple","Cependant"],correct:1,
+   expl:"'En premier lieu' (ou 'Premièrement', 'Tout d'abord') convient pour introduire le premier argument. Il annonce qu'il y aura plusieurs points développés dans l'ordre. 'En conclusion' clôt le texte, 'par exemple' illustre un argument, 'cependant' exprime une opposition."},
+  {q:"Quelle est la différence entre une introduction et un développement ?",opts:["Il n'y a aucune différence","L'introduction présente le sujet et annonce la thèse ; le développement argumente et illustre","Le développement est toujours plus court que l'introduction","L'introduction contient les exemples ; le développement contient la thèse"],correct:1,
+   expl:"L'introduction (3 à 5 lignes) présente le sujet, capte l'attention et annonce la position. Le développement (le cœur du texte) argumente, explique et illustre avec des exemples. C'est toujours dans cet ordre : d'abord on annonce ce qu'on va défendre, ensuite on le défend."},
+  {q:"Pourquoi est-il utile de faire un plan avant de rédiger ?",opts:["Pour éviter de faire des fautes d'orthographe","Pour montrer à l'examinateur qu'on sait écrire vite","Pour organiser ses idées, éviter les répétitions et gagner du temps lors de la rédaction","Pour ajouter des points bonus à sa note"],correct:2,
+   expl:"Faire un plan rapide (même 3 minutes sur brouillon) permet d'organiser ses idées avant de commencer, d'éviter de se répéter ou de s'éloigner du sujet, et de rédiger plus vite et plus clairement. Un bon plan = une rédaction plus fluide et mieux structurée."},
+];
+var answered={},score=0;
+function buildQuiz(){
+  var c=document.getElementById('quiz-container');
+  c.innerHTML=''; answered={}; score=0;
+  for(var i=0;i<QUESTIONS.length;i++){
+    var q=QUESTIONS[i];var opts='';
+    for(var j=0;j<q.opts.length;j++) opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';
+    var div=document.createElement('div');div.className='quiz-q';
+    div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;
+  answered[qi]=choice;var q=QUESTIONS[qi];
+  var opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for(var i=0;i<opts.length;i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  var ok=choice===q.correct;if(ok) score++;
+  var expl=document.getElementById('expl-'+qi);
+  expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  var el=document.getElementById('quiz-score');var pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  var msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;window.showScore=showScore;window.buildQuiz=buildQuiz;
+</script>
+</body>
+</html>

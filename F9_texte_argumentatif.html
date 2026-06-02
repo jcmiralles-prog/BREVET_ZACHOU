@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F9 — Le texte argumentatif</title>
+<style>
+  :root{
+    --c:#1E8449;--c-light:#D5F5E3;--c-mid:#27AE60;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;padding-bottom:40px}
+  header{background:var(--c);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:relative;z-index:50;-webkit-tap-highlight-color:transparent}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px}
+  .tab.active{color:var(--c);border-bottom-color:var(--c)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .sh-c{background:var(--c)}
+  .sh-b{background:var(--bleu)}
+  .sh-o{background:var(--orange)}
+  .sh-v{background:var(--violet)}
+  .sh-g{background:var(--gris)}
+  .section-body{padding:14px}
+
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--c-light);border-left:4px solid var(--c);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--c)}
+
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--c);font-weight:700}
+
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--c-light);color:var(--c);font-weight:700;font-size:12px;padding:8px 12px;min-width:140px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+
+  .chain-item{display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;-webkit-align-items:flex-start;align-items:flex-start}
+  .chain-num{background:var(--c);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0;margin-top:1px}
+  .chain-text{font-size:13px;line-height:1.6;-webkit-flex:1;flex:1}
+  .chain-text strong{color:var(--c)}
+
+  .connect-grid{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .connect-tag{background:var(--c-light);color:var(--c);border:1px solid var(--c);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600}
+
+  .exemple-box{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:14px;margin:10px 0;font-size:13px;line-height:1.7}
+  .exemple-box h4{color:#7D6608;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--c);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;color:var(--text);-webkit-tap-highlight-color:transparent}
+  .quiz-opt:hover{border-color:var(--c);background:var(--c-light)}
+  .quiz-opt.correct{background:var(--c-light);border-color:var(--c);color:var(--c);font-weight:600}
+  .quiz-opt.wrong{background:#FADBD8;border-color:#C0392B;color:#C0392B}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:#FADBD8;color:#C0392B;border:1px solid #C0392B;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--c-light);color:var(--c);border:1px solid var(--c);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .btn-reset{background:var(--c);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--c-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--c);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--c);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--c)}
+  .btn-corr{background:var(--c);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--c-light);border-left:4px solid var(--c);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--c);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--c);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--c)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+
+  @media(max-width:500px){.seq-link{-webkit-flex:1 1 100%;flex:1 1 100%}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📝 F9 — Le texte argumentatif</h1>
+  <p>Fiche complète · Séquence 9 · Français · Brevet 2026</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- FICHE -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head sh-c">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> Un texte argumentatif cherche à <strong>convaincre le lecteur</strong> en défendant une <strong>thèse</strong> (= une opinion) à l'aide d'<strong>arguments</strong> soutenus par des <strong>exemples</strong>. C'est le type de texte qu'on trouve dans les éditoriaux, les lettres ouvertes, les discours et les essais.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-b">🏗️ La structure d'un texte argumentatif</div>
+    <div class="section-body">
+      <div class="chain-item">
+        <div class="chain-num">1</div>
+        <div class="chain-text"><strong>La thèse</strong> — c'est la position de l'auteur, son opinion sur un sujet. Elle répond à la question : <em>"Qu'est-ce que l'auteur défend ?"</em><br>Exemple : <em>"Le sport est indispensable à la santé des jeunes."</em></div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">2</div>
+        <div class="chain-text"><strong>Les arguments</strong> — ce sont les raisons données pour soutenir la thèse. Chaque argument doit répondre à la question : <em>"Pourquoi l'auteur pense-t-il cela ?"</em><br>Exemple : <em>"Le sport renforce le cœur et les muscles."</em></div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">3</div>
+        <div class="chain-text"><strong>Les exemples</strong> — ce sont des illustrations concrètes qui rendent l'argument plus convaincant. Ils peuvent être tirés de la vie réelle, des statistiques, d'un livre, d'une expérience.<br>Exemple : <em>"Selon l'OMS, 60 minutes d'activité physique par jour réduisent de 30 % les risques de maladies cardiovasculaires."</em></div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">4</div>
+        <div class="chain-text"><strong>La conclusion</strong> — elle rappelle la thèse et résume les arguments. Elle peut ouvrir sur une idée plus large.</div>
+      </div>
+      <div class="warn-box"><strong>À ne pas confondre :</strong> L'argument répond à "pourquoi" (une raison abstraite). L'exemple répond à "comme par exemple" (une preuve concrète). Un bon argument est toujours suivi d'un exemple.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-o">🔗 Les connecteurs logiques — indispensables au brevet</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Les connecteurs organisent le raisonnement. Tu <strong>dois</strong> les utiliser dans ta rédaction pour montrer que tu sais structurer tes idées.</p>
+
+      <p style="font-size:13px;font-weight:700;color:var(--c);margin-bottom:6px">Pour ajouter une idée :</p>
+      <div class="connect-grid">
+        <span class="connect-tag">De plus</span>
+        <span class="connect-tag">En outre</span>
+        <span class="connect-tag">Par ailleurs</span>
+        <span class="connect-tag">Également</span>
+        <span class="connect-tag">Enfin</span>
+      </div>
+
+      <p style="font-size:13px;font-weight:700;color:var(--c);margin:12px 0 6px">Pour illustrer / donner un exemple :</p>
+      <div class="connect-grid">
+        <span class="connect-tag">Par exemple</span>
+        <span class="connect-tag">Ainsi</span>
+        <span class="connect-tag">C'est le cas de</span>
+        <span class="connect-tag">Notamment</span>
+      </div>
+
+      <p style="font-size:13px;font-weight:700;color:var(--c);margin:12px 0 6px">Pour expliquer la cause :</p>
+      <div class="connect-grid">
+        <span class="connect-tag">En effet</span>
+        <span class="connect-tag">Car</span>
+        <span class="connect-tag">Parce que</span>
+        <span class="connect-tag">Puisque</span>
+      </div>
+
+      <p style="font-size:13px;font-weight:700;color:var(--c);margin:12px 0 6px">Pour exprimer la conséquence :</p>
+      <div class="connect-grid">
+        <span class="connect-tag">Donc</span>
+        <span class="connect-tag">Ainsi</span>
+        <span class="connect-tag">C'est pourquoi</span>
+        <span class="connect-tag">Par conséquent</span>
+      </div>
+
+      <p style="font-size:13px;font-weight:700;color:var(--c);margin:12px 0 6px">Pour exprimer l'opposition / la concession :</p>
+      <div class="connect-grid">
+        <span class="connect-tag">Cependant</span>
+        <span class="connect-tag">Mais</span>
+        <span class="connect-tag">Néanmoins</span>
+        <span class="connect-tag">Pourtant</span>
+        <span class="connect-tag">Même si</span>
+      </div>
+
+      <p style="font-size:13px;font-weight:700;color:var(--c);margin:12px 0 6px">Pour conclure :</p>
+      <div class="connect-grid">
+        <span class="connect-tag">En conclusion</span>
+        <span class="connect-tag">Pour conclure</span>
+        <span class="connect-tag">En définitive</span>
+        <span class="connect-tag">Ainsi</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-v">🔍 Comment analyser un texte argumentatif au brevet</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Quand on te demande d'analyser un texte argumentatif, tu dois répondre à ces questions :</p>
+      <ul class="bull-list">
+        <li><strong>Quelle est la thèse de l'auteur ?</strong> — Cherche la phrase qui résume son opinion principale.</li>
+        <li><strong>Quels arguments avance-t-il ?</strong> — Liste les raisons données (souvent 2 ou 3).</li>
+        <li><strong>Quels exemples utilise-t-il ?</strong> — Repère les illustrations concrètes.</li>
+        <li><strong>Quels connecteurs logiques utilise-t-il ?</strong> — Ils te montrent l'organisation du raisonnement.</li>
+        <li><strong>Quel est le registre du texte ?</strong> — Convaincre (raison) ou persuader (émotions) ?</li>
+      </ul>
+      <div class="success-box"><strong>Astuce :</strong> Pour trouver la thèse, lis le début et la fin du texte — c'est là qu'elle apparaît le plus souvent.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-g">📚 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Thèse</div><div class="mc-def">L'opinion principale défendue par l'auteur dans un texte argumentatif. C'est la réponse à "Que défend-il ?"</div></div>
+      <div class="mc-row"><div class="mc-terme">Argument</div><div class="mc-def">Une raison donnée pour soutenir la thèse. Il répond à "Pourquoi ?" et doit être logique.</div></div>
+      <div class="mc-row"><div class="mc-terme">Exemple</div><div class="mc-def">Une illustration concrète qui prouve l'argument. Il peut être tiré de la réalité, des statistiques ou d'une œuvre.</div></div>
+      <div class="mc-row"><div class="mc-terme">Connecteur logique</div><div class="mc-def">Mot ou groupe de mots qui organise le raisonnement en indiquant les relations entre les idées (cause, conséquence, opposition, addition…).</div></div>
+      <div class="mc-row"><div class="mc-terme">Convaincre</div><div class="mc-def">Faire adhérer le lecteur à sa thèse en utilisant des arguments logiques et rationnels.</div></div>
+      <div class="mc-row"><div class="mc-terme">Persuader</div><div class="mc-def">Faire adhérer le lecteur à sa thèse en faisant appel à ses émotions (peur, pitié, admiration…).</div></div>
+      <div class="mc-row"><div class="mc-terme">Concession</div><div class="mc-def">Reconnaître un aspect vrai dans l'opinion adverse avant de réaffirmer sa propre thèse. Ex : "Certes… mais…"</div></div>
+      <div class="mc-row"><div class="mc-terme">Contre-argument</div><div class="mc-def">Un argument qui va à l'encontre de la thèse. On l'utilise pour montrer qu'on connaît les objections et pour y répondre.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-c">✏️ Un exemple de paragraphe argumentatif bien construit</div>
+    <div class="section-body">
+      <div class="exemple-box">
+        <h4>Modèle : thèse → argument → exemple → connecteur</h4>
+        <p><strong>[Thèse]</strong> La lecture est essentielle pour les jeunes. <strong>[Argument]</strong> En effet, elle développe le vocabulaire et la capacité à comprendre des textes complexes. <strong>[Exemple]</strong> Ainsi, selon une étude du ministère de l'Éducation nationale, les élèves qui lisent au moins 30 minutes par jour obtiennent en moyenne 15 points de plus au brevet en français. <strong>[Connecteur d'ajout]</strong> De plus, la lecture stimule l'imagination et permet de voyager sans bouger de chez soi.</p>
+      </div>
+      <div class="warn-box"><strong>Erreur classique à éviter :</strong> Donner un exemple sans argument, ou un argument sans exemple. Les deux vont toujours ensemble.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- QUIZ -->
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz :</strong> 12 questions sur le texte argumentatif. Lis bien chaque question avant de répondre !</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num"></div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+  </div>
+</div>
+
+<!-- EXERCICE BREVET -->
+<div class="panel" id="panel-exo">
+
+  <div style="display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:8px">
+    <div style="font-size:14px;font-weight:700">Exercice type brevet</div>
+    <span class="duree-badge">⏱ Durée conseillée : 30 min</span>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Document — Texte argumentatif</h3>
+    <p>Les réseaux sociaux sont aujourd'hui omniprésents dans la vie des adolescents. Certains affirment qu'ils sont néfastes, mais je suis convaincu qu'ils peuvent être de véritables outils d'apprentissage et de solidarité.</p>
+    <p style="margin-top:8px">En effet, les plateformes numériques permettent aux jeunes d'accéder à une quantité immense d'informations. Par exemple, de nombreux adolescents suivent des chaînes éducatives qui expliquent les mathématiques, l'histoire ou les sciences de manière simple et engageante. Ainsi, ils apprennent à leur rythme, sans contrainte horaire.</p>
+    <p style="margin-top:8px">De plus, les réseaux sociaux favorisent l'entraide et la solidarité. En effet, lors de la crise du Covid-19, des milliers de jeunes ont utilisé Instagram et Twitter pour s'entraider, partager des ressources et soutenir les personnes isolées. Cependant, il est vrai que ces outils peuvent aussi présenter des dangers, notamment la diffusion de fausses informations. C'est pourquoi il est indispensable d'apprendre aux jeunes à utiliser ces plateformes de manière responsable.</p>
+    <p style="margin-top:8px">En conclusion, les réseaux sociaux ne sont ni bons ni mauvais en eux-mêmes. Tout dépend de l'usage qu'on en fait. Utilisés avec discernement, ils constituent une chance pour la jeunesse d'aujourd'hui.</p>
+    <div class="doc-source">Texte inspiré d'un éditorial type brevet — sujet reconstitué</div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 1 — Compréhension<span class="pts">4 pts</span></div>
+    <div class="q-exo-body">
+      <p>Quelle est la thèse défendue par l'auteur dans ce texte ? Citez une phrase du texte qui la résume clairement.</p>
+      <textarea placeholder="Écris ta réponse ici..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c1')">Voir la correction</button>
+      <div class="corr-panel" id="c1">
+        <h4>✓ Correction</h4>
+        <p>La thèse de l'auteur est que <strong>les réseaux sociaux peuvent être de véritables outils d'apprentissage et de solidarité</strong>. La phrase qui la résume le mieux est : <em>"je suis convaincu qu'ils peuvent être de véritables outils d'apprentissage et de solidarité."</em></p>
+        <div class="methode-box"><strong>Méthode :</strong> Pour trouver la thèse, lis le début et la fin du texte. L'auteur y annonce ou rappelle sa position principale. La thèse se repère souvent par des verbes d'opinion : <em>je suis convaincu que, je pense que, il me semble que…</em></div>
+        <div class="vocab-box"><strong>Vocabulaire :</strong> <em>Thèse</em> = l'opinion principale de l'auteur. Ne pas confondre avec le sujet du texte (les réseaux sociaux) et la thèse (ce que l'auteur en pense).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 2 — Analyse<span class="pts">6 pts</span></div>
+    <div class="q-exo-body">
+      <p>Relevez deux arguments utilisés par l'auteur pour défendre sa thèse. Pour chacun, donnez l'exemple concret qui l'illustre dans le texte.</p>
+      <textarea placeholder="Argument 1 : ...\nExemple 1 : ...\nArgument 2 : ...\nExemple 2 : ..." style="min-height:120px"></textarea>
+      <button class="btn-corr" onclick="showCorr('c2')">Voir la correction</button>
+      <div class="corr-panel" id="c2">
+        <h4>✓ Correction</h4>
+        <p><strong>Argument 1 :</strong> Les réseaux sociaux permettent d'accéder à de nombreuses informations et de s'instruire.<br><strong>Exemple 1 :</strong> Des adolescents suivent des chaînes éducatives qui expliquent les mathématiques, l'histoire ou les sciences simplement.</p>
+        <p style="margin-top:8px"><strong>Argument 2 :</strong> Les réseaux sociaux favorisent l'entraide et la solidarité.<br><strong>Exemple 2 :</strong> Lors du Covid-19, des milliers de jeunes ont utilisé Instagram et Twitter pour s'entraider et soutenir les personnes isolées.</p>
+        <div class="methode-box"><strong>Méthode :</strong> Pour distinguer l'argument de l'exemple, pose-toi ces deux questions : "Pourquoi ?" → c'est l'argument. "Comme par exemple ?" → c'est l'exemple. L'argument est une idée générale ; l'exemple est un fait précis qui la prouve.</div>
+        <div class="vocab-box"><strong>Connecteurs à repérer :</strong> <em>En effet</em> introduit souvent l'argument. <em>Par exemple, ainsi, notamment</em> introduisent l'exemple.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 3 — Réflexion personnelle<span class="pts">10 pts</span></div>
+    <div class="q-exo-body">
+      <p>En vous appuyant sur le texte et sur vos connaissances personnelles, rédigez un paragraphe argumentatif d'environ 15 lignes pour répondre à la question suivante : <strong>Les réseaux sociaux sont-ils dangereux pour les adolescents ?</strong><br>Vous défendrez une thèse claire, en utilisant au moins deux arguments avec des exemples, et des connecteurs logiques.</p>
+      <textarea placeholder="Rédigez votre paragraphe ici..." style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('c3')">Voir la correction</button>
+      <div class="corr-panel" id="c3">
+        <h4>✓ Correction — exemple de réponse rédigée</h4>
+        <p>Les réseaux sociaux présentent de réels dangers pour les adolescents, même s'ils offrent aussi des avantages. En effet, ils peuvent nuire à la santé mentale des jeunes. Par exemple, de nombreuses études montrent que les adolescents qui passent plus de trois heures par jour sur ces plateformes souffrent davantage d'anxiété et de dépression. De plus, les réseaux sociaux favorisent la diffusion de fausses informations, appelées "fake news". Ainsi, lors de la crise sanitaire, de nombreux jeunes ont cru des rumeurs dangereuses circulant sur les réseaux. Cependant, tout dépend de l'usage qu'on en fait : utilisés avec modération et esprit critique, ils restent des outils utiles. En conclusion, les réseaux sociaux sont dangereux uniquement quand on les utilise sans discernement. C'est pourquoi l'éducation au numérique est indispensable dès le collège.</p>
+        <div class="methode-box"><strong>Méthode — construire un paragraphe argumentatif :</strong><br>
+        1. Annonce ta thèse clairement dès la première phrase.<br>
+        2. Donne ton premier argument (répond à "pourquoi ?").<br>
+        3. Illustre-le avec un exemple concret.<br>
+        4. Donne un deuxième argument avec son exemple.<br>
+        5. Utilise une concession ("cependant…") si tu veux nuancer.<br>
+        6. Conclus en rappelant ta thèse en d'autres mots.</div>
+        <div class="vocab-box"><strong>Vocabulaire utile :</strong> <em>discernement</em> = capacité à juger avec intelligence. <em>Nuancer</em> = ne pas donner une réponse extrême, montrer qu'une réalité est complexe. <em>Modération</em> = le fait de ne pas abuser de quelque chose.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showPanel(id,tab){
+  var panels=document.querySelectorAll('.panel');
+  var tabs=document.querySelectorAll('.tab');
+  for(var i=0;i<panels.length;i++) panels[i].classList.remove('active');
+  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-'+id).classList.add('active');
+  tab.classList.add('active');
+}
+
+function showCorr(id){
+  var el=document.getElementById(id);
+  if(el) el.classList.toggle('show');
+}
+
+var QUESTIONS=[
+  {q:"Qu'est-ce qu'une thèse dans un texte argumentatif ?",
+   opts:["Un exemple concret tiré de la réalité","L'opinion principale défendue par l'auteur","Un connecteur logique comme 'en effet'","Un résumé objectif du sujet"],
+   correct:1,
+   expl:"La thèse est l'opinion principale que l'auteur défend dans son texte. Elle répond à la question 'Que pense l'auteur ?'. Ce n'est pas un fait neutre, c'est une prise de position. On la repère souvent au début ou à la fin du texte, avec des verbes d'opinion comme 'je pense que', 'il me semble que', 'je suis convaincu que'."},
+  {q:"Quelle est la différence entre un argument et un exemple ?",
+   opts:["Il n'y a aucune différence","L'argument est une raison générale ; l'exemple est une preuve concrète","L'argument est toujours une statistique","L'exemple vient toujours avant l'argument"],
+   correct:1,
+   expl:"L'argument est une raison abstraite et générale qui répond à 'pourquoi ?'. L'exemple est une preuve concrète qui illustre l'argument et répond à 'comme par exemple ?'. Les deux vont toujours ensemble dans un bon paragraphe argumentatif."},
+  {q:"Quel connecteur utilise-t-on pour introduire une opposition ou une nuance ?",
+   opts:["En effet","Par exemple","Cependant","Donc"],
+   correct:2,
+   expl:"'Cependant' est un connecteur d'opposition. Il introduit une idée contraire à ce qui vient d'être dit. D'autres connecteurs d'opposition : 'mais', 'néanmoins', 'pourtant', 'même si'. 'En effet' introduit une explication, 'par exemple' illustre, 'donc' exprime une conséquence."},
+  {q:"Qu'est-ce que 'convaincre' ?",
+   opts:["Faire pleurer le lecteur avec des images émouvantes","Faire adhérer le lecteur grâce à des arguments logiques et rationnels","Raconter une histoire pour distraire le lecteur","Donner des ordres au lecteur"],
+   correct:1,
+   expl:"Convaincre, c'est faire adhérer le lecteur à sa thèse en utilisant des arguments logiques et rationnels. On s'adresse à la raison du lecteur. À distinguer de 'persuader' qui fait appel aux émotions (peur, pitié, enthousiasme…). Au brevet, les textes argumentatifs peuvent utiliser les deux stratégies."},
+  {q:"Quel connecteur introduit habituellement la cause ou l'explication ?",
+   opts:["Donc","En effet","De plus","En conclusion"],
+   correct:1,
+   expl:"'En effet' introduit une explication ou une justification. Il répond à la question 'pourquoi ?' et sert à développer un argument. Par exemple : 'Les réseaux sociaux sont utiles. En effet, ils permettent d'accéder à de nombreuses informations.' 'Donc' exprime une conséquence, 'de plus' ajoute une idée, 'en conclusion' conclut."},
+  {q:"Qu'est-ce qu'une concession dans un texte argumentatif ?",
+   opts:["Reconnaître un point valable dans l'opinion adverse avant de réaffirmer sa thèse","Abandonner sa thèse face aux arguments de l'adversaire","Donner un exemple tiré d'un livre","Terminer un texte par une question"],
+   correct:0,
+   expl:"La concession consiste à reconnaître qu'un aspect de l'opinion contraire est vrai, avant de revenir à sa propre thèse. La structure classique est : 'Certes… mais…' ou 'Il est vrai que… cependant…'. La concession montre que l'auteur a réfléchi aux deux côtés du problème, ce qui rend son texte plus solide."},
+  {q:"Dans quel ordre doit être structuré un paragraphe argumentatif ?",
+   opts:["Exemple → thèse → argument → conclusion","Thèse → argument → exemple → conclusion","Connecteur → exemple → thèse → argument","Conclusion → argument → thèse → exemple"],
+   correct:1,
+   expl:"L'ordre classique d'un paragraphe argumentatif est : Thèse (position), puis Argument (raison), puis Exemple (illustration concrète), puis éventuellement une mini-conclusion ou un connecteur vers l'idée suivante. Cet ordre est logique : on part de l'opinion générale pour aller vers le détail."},
+  {q:"Quel connecteur logique permet d'ajouter une idée supplémentaire ?",
+   opts:["Cependant","En conclusion","De plus","Car"],
+   correct:2,
+   expl:"'De plus' est un connecteur d'addition : il permet d'ajouter une idée à celle déjà exprimée. D'autres connecteurs d'addition : 'En outre', 'Par ailleurs', 'Également', 'Enfin'. 'Cependant' exprime l'opposition, 'en conclusion' conclut, 'car' exprime la cause."},
+  {q:"Comment repère-t-on la thèse d'un texte argumentatif ?",
+   opts:["Elle se trouve toujours au milieu du texte","Elle contient toujours le mot 'donc'","Elle est souvent au début ou à la fin du texte, avec des verbes d'opinion","Elle est toujours en italique"],
+   correct:2,
+   expl:"La thèse se repère souvent au début du texte (l'auteur annonce sa position) ou à la fin (il la rappelle en guise de conclusion). Elle utilise des verbes d'opinion : 'je pense que', 'je suis convaincu que', 'il me semble que', 'à mon avis'. Elle peut aussi être implicite, c'est-à-dire non formulée directement."},
+  {q:"Quel type de texte utilise essentiellement l'argumentation ?",
+   opts:["Un roman policier","Un éditorial de journal ou une lettre ouverte","Un mode d'emploi","Un poème lyrique"],
+   correct:1,
+   expl:"L'éditorial de journal, la lettre ouverte, l'essai et le discours sont des genres argumentatifs : leur but est de convaincre ou persuader. Un roman raconte une histoire, un mode d'emploi donne des instructions, un poème lyrique exprime des émotions. Au brevet, le texte argumentatif est souvent un extrait d'éditorial ou de discours."},
+  {q:"Qu'est-ce qu'un contre-argument ?",
+   opts:["Un argument que l'on utilise contre son propre avis","Un argument qui va à l'encontre de la thèse, qu'on cite pour y répondre","Un exemple qui contredit l'auteur","Un connecteur d'opposition"],
+   correct:1,
+   expl:"Un contre-argument est un argument qui s'oppose à la thèse défendue. On peut le citer dans son texte pour montrer qu'on connaît les objections possibles, puis y répondre pour renforcer sa propre position. C'est une technique avancée qui rend le raisonnement plus solide."},
+  {q:"Quel connecteur introduit habituellement la conclusion ?",
+   opts:["En effet","Par exemple","En conclusion","Cependant"],
+   correct:2,
+   expl:"'En conclusion' ou 'Pour conclure' introduisent la dernière partie d'un texte argumentatif. La conclusion rappelle la thèse et fait la synthèse des arguments. D'autres connecteurs de conclusion : 'En définitive', 'Ainsi', 'Pour résumer'. À ne pas confondre avec 'En effet' (cause), 'Par exemple' (illustration) ou 'Cependant' (opposition)."},
+];
+
+var answered={},score=0;
+function buildQuiz(){
+  var c=document.getElementById('quiz-container');
+  c.innerHTML=''; answered={}; score=0;
+  for(var i=0;i<QUESTIONS.length;i++){
+    var q=QUESTIONS[i];
+    var opts='';
+    for(var j=0;j<q.opts.length;j++){
+      opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';
+    }
+    var div=document.createElement('div');
+    div.className='quiz-q';
+    div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;
+  answered[qi]=choice;
+  var q=QUESTIONS[qi];
+  var opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for(var i=0;i<opts.length;i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  var ok=choice===q.correct;
+  if(ok) score++;
+  var expl=document.getElementById('expl-'+qi);
+  expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  var el=document.getElementById('quiz-score');
+  var pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  var msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;
+  el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+
+window.showPanel=showPanel;
+window.showCorr=showCorr;
+window.answer=answer;
+window.resetQuiz=resetQuiz;
+window.showScore=showScore;
+window.buildQuiz=buildQuiz;
+</script>
+</body>
+</html>

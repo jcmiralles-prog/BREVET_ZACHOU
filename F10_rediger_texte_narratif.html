@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F10 — Rédiger un texte narratif</title>
+<style>
+  :root{
+    --c:#1E8449;--c-light:#D5F5E3;--c-mid:#27AE60;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;padding-bottom:40px}
+  header{background:var(--c);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:relative;z-index:50;-webkit-tap-highlight-color:transparent}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px}
+  .tab.active{color:var(--c);border-bottom-color:var(--c)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .sh-c{background:var(--c)}.sh-b{background:var(--bleu)}.sh-o{background:var(--orange)}.sh-v{background:var(--violet)}.sh-g{background:var(--gris)}
+  .section-body{padding:14px}
+
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--c-light);border-left:4px solid var(--c);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--c)}
+
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--c);font-weight:700}
+
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--c-light);color:var(--c);font-weight:700;font-size:12px;padding:8px 12px;min-width:140px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+
+  .chain-item{display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;-webkit-align-items:flex-start;align-items:flex-start}
+  .chain-num{background:var(--c);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0;margin-top:1px}
+  .chain-text{font-size:13px;line-height:1.6;-webkit-flex:1;flex:1}
+  .chain-text strong{color:var(--c)}
+
+  .schema-box{background:white;border:2px solid var(--c);border-radius:var(--radius);padding:14px;margin:10px 0}
+  .schema-row{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:10px;margin-bottom:8px}
+  .schema-badge{background:var(--c);color:white;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap;min-width:130px;text-align:center}
+  .schema-arrow{color:var(--c);font-size:16px;font-weight:700}
+  .schema-desc{font-size:12px;color:var(--muted);-webkit-flex:1;flex:1}
+
+  .exemple-box{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:14px;margin:10px 0;font-size:13px;line-height:1.7}
+  .exemple-box h4{color:#7D6608;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+
+  .temps-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  .temps-table th{background:var(--c);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .temps-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .temps-table tr:last-child td{border-bottom:none}
+  .temps-table tr:nth-child(even) td{background:#F0FFF4}
+
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--c);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;color:var(--text);-webkit-tap-highlight-color:transparent}
+  .quiz-opt:hover{border-color:var(--c);background:var(--c-light)}
+  .quiz-opt.correct{background:var(--c-light);border-color:var(--c);color:var(--c);font-weight:600}
+  .quiz-opt.wrong{background:#FADBD8;border-color:#C0392B;color:#C0392B}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:#FADBD8;color:#C0392B;border:1px solid #C0392B;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--c-light);color:var(--c);border:1px solid var(--c);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .btn-reset{background:var(--c);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--c-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--c);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--c);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--c)}
+  .btn-corr{background:var(--c);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--c-light);border-left:4px solid var(--c);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--c);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--c);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--c)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>✍️ F10 — Rédiger un texte narratif</h1>
+  <p>Fiche complète · Séquence 10 · Français · Brevet 2026</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- FICHE -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head sh-c">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> Un texte narratif <strong>raconte une histoire</strong> avec des personnages, un lieu, une époque et des événements. Au brevet, on te demande souvent de <strong>continuer un récit</strong>, d'<strong>écrire une suite</strong> ou de <strong>rédiger un texte à partir d'une situation donnée</strong>. Les deux outils essentiels : le <strong>schéma narratif</strong> et les <strong>temps du récit</strong>.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-b">🏗️ Le schéma narratif — la structure de toute histoire</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Toute histoire, qu'il s'agisse d'un roman, d'un film ou d'une nouvelle, suit ce schéma en 5 étapes :</p>
+      <div class="schema-box">
+        <div class="schema-row"><div class="schema-badge">1. Situation initiale</div><div class="schema-arrow">→</div><div class="schema-desc">La vie avant le problème. On présente les personnages, le lieu, l'époque. Tout est stable.</div></div>
+        <div class="schema-row"><div class="schema-badge">2. Élément perturbateur</div><div class="schema-arrow">→</div><div class="schema-desc">Un événement vient rompre l'équilibre. C'est le début du problème : une rencontre, un accident, une décision…</div></div>
+        <div class="schema-row"><div class="schema-badge">3. Péripéties</div><div class="schema-arrow">→</div><div class="schema-desc">Le personnage cherche à résoudre le problème. Il vit des aventures, des obstacles, des rebondissements.</div></div>
+        <div class="schema-row"><div class="schema-badge">4. Élément de résolution</div><div class="schema-arrow">→</div><div class="schema-desc">Un événement permet de sortir du problème. La solution apparaît.</div></div>
+        <div class="schema-row"><div class="schema-badge">5. Situation finale</div><div class="schema-arrow">→</div><div class="schema-desc">Le nouvel équilibre. L'histoire est terminée. Le personnage a changé.</div></div>
+      </div>
+      <div class="warn-box"><strong>Au brevet :</strong> quand on te donne un début de texte et qu'on te demande une suite, tu dois toujours aller jusqu'à la situation finale. Un texte sans conclusion est incomplet.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-o">⏱ Les temps du récit — lequel utiliser ?</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Dans un texte narratif, on utilise principalement deux "systèmes" de temps :</p>
+      <table class="temps-table">
+        <tr><th>Temps</th><th>Utilisation dans le récit</th><th>Exemple</th></tr>
+        <tr><td><strong>Passé simple</strong></td><td>Les actions principales qui font avancer l'histoire (premier plan)</td><td><em>Il ouvrit la porte. Elle se retourna.</em></td></tr>
+        <tr><td><strong>Imparfait</strong></td><td>Les descriptions, les habitudes, l'arrière-plan, les états</td><td><em>Le soleil brillait. Elle portait un manteau rouge.</em></td></tr>
+        <tr><td><strong>Plus-que-parfait</strong></td><td>Les actions antérieures à celles du récit (ce qui s'était passé avant)</td><td><em>Il avait oublié ses clés.</em></td></tr>
+        <tr><td><strong>Présent de narration</strong></td><td>Rendre l'action plus vivante (alternative au passé simple)</td><td><em>Il ouvre la porte. Elle se retourne.</em></td></tr>
+      </table>
+      <div class="success-box"><strong>Règle d'or :</strong> Ne mélange pas les deux systèmes ! Soit tu utilises passé simple + imparfait, soit présent de narration + imparfait. Changer de système au milieu d'un texte est une faute.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-v">👁️ Le point de vue du narrateur</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li><strong>Point de vue interne :</strong> le narrateur raconte ce que pense et ressent UN personnage. On est "dans sa tête". Les émotions sont détaillées. Ex : <em>"Je tremblais de peur. Je ne savais pas quoi faire."</em></li>
+        <li><strong>Point de vue externe :</strong> le narrateur observe de l'extérieur, comme une caméra. Il décrit sans accéder aux pensées. Ex : <em>"Il tremblait. Ses mains serraient le volant."</em></li>
+        <li><strong>Point de vue omniscient :</strong> le narrateur sait tout sur tous les personnages, leurs pensées, leurs passés. C'est le point de vue des grands romans.</li>
+      </ul>
+      <div class="warn-box"><strong>Attention :</strong> au brevet, si le texte donné utilise un point de vue particulier, tu dois continuer avec le <strong>même point de vue</strong>. Ne change pas le "je" en "il" sans raison.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-g">✨ Les outils pour enrichir ton récit</div>
+    <div class="section-body">
+      <p style="font-size:13px;font-weight:700;color:var(--c);margin-bottom:8px">La description :</p>
+      <ul class="bull-list">
+        <li>Décris les lieux et personnages avec des détails précis et des adjectifs variés.</li>
+        <li>Utilise les cinq sens : ce qu'on voit, entend, sent, touche, goûte.</li>
+      </ul>
+      <p style="font-size:13px;font-weight:700;color:var(--c);margin:10px 0 8px">Les figures de style utiles dans un récit :</p>
+      <ul class="bull-list">
+        <li><strong>La comparaison :</strong> <em>"Il courait comme un éclair."</em></li>
+        <li><strong>La métaphore :</strong> <em>"La nuit était un manteau de velours noir."</em></li>
+        <li><strong>La personnification :</strong> <em>"Le vent murmurait dans les arbres."</em></li>
+      </ul>
+      <p style="font-size:13px;font-weight:700;color:var(--c);margin:10px 0 8px">Le dialogue :</p>
+      <ul class="bull-list">
+        <li>Utilise des guillemets et des tirets pour les répliques.</li>
+        <li>Varie les verbes de parole : <em>dit-il, murmura-t-elle, s'écria-t-il, répondit-elle…</em></li>
+      </ul>
+      <div class="success-box"><strong>Conseil pour le brevet :</strong> Un bon récit, ce n'est pas le plus long, c'est le plus organisé et le plus précis. Soigne l'introduction et la conclusion, et utilise des mots variés.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-c">📚 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Schéma narratif</div><div class="mc-def">Structure en 5 étapes de toute histoire : situation initiale → élément perturbateur → péripéties → résolution → situation finale.</div></div>
+      <div class="mc-row"><div class="mc-terme">Narrateur</div><div class="mc-def">Celui qui raconte l'histoire. Il peut être un personnage (je) ou extérieur à l'histoire (il). À ne pas confondre avec l'auteur.</div></div>
+      <div class="mc-row"><div class="mc-terme">Point de vue</div><div class="mc-def">La position du narrateur dans l'histoire : interne (dans la tête d'un personnage), externe (observateur), omniscient (sait tout).</div></div>
+      <div class="mc-row"><div class="mc-terme">Passé simple</div><div class="mc-def">Temps du récit qui exprime les actions principales qui font avancer l'histoire. Ex : "il parla", "elle courut".</div></div>
+      <div class="mc-row"><div class="mc-terme">Imparfait</div><div class="mc-def">Temps du récit utilisé pour les descriptions, les habitudes et l'arrière-plan. Ex : "la pluie tombait", "elle portait un chapeau".</div></div>
+      <div class="mc-row"><div class="mc-terme">Péripéties</div><div class="mc-def">Les événements et aventures qui composent la partie principale du récit, entre le problème et sa résolution.</div></div>
+      <div class="mc-row"><div class="mc-terme">Élément perturbateur</div><div class="mc-def">L'événement qui rompt l'équilibre de départ et met l'histoire en mouvement.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- QUIZ -->
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz :</strong> 12 questions sur la rédaction du texte narratif.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num"></div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+  </div>
+</div>
+
+<!-- EXERCICE BREVET -->
+<div class="panel" id="panel-exo">
+
+  <div style="display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:8px">
+    <div style="font-size:14px;font-weight:700">Exercice type brevet</div>
+    <span class="duree-badge">⏱ Durée conseillée : 40 min</span>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Début de texte à compléter</h3>
+    <p>Ce matin-là, Lucas se réveilla plus tôt que d'habitude. Une lumière étrange filtrait à travers les rideaux de sa chambre. Il s'approcha de la fenêtre et l'ouvrit lentement. Le spectacle qui s'offrit à lui lui coupa le souffle : la rue était entièrement recouverte d'une neige épaisse et silencieuse, alors qu'on était en plein mois de juin.</p>
+    <div class="doc-source">Début de récit — sujet type brevet</div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 1 — Compréhension<span class="pts">3 pts</span></div>
+    <div class="q-exo-body">
+      <p>À quelle étape du schéma narratif correspond ce début de texte ? Justifiez votre réponse.</p>
+      <textarea placeholder="Écris ta réponse ici..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c1')">Voir la correction</button>
+      <div class="corr-panel" id="c1">
+        <h4>✓ Correction</h4>
+        <p>Ce début de texte correspond à l'<strong>élément perturbateur</strong>. En effet, on y voit un événement inattendu (de la neige en juin) qui rompt l'équilibre de la situation habituelle de Lucas. Avant cet événement, tout était normal (Lucas dormait, se réveillait). C'est la découverte de la neige qui crée le problème et lance l'histoire.</p>
+        <div class="methode-box"><strong>Méthode :</strong> Pour identifier l'étape du schéma narratif, pose-toi ces questions : Y a-t-il un problème ? Y a-t-il une action principale qui rompt l'équilibre ? Si oui → élément perturbateur. Si c'est la présentation calme du personnage et du lieu → situation initiale.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 2 — Analyse<span class="pts">5 pts</span></div>
+    <div class="q-exo-body">
+      <p>Relevez dans ce texte : (a) deux verbes au passé simple, (b) un verbe à l'imparfait. Expliquez pourquoi ces temps sont utilisés.</p>
+      <textarea placeholder="(a) Passé simple : ...\n(b) Imparfait : ...\nExplication : ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c2')">Voir la correction</button>
+      <div class="corr-panel" id="c2">
+        <h4>✓ Correction</h4>
+        <p><strong>(a) Passé simple :</strong> "se réveilla", "s'approcha", "l'ouvrit", "s'offrit", "coupa" — ces verbes expriment les actions principales qui font avancer l'histoire. Chaque action suit la précédente.</p>
+        <p style="margin-top:6px"><strong>(b) Imparfait :</strong> "filtrait", "était recouverte" — ces verbes décrivent l'arrière-plan, le cadre visuel. Ils donnent une image de la scène plutôt qu'une action qui avance.</p>
+        <div class="methode-box"><strong>Méthode :</strong> Passé simple = actions qui font "avancer" l'histoire (on peut les mettre dans une liste : il fit ceci, puis cela). Imparfait = descriptions, états, habitudes (ce qui "durait" au moment de l'action).</div>
+        <div class="vocab-box"><strong>Rappel :</strong> On peut tester avec "c'est à ce moment-là que…" → si ça marche, c'est le passé simple. On peut tester avec "pendant ce temps…" → si ça marche, c'est l'imparfait.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 3 — Rédaction<span class="pts">12 pts</span></div>
+    <div class="q-exo-body">
+      <p>Rédigez la suite et la fin de ce récit (environ 20 lignes). Vous devez :<br>• Respecter le point de vue et les temps utilisés dans le texte.<br>• Faire vivre à Lucas des péripéties (au moins 2 événements).<br>• Terminer par une situation finale qui clôt l'histoire.</p>
+      <textarea placeholder="Rédigez la suite du récit ici..." style="min-height:200px"></textarea>
+      <button class="btn-corr" onclick="showCorr('c3')">Voir la correction</button>
+      <div class="corr-panel" id="c3">
+        <h4>✓ Exemple de suite rédigée</h4>
+        <p>Lucas resta un long moment immobile, les yeux écarquillés. La neige <em>était</em> réelle : il <em>tendit</em> la main et <em>sentit</em> le froid vif des flocons sur sa paume. Il <em>attrapa</em> son téléphone et <em>appela</em> son ami Théo.</p>
+        <p style="margin-top:6px">— Tu vois ce que je vois ? <em>murmura-t-il</em>.</p>
+        <p style="margin-top:6px">— De la neige ? En juin ? C'est impossible ! <em>s'écria</em> Théo.</p>
+        <p style="margin-top:6px">Lucas <em>enfila</em> son manteau à la hâte et <em>descendit</em> dans la rue. Les flocons <em>tombaient</em> en silence, épais et doux. Autour de lui, les voisins <em>regardaient</em> le ciel, ahuris. Un vieux monsieur <em>secouait</em> la tête, incrédule. Soudain, Lucas <em>remarqua</em> une petite fille assise sur un banc, entourée de flocons, qui <em>souriait</em> étrangement. Il <em>s'approcha</em> d'elle.</p>
+        <p style="margin-top:6px">— C'est toi qui as fait ça ? <em>demanda-t-il</em>.</p>
+        <p style="margin-top:6px">La fillette <em>leva</em> les yeux vers lui, puis <em>éclata</em> de rire. En un instant, la neige <em>disparut</em>, le soleil <em>réapparut</em> dans le ciel bleu, et l'été <em>reprit</em> ses droits. La petite fille avait disparu. Lucas <em>resta</em> seul au milieu du trottoir, les bras ballants, se demandant s'il avait rêvé.</p>
+        <div class="methode-box"><strong>Points vérifiés dans cet exemple :</strong><br>
+        ✓ Passé simple pour les actions (attrapa, appela, descendit, remarqua…)<br>
+        ✓ Imparfait pour les descriptions (tombaient, regardaient, secouait…)<br>
+        ✓ Point de vue externe (on observe Lucas de l'extérieur)<br>
+        ✓ 2 péripéties : appel à Théo + rencontre de la fillette<br>
+        ✓ Situation finale : retour à la normale, histoire terminée</div>
+        <div class="vocab-box"><strong>Vocabulaire utile :</strong> <em>ahuris</em> = très surpris, sans voix. <em>Incrédule</em> = qui n'arrive pas à croire ce qu'il voit. <em>Ballants</em> = qui pendent le long du corps sans bouger.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showPanel(id,tab){
+  var panels=document.querySelectorAll('.panel');
+  var tabs=document.querySelectorAll('.tab');
+  for(var i=0;i<panels.length;i++) panels[i].classList.remove('active');
+  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-'+id).classList.add('active');
+  tab.classList.add('active');
+}
+function showCorr(id){
+  var el=document.getElementById(id);
+  if(el) el.classList.toggle('show');
+}
+var QUESTIONS=[
+  {q:"Combien d'étapes comporte le schéma narratif ?",opts:["3","4","5","6"],correct:2,
+   expl:"Le schéma narratif comporte 5 étapes : (1) situation initiale, (2) élément perturbateur, (3) péripéties, (4) élément de résolution, (5) situation finale. Ce schéma est universel : il s'applique aux romans, aux films, aux contes et aux nouvelles."},
+  {q:"Qu'est-ce que l'élément perturbateur ?",opts:["La présentation des personnages et du lieu","L'événement qui rompt l'équilibre et lance l'histoire","La résolution du problème","La morale de l'histoire"],correct:1,
+   expl:"L'élément perturbateur est l'événement qui rompt l'équilibre de la situation initiale et met l'histoire en mouvement. Sans lui, il n'y a pas d'histoire. Il peut être un accident, une rencontre, une décision, une découverte inattendue…"},
+  {q:"Dans un récit au passé, quel temps utilise-t-on pour les actions principales ?",opts:["L'imparfait","Le plus-que-parfait","Le passé simple","Le conditionnel"],correct:2,
+   expl:"Le passé simple exprime les actions principales qui font avancer l'histoire. On peut les compter : il fit ceci, puis cela. L'imparfait sert à décrire l'arrière-plan et les états. Ces deux temps fonctionnent ensemble dans le récit au passé."},
+  {q:"À quoi sert l'imparfait dans un texte narratif ?",opts:["Aux actions qui font avancer l'histoire","Aux descriptions, habitudes et arrière-plan","À exprimer le futur dans le passé","À rapporter les paroles des personnages"],correct:1,
+   expl:"L'imparfait sert à décrire le cadre, les personnages, les habitudes et les états. Il exprime ce qui 'durait' au moment de l'action. Exemple : 'La pluie tombait doucement. Elle portait un imperméable jaune.' Ces éléments sont dans l'arrière-plan, ils ne font pas avancer l'histoire."},
+  {q:"Qu'est-ce que le point de vue interne ?",opts:["Le narrateur raconte tout depuis l'extérieur comme une caméra","Le narrateur sait tout sur tous les personnages","Le narrateur raconte ce que pense et ressent un seul personnage","Le narrateur est absent de l'histoire"],correct:2,
+   expl:"Le point de vue interne signifie que le narrateur est 'dans la tête' d'un seul personnage. Il nous fait part de ses pensées, émotions et sensations. Exemple : 'Je tremblais. Je ne savais plus quoi faire.' On voit le monde à travers les yeux de ce personnage uniquement."},
+  {q:"Quelle est la différence entre le narrateur et l'auteur ?",opts:["Il n'y a aucune différence","L'auteur est la personne réelle qui écrit le livre ; le narrateur est la voix qui raconte dans le texte","Le narrateur écrit le livre ; l'auteur raconte","L'auteur est toujours un personnage de l'histoire"],correct:1,
+   expl:"L'auteur est la personne réelle qui a écrit l'œuvre (Victor Hugo, par exemple). Le narrateur est la voix fictive qui raconte l'histoire dans le texte. Ils peuvent être proches ou très différents. L'auteur crée le narrateur, mais le narrateur n'est pas l'auteur."},
+  {q:"Qu'est-ce que la situation finale dans le schéma narratif ?",opts:["Le problème qui lance l'histoire","L'ensemble des aventures du personnage","Le nouvel équilibre après la résolution du problème","La présentation des personnages"],correct:2,
+   expl:"La situation finale est la dernière étape du schéma narratif. Elle représente le nouvel équilibre : le problème est résolu, l'histoire est terminée. Souvent, le personnage a changé par rapport au début. La situation finale n'est pas forcément heureuse, mais elle doit clore l'histoire."},
+  {q:"Quel temps utilise-t-on pour exprimer une action antérieure à celles du récit ?",opts:["L'imparfait","Le passé simple","Le plus-que-parfait","Le présent"],correct:2,
+   expl:"Le plus-que-parfait exprime une action qui s'est passée avant les événements principaux du récit. Exemple : 'Il prit le livre que sa mère lui avait offert.' L'action d'offrir s'est passée avant l'action de prendre. On le forme avec 'avait' ou 'était' + participe passé."},
+  {q:"Comment marque-t-on les dialogues dans un texte narratif ?",opts:["Avec des parenthèses","Avec des guillemets et des tirets pour les répliques","Avec des italiques uniquement","Avec des crochets"],correct:1,
+   expl:"Dans un texte narratif français, les dialogues s'ouvrent avec des guillemets et chaque réplique d'un nouveau locuteur commence par un tiret. Les verbes de parole (dit-il, répondit-elle, murmura-t-il) permettent de savoir qui parle. Ne pas oublier de changer de ligne à chaque réplique."},
+  {q:"Qu'est-ce qu'une péripétie ?",opts:["La présentation du lieu de l'histoire","Un des événements ou obstacles que le personnage vit pendant le récit","La fin de l'histoire","Le point de vue du narrateur"],correct:1,
+   expl:"Les péripéties sont les événements, obstacles et rebondissements que le personnage vit entre l'élément perturbateur et la résolution. Ce sont les 'aventures' de l'histoire. Sans péripéties, le récit serait trop court et peu intéressant. Au brevet, on attend au moins deux péripéties dans une rédaction."},
+  {q:"Quelle figure de style crée une image en comparant deux éléments avec 'comme' ou 'tel' ?",opts:["La métaphore","La comparaison","La personnification","L'hyperbole"],correct:1,
+   expl:"La comparaison rapproche deux éléments à l'aide d'un mot outil : 'comme', 'tel', 'pareil à', 'semblable à'. Exemple : 'Il courait comme un éclair.' La métaphore fait la même chose mais sans le mot outil : 'Il était un éclair.' La personnification attribue des qualités humaines à un objet ou animal."},
+  {q:"Quel est l'objectif de la situation initiale dans un récit ?",opts:["Créer un problème pour le personnage","Résoudre le problème de l'histoire","Présenter les personnages, le lieu et l'époque dans un état d'équilibre","Raconter les aventures du personnage"],correct:2,
+   expl:"La situation initiale présente le cadre stable avant le problème : qui sont les personnages, où se passe l'histoire, à quelle époque. Tout est en équilibre. C'est cette stabilité qui permettra de mesurer le bouleversement causé par l'élément perturbateur. Elle peut être brève ou longue selon les récits."},
+];
+var answered={},score=0;
+function buildQuiz(){
+  var c=document.getElementById('quiz-container');
+  c.innerHTML=''; answered={}; score=0;
+  for(var i=0;i<QUESTIONS.length;i++){
+    var q=QUESTIONS[i];
+    var opts='';
+    for(var j=0;j<q.opts.length;j++) opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';
+    var div=document.createElement('div');
+    div.className='quiz-q';
+    div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;
+  answered[qi]=choice;
+  var q=QUESTIONS[qi];
+  var opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for(var i=0;i<opts.length;i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  var ok=choice===q.correct;
+  if(ok) score++;
+  var expl=document.getElementById('expl-'+qi);
+  expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  var el=document.getElementById('quiz-score');
+  var pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  var msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;
+  el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;window.showScore=showScore;window.buildQuiz=buildQuiz;
+</script>
+</body>
+</html>

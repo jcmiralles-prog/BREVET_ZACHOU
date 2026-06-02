@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC05 — L'énergie : puissance et rendement</title>
+<style>
+  :root{
+    --c:#2471A3;--c-light:#D6EAF8;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --vert:#1E8449;--vert-light:#D5F5E3;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;padding-bottom:40px}
+  header{background:var(--c);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:relative;z-index:50;-webkit-tap-highlight-color:transparent}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px}
+  .tab.active{color:var(--c);border-bottom-color:var(--c)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .sh-c{background:var(--c)}.sh-b{background:var(--bleu)}.sh-o{background:var(--orange)}.sh-v{background:var(--violet)}.sh-g{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--c-light);border-left:4px solid var(--c);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--c)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--c);font-weight:700}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--c-light);color:var(--c);font-weight:700;font-size:12px;padding:8px 12px;min-width:150px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .formule-box{background:white;border:2px solid var(--c);border-radius:10px;padding:14px;margin:10px 0;text-align:center}
+  .formule{font-size:20px;font-weight:700;color:var(--c);margin:6px 0;letter-spacing:1px}
+  .formule-desc{font-size:12px;color:var(--muted);margin-top:4px}
+  .tableau{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+  .tableau th{background:var(--c);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .tableau td{padding:8px 10px;border-bottom:0.5px solid var(--border)}
+  .tableau tr:last-child td{border-bottom:none}
+  .tableau tr:nth-child(even) td{background:#EBF5FB}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--c);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;color:var(--text);-webkit-tap-highlight-color:transparent}
+  .quiz-opt:hover{border-color:var(--c);background:var(--c-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:#FADBD8;border-color:#C0392B;color:#C0392B}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--c-light);border-left:4px solid var(--c);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:#FADBD8;color:#C0392B;border:1px solid #C0392B;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--c);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--c)}
+  .btn-reset{background:var(--c);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--c-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--c);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--c);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--c)}
+  .btn-corr{background:var(--c);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🔋 PC05 — L'énergie : puissance et rendement</h1>
+  <p>Fiche complète · Séquence 5 · Physique-Chimie · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<div class="panel active" id="panel-fiche">
+  <div class="section">
+    <div class="section-head sh-c">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>En une phrase :</strong> L'<strong>énergie</strong> (en joules, J) est la capacité à produire un travail ou un transfert thermique. La <strong>puissance</strong> (en watts, W) est la quantité d'énergie consommée par seconde : <strong>P = E / t</strong>. Le <strong>rendement</strong> mesure l'efficacité d'un appareil : rapport entre énergie utile et énergie totale consommée.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-b">📊 Énergie, puissance et durée</div>
+    <div class="section-body">
+      <div class="formule-box">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:4px">Relation énergie — puissance — durée</div>
+        <div class="formule">E = P × t</div>
+        <div class="formule-desc">E = énergie en joules (J) · P = puissance en watts (W) · t = durée en secondes (s)</div>
+      </div>
+      <table class="tableau" style="margin-top:10px">
+        <tr><th>Grandeur</th><th>Symbole</th><th>Unité principale</th><th>Autre unité courante</th></tr>
+        <tr><td><strong>Énergie</strong></td><td>E</td><td>Joule (J)</td><td>Kilowattheure (kWh) : 1 kWh = 3 600 000 J</td></tr>
+        <tr><td><strong>Puissance</strong></td><td>P</td><td>Watt (W)</td><td>Kilowatt (kW) : 1 kW = 1 000 W</td></tr>
+        <tr><td><strong>Durée</strong></td><td>t</td><td>Seconde (s)</td><td>Heure (h) : 1 h = 3 600 s</td></tr>
+      </table>
+      <div class="success-box"><strong>Le kilowattheure (kWh) :</strong> c'est l'unité utilisée sur votre facture d'électricité. 1 kWh = énergie consommée par un appareil de 1 000 W (1 kW) pendant 1 heure. Une ampoule de 100 W allumée pendant 10 h consomme 1 kWh.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-o">♻️ Le rendement d'un appareil</div>
+    <div class="section-body">
+      <div class="formule-box">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:4px">Formule du rendement (en %)</div>
+        <div class="formule">r = (E_utile / E_totale) × 100</div>
+        <div class="formule-desc">r = rendement en % · E_utile = énergie réellement utilisée · E_totale = énergie consommée</div>
+      </div>
+      <ul class="bull-list" style="margin-top:10px">
+        <li>Le rendement est toujours <strong>inférieur ou égal à 100 %</strong>. Un rendement de 100 % est impossible en pratique : il y a toujours des pertes (chaleur, frottements…).</li>
+        <li>Un appareil <strong>efficace</strong> a un rendement élevé (proche de 100 %).</li>
+        <li>L'énergie "perdue" n'est pas détruite, elle est transformée en chaleur inutile.</li>
+      </ul>
+      <table class="tableau" style="margin-top:10px">
+        <tr><th>Appareil</th><th>Rendement approximatif</th></tr>
+        <tr><td>Panneau solaire photovoltaïque</td><td>15 à 25 %</td></tr>
+        <tr><td>Moteur thermique (voiture)</td><td>25 à 40 %</td></tr>
+        <tr><td>Ampoule LED</td><td>80 à 90 %</td></tr>
+        <tr><td>Ampoule à incandescence</td><td>5 à 10 % (inefficace !)</td></tr>
+        <tr><td>Moteur électrique</td><td>85 à 95 %</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-v">🌍 Sources d'énergie et enjeux</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li><strong>Énergies fossiles :</strong> pétrole, gaz naturel, charbon — non renouvelables, émettent du CO₂, responsables du réchauffement climatique.</li>
+        <li><strong>Énergie nucléaire :</strong> fission de l'uranium — pas de CO₂, mais déchets radioactifs difficiles à traiter.</li>
+        <li><strong>Énergies renouvelables :</strong> solaire, éolien, hydraulique, géothermie, biomasse — renouvelables mais intermittentes pour certaines.</li>
+      </ul>
+      <div class="warn-box"><strong>Enjeu majeur :</strong> Pour limiter le réchauffement climatique, il faut réduire les émissions de CO₂ en remplaçant les énergies fossiles par des énergies renouvelables et en améliorant le rendement des appareils.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-g">📚 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Énergie</div><div class="mc-def">Capacité à effectuer un travail ou produire un transfert thermique. Se mesure en joules (J) ou kilowattheures (kWh).</div></div>
+      <div class="mc-row"><div class="mc-terme">Puissance</div><div class="mc-def">Énergie consommée (ou produite) par unité de temps : P = E/t. Se mesure en watts (W) ou kilowatts (kW).</div></div>
+      <div class="mc-row"><div class="mc-terme">Rendement</div><div class="mc-def">Rapport entre l'énergie utile produite et l'énergie totale consommée, exprimé en %. Toujours inférieur à 100 %.</div></div>
+      <div class="mc-row"><div class="mc-terme">Kilowattheure (kWh)</div><div class="mc-def">Unité d'énergie utilisée en pratique. 1 kWh = 3 600 000 J. C'est l'unité de la facture d'électricité.</div></div>
+      <div class="mc-row"><div class="mc-terme">Énergie renouvelable</div><div class="mc-def">Source d'énergie naturellement reconstituée à l'échelle humaine : soleil, vent, eau, géothermie, biomasse.</div></div>
+      <div class="mc-row"><div class="mc-terme">Conservation de l'énergie</div><div class="mc-def">L'énergie totale d'un système isolé se conserve. Elle peut changer de forme (mécanique → thermique) mais ne disparaît jamais.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz :</strong> 12 questions sur l'énergie, la puissance et le rendement.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num"></div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-exo">
+  <div style="display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:8px">
+    <div style="font-size:14px;font-weight:700">Exercice type brevet</div>
+    <span class="duree-badge">⏱ Durée conseillée : 30 min</span>
+  </div>
+  <div class="doc-brevet">
+    <h3>Document — Un panneau solaire photovoltaïque</h3>
+    <p>Un panneau solaire photovoltaïque de puissance nominale 300 W est installé sur un toit. Il reçoit une énergie solaire de 1 500 J par seconde (par mètre carré) et produit de l'électricité. En une journée ensoleillée de 6 heures d'ensoleillement effectif, le panneau produit 1,8 kWh d'énergie électrique.</p>
+    <p style="margin-top:8px">Le reste de l'énergie solaire reçue est perdue sous forme de chaleur. Le rendement du panneau est donc inférieur à 100 %.</p>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 1 — Calcul de puissance et d'énergie<span class="pts">8 pts</span></div>
+    <div class="q-exo-body">
+      <p>(a) Calculez l'énergie produite par le panneau en 6 heures en utilisant E = P × t (avec P = 300 W). (b) Convertissez ce résultat en kWh. (c) Comparez avec le document (1,8 kWh). Y a-t-il une différence ? Pourquoi ?</p>
+      <textarea placeholder="(a) E = P × t = ... × ... = ... J\n(b) En kWh : ...\n(c) Comparaison : ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c1')">Voir la correction</button>
+      <div class="corr-panel" id="c1">
+        <h4>✓ Correction</h4>
+        <p><strong>(a)</strong> t = 6 h = 6 × 3 600 = 21 600 s<br>E = P × t = 300 W × 21 600 s = <strong>6 480 000 J</strong></p>
+        <p><strong>(b)</strong> 6 480 000 J ÷ 3 600 000 = <strong>1,8 kWh</strong></p>
+        <p><strong>(c)</strong> La valeur calculée (1,8 kWh) est identique à celle du document. Pas de différence : le panneau fonctionne bien à sa puissance nominale pendant 6 heures d'ensoleillement effectif.</p>
+        <div class="methode-box"><strong>Conversions clés :</strong><br>
+        1 h = 3 600 s. 1 kWh = 3 600 000 J (= 3,6 × 10⁶ J).<br>
+        Pour E en kWh directement : P en kW × t en heures. Ex : 0,3 kW × 6 h = 1,8 kWh.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 2 — Rendement<span class="pts">7 pts</span></div>
+    <div class="q-exo-body">
+      <p>L'énergie solaire reçue par le panneau pendant 6 heures est de 7,2 kWh. L'énergie électrique produite est 1,8 kWh. Calculez le rendement du panneau solaire.</p>
+      <textarea placeholder="r = (E_utile / E_totale) × 100 = (... / ...) × 100 = ... %"></textarea>
+      <button class="btn-corr" onclick="showCorr('c2')">Voir la correction</button>
+      <div class="corr-panel" id="c2">
+        <h4>✓ Correction</h4>
+        <p>r = (E_utile / E_totale) × 100 = (1,8 / 7,2) × 100 = <strong>25 %</strong></p>
+        <p>Le rendement du panneau est de 25 %, ce qui correspond bien aux valeurs typiques indiquées dans la fiche (15 à 25 %). Les 75 % restants sont perdus sous forme de chaleur.</p>
+        <div class="methode-box"><strong>Méthode du rendement :</strong><br>
+        r = (E_utile / E_totale) × 100<br>
+        E_utile = énergie réellement utilisée (ici, l'électricité produite).<br>
+        E_totale = énergie consommée/reçue au départ (ici, l'énergie solaire reçue).<br>
+        Le rendement est toujours entre 0 % et 100 %.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 3 — Enjeux énergétiques<span class="pts">5 pts</span></div>
+    <div class="q-exo-body">
+      <p>(a) L'énergie solaire est-elle renouvelable ? Justifiez. (b) Citez un avantage et un inconvénient des panneaux solaires par rapport aux centrales à charbon.</p>
+      <textarea placeholder="(a) ...\n(b) Avantage : ...\nInconvénient : ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c3')">Voir la correction</button>
+      <div class="corr-panel" id="c3">
+        <h4>✓ Correction</h4>
+        <p><strong>(a)</strong> Oui, l'énergie solaire est une énergie renouvelable. Le Soleil produit de l'énergie de façon continue à l'échelle humaine (des milliards d'années encore). Contrairement aux énergies fossiles (pétrole, charbon), elle ne s'épuise pas.</p>
+        <p><strong>(b) Avantage :</strong> les panneaux solaires ne produisent pas de CO₂ lors de leur fonctionnement, contrairement aux centrales à charbon qui émettent de grandes quantités de gaz à effet de serre.</p>
+        <p><strong>Inconvénient :</strong> les panneaux solaires sont intermittents (ils ne produisent pas la nuit ni par temps nuageux), contrairement aux centrales à charbon qui peuvent fonctionner en continu. Il faut donc des systèmes de stockage de l'énergie.</p>
+        <div class="methode-box"><strong>Méthode pour comparer les sources d'énergie :</strong> pense à trois critères : (1) renouvellement (renouvelable ou non), (2) impact environnemental (CO₂, déchets), (3) disponibilité (continue ou intermittente).</div>
+        <div class="vocab-box"><strong>Vocabulaire :</strong> <em>Intermittent</em> = qui ne fonctionne pas de façon continue. <em>Gaz à effet de serre</em> = gaz (CO₂, méthane…) qui piègent la chaleur dans l'atmosphère et contribuent au réchauffement climatique.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPanel(id,tab){
+  var panels=document.querySelectorAll('.panel');var tabs=document.querySelectorAll('.tab');
+  for(var i=0;i<panels.length;i++) panels[i].classList.remove('active');
+  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');
+}
+function showCorr(id){var el=document.getElementById(id);if(el) el.classList.toggle('show');}
+var QUESTIONS=[
+  {q:"Quelle est la formule qui relie énergie, puissance et durée ?",opts:["P = E + t","E = P / t","E = P × t","P = E × t"],correct:2,
+   expl:"E = P × t, où E est l'énergie en joules (J), P la puissance en watts (W) et t la durée en secondes (s). On peut déduire : P = E/t (calculer la puissance) et t = E/P (calculer la durée). Si P est en kW et t en heures, E est directement en kWh."},
+  {q:"Quelle est l'unité de la puissance ?",opts:["Le joule (J)","Le watt (W)","L'ampère (A)","Le kilowattheure (kWh)"],correct:1,
+   expl:"La puissance se mesure en watts (W), en hommage à James Watt, l'ingénieur qui a perfectionné la machine à vapeur. 1 W = 1 J/s. Pour les grands appareils : 1 kW = 1 000 W. Le joule mesure l'énergie, l'ampère mesure l'intensité électrique, et le kWh est une unité d'énergie (pas de puissance)."},
+  {q:"Un four à micro-ondes de 800 W fonctionne pendant 5 minutes. Quelle énergie consomme-t-il ?",opts:["4 000 J","240 000 J","160 J","40 000 J"],correct:1,
+   expl:"t = 5 min = 5 × 60 = 300 s. E = P × t = 800 W × 300 s = 240 000 J. Attention : toujours convertir les minutes en secondes avant de calculer avec des watts et des joules."},
+  {q:"Qu'est-ce que le rendement d'un appareil ?",opts:["Sa puissance maximale","La durée pendant laquelle il fonctionne","Le rapport entre énergie utile et énergie totale consommée (en %)","La quantité d'énergie qu'il stocke"],correct:2,
+   expl:"Le rendement (r) est le rapport entre l'énergie utile produite et l'énergie totale consommée, exprimé en pourcentage : r = (E_utile/E_totale) × 100. Un rendement de 100 % serait parfait (aucune perte). En pratique, il est toujours inférieur à 100 % car il y a des pertes par chaleur, frottements…"},
+  {q:"Un moteur thermique a un rendement de 30 %. Il consomme 10 000 J d'énergie. Quelle énergie utile produit-il ?",opts:["30 000 J","3 000 J","300 J","10 030 J"],correct:1,
+   expl:"E_utile = r × E_totale / 100 = 30 × 10 000 / 100 = 3 000 J. Les 7 000 J restants sont perdus sous forme de chaleur (échappement, frottements). C'est pourquoi les voitures thermiques sont peu efficaces : 70 % de l'énergie du carburant est 'gaspillée'."},
+  {q:"Combien vaut 1 kWh en joules ?",opts:["1 000 J","3 600 J","3 600 000 J","1 000 000 J"],correct:2,
+   expl:"1 kWh = 1 kW × 1 h = 1 000 W × 3 600 s = 3 600 000 J (= 3,6 MJ). C'est l'unité pratique de l'énergie électrique : sur une facture EDF, on paie par kWh. Une ampoule de 100 W allumée 10 heures consomme 100 W × 10 h = 1 000 Wh = 1 kWh."},
+  {q:"Pourquoi le rendement d'un appareil est-il toujours inférieur à 100 % ?",opts:["Parce que les constructeurs limitent leur puissance","Parce qu'une partie de l'énergie est toujours perdue (chaleur, frottements…)","Parce que les unités de mesure sont mal définies","Parce que les appareils vieillissent"],correct:1,
+   expl:"Il est impossible d'avoir un rendement de 100 % car il y a toujours des pertes d'énergie, principalement sous forme de chaleur (frottements, résistances électriques…). L'énergie 'perdue' n'est pas détruite : elle est convertie en chaleur inutile. C'est une conséquence du second principe de la thermodynamique."},
+  {q:"Quelle est la source d'énergie avec le meilleur rendement parmi ces choix ?",opts:["Ampoule à incandescence (5 %)","Panneau solaire (20 %)","Moteur électrique (90 %)","Moteur thermique (35 %)"],correct:2,
+   expl:"Le moteur électrique a un rendement de 85 à 95 %, ce qui en fait l'un des convertisseurs d'énergie les plus efficaces. C'est pourquoi les voitures électriques consomment moins d'énergie que les voitures thermiques (rendement 25-40 %). Les ampoules à incandescence sont très inefficaces (5-10 %) : 90-95 % de l'énergie part en chaleur."},
+  {q:"Qu'est-ce qu'une énergie renouvelable ?",opts:["Une énergie qui ne coûte rien","Une énergie qui ne produit pas de CO₂","Une énergie naturellement reconstituée à l'échelle humaine (soleil, vent, eau…)","Une énergie qui a un rendement de 100 %"],correct:2,
+   expl:"Une énergie est renouvelable si elle se reconstitue naturellement à l'échelle de temps humaine. Exemples : soleil (énergie solaire), vent (éolien), eau (hydraulique), chaleur terrestre (géothermie), matière organique (biomasse). Les énergies fossiles (pétrole, gaz, charbon) sont non renouvelables car elles se sont formées sur des millions d'années."},
+  {q:"Un appareil de 2 kW fonctionne 3 heures par jour. Quelle énergie consomme-t-il en kWh ?",opts:["6 kWh","0,6 kWh","60 kWh","600 kWh"],correct:0,
+   expl:"E = P × t = 2 kW × 3 h = 6 kWh. Quand P est en kilowatts et t en heures, E est directement en kilowattheures. C'est plus pratique que de convertir en watts et secondes pour trouver les joules puis reconvertir."},
+  {q:"Quel gaz est principalement responsable du réchauffement climatique lié à l'utilisation des énergies fossiles ?",opts:["L'oxygène (O₂)","Le diazote (N₂)","Le dioxyde de carbone (CO₂)","La vapeur d'eau (H₂O)"],correct:2,
+   expl:"Le dioxyde de carbone (CO₂) est le principal gaz à effet de serre d'origine humaine. Il est produit lors de la combustion des énergies fossiles (pétrole, gaz, charbon). Sa concentration dans l'atmosphère a augmenté de 50 % depuis l'ère industrielle, causant un réchauffement climatique mesurable."},
+  {q:"Un panneau solaire reçoit 500 J et produit 100 J d'électricité. Quel est son rendement ?",opts:["5 %","10 %","20 %","50 %"],correct:2,
+   expl:"r = (E_utile / E_totale) × 100 = (100 / 500) × 100 = 20 %. Les 400 J restants (80 %) sont perdus sous forme de chaleur. Un rendement de 20 % est typique des panneaux solaires photovoltaïques actuels."},
+];
+var answered={},score=0;
+function buildQuiz(){
+  var c=document.getElementById('quiz-container');c.innerHTML=''; answered={}; score=0;
+  for(var i=0;i<QUESTIONS.length;i++){
+    var q=QUESTIONS[i];var opts='';
+    for(var j=0;j<q.opts.length;j++) opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';
+    var div=document.createElement('div');div.className='quiz-q';
+    div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;answered[qi]=choice;var q=QUESTIONS[qi];
+  var opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for(var i=0;i<opts.length;i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  var ok=choice===q.correct;if(ok) score++;
+  var expl=document.getElementById('expl-'+qi);
+  expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  var el=document.getElementById('quiz-score');var pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  var msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;window.showScore=showScore;window.buildQuiz=buildQuiz;
+</script>
+</body>
+</html>

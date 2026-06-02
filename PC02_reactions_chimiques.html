@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC02 — Les réactions chimiques</title>
+<style>
+  :root{
+    --c:#2471A3;--c-light:#D6EAF8;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --vert:#1E8449;--vert-light:#D5F5E3;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;padding-bottom:40px}
+  header{background:var(--c);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:relative;z-index:50;-webkit-tap-highlight-color:transparent}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px}
+  .tab.active{color:var(--c);border-bottom-color:var(--c)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .sh-c{background:var(--c)}.sh-b{background:var(--bleu)}.sh-o{background:var(--orange)}.sh-v{background:var(--violet)}.sh-g{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--c-light);border-left:4px solid var(--c);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--c)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--c);font-weight:700}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--c-light);color:var(--c);font-weight:700;font-size:12px;padding:8px 12px;min-width:150px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .equation-box{background:white;border:2px solid var(--c);border-radius:10px;padding:14px;margin:10px 0;text-align:center}
+  .equation{font-size:17px;font-weight:700;color:var(--text);letter-spacing:1px;margin:8px 0}
+  .equation .reactif{color:var(--c)}
+  .equation .produit{color:var(--vert)}
+  .equation .fleche{color:var(--orange);margin:0 10px}
+  .equation-note{font-size:11px;color:var(--muted);margin-top:4px}
+  .tableau{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+  .tableau th{background:var(--c);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .tableau td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .tableau tr:last-child td{border-bottom:none}
+  .tableau tr:nth-child(even) td{background:#EBF5FB}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--c);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;color:var(--text);-webkit-tap-highlight-color:transparent}
+  .quiz-opt:hover{border-color:var(--c);background:var(--c-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:#FADBD8;border-color:#C0392B;color:#C0392B}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--c-light);border-left:4px solid var(--c);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:#FADBD8;color:#C0392B;border:1px solid #C0392B;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--c);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--c)}
+  .btn-reset{background:var(--c);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--c-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--c);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--c);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--c)}
+  .btn-corr{background:var(--c);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🧪 PC02 — Les réactions chimiques</h1>
+  <p>Fiche complète · Séquence 2 · Physique-Chimie · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<div class="panel active" id="panel-fiche">
+  <div class="section">
+    <div class="section-head sh-c">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>En une phrase :</strong> Une réaction chimique transforme des <strong>réactifs</strong> en <strong>produits</strong>. Les atomes se réarrangent mais ne disparaissent pas : c'est la <strong>loi de conservation de la matière</strong>. L'équation chimique doit être <strong>équilibrée</strong> : même nombre d'atomes de chaque côté.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-b">🔀 Réactifs et produits — comment lire une équation</div>
+    <div class="section-body">
+      <div class="equation-box">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Exemple : combustion du méthane (gaz naturel)</div>
+        <div class="equation">
+          <span class="reactif">CH₄ + 2 O₂</span>
+          <span class="fleche">→</span>
+          <span class="produit">CO₂ + 2 H₂O</span>
+        </div>
+        <div class="equation-note">Réactifs (gauche) → Produits (droite)</div>
+      </div>
+      <ul class="bull-list">
+        <li><strong>Les réactifs</strong> sont les substances qui <em>disparaissent</em> lors de la réaction (à gauche de la flèche).</li>
+        <li><strong>Les produits</strong> sont les substances qui <em>apparaissent</em> lors de la réaction (à droite de la flèche).</li>
+        <li><strong>Les coefficients</strong> (les chiffres devant les formules : 2 O₂, 2 H₂O) servent à équilibrer l'équation.</li>
+      </ul>
+      <div class="warn-box"><strong>À ne pas confondre :</strong> le chiffre devant une formule (coefficient = nombre de molécules) et le chiffre en indice dans une formule (nombre d'atomes dans UNE molécule). Dans 2 H₂O : 2 molécules d'eau, chacune avec 2 atomes H et 1 atome O.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-o">⚖️ La loi de conservation de la matière</div>
+    <div class="section-body">
+      <div class="success-box"><strong>Loi fondamentale :</strong> Lors d'une réaction chimique, les atomes ne sont ni créés ni détruits : ils se réarrangent. La masse totale des réactifs est égale à la masse totale des produits.</div>
+      <p style="font-size:13px;margin:10px 0">Conséquence pratique : une équation chimique doit être <strong>équilibrée</strong>, c'est-à-dire que le nombre d'atomes de chaque élément doit être identique des deux côtés de la flèche.</p>
+      <p style="font-size:13px;font-weight:700;color:var(--c);margin-bottom:8px">Comment vérifier l'équilibre d'une équation :</p>
+      <div class="equation-box">
+        <div class="equation"><span class="reactif">2 H₂ + O₂</span><span class="fleche">→</span><span class="produit">2 H₂O</span></div>
+      </div>
+      <table class="tableau">
+        <tr><th>Élément</th><th>Côté réactifs</th><th>Côté produits</th><th>Équilibré ?</th></tr>
+        <tr><td>Hydrogène (H)</td><td>2 × 2 = 4 atomes H</td><td>2 × 2 = 4 atomes H</td><td>✓ Oui</td></tr>
+        <tr><td>Oxygène (O)</td><td>1 × 2 = 2 atomes O</td><td>2 × 1 = 2 atomes O</td><td>✓ Oui</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-v">🔥 Types de réactions importantes au brevet</div>
+    <div class="section-body">
+      <table class="tableau">
+        <tr><th>Type</th><th>Définition</th><th>Exemple</th></tr>
+        <tr><td><strong>Combustion</strong></td><td>Réaction avec le dioxygène, libère de la chaleur et de la lumière</td><td>Bois + O₂ → CO₂ + H₂O</td></tr>
+        <tr><td><strong>Oxydation</strong></td><td>Réaction avec le dioxygène, souvent lente (rouille)</td><td>4 Fe + 3 O₂ → 2 Fe₂O₃ (rouille)</td></tr>
+        <tr><td><strong>Neutralisation</strong></td><td>Réaction entre un acide et une base → sel + eau</td><td>HCl + NaOH → NaCl + H₂O</td></tr>
+        <tr><td><strong>Électrolyse</strong></td><td>Décomposition d'une molécule par électricité</td><td>2 H₂O → 2 H₂ + O₂</td></tr>
+      </table>
+      <div class="warn-box"><strong>Signes qu'une réaction chimique a eu lieu :</strong> changement de couleur, dégagement de gaz (bulles), précipité (solide qui apparaît), variation de température (chaleur ou froid), odeur nouvelle.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-g">📚 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Réaction chimique</div><div class="mc-def">Transformation qui fait disparaître des réactifs et apparaître de nouveaux produits par réarrangement des atomes.</div></div>
+      <div class="mc-row"><div class="mc-terme">Réactif</div><div class="mc-def">Substance présente avant la réaction et qui est consommée pendant celle-ci (à gauche de la flèche).</div></div>
+      <div class="mc-row"><div class="mc-terme">Produit</div><div class="mc-def">Substance créée lors de la réaction chimique (à droite de la flèche).</div></div>
+      <div class="mc-row"><div class="mc-terme">Équation chimique</div><div class="mc-def">Représentation symbolique d'une réaction chimique. Elle doit être équilibrée : même nombre d'atomes des deux côtés.</div></div>
+      <div class="mc-row"><div class="mc-terme">Conservation de la masse</div><div class="mc-def">Loi selon laquelle la masse totale des réactifs est égale à la masse totale des produits lors d'une réaction chimique.</div></div>
+      <div class="mc-row"><div class="mc-terme">Combustion</div><div class="mc-def">Réaction chimique rapide avec le dioxygène qui libère de la chaleur et de la lumière. Ex : brûler du gaz naturel, du bois, de l'essence.</div></div>
+      <div class="mc-row"><div class="mc-terme">Coefficient stœchiométrique</div><div class="mc-def">Nombre entier placé devant une formule dans une équation chimique pour équilibrer le nombre d'atomes de chaque côté.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz :</strong> 12 questions sur les réactions chimiques.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num"></div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-exo">
+  <div style="display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:8px">
+    <div style="font-size:14px;font-weight:700">Exercice type brevet</div>
+    <span class="duree-badge">⏱ Durée conseillée : 30 min</span>
+  </div>
+  <div class="doc-brevet">
+    <h3>Document — La rouille du fer</h3>
+    <p>Le fer (Fe) est un métal très utilisé dans la construction. En présence d'eau et de dioxygène, il se corrode lentement : c'est la rouille. La réaction d'oxydation du fer produit de l'oxyde de fer (Fe₂O₃), une poudre rouge-orange.</p>
+    <p style="margin-top:8px">L'équation non équilibrée de cette réaction est : Fe + O₂ → Fe₂O₃</p>
+    <p style="margin-top:8px">Pour ralentir la rouille, on peut recouvrir le fer de peinture, de zinc (galvanisation) ou d'huile, afin de l'isoler du dioxygène et de l'eau.</p>
+    <div class="doc-source">Texte reconstitué — type brevet Physique-Chimie</div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 1 — Compréhension<span class="pts">4 pts</span></div>
+    <div class="q-exo-body">
+      <p>Dans la réaction de formation de la rouille : (a) Quels sont les réactifs ? (b) Quel est le produit ? (c) Quels sont les signes visibles qu'une réaction chimique a eu lieu ?</p>
+      <textarea placeholder="(a) Réactifs : ...\n(b) Produit : ...\n(c) Signes visibles : ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c1')">Voir la correction</button>
+      <div class="corr-panel" id="c1">
+        <h4>✓ Correction</h4>
+        <p><strong>(a) Réactifs :</strong> le fer (Fe) et le dioxygène (O₂). L'eau intervient aussi comme facteur favorisant.</p>
+        <p><strong>(b) Produit :</strong> l'oxyde de fer (Fe₂O₃), aussi appelé rouille.</p>
+        <p><strong>(c) Signes visibles :</strong> changement de couleur (le fer gris devient rouge-orange), apparition d'une poudre en surface (précipité), modification de la texture du métal qui s'effrite.</p>
+        <div class="methode-box"><strong>Méthode :</strong> Les réactifs sont toujours à gauche de la flèche dans l'équation chimique. Les produits sont à droite. Les signes d'une réaction chimique sont : changement de couleur, dégagement de gaz, apparition d'un précipité, changement de température.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 2 — Équilibrer une équation<span class="pts">8 pts</span></div>
+    <div class="q-exo-body">
+      <p>L'équation non équilibrée est : <strong>Fe + O₂ → Fe₂O₃</strong><br>
+      (a) Comptez les atomes de Fe et de O de chaque côté. L'équation est-elle équilibrée ?<br>
+      (b) L'équation équilibrée est : <strong>4 Fe + 3 O₂ → 2 Fe₂O₃</strong>. Vérifiez que cette équation est bien équilibrée en comptant les atomes.</p>
+      <textarea placeholder="(a) Côté réactifs : Fe = ... O = ...\nCôté produits : Fe = ... O = ...\nÉquilibrée ? ...\n(b) Vérification : ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c2')">Voir la correction</button>
+      <div class="corr-panel" id="c2">
+        <h4>✓ Correction</h4>
+        <p><strong>(a) Équation non équilibrée : Fe + O₂ → Fe₂O₃</strong></p>
+        <p>Réactifs : 1 atome Fe, 2 atomes O. Produits : 2 atomes Fe, 3 atomes O. Non équilibrée.</p>
+        <p style="margin-top:8px"><strong>(b) Vérification de 4 Fe + 3 O₂ → 2 Fe₂O₃ :</strong></p>
+        <p>Réactifs : 4 atomes Fe, 3 × 2 = 6 atomes O.<br>
+        Produits : 2 × 2 = 4 atomes Fe, 2 × 3 = 6 atomes O.<br>
+        ✓ 4 Fe = 4 Fe et 6 O = 6 O. L'équation est bien équilibrée.</p>
+        <div class="methode-box"><strong>Méthode pour vérifier une équation :</strong><br>
+        1. Pour chaque élément, compte les atomes à gauche (coefficient × indice).<br>
+        2. Compte les atomes à droite de la même façon.<br>
+        3. Vérifie que les totaux sont identiques pour chaque élément.</div>
+        <div class="vocab-box"><strong>Rappel :</strong> La loi de conservation de la matière (Lavoisier, fin du XVIIIe siècle) : "Rien ne se perd, rien ne se crée, tout se transforme." Les atomes se réarrangent mais ne disparaissent jamais.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 3 — Application<span class="pts">8 pts</span></div>
+    <div class="q-exo-body">
+      <p>Le texte cite plusieurs façons de protéger le fer de la rouille. (a) Quel est le principe commun à toutes ces méthodes ? (b) Pourquoi la galvanisation (recouvrement par du zinc) est-elle plus efficace que la peinture ?</p>
+      <textarea placeholder="(a) ...\n(b) ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c3')">Voir la correction</button>
+      <div class="corr-panel" id="c3">
+        <h4>✓ Correction</h4>
+        <p><strong>(a)</strong> Le principe commun est d'<strong>isoler le fer du contact avec le dioxygène et l'eau</strong>, qui sont les deux réactifs nécessaires à la formation de la rouille. Sans dioxygène ou sans eau, la réaction d'oxydation ne peut pas se produire.</p>
+        <p><strong>(b)</strong> La galvanisation est plus efficace car le zinc est lui-même un métal qui réagit avec le dioxygène à la place du fer (le zinc se corrode en premier et protège le fer). Même si la couche de zinc est rayée, le fer reste protégé. La peinture, elle, protège uniquement tant qu'elle est intacte : si elle s'écaille, le fer est à nouveau exposé.</p>
+        <div class="methode-box"><strong>Méthode :</strong> Pour répondre à une question sur la protection contre la rouille, pense toujours aux deux conditions nécessaires à la réaction : O₂ ET eau (H₂O). Supprimer l'une des deux suffit à stopper la réaction.</div>
+        <div class="vocab-box"><strong>Vocabulaire :</strong> <em>Galvanisation</em> = traitement d'une surface métallique par dépôt de zinc pour la protéger de la corrosion. <em>Corrosion</em> = dégradation lente d'un métal par réaction chimique avec son environnement.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPanel(id,tab){
+  var panels=document.querySelectorAll('.panel');var tabs=document.querySelectorAll('.tab');
+  for(var i=0;i<panels.length;i++) panels[i].classList.remove('active');
+  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');
+}
+function showCorr(id){var el=document.getElementById(id);if(el) el.classList.toggle('show');}
+var QUESTIONS=[
+  {q:"Qu'est-ce qu'un réactif dans une réaction chimique ?",opts:["Une substance créée lors de la réaction","Une substance consommée lors de la réaction (à gauche de la flèche)","Un catalyseur qui accélère la réaction","Un produit en excès après la réaction"],correct:1,
+   expl:"Les réactifs sont les substances qui existent avant la réaction et qui sont consommées (transformées) pendant celle-ci. Dans une équation chimique, ils sont écrits à gauche de la flèche. Après la réaction, les réactifs ont disparu (ou sont en moindre quantité s'il y a un excès)."},
+  {q:"Que dit la loi de conservation de la matière ?",opts:["La masse des produits est toujours supérieure à celle des réactifs","Les atomes sont créés lors d'une réaction chimique","La masse totale des réactifs est égale à la masse totale des produits","Les molécules disparaissent lors d'une combustion"],correct:2,
+   expl:"La loi de conservation de la matière (Lavoisier) dit que lors d'une réaction chimique, les atomes ne sont ni créés ni détruits, ils se réarrangent. La masse totale des réactifs est donc égale à la masse totale des produits. C'est pourquoi les équations chimiques doivent être équilibrées."},
+  {q:"Dans l'équation 2 H₂ + O₂ → 2 H₂O, combien d'atomes d'hydrogène y a-t-il à gauche ?",opts:["2","3","4","6"],correct:2,
+   expl:"À gauche : 2 molécules de H₂, chacune contenant 2 atomes d'hydrogène. Donc 2 × 2 = 4 atomes H. À droite : 2 molécules de H₂O, chacune contenant 2 atomes H. Donc 2 × 2 = 4 atomes H. L'équation est bien équilibrée pour l'hydrogène."},
+  {q:"Qu'est-ce qu'une combustion ?",opts:["Une réaction lente avec l'eau","Une réaction rapide avec le dioxygène qui libère chaleur et lumière","Une réaction entre un acide et une base","Une réaction qui crée des atomes"],correct:1,
+   expl:"Une combustion est une réaction chimique rapide entre un combustible (bois, gaz, essence…) et le dioxygène (comburant). Elle libère de l'énergie sous forme de chaleur et de lumière (flamme). Les produits sont généralement du dioxyde de carbone (CO₂) et de l'eau (H₂O)."},
+  {q:"Quel est le signe visuel qui indique le plus clairement qu'une réaction chimique a eu lieu ?",opts:["La présence d'eau dans le récipient","Uniquement le changement de température","La disparition des réactifs et/ou l'apparition de nouveaux produits (changement de couleur, bulles, précipité…)","Le mouvement de la solution"],correct:2,
+   expl:"On peut détecter une réaction chimique par plusieurs signes : changement de couleur (ex : le fer qui rouille), dégagement de gaz (bulles), apparition d'un précipité (solide dans une solution), changement de température (réaction exothermique ou endothermique), apparition d'une odeur nouvelle."},
+  {q:"Pourquoi doit-on équilibrer une équation chimique ?",opts:["Pour que l'équation soit plus longue","Pour respecter la loi de conservation de la matière : même nombre d'atomes des deux côtés","Pour que les produits soient plus lourds","Pour faciliter la lecture"],correct:1,
+   expl:"Équilibrer une équation, c'est respecter la loi de conservation de la matière : les atomes ne se créent pas ni ne disparaissent. Le nombre d'atomes de chaque élément doit être identique à gauche et à droite de la flèche. On équilibre en ajustant les coefficients (jamais en modifiant les formules)."},
+  {q:"Qu'est-ce que l'oxydation ?",opts:["Une réaction entre deux acides","Une réaction avec le dioxygène, souvent lente (ex : la rouille)","Une réaction entre un métal et de l'eau pure","Une décomposition par la chaleur"],correct:1,
+   expl:"L'oxydation est une réaction chimique avec le dioxygène (O₂). Elle peut être rapide (combustion) ou lente (rouille du fer, oxydation des fruits coupés). L'oxyde formé est souvent une poudre ou une couche en surface du métal. Par exemple : 4 Fe + 3 O₂ → 2 Fe₂O₃."},
+  {q:"Dans l'équation Fe + O₂ → Fe₂O₃, quelle observation permet de dire qu'elle n'est pas équilibrée ?",opts:["Il manque de l'eau à droite","Le nombre d'atomes de Fe et O n'est pas le même des deux côtés","La flèche est mal orientée","Il manque un réactif"],correct:1,
+   expl:"Gauche : 1 atome Fe, 2 atomes O. Droite : 2 atomes Fe, 3 atomes O. Les nombres sont différents → l'équation n'est pas équilibrée. Pour l'équilibrer : 4 Fe + 3 O₂ → 2 Fe₂O₃ (4 Fe des deux côtés, 6 O des deux côtés)."},
+  {q:"Qu'est-ce qu'une réaction de neutralisation ?",opts:["La réaction entre un métal et le dioxygène","La réaction entre un acide et une base qui produit un sel et de l'eau","La décomposition de l'eau par électricité","La combustion d'un gaz"],correct:1,
+   expl:"Une neutralisation est la réaction entre un acide et une base. Elle produit un sel et de l'eau. Exemple : HCl (acide chlorhydrique) + NaOH (soude) → NaCl (sel) + H₂O. La solution résultante est neutre (pH = 7) si les quantités sont équilibrées."},
+  {q:"Si on brûle du méthane (CH₄), quels sont les produits obtenus ?",opts:["De l'eau et de l'hydrogène","Du dioxyde de carbone (CO₂) et de l'eau (H₂O)","De l'oxygène et du carbone","Du monoxyde de carbone uniquement"],correct:1,
+   expl:"La combustion complète du méthane (gaz naturel) produit du dioxyde de carbone et de l'eau : CH₄ + 2 O₂ → CO₂ + 2 H₂O. C'est une réaction exothermique (elle libère de la chaleur), utilisée pour le chauffage et la cuisine. Une combustion incomplète peut produire du monoxyde de carbone (CO), gaz très toxique."},
+  {q:"Qu'est-ce que l'électrolyse de l'eau ?",opts:["La vaporisation de l'eau par chauffage","La décomposition de l'eau en hydrogène et dioxygène grâce à un courant électrique","La réaction de l'eau avec un acide","La filtration de l'eau"],correct:1,
+   expl:"L'électrolyse de l'eau consiste à faire passer un courant électrique dans l'eau pour la décomposer : 2 H₂O → 2 H₂ + O₂. On obtient du dihydrogène (H₂) et du dioxygène (O₂). C'est l'inverse de la combustion de l'hydrogène. L'électrolyse est utilisée pour produire de l'hydrogène comme carburant."},
+  {q:"Dans 3 CO₂, combien y a-t-il d'atomes d'oxygène au total ?",opts:["2","3","5","6"],correct:3,
+   expl:"Dans CO₂ : 2 atomes d'oxygène par molécule. Dans 3 CO₂ : 3 molécules × 2 atomes O = 6 atomes d'oxygène au total. Le raisonnement est : coefficient (3) × indice (2) = 6. De même, 3 atomes de carbone (3 × 1 = 3)."},
+];
+var answered={},score=0;
+function buildQuiz(){
+  var c=document.getElementById('quiz-container');c.innerHTML=''; answered={}; score=0;
+  for(var i=0;i<QUESTIONS.length;i++){
+    var q=QUESTIONS[i];var opts='';
+    for(var j=0;j<q.opts.length;j++) opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';
+    var div=document.createElement('div');div.className='quiz-q';
+    div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;answered[qi]=choice;var q=QUESTIONS[qi];
+  var opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for(var i=0;i<opts.length;i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  var ok=choice===q.correct;if(ok) score++;
+  var expl=document.getElementById('expl-'+qi);
+  expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  var el=document.getElementById('quiz-score');var pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  var msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;window.showScore=showScore;window.buildQuiz=buildQuiz;
+</script>
+</body>
+</html>

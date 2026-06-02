@@ -57,8 +57,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 .tag-coming{display:inline-block;background:var(--gris-light);color:var(--gris);font-size:10px;padding:2px 8px;border-radius:20px;margin-top:8px;border:1px solid var(--border)}
 .tag-pdf{display:inline-block;background:#c0392b;color:white;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:8px}
 .badge-m{background:var(--maths);color:white}
+.badge-pc{background:#2471A3;color:white}
+.badge-svt{background:#117A65;color:white}
 .seq-link.maths:hover{border-color:var(--maths)}
+.seq-link.pc:hover{border-color:#2471A3}
+.seq-link.svt:hover{border-color:#117A65}
 .maths .sl-code{color:var(--maths)}
+.pc .sl-code{color:#2471A3}
+.svt .sl-code{color:#117A65}
 @media(max-width:500px){.hero h1{font-size:18px}.seq-link{-webkit-flex:1 1 100%;flex:1 1 100%}}
 </style>
 </head>
@@ -206,22 +212,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
       <div class="sl-code">F8</div><div class="sl-title">Texte littéraire</div>
       <div class="tag-dispo">✓ Disponible</div>
     </a>
-    <div class="seq-link fran disabled">
+    <a class="seq-link fran" href="F9_texte_argumentatif.html">
       <div class="sl-code">F9</div><div class="sl-title">Texte argumentatif</div>
-      <div class="tag-coming">À venir</div>
-    </div>
-    <div class="seq-link fran disabled">
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link fran" href="F10_rediger_texte_narratif.html">
       <div class="sl-code">F10</div><div class="sl-title">Rédiger un texte narratif</div>
-      <div class="tag-coming">À venir</div>
-    </div>
-    <div class="seq-link fran disabled">
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link fran" href="F11_rediger_texte_argumentatif.html">
       <div class="sl-code">F11</div><div class="sl-title">Rédiger un texte argumentatif</div>
-      <div class="tag-coming">À venir</div>
-    </div>
-    <div class="seq-link fran disabled">
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link fran" href="F12_la_dictee_preparee.html">
       <div class="sl-code">F12</div><div class="sl-title">La dictée préparée</div>
-      <div class="tag-coming">À venir</div>
-    </div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
   </div>
 
   <!-- MATHS -->
@@ -272,6 +278,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
     <a class="seq-link maths" href="M37.html"><div class="sl-code">M37</div><div class="sl-title">Proba &amp; g&eacute;om&eacute;trie espace</div><div class="sl-sub">26 juin</div><div class="tag-new">★ Nouveau</div></a>
     <a class="seq-link maths" href="M38.html"><div class="sl-code">M38</div><div class="sl-title">Sujet complet</div><div class="sl-sub">27 juin</div><div class="tag-new">★ Nouveau</div></a>
     <a class="seq-link maths" href="M39.html"><div class="sl-code">M39</div><div class="sl-title">Bilan final J-1 &#127881;</div><div class="sl-sub">28 juin</div><div class="tag-new">★ Nouveau</div></a>
+  </div>
+
+  <!-- PHYSIQUE-CHIMIE -->
+  <div class="matiere-head"><span class="matiere-badge badge-pc">PHYSIQUE-CHIMIE</span><div class="matiere-line"></div></div>
+  <div class="cards">
+    <a class="seq-link pc" href="PC01_atome_matiere.html"><div class="sl-code">PC01</div><div class="sl-title">L'atome et la matière</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link pc" href="PC02_reactions_chimiques.html"><div class="sl-code">PC02</div><div class="sl-title">Les réactions chimiques</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link pc" href="PC03_mouvements_forces.html"><div class="sl-code">PC03</div><div class="sl-title">Les mouvements et les forces</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link pc" href="PC04_electricite_ohm.html"><div class="sl-code">PC04</div><div class="sl-title">Électricité : loi d'Ohm et circuits</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link pc" href="PC05_energie_puissance.html"><div class="sl-code">PC05</div><div class="sl-title">Énergie : puissance et rendement</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link pc" href="PC06_signaux_lumiere_son.html"><div class="sl-code">PC06</div><div class="sl-title">Les signaux : lumière et son</div><div class="tag-dispo">✓ Disponible</div></a>
+  </div>
+
+  <!-- SVT -->
+  <div class="matiere-head"><span class="matiere-badge badge-svt">SVT</span><div class="matiere-line"></div></div>
+  <div class="cards">
+    <div class="seq-link svt disabled"><div class="sl-code">S01</div><div class="sl-title">L'ADN et les chromosomes</div><div class="tag-coming">À venir</div></div>
+    <div class="seq-link svt disabled"><div class="sl-code">S02</div><div class="sl-title">Reproduction et hérédité</div><div class="tag-coming">À venir</div></div>
+    <div class="seq-link svt disabled"><div class="sl-code">S03</div><div class="sl-title">L'évolution du vivant</div><div class="tag-coming">À venir</div></div>
+    <div class="seq-link svt disabled"><div class="sl-code">S04</div><div class="sl-title">Le système nerveux</div><div class="tag-coming">À venir</div></div>
+    <div class="seq-link svt disabled"><div class="sl-code">S05</div><div class="sl-title">L'immunité</div><div class="tag-coming">À venir</div></div>
+    <div class="seq-link svt disabled"><div class="sl-code">S06</div><div class="sl-title">Les enjeux environnementaux</div><div class="tag-coming">À venir</div></div>
   </div>
 
   <!-- EMC -->

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC01 — L'atome et la matière</title>
+<style>
+  :root{
+    --c:#2471A3;--c-light:#D6EAF8;--c-mid:#2E86C1;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --vert:#1E8449;--vert-light:#D5F5E3;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;padding-bottom:40px}
+  header{background:var(--c);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:relative;z-index:50;-webkit-tap-highlight-color:transparent}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px}
+  .tab.active{color:var(--c);border-bottom-color:var(--c)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .sh-c{background:var(--c)}.sh-b{background:var(--bleu)}.sh-o{background:var(--orange)}.sh-v{background:var(--violet)}.sh-g{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--c-light);border-left:4px solid var(--c);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--c)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--c);font-weight:700}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--c-light);color:var(--c);font-weight:700;font-size:12px;padding:8px 12px;min-width:140px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .formule-box{background:white;border:2px solid var(--c);border-radius:8px;padding:12px 16px;margin:10px 0;text-align:center}
+  .formule{font-size:18px;font-weight:700;color:var(--c);margin:6px 0}
+  .formule-desc{font-size:12px;color:var(--muted)}
+  .atome-schema{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:10px 0;text-align:center}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--c);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;color:var(--text);-webkit-tap-highlight-color:transparent}
+  .quiz-opt:hover{border-color:var(--c);background:var(--c-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:#FADBD8;border-color:#C0392B;color:#C0392B}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--c-light);border-left:4px solid var(--c);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:#FADBD8;color:#C0392B;border:1px solid #C0392B;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--c);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--c)}
+  .btn-reset{background:var(--c);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--c-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--c);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--c);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--c)}
+  .btn-corr{background:var(--c);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+  .tableau{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+  .tableau th{background:var(--c);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .tableau td{padding:8px 10px;border-bottom:0.5px solid var(--border)}
+  .tableau tr:last-child td{border-bottom:none}
+  .tableau tr:nth-child(even) td{background:#EBF5FB}
+</style>
+</head>
+<body>
+<header>
+  <h1>⚛️ PC01 — L'atome et la matière</h1>
+  <p>Fiche complète · Séquence 1 · Physique-Chimie · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<div class="panel active" id="panel-fiche">
+  <div class="section">
+    <div class="section-head sh-c">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>En une phrase :</strong> Toute la matière est constituée d'<strong>atomes</strong>, des particules minuscules composées d'un <strong>noyau</strong> (protons + neutrons) entouré d'<strong>électrons</strong>. Les atomes se regroupent en <strong>molécules</strong>. On les classe dans le <strong>tableau périodique des éléments</strong>.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-b">🔬 Structure de l'atome</div>
+    <div class="section-body">
+      <div class="atome-schema">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:10px">Représentation simplifiée d'un atome</div>
+        <div style="font-size:40px;margin:10px 0">⚛️</div>
+        <div style="display:-webkit-flex;display:flex;-webkit-justify-content:center;justify-content:center;gap:20px;-webkit-flex-wrap:wrap;flex-wrap:wrap;margin-top:10px">
+          <div style="background:var(--c-light);border:1px solid var(--c);border-radius:8px;padding:8px 14px;font-size:12px;text-align:center"><strong style="color:var(--c)">NOYAU</strong><br>Protons (+)<br>Neutrons (neutres)</div>
+          <div style="background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:8px 14px;font-size:12px;text-align:center"><strong style="color:var(--orange)">ÉLECTRONS</strong><br>Charge négative (-)<br>Tournent autour du noyau</div>
+        </div>
+      </div>
+      <ul class="bull-list" style="margin-top:10px">
+        <li><strong>Proton :</strong> particule du noyau, charge positive (+). Le nombre de protons = le numéro atomique (noté Z). C'est lui qui définit l'élément chimique.</li>
+        <li><strong>Neutron :</strong> particule du noyau, sans charge (neutre). Le nombre de neutrons peut varier pour un même élément → ce sont des isotopes.</li>
+        <li><strong>Électron :</strong> particule qui tourne autour du noyau, charge négative (-). L'atome est neutre → nombre d'électrons = nombre de protons.</li>
+      </ul>
+      <div class="warn-box"><strong>Ordres de grandeur à retenir :</strong> Un atome mesure environ 10⁻¹⁰ m (0,0000000001 m). Son noyau est 100 000 fois plus petit encore : environ 10⁻¹⁵ m. La masse de l'atome est presque entièrement dans le noyau.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-o">📊 Le tableau périodique des éléments</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Le tableau périodique classe tous les éléments chimiques connus (118 éléments actuellement). Chaque case contient :</p>
+      <ul class="bull-list">
+        <li>Le <strong>symbole</strong> de l'élément (1 ou 2 lettres)</li>
+        <li>Le <strong>numéro atomique Z</strong> (= nombre de protons)</li>
+        <li>La <strong>masse atomique</strong> (protons + neutrons)</li>
+      </ul>
+      <table class="tableau" style="margin-top:10px">
+        <tr><th>Élément</th><th>Symbole</th><th>Z (protons)</th><th>Quelques propriétés</th></tr>
+        <tr><td>Hydrogène</td><td>H</td><td>1</td><td>Gaz le plus léger, constituant de l'eau</td></tr>
+        <tr><td>Carbone</td><td>C</td><td>6</td><td>Base de la matière vivante</td></tr>
+        <tr><td>Oxygène</td><td>O</td><td>8</td><td>Indispensable à la respiration</td></tr>
+        <tr><td>Sodium</td><td>Na</td><td>11</td><td>Présent dans le sel de cuisine (NaCl)</td></tr>
+        <tr><td>Fer</td><td>Fe</td><td>26</td><td>Métal très utilisé en construction</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-v">🔗 Des atomes aux molécules</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Les atomes peuvent se lier entre eux pour former des <strong>molécules</strong>. Une molécule est notée par sa <strong>formule chimique</strong> qui indique les atomes qui la composent.</p>
+      <table class="tableau">
+        <tr><th>Molécule</th><th>Formule</th><th>Composition</th><th>Exemple d'usage</th></tr>
+        <tr><td>Eau</td><td>H₂O</td><td>2 atomes H + 1 atome O</td><td>Boisson, solvant</td></tr>
+        <tr><td>Dioxygène</td><td>O₂</td><td>2 atomes O</td><td>Respiration</td></tr>
+        <tr><td>Dioxyde de carbone</td><td>CO₂</td><td>1 atome C + 2 atomes O</td><td>Gaz à effet de serre</td></tr>
+        <tr><td>Diazote</td><td>N₂</td><td>2 atomes N</td><td>78 % de l'air</td></tr>
+        <tr><td>Chlorure de sodium</td><td>NaCl</td><td>1 atome Na + 1 atome Cl</td><td>Sel de cuisine</td></tr>
+      </table>
+      <div class="success-box"><strong>À retenir :</strong> Le chiffre en indice (₂ dans H₂O) indique le nombre d'atomes de cet élément dans la molécule. Le chiffre devant la formule (2 H₂O) indique le nombre de molécules.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-g">📚 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Atome</div><div class="mc-def">La plus petite particule d'un élément chimique qui conserve les propriétés de cet élément. Composé d'un noyau et d'électrons.</div></div>
+      <div class="mc-row"><div class="mc-terme">Noyau atomique</div><div class="mc-def">Partie centrale de l'atome, très dense, constituée de protons (charge +) et de neutrons (neutres). Concentre presque toute la masse.</div></div>
+      <div class="mc-row"><div class="mc-terme">Numéro atomique (Z)</div><div class="mc-def">Le nombre de protons dans le noyau. Il est propre à chaque élément chimique et détermine son identité.</div></div>
+      <div class="mc-row"><div class="mc-terme">Molécule</div><div class="mc-def">Assemblage d'au moins deux atomes liés entre eux. Représentée par une formule chimique (ex : H₂O).</div></div>
+      <div class="mc-row"><div class="mc-terme">Formule chimique</div><div class="mc-def">Notation qui indique les éléments présents dans une molécule et leur nombre (ex : CO₂ = 1 carbone + 2 oxygènes).</div></div>
+      <div class="mc-row"><div class="mc-terme">Isotope</div><div class="mc-def">Atomes du même élément (même nombre de protons) mais avec un nombre différent de neutrons.</div></div>
+      <div class="mc-row"><div class="mc-terme">Tableau périodique</div><div class="mc-def">Tableau classant tous les éléments chimiques par numéro atomique croissant. Inventé par Mendeleïev en 1869.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz :</strong> 12 questions sur l'atome et la matière.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num"></div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-exo">
+  <div style="display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:8px">
+    <div style="font-size:14px;font-weight:700">Exercice type brevet</div>
+    <span class="duree-badge">⏱ Durée conseillée : 30 min</span>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Document 1 — L'eau, une molécule essentielle</h3>
+    <p>L'eau est la molécule la plus répandue sur Terre. Sa formule chimique est H₂O : chaque molécule est composée de deux atomes d'hydrogène (H) et d'un atome d'oxygène (O). L'hydrogène possède 1 proton dans son noyau (numéro atomique Z = 1), tandis que l'oxygène en possède 8 (Z = 8). L'eau est une molécule neutre : les charges positives des protons et les charges négatives des électrons s'équilibrent parfaitement.</p>
+    <p style="margin-top:8px">À l'état liquide, les molécules d'eau sont liées entre elles. Chauffée à 100 °C, l'eau se transforme en vapeur : les molécules se dispersent dans l'air. Refroidie à 0 °C, elle se solidifie en glace. Dans les trois cas, la molécule H₂O reste identique — c'est son arrangement qui change.</p>
+    <div class="doc-source">Texte reconstitué à partir de données scientifiques — type brevet</div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 1 — Compréhension<span class="pts">5 pts</span></div>
+    <div class="q-exo-body">
+      <p>(a) Combien d'atomes d'hydrogène et d'oxygène contient une molécule d'eau ? (b) Combien d'électrons possède un atome d'oxygène ? Justifiez.</p>
+      <textarea placeholder="(a) ...\n(b) ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c1')">Voir la correction</button>
+      <div class="corr-panel" id="c1">
+        <h4>✓ Correction</h4>
+        <p><strong>(a)</strong> La formule H₂O indique : 2 atomes d'hydrogène (le chiffre 2 en indice après H) et 1 atome d'oxygène (pas de chiffre = 1).</p>
+        <p><strong>(b)</strong> Un atome d'oxygène possède <strong>8 électrons</strong>. En effet, un atome est électriquement neutre : le nombre d'électrons est toujours égal au nombre de protons. Or Z = 8 pour l'oxygène (8 protons), donc 8 électrons.</p>
+        <div class="methode-box"><strong>Méthode :</strong> Quand on te demande le nombre d'électrons d'un atome neutre, c'est toujours égal à son numéro atomique Z (nombre de protons). Atome neutre → charges + = charges -.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 2 — Analyse<span class="pts">8 pts</span></div>
+    <div class="q-exo-body">
+      <p>Le document décrit l'eau sous trois états (liquide, vapeur, glace). (a) Comment s'appelle le passage de l'état liquide à l'état gazeux ? (b) Qu'est-ce qui change entre ces trois états ? Qu'est-ce qui reste identique ?</p>
+      <textarea placeholder="(a) ...\n(b) Ce qui change : ...\nCe qui reste identique : ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c2')">Voir la correction</button>
+      <div class="corr-panel" id="c2">
+        <h4>✓ Correction</h4>
+        <p><strong>(a)</strong> Le passage de l'état liquide à l'état gazeux s'appelle la <strong>vaporisation</strong> (ou ébullition quand il se produit à 100 °C pour l'eau).</p>
+        <p><strong>(b) Ce qui change :</strong> l'arrangement des molécules entre elles. À l'état solide (glace), elles sont très ordonnées et liées. À l'état liquide, elles bougent librement mais restent proches. À l'état gazeux, elles se dispersent dans tout l'espace.</p>
+        <p><strong>Ce qui reste identique :</strong> la molécule elle-même. Qu'il s'agisse de glace, d'eau liquide ou de vapeur, la formule reste H₂O. La nature des atomes et leur nombre ne changent pas.</p>
+        <div class="methode-box"><strong>Méthode :</strong> Un changement d'état physique (fusion, solidification, vaporisation, condensation) ne modifie JAMAIS la molécule. C'est uniquement l'arrangement des molécules entre elles qui change. Seule une réaction chimique peut modifier la molécule.</div>
+        <div class="vocab-box"><strong>Vocabulaire :</strong> <em>Vaporisation</em> = passage de l'état liquide à gazeux (chauffage). <em>Condensation</em> = passage de l'état gazeux à liquide (refroidissement). <em>Fusion</em> = passage de l'état solide à liquide. <em>Solidification</em> = passage de l'état liquide à solide.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 3 — Application<span class="pts">12 pts</span></div>
+    <div class="q-exo-body">
+      <p>Le dioxyde de carbone (CO₂) est un gaz présent dans l'atmosphère. (a) Combien d'atomes de carbone et d'oxygène contient une molécule de CO₂ ? (b) Combien d'électrons possède un atome de carbone (Z = 6) ? (c) Écrire la formule de la molécule d'eau avec 3 molécules : comment se note-t-elle ?</p>
+      <textarea placeholder="(a) ...\n(b) ...\n(c) ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c3')">Voir la correction</button>
+      <div class="corr-panel" id="c3">
+        <h4>✓ Correction</h4>
+        <p><strong>(a)</strong> CO₂ contient : 1 atome de carbone (C, pas de chiffre = 1) et 2 atomes d'oxygène (O₂, le 2 en indice).</p>
+        <p><strong>(b)</strong> Z = 6 pour le carbone → 6 protons → 6 électrons (atome neutre).</p>
+        <p><strong>(c)</strong> 3 molécules d'eau se notent <strong>3 H₂O</strong>. Le chiffre devant la formule indique le nombre de molécules. Ici, 3 H₂O signifie : 3 × (2 atomes H + 1 atome O) = 6 atomes H et 3 atomes O au total.</p>
+        <div class="methode-box"><strong>Méthode pour lire une formule chimique :</strong><br>
+        • Le chiffre en indice (petit, en bas) = nombre d'atomes de cet élément dans UNE molécule.<br>
+        • Le chiffre devant la formule = nombre de molécules.<br>
+        • 2 CO₂ = 2 molécules, chacune avec 1 C et 2 O = 2 C et 4 O au total.</div>
+        <div class="vocab-box"><strong>Rappel :</strong> CO₂ est le gaz responsable de l'effet de serre. Son augmentation dans l'atmosphère depuis l'ère industrielle est la principale cause du réchauffement climatique.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPanel(id,tab){
+  var panels=document.querySelectorAll('.panel');var tabs=document.querySelectorAll('.tab');
+  for(var i=0;i<panels.length;i++) panels[i].classList.remove('active');
+  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');
+}
+function showCorr(id){var el=document.getElementById(id);if(el) el.classList.toggle('show');}
+var QUESTIONS=[
+  {q:"De quoi est composé le noyau d'un atome ?",opts:["D'électrons et de protons","De protons et de neutrons","De neutrons et d'électrons","Uniquement de protons"],correct:1,
+   expl:"Le noyau d'un atome est composé de protons (charge positive) et de neutrons (sans charge). Les électrons, eux, ne sont pas dans le noyau : ils tournent autour du noyau dans des couches électroniques. Presque toute la masse de l'atome est concentrée dans le noyau."},
+  {q:"Qu'est-ce que le numéro atomique Z ?",opts:["Le nombre de neutrons dans le noyau","Le nombre d'électrons dans les couches","Le nombre de protons dans le noyau","La masse totale de l'atome"],correct:2,
+   expl:"Le numéro atomique Z est le nombre de protons dans le noyau. Il est unique à chaque élément chimique : Z = 1 pour l'hydrogène, Z = 6 pour le carbone, Z = 8 pour l'oxygène… C'est lui qui définit l'identité d'un élément dans le tableau périodique."},
+  {q:"Un atome d'oxygène a Z = 8. Combien d'électrons possède-t-il ?",opts:["4","6","8","16"],correct:2,
+   expl:"Un atome neutre a autant d'électrons que de protons. Z = 8 signifie 8 protons, donc 8 électrons. La charge totale est nulle : 8 charges + (protons) + 8 charges - (électrons) = 0. L'atome est électriquement neutre."},
+  {q:"Que signifie H₂O ?",opts:["2 atomes d'hydrogène et 2 atomes d'oxygène","1 atome d'hydrogène et 2 atomes d'oxygène","2 atomes d'hydrogène et 1 atome d'oxygène","2 molécules d'eau"],correct:2,
+   expl:"H₂O se lit : 2 atomes d'hydrogène (le 2 en indice après H) et 1 atome d'oxygène (pas de chiffre = 1 par convention). Au total, une molécule d'eau contient 3 atomes. Le chiffre en indice indique le nombre d'atomes d'un élément dans UNE molécule."},
+  {q:"Que représente '3 CO₂' ?",opts:["3 atomes de carbone et 2 atomes d'oxygène","3 molécules, chacune contenant 1 atome de carbone et 2 atomes d'oxygène","1 molécule avec 3 carbones et 2 oxygènes","3 atomes de dioxyde de carbone"],correct:1,
+   expl:"Le chiffre devant une formule chimique indique le nombre de molécules. '3 CO₂' = 3 molécules de CO₂. Chaque molécule contient 1 atome de carbone (C) et 2 atomes d'oxygène (O₂). Au total : 3 carbones et 6 oxygènes."},
+  {q:"Qu'est-ce qu'une molécule ?",opts:["Un seul atome très gros","Un assemblage d'au moins deux atomes liés chimiquement","Un proton entouré d'électrons","Un neutron isolé"],correct:1,
+   expl:"Une molécule est un assemblage d'au moins deux atomes liés par des liaisons chimiques. Elle peut contenir des atomes identiques (O₂ = 2 atomes d'oxygène) ou différents (H₂O = hydrogène + oxygène). Les molécules sont les 'briques' de la matière à l'échelle chimique."},
+  {q:"Pourquoi un atome est-il électriquement neutre ?",opts:["Parce qu'il ne contient que des neutrons","Parce que le nombre d'électrons est égal au nombre de protons","Parce que les protons sont plus lourds que les électrons","Parce que les neutrons annulent les protons"],correct:1,
+   expl:"Un atome est neutre car le nombre de charges positives (protons) est exactement égal au nombre de charges négatives (électrons). Si on retire ou ajoute des électrons, l'atome devient un ion (chargé positivement ou négativement)."},
+  {q:"Quelle est la formule chimique du dioxygène (le gaz que nous respirons) ?",opts:["O","O₂","2O","CO₂"],correct:1,
+   expl:"Le dioxygène, le gaz indispensable à notre respiration, est une molécule composée de deux atomes d'oxygène liés : sa formule est O₂. Ne pas confondre avec O (un seul atome d'oxygène) ou CO₂ (dioxyde de carbone, qui est un gaz à effet de serre différent)."},
+  {q:"Qu'est-ce qu'un isotope ?",opts:["Un atome d'un élément différent","Un atome du même élément avec un nombre différent de neutrons","Une molécule composée de deux atomes identiques","Un ion chargé positivement"],correct:1,
+   expl:"Les isotopes sont des atomes du même élément (même nombre de protons, donc même Z) mais avec un nombre différent de neutrons. Par exemple, le carbone 12 (6 protons, 6 neutrons) et le carbone 14 (6 protons, 8 neutrons) sont deux isotopes du carbone."},
+  {q:"Quelle est la taille approximative d'un atome ?",opts:["10⁻³ m (1 mm)","10⁻⁶ m (1 micromètre)","10⁻¹⁰ m (0,1 nanomètre)","10⁻¹⁵ m (taille du noyau)"],correct:2,
+   expl:"Un atome mesure environ 10⁻¹⁰ m, soit 0,1 nanomètre. C'est extrêmement petit : il faudrait aligner environ 10 milliards d'atomes pour faire 1 mètre. Le noyau est encore 100 000 fois plus petit (10⁻¹⁵ m). À titre de comparaison, un cheveu fait environ 0,1 mm de diamètre."},
+  {q:"Que classifie le tableau périodique des éléments ?",opts:["Les molécules par ordre de masse","Les atomes par ordre de numéro atomique Z croissant","Les réactions chimiques par leur vitesse","Les métaux uniquement"],correct:1,
+   expl:"Le tableau périodique (inventé par Mendeleïev en 1869) classe tous les éléments chimiques connus par numéro atomique Z croissant (de 1 pour l'hydrogène à 118 pour l'oganesson). Il contient actuellement 118 éléments confirmés."},
+  {q:"Quelle est la formule chimique du sel de cuisine ?",opts:["NaO","NaCl","HCl","Na₂Cl"],correct:1,
+   expl:"Le sel de cuisine est le chlorure de sodium, de formule NaCl. Il est composé d'un atome de sodium (Na, Z = 11) et d'un atome de chlore (Cl, Z = 17). Le sodium est un métal et le chlore un gaz, mais ensemble ils forment un solide blanc inoffensif et essentiel à notre alimentation."},
+];
+var answered={},score=0;
+function buildQuiz(){
+  var c=document.getElementById('quiz-container');c.innerHTML=''; answered={}; score=0;
+  for(var i=0;i<QUESTIONS.length;i++){
+    var q=QUESTIONS[i];var opts='';
+    for(var j=0;j<q.opts.length;j++) opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';
+    var div=document.createElement('div');div.className='quiz-q';
+    div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;
+  answered[qi]=choice;var q=QUESTIONS[qi];
+  var opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for(var i=0;i<opts.length;i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  var ok=choice===q.correct;if(ok) score++;
+  var expl=document.getElementById('expl-'+qi);
+  expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  var el=document.getElementById('quiz-score');var pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  var msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;window.showScore=showScore;window.buildQuiz=buildQuiz;
+</script>
+</body>
+</html>

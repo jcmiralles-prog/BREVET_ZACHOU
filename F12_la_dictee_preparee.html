@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F12 — La dictée préparée</title>
+<style>
+  :root{
+    --c:#1E8449;--c-light:#D5F5E3;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;padding-bottom:40px}
+  header{background:var(--c);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:relative;z-index:50;-webkit-tap-highlight-color:transparent}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px}
+  .tab.active{color:var(--c);border-bottom-color:var(--c)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .sh-c{background:var(--c)}.sh-b{background:var(--bleu)}.sh-o{background:var(--orange)}.sh-v{background:var(--violet)}.sh-g{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--c-light);border-left:4px solid var(--c);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--c)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--c);font-weight:700}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--c-light);color:var(--c);font-weight:700;font-size:12px;padding:8px 12px;min-width:130px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .regle-box{background:white;border-left:4px solid var(--c);border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:10px;font-size:13px;line-height:1.7}
+  .regle-box .titre{font-weight:700;color:var(--c);margin-bottom:6px;font-size:14px}
+  .mot-diff{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .mot-tag{background:var(--c-light);color:var(--c);border:1px solid var(--c);border-radius:6px;padding:5px 12px;font-size:13px;font-weight:600}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--c);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;color:var(--text);-webkit-tap-highlight-color:transparent}
+  .quiz-opt:hover{border-color:var(--c);background:var(--c-light)}
+  .quiz-opt.correct{background:var(--c-light);border-color:var(--c);color:var(--c);font-weight:600}
+  .quiz-opt.wrong{background:#FADBD8;border-color:#C0392B;color:#C0392B}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:#FADBD8;color:#C0392B;border:1px solid #C0392B;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--c-light);color:var(--c);border:1px solid var(--c);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .btn-reset{background:var(--c);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--c-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--c);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--c);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--c)}
+  .btn-corr{background:var(--c);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--c-light);border-left:4px solid var(--c);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--c);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--c);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--c)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+</style>
+</head>
+<body>
+<header>
+  <h1>📖 F12 — La dictée préparée</h1>
+  <p>Fiche complète · Séquence 12 · Français · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<div class="panel active" id="panel-fiche">
+  <div class="section">
+    <div class="section-head sh-c">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>La dictée préparée au brevet :</strong> on te donne le texte à l'avance pour que tu puisses le travailler. Le jour J, on te le dicte et tu dois l'écrire sans faute. Les points perdus : fautes d'accord, d'orthographe lexicale, et oublis de majuscules ou de ponctuation. Chaque faute coûte un demi-point ou un point selon le barème.</div>
+      <div class="warn-box"><strong>Ce que le brevet évalue :</strong> les accords (sujet-verbe, adjectif, participe passé), l'orthographe des mots courants, et la ponctuation de base.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-b">📏 Les 5 règles les plus importantes pour la dictée</div>
+    <div class="section-body">
+      <div class="regle-box">
+        <div class="titre">Règle 1 — L'accord sujet-verbe</div>
+        <p>Le verbe s'accorde toujours avec son sujet, même quand ils sont séparés par des mots.</p>
+        <p style="margin-top:6px">Ex : <em>"Les élèves de la classe <strong>travaillent</strong> bien."</em> (sujet = "les élèves", pluriel → -ent)</p>
+        <p style="margin-top:4px">Piège : <em>"La liste des candidats <strong>est</strong> longue."</em> (sujet = "la liste", féminin singulier, pas "candidats")</p>
+      </div>
+      <div class="regle-box">
+        <div class="titre">Règle 2 — L'accord de l'adjectif</div>
+        <p>L'adjectif s'accorde en genre (masculin/féminin) et en nombre (singulier/pluriel) avec le nom qu'il qualifie.</p>
+        <p style="margin-top:6px">Ex : <em>"une belle journée"</em> (féminin singulier) / <em>"de beaux souvenirs"</em> (masculin pluriel)</p>
+        <p style="margin-top:4px">Piège : les adjectifs de couleur. <em>"des robes bleues"</em> (accord) mais <em>"des robes bleu clair"</em> (pas d'accord quand deux mots).</p>
+      </div>
+      <div class="regle-box">
+        <div class="titre">Règle 3 — Le participe passé</div>
+        <p><strong>Avec être :</strong> le participe s'accorde avec le sujet. <em>"Elle est <strong>partie</strong>."</em></p>
+        <p style="margin-top:4px"><strong>Avec avoir :</strong> le participe s'accorde avec le COD seulement si le COD est placé avant le verbe. <em>"La lettre qu'il a <strong>écrite</strong>."</em> (COD "que" = "la lettre", féminin singulier)</p>
+        <p style="margin-top:4px"><strong>Avec avoir, COD après :</strong> pas d'accord. <em>"Il a <strong>écrit</strong> une lettre."</em></p>
+      </div>
+      <div class="regle-box">
+        <div class="titre">Règle 4 — Les homophones grammaticaux</div>
+        <p>Des mots qui se prononcent pareil mais s'écrivent différemment :</p>
+        <ul class="bull-list" style="margin-top:6px">
+          <li><strong>a / à :</strong> "a" = verbe avoir (remplaçable par "avait"). "à" = préposition.</li>
+          <li><strong>on / ont :</strong> "ont" = verbe avoir pluriel (remplaçable par "avaient"). "on" = pronom.</li>
+          <li><strong>son / sont :</strong> "sont" = verbe être (remplaçable par "étaient"). "son" = déterminant.</li>
+          <li><strong>ou / où :</strong> "où" = lieu ou choix avec accent (remplaçable par "ou bien" → si non = accent).</li>
+          <li><strong>ces / ses / c'est / s'est :</strong> "c'est" = présentatif. "s'est" = verbe pronominal. "ses" = déterminant pluriel. "ces" = démonstratif.</li>
+        </ul>
+      </div>
+      <div class="regle-box">
+        <div class="titre">Règle 5 — Les finales verbales à ne pas confondre</div>
+        <ul class="bull-list">
+          <li><strong>-er / -é / -ez :</strong> infinitif (marcher) / participe passé (marché) / 2e personne du pluriel (marchez). Astuce : si on peut remplacer par "vendre" → infinitif (-er). Si on peut remplacer par "vendu" → participe (-é).</li>
+          <li><strong>-ai / -ais / -ait :</strong> futur 1re pers. (je marcherai) / imparfait ou conditionnel (je marchais / je marcherais).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-o">🎯 Stratégie pour bien préparer la dictée</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li><strong>Étape 1 — Lire le texte lentement</strong> en entier. Comprendre le sens aide à éviter les erreurs d'accord.</li>
+        <li><strong>Étape 2 — Repérer tous les verbes.</strong> Pour chaque verbe, trouver son sujet et vérifier l'accord.</li>
+        <li><strong>Étape 3 — Repérer tous les noms et adjectifs.</strong> Vérifier le genre et le nombre de chaque adjectif.</li>
+        <li><strong>Étape 4 — Repérer les participes passés.</strong> Avec être ou avoir ? Le COD est-il avant ou après ?</li>
+        <li><strong>Étape 5 — Repérer les homophones.</strong> Pour chaque "a", "son", "ou"… vérifier avec le test de substitution.</li>
+        <li><strong>Étape 6 — Apprendre par cœur les mots difficiles.</strong> Liste les mots que tu ne connais pas, apprends-les.</li>
+        <li><strong>Étape 7 — Relire au moins deux fois</strong> pendant la dictée (une fois pour le sens, une fois pour les accords).</li>
+      </ul>
+      <div class="success-box"><strong>Conseil brevet :</strong> Lors de la relecture, ne lis pas mot à mot. Lit phrase par phrase en te posant toujours ces deux questions : "Qui fait l'action ?" (accord sujet-verbe) et "De quoi parle-t-on ?" (accord adjectif/participe).</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-v">⚡ Mots souvent mal orthographiés au brevet</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Ces mots reviennent souvent dans les dictées. Apprends-les :</p>
+      <div class="mot-diff">
+        <span class="mot-tag">davantage</span><span class="mot-tag">néanmoins</span><span class="mot-tag">cependant</span>
+        <span class="mot-tag">apparemment</span><span class="mot-tag">malheureusement</span><span class="mot-tag">heureusement</span>
+        <span class="mot-tag">immédiatement</span><span class="mot-tag">soigneusement</span><span class="mot-tag">silencieusement</span>
+        <span class="mot-tag">parmi</span><span class="mot-tag">malgré</span><span class="mot-tag">lorsque</span>
+        <span class="mot-tag">quelqu'un</span><span class="mot-tag">quelque chose</span><span class="mot-tag">aucun</span>
+        <span class="mot-tag">bientôt</span><span class="mot-tag">plutôt</span><span class="mot-tag">peut-être</span>
+        <span class="mot-tag">environ</span><span class="mot-tag">désormais</span><span class="mot-tag">désespéré</span>
+        <span class="mot-tag">enthousiasme</span><span class="mot-tag">rythme</span><span class="mot-tag">symptôme</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-g">📚 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Homophone</div><div class="mc-def">Mot qui se prononce de la même façon qu'un autre mais qui s'écrit différemment. Ex : "a" et "à", "son" et "sont".</div></div>
+      <div class="mc-row"><div class="mc-terme">Accord</div><div class="mc-def">Modification d'un mot (verbe, adjectif, participe) pour qu'il corresponde en genre et en nombre au mot avec lequel il est lié.</div></div>
+      <div class="mc-row"><div class="mc-terme">Participe passé</div><div class="mc-def">Forme du verbe utilisée pour construire les temps composés (passé composé, plus-que-parfait). Il s'accorde selon des règles précises.</div></div>
+      <div class="mc-row"><div class="mc-terme">COD</div><div class="mc-def">Complément d'objet direct : le mot qui répond à "quoi ?" après le verbe. Il commande l'accord du participe passé avec avoir quand il est placé avant le verbe.</div></div>
+      <div class="mc-row"><div class="mc-terme">Substitution</div><div class="mc-def">Technique pour vérifier un homophone : on remplace le mot par un autre pour voir lequel convient. Ex : "a" → remplacer par "avait" : si ça marche, on écrit "a".</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz :</strong> 12 questions sur les règles d'orthographe de la dictée préparée.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num"></div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-exo">
+  <div style="display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:8px">
+    <div style="font-size:14px;font-weight:700">Exercice type brevet</div>
+    <span class="duree-badge">⏱ Durée conseillée : 20 min</span>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Texte de dictée préparée</h3>
+    <p>Ce matin-là, les habitants du village s'étaient levés tôt. Le soleil, qui apparaissait lentement derrière les montagnes enneigées, projetait une lumière dorée sur les toits mouillés. Les enfants, encore ensommeillés, couraient vers l'école en bavardant joyeusement. Leur maîtresse, madame Lefèvre, les avait attendus patiemment devant la grande porte en bois. Elle leur a souri en les voyant arriver.</p>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 1 — Préparer la dictée<span class="pts">6 pts</span></div>
+    <div class="q-exo-body">
+      <p>Relevez dans ce texte : (a) deux accords sujet-verbe à justifier, (b) un participe passé et expliquez son accord.</p>
+      <textarea placeholder="(a) Accord 1 : sujet = ... verbe = ... accord = ...\nAccord 2 : sujet = ... verbe = ... accord = ...\n(b) Participe passé : ... accord expliqué : ..." style="min-height:130px"></textarea>
+      <button class="btn-corr" onclick="showCorr('c1')">Voir la correction</button>
+      <div class="corr-panel" id="c1">
+        <h4>✓ Correction</h4>
+        <p><strong>(a) Accords sujet-verbe :</strong></p>
+        <p>• "les habitants… s'étaient levés" : sujet = "les habitants" (masculin pluriel) → participe "levés" au masculin pluriel (auxiliaire être).</p>
+        <p>• "les enfants… couraient" : sujet = "les enfants" (pluriel) → verbe "couraient" à la 3e personne du pluriel.</p>
+        <p style="margin-top:8px"><strong>(b) Participe passé :</strong></p>
+        <p>"attendus" : auxiliaire avoir (avait attendus). COD = "les" (mis pour "les enfants", masculin pluriel, placé avant le verbe) → accord au masculin pluriel : "attendus".</p>
+        <div class="methode-box"><strong>Méthode :</strong> Pour les participes avec avoir, pose la question "Quoi ?" ou "Qui ?" après le verbe. Si la réponse est avant le verbe → accord. Si après → pas d'accord.</div>
+        <div class="vocab-box"><strong>Rappel :</strong> "avait attendus" → "elle avait attendu qui ?" → "les" (= les enfants, masculin pluriel, placé avant) → accord : -us.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 2 — Homophones<span class="pts">4 pts</span></div>
+    <div class="q-exo-body">
+      <p>Choisissez la bonne orthographe et justifiez chaque choix :</p>
+      <p>1. Les enfants <strong>on / ont</strong> couru vers l'école.</p>
+      <p>2. Elle <strong>a / à</strong> souri en les voyant.</p>
+      <p>3. Le soleil brillait <strong>ou / où</strong> les nuages avaient disparu.</p>
+      <p>4. <strong>Sa / Ça</strong> sentait bon la pluie fraîche.</p>
+      <textarea placeholder="1. ont / on : ...\n2. a / à : ...\n3. ou / où : ...\n4. sa / ça : ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c2')">Voir la correction</button>
+      <div class="corr-panel" id="c2">
+        <h4>✓ Correction</h4>
+        <p><strong>1. ont</strong> — "Les enfants ont couru." On peut remplacer par "avaient" → ça marche → "ont" (verbe avoir).</p>
+        <p><strong>2. a</strong> — "Elle a souri." On peut remplacer par "avait" → ça marche → "a" (verbe avoir). Si c'était une préposition, on ne pourrait pas dire "avait souri" seul.</p>
+        <p><strong>3. où</strong> — "là où les nuages avaient disparu" → le "où" indique un lieu. On ne peut pas le remplacer par "ou bien" → c'est "où" avec accent.</p>
+        <p><strong>4. ça</strong> — "Ça sentait bon" = cela sentait bon → pronom démonstratif. "Sa" est un déterminant possessif (sa maison, son livre).</p>
+        <div class="methode-box"><strong>Méthode des substitutions :</strong><br>
+        "on/ont" → remplacer par "avaient" : marche = "ont".<br>
+        "a/à" → remplacer par "avait" : marche = "a".<br>
+        "ou/où" → remplacer par "ou bien" : marche = "ou" sans accent.<br>
+        "ça/sa" → remplacer par "cela" : marche = "ça".</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 3 — Réécriture<span class="pts">10 pts</span></div>
+    <div class="q-exo-body">
+      <p>Réécrivez la phrase suivante en mettant les mots soulignés au pluriel. Faites tous les accords nécessaires.</p>
+      <p style="background:var(--bleu-light);padding:10px;border-radius:8px;margin:8px 0"><em>"<u>Le jeune enfant</u> curieux <u>courait</u> vers <u>son</u> professeur qui <u>l'avait</u> appelé."</em></p>
+      <textarea placeholder="Les jeunes enfants..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c3')">Voir la correction</button>
+      <div class="corr-panel" id="c3">
+        <h4>✓ Correction</h4>
+        <p><em>"Les jeunes enfants curieux couraient vers leur professeur qui les avait appelés."</em></p>
+        <p style="margin-top:8px"><strong>Justification des accords :</strong></p>
+        <ul class="bull-list">
+          <li><strong>Les</strong> → article défini pluriel (le → les)</li>
+          <li><strong>jeunes</strong> → adjectif au pluriel (jeune → jeunes)</li>
+          <li><strong>curieux</strong> → adjectif déjà en -x au singulier → reste "curieux" au pluriel</li>
+          <li><strong>couraient</strong> → verbe au pluriel (courait → couraient)</li>
+          <li><strong>leur</strong> → déterminant possessif pluriel (son → leur)</li>
+          <li><strong>les avait appelés</strong> → COD "les" (= les enfants, masculin pluriel) placé avant → participe accordé : "appelés"</li>
+        </ul>
+        <div class="methode-box"><strong>Méthode de réécriture :</strong><br>
+        1. Identifie le ou les mots mis au pluriel (ici "enfant" → "enfants").<br>
+        2. Cherche tous les mots qui s'accordent avec lui : article, adjectifs, verbes.<br>
+        3. Cherche les déterminants possessifs qui changent (son → leur).<br>
+        4. Cherche les participes passés : le COD change de genre/nombre ?</div>
+        <div class="vocab-box"><strong>Rappel :</strong> "curieux" est l'un des rares adjectifs déjà en -x au masculin singulier. Au pluriel, il reste "curieux" (pas de changement). Autres exemples : "heureux", "joyeux", "nerveux".</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPanel(id,tab){
+  var panels=document.querySelectorAll('.panel');
+  var tabs=document.querySelectorAll('.tab');
+  for(var i=0;i<panels.length;i++) panels[i].classList.remove('active');
+  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-'+id).classList.add('active');
+  tab.classList.add('active');
+}
+function showCorr(id){var el=document.getElementById(id);if(el) el.classList.toggle('show');}
+var QUESTIONS=[
+  {q:"Comment vérifier si on doit écrire 'a' ou 'à' ?",opts:["On regarde si le mot est accentué","On remplace par 'avait' : si ça marche, on écrit 'a' sans accent","On remplace par 'et' : si ça marche, on écrit 'à'","On regarde le mot qui suit"],correct:1,
+   expl:"La technique de substitution : remplace 'a/à' par 'avait'. Si la phrase reste correcte → c'est le verbe avoir → on écrit 'a' sans accent. Exemple : 'Elle a mangé' → 'Elle avait mangé' ✓ → 'a'. 'Il va à l'école' → 'Il va avait l'école' ✗ → 'à' avec accent."},
+  {q:"Comment vérifier si on doit écrire 'on' ou 'ont' ?",opts:["On remplace par 'ils avaient' : si ça marche, on écrit 'ont'","On regarde si c'est pluriel ou singulier","On remplace par 'nous'","On compte les syllabes"],correct:0,
+   expl:"Technique : remplace par 'avaient'. 'On a mangé' → 'Avaient mangé' ? Non, on manque un sujet → c'est 'on' (pronom). 'Ils ont mangé' → 'Ils avaient mangé' ✓ → c'est 'ont' (verbe avoir). Cette substitution fonctionne à tous les coups."},
+  {q:"Quand le participe passé s'accorde-t-il avec l'auxiliaire 'être' ?",opts:["Jamais","Toujours, avec le sujet du verbe","Seulement si le COD est placé avant","Seulement au pluriel"],correct:1,
+   expl:"Avec l'auxiliaire être, le participe passé s'accorde toujours avec le sujet, en genre et en nombre. Ex : 'Elle est partie' (féminin singulier → -e). 'Ils sont partis' (masculin pluriel → -s). 'Elles sont parties' (féminin pluriel → -es)."},
+  {q:"Dans la phrase 'Il a mangé la pomme qu'elle a cueillie', pourquoi 'cueillie' s'écrit avec -ie ?",opts:["Parce que le sujet est féminin","Parce que le COD 'que' représente 'la pomme' (féminin singulier) et est placé avant le verbe","Parce qu'on utilise l'auxiliaire avoir","Parce que le verbe est au passé composé"],correct:1,
+   expl:"Avec avoir, le participe s'accorde si le COD est AVANT le verbe. Ici, 'que' = 'la pomme' (féminin singulier), et il est placé avant 'a cueillie' → accord féminin singulier : -ie. Si on avait dit 'elle a cueilli une pomme' (COD après), pas d'accord."},
+  {q:"Quelle est la bonne orthographe : 'il va marcher' ou 'il va marché' ?",opts:["Il va marché","Il va marcher","Les deux sont corrects","Ça dépend du contexte"],correct:1,
+   expl:"Après 'aller' (et tous les autres verbes), on utilise l'infinitif : 'marcher'. L'infinitif en -er est à ne pas confondre avec le participe passé en -é. Astuce : remplace par un verbe en -re comme 'vendre'. 'Il va vendre' ✓ → infinitif -er. 'Il va vendu' ✗ → ce n'est pas le participe."},
+  {q:"Quelle est la règle pour l'accord de l'adjectif ?",opts:["L'adjectif s'accorde toujours au masculin singulier","L'adjectif s'accorde en genre et en nombre avec le nom qu'il qualifie","L'adjectif ne s'accorde jamais","L'adjectif s'accorde avec le verbe"],correct:1,
+   expl:"L'adjectif qualificatif s'accorde en genre (masculin/féminin) et en nombre (singulier/pluriel) avec le nom auquel il se rapporte. Ex : 'un beau jardin' (masculin singulier), 'une belle maison' (féminin singulier), 'de beaux jardins' (masculin pluriel)."},
+  {q:"Comment différencier 'ou' et 'où' ?",opts:["'Ou' avec accent = lieu ; 'ou' sans accent = choix","On ne peut pas les différencier à l'oral","'Où' avec accent = lieu ou question ; 'ou' sans accent = choix (remplaçable par 'ou bien')","'Où' s'utilise toujours avec un verbe"],correct:2,
+   expl:"'Où' avec accent grave indique un lieu ou pose une question de lieu. 'Ou' sans accent exprime un choix (= ou bien). Test : remplace par 'ou bien'. Si ça marche → sans accent. 'Tu veux du café ou du thé ?' → 'ou bien du thé' ✓ → sans accent. 'Là où il habite' → 'là ou bien il habite' ✗ → avec accent."},
+  {q:"Dans la phrase 'ces enfants sont bruyants', quel mot est le sujet du verbe 'sont' ?",opts:["bruyants","ces","enfants","ces enfants"],correct:3,
+   expl:"Le sujet du verbe 'sont' est 'ces enfants' (groupe nominal = déterminant + nom). Le verbe 'sont' est à la 3e personne du pluriel car son sujet 'ces enfants' est au pluriel. 'Ces' est un déterminant démonstratif, 'bruyants' est l'attribut du sujet."},
+  {q:"Pourquoi écrit-on 'les habitants s'étaient levés' et non 'levé' ?",opts:["Parce que le verbe est à l'imparfait","Parce que c'est un verbe pronominal : le sujet et le complément renvoient à la même personne, donc le participe s'accorde avec le sujet","Parce que le COD est après le verbe","Parce que l'auxiliaire est avoir"],correct:1,
+   expl:"'Se lever' est un verbe pronominal (= verbe qui se conjugue avec un pronom réfléchi : se, me, te…). Les verbes pronominaux se conjuguent avec l'auxiliaire être. Le participe s'accorde donc avec le sujet : 'les habitants' (masculin pluriel) → 'levés'."},
+  {q:"Comment vérifier si 'son' ou 'sont' est correct dans une phrase ?",opts:["On remplace par 'mon' : si ça marche, c'est 'son'","On remplace par 'étaient' : si ça marche, c'est 'sont'","On remplace par 'une' : si ça marche, c'est 'son'","On compte les mots dans la phrase"],correct:1,
+   expl:"Technique : remplace par 'étaient'. 'Ils sont partis' → 'Ils étaient partis' ✓ → c'est 'sont' (verbe être). 'Il tient son livre' → 'Il tient étaient livre' ✗ → c'est 'son' (déterminant possessif). Simple et efficace !"},
+  {q:"Quelle est la bonne orthographe du mot 'tout de suite' ? ",opts:["Tou de suite","Tout de suite","Toute de suite","Tous de suite"],correct:1,
+   expl:"'Tout de suite' est une locution adverbiale invariable qui s'écrit toujours ainsi, avec un seul 't' à 'tout' et 'suite' au singulier. C'est un mot à mémoriser : il revient souvent dans les dictées et est souvent mal orthographié."},
+  {q:"Dans la phrase 'elle a regardé les étoiles', le participe 'regardé' s'accorde-t-il ?",opts:["Oui, avec 'elle' (féminin) → regardée","Non, car le COD 'les étoiles' est placé après le verbe","Oui, avec 'étoiles' (féminin pluriel) → regardées","Oui, avec 'elle' → regardée"],correct:1,
+   expl:"Avec l'auxiliaire avoir, le participe ne s'accorde que si le COD est AVANT le verbe. Ici, 'les étoiles' est après 'regardé' → pas d'accord. On écrit 'regardé' (invariable). Si on avait dit 'les étoiles qu'elle a regardées', le COD 'que' (= 'les étoiles', féminin pluriel) est avant → accord."},
+];
+var answered={},score=0;
+function buildQuiz(){
+  var c=document.getElementById('quiz-container');
+  c.innerHTML=''; answered={}; score=0;
+  for(var i=0;i<QUESTIONS.length;i++){
+    var q=QUESTIONS[i];var opts='';
+    for(var j=0;j<q.opts.length;j++) opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';
+    var div=document.createElement('div');div.className='quiz-q';
+    div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;
+  answered[qi]=choice;var q=QUESTIONS[qi];
+  var opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for(var i=0;i<opts.length;i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  var ok=choice===q.correct;if(ok) score++;
+  var expl=document.getElementById('expl-'+qi);
+  expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  var el=document.getElementById('quiz-score');var pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  var msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;window.showScore=showScore;window.buildQuiz=buildQuiz;
+</script>
+</body>
+</html>

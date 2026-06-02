@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC06 — Les signaux : lumière et son</title>
+<style>
+  :root{
+    --c:#2471A3;--c-light:#D6EAF8;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --vert:#1E8449;--vert-light:#D5F5E3;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;padding-bottom:40px}
+  header{background:var(--c);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:relative;z-index:50;-webkit-tap-highlight-color:transparent}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px}
+  .tab.active{color:var(--c);border-bottom-color:var(--c)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .sh-c{background:var(--c)}.sh-b{background:var(--bleu)}.sh-o{background:var(--orange)}.sh-v{background:var(--violet)}.sh-g{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--c-light);border-left:4px solid var(--c);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--c)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--c);font-weight:700}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--c-light);color:var(--c);font-weight:700;font-size:12px;padding:8px 12px;min-width:150px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .compare-grid{display:-webkit-flex;display:flex;gap:12px;-webkit-flex-wrap:wrap;flex-wrap:wrap;margin:10px 0}
+  .compare-card{-webkit-flex:1 1 200px;flex:1 1 200px;background:white;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-size:13px}
+  .compare-card h4{font-size:13px;font-weight:700;margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  .compare-card.lumiere h4{color:var(--orange)}
+  .compare-card.son h4{color:var(--c)}
+  .formule-box{background:white;border:2px solid var(--c);border-radius:10px;padding:14px;margin:10px 0;text-align:center}
+  .formule{font-size:20px;font-weight:700;color:var(--c);margin:6px 0;letter-spacing:1px}
+  .formule-desc{font-size:12px;color:var(--muted);margin-top:4px}
+  .tableau{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+  .tableau th{background:var(--c);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .tableau td{padding:8px 10px;border-bottom:0.5px solid var(--border)}
+  .tableau tr:last-child td{border-bottom:none}
+  .tableau tr:nth-child(even) td{background:#EBF5FB}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--c);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;color:var(--text);-webkit-tap-highlight-color:transparent}
+  .quiz-opt:hover{border-color:var(--c);background:var(--c-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:#FADBD8;border-color:#C0392B;color:#C0392B}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--c-light);border-left:4px solid var(--c);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:#FADBD8;color:#C0392B;border:1px solid #C0392B;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--c);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--c)}
+  .btn-reset{background:var(--c);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--c-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--c);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--c);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--c)}
+  .btn-corr{background:var(--c);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🌈 PC06 — Les signaux : lumière et son</h1>
+  <p>Fiche complète · Séquence 6 · Physique-Chimie · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<div class="panel active" id="panel-fiche">
+  <div class="section">
+    <div class="section-head sh-c">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>En une phrase :</strong> La <strong>lumière</strong> est une onde électromagnétique qui se propage à 300 000 km/s dans le vide. Le <strong>son</strong> est une onde mécanique qui nécessite un milieu matériel (air, eau, solide) et se propage environ 340 m/s dans l'air. Ces deux signaux se caractérisent par leur <strong>fréquence</strong> et leur <strong>longueur d'onde</strong>.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-b">🔀 Lumière et son — comparaison</div>
+    <div class="section-body">
+      <div class="compare-grid">
+        <div class="compare-card lumiere">
+          <h4>🌟 La lumière</h4>
+          <ul class="bull-list">
+            <li>Onde électromagnétique</li>
+            <li>Vitesse : 3 × 10⁸ m/s dans le vide</li>
+            <li>Se propage dans le vide (et les milieux transparents)</li>
+            <li>Spectre visible : du violet au rouge</li>
+            <li>Longueur d'onde : 400 à 800 nm</li>
+          </ul>
+        </div>
+        <div class="compare-card son">
+          <h4>🔊 Le son</h4>
+          <ul class="bull-list">
+            <li>Onde mécanique (vibration)</li>
+            <li>Vitesse : ≈ 340 m/s dans l'air</li>
+            <li>Ne se propage PAS dans le vide</li>
+            <li>Audible : 20 Hz à 20 000 Hz</li>
+            <li>Plus rapide dans l'eau (1 500 m/s) que dans l'air</li>
+          </ul>
+        </div>
+      </div>
+      <div class="warn-box"><strong>Différence fondamentale :</strong> La lumière se propage dans le vide (c'est pourquoi on voit les étoiles). Le son ne se propage PAS dans le vide (il n'y a pas de son dans l'espace). Le son a besoin d'un milieu matériel pour transmettre ses vibrations.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-o">📐 Fréquence, période et longueur d'onde</div>
+    <div class="section-body">
+      <div class="formule-box">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:4px">Relation fondamentale des ondes</div>
+        <div class="formule">v = λ × f</div>
+        <div class="formule-desc">v = vitesse de l'onde (m/s) · λ (lambda) = longueur d'onde (m) · f = fréquence (Hz)</div>
+      </div>
+      <table class="tableau" style="margin-top:10px">
+        <tr><th>Grandeur</th><th>Symbole</th><th>Unité</th><th>Signification</th></tr>
+        <tr><td><strong>Fréquence</strong></td><td>f</td><td>Hertz (Hz)</td><td>Nombre de vibrations par seconde. Plus f est grande → son aigu / couleur violette.</td></tr>
+        <tr><td><strong>Période</strong></td><td>T</td><td>Seconde (s)</td><td>Durée d'une vibration. T = 1/f.</td></tr>
+        <tr><td><strong>Longueur d'onde</strong></td><td>λ (lambda)</td><td>Mètre (m) ou nm</td><td>Distance parcourue pendant une période. λ = v/f.</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-v">🌈 Le spectre lumineux et les couleurs</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">La lumière blanche est composée de toutes les couleurs du spectre visible. Un prisme la décompose en arc-en-ciel.</p>
+      <div style="background:linear-gradient(to right,#8B00FF,#0000FF,#00BFFF,#00FF00,#FFFF00,#FF7F00,#FF0000);border-radius:8px;height:24px;margin:8px 0"></div>
+      <div style="display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:10px">
+        <span>Violet (400 nm)</span><span>Bleu</span><span>Vert</span><span>Jaune</span><span>Orange</span><span>Rouge (700 nm)</span>
+      </div>
+      <ul class="bull-list">
+        <li><strong>Lumière visible :</strong> longueurs d'onde de 400 nm (violet) à 700 nm (rouge).</li>
+        <li><strong>Infrarouge :</strong> longueur d'onde > 700 nm, invisible mais ressenti comme chaleur.</li>
+        <li><strong>Ultraviolet (UV) :</strong> longueur d'onde &lt; 400 nm, invisible, responsable des coups de soleil.</li>
+        <li><strong>Rayons X et gamma :</strong> très courtes longueurs d'onde, très énergétiques.</li>
+      </ul>
+      <div class="success-box"><strong>À retenir pour le brevet :</strong> La couleur d'une lumière est liée à sa fréquence (ou sa longueur d'onde). Le violet a la fréquence la plus haute et la longueur d'onde la plus courte. Le rouge a la fréquence la plus basse et la longueur d'onde la plus grande.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-g">📚 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Onde</div><div class="mc-def">Perturbation qui se propage dans un milieu en transportant de l'énergie sans transporter de matière.</div></div>
+      <div class="mc-row"><div class="mc-terme">Onde électromagnétique</div><div class="mc-def">Onde qui se propage sans support matériel (dans le vide). Exemples : lumière visible, infrarouge, UV, radio, rayons X.</div></div>
+      <div class="mc-row"><div class="mc-terme">Onde mécanique</div><div class="mc-def">Onde qui nécessite un milieu matériel pour se propager (solide, liquide ou gaz). Exemple : le son.</div></div>
+      <div class="mc-row"><div class="mc-terme">Fréquence (f)</div><div class="mc-def">Nombre de vibrations par seconde. Se mesure en hertz (Hz). Pour le son : détermine la hauteur (aigu/grave).</div></div>
+      <div class="mc-row"><div class="mc-terme">Longueur d'onde (λ)</div><div class="mc-def">Distance entre deux crêtes consécutives d'une onde. Pour la lumière : détermine la couleur.</div></div>
+      <div class="mc-row"><div class="mc-terme">Spectre visible</div><div class="mc-def">Ensemble des radiations lumineuses visibles par l'œil humain, du violet (400 nm) au rouge (700 nm).</div></div>
+      <div class="mc-row"><div class="mc-terme">Décibel (dB)</div><div class="mc-def">Unité de mesure du niveau sonore. 0 dB = seuil d'audition. 85 dB = risque auditif. 120 dB = seuil de douleur.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz :</strong> 12 questions sur la lumière et le son.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num"></div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-exo">
+  <div style="display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:8px">
+    <div style="font-size:14px;font-weight:700">Exercice type brevet</div>
+    <span class="duree-badge">⏱ Durée conseillée : 30 min</span>
+  </div>
+  <div class="doc-brevet">
+    <h3>Document — L'orage : éclair et tonnerre</h3>
+    <p>Lors d'un orage, l'éclair est un phénomène lumineux (onde électromagnétique) et le tonnerre est un phénomène sonore (onde mécanique). On observe toujours l'éclair avant d'entendre le tonnerre, car la lumière se propage beaucoup plus vite que le son dans l'air.</p>
+    <p style="margin-top:8px">La vitesse de la lumière dans l'air est approximativement 3 × 10⁸ m/s. La vitesse du son dans l'air est environ 340 m/s. En comptant le temps qui sépare l'éclair du tonnerre, on peut estimer la distance à laquelle l'orage se trouve.</p>
+    <p style="margin-top:8px">Données : Un observateur voit l'éclair et entend le tonnerre 6 secondes plus tard.</p>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 1 — Compréhension<span class="pts">4 pts</span></div>
+    <div class="q-exo-body">
+      <p>(a) Pourquoi voit-on toujours l'éclair avant d'entendre le tonnerre ? (b) Le son peut-il se propager dans le vide ? Justifiez.</p>
+      <textarea placeholder="(a) ...\n(b) ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c1')">Voir la correction</button>
+      <div class="corr-panel" id="c1">
+        <h4>✓ Correction</h4>
+        <p><strong>(a)</strong> L'éclair (onde électromagnétique) se propage à 3 × 10⁸ m/s, soit environ 1 million de fois plus vite que le son (340 m/s). La lumière parcourt la distance jusqu'à l'observateur en un temps quasi nul, alors que le son met plusieurs secondes. Plus l'orage est loin, plus le délai est grand.</p>
+        <p><strong>(b)</strong> Non. Le son est une onde mécanique : il a besoin d'un milieu matériel (air, eau, solide) pour se propager, car il est produit par des vibrations transmises de molécule en molécule. Dans le vide (absence de matière), ces vibrations ne peuvent pas se transmettre. C'est pourquoi il n'y a pas de son dans l'espace.</p>
+        <div class="methode-box"><strong>Méthode :</strong> La différence fondamentale lumière/son au brevet : lumière = onde électromagnétique (se propage dans le vide, très rapide) vs son = onde mécanique (besoin d'un milieu matériel, beaucoup plus lent).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 2 — Calcul de distance<span class="pts">8 pts</span></div>
+    <div class="q-exo-body">
+      <p>L'observateur entend le tonnerre 6 secondes après avoir vu l'éclair. (a) Calculez la distance entre l'observateur et l'orage en utilisant d = v × t avec v = 340 m/s. (b) Exprimez ce résultat en km.</p>
+      <textarea placeholder="(a) d = v × t = ... × ... = ... m\n(b) En km : ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c2')">Voir la correction</button>
+      <div class="corr-panel" id="c2">
+        <h4>✓ Correction</h4>
+        <p><strong>(a)</strong> d = v × t = 340 m/s × 6 s = <strong>2 040 m</strong></p>
+        <p><strong>(b)</strong> 2 040 m = <strong>2,04 km</strong> ≈ 2 km</p>
+        <div class="methode-box"><strong>Règle empirique mémorisable :</strong> chaque seconde de délai entre l'éclair et le tonnerre correspond à environ 340 m. Donc 3 secondes ≈ 1 km, 6 secondes ≈ 2 km, 10 secondes ≈ 3,4 km.</div>
+        <div class="vocab-box"><strong>Formule :</strong> d = v × t est la même que v = d/t réarrangée. Ici on cherche d donc d = v × t. Pour trouver v : v = d/t. Pour trouver t : t = d/v.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 3 — Le spectre lumineux<span class="pts">8 pts</span></div>
+    <div class="q-exo-body">
+      <p>(a) Qu'est-ce que le spectre visible ? (b) Un rayon lumineux a une longueur d'onde de 450 nm. De quelle couleur est-il ? (c) Quelle est la différence entre un infrarouge et un ultraviolet ?</p>
+      <textarea placeholder="(a) ...\n(b) ...\n(c) ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c3')">Voir la correction</button>
+      <div class="corr-panel" id="c3">
+        <h4>✓ Correction</h4>
+        <p><strong>(a)</strong> Le spectre visible est l'ensemble des longueurs d'onde de la lumière perceptibles par l'œil humain, allant d'environ 400 nm (violet) à 700 nm (rouge). La lumière blanche contient toutes ces couleurs, que l'on peut séparer avec un prisme ou une goutte d'eau (arc-en-ciel).</p>
+        <p><strong>(b)</strong> 450 nm se situe dans la partie bleue/violette du spectre visible. C'est une lumière <strong>bleue</strong>.</p>
+        <p><strong>(c)</strong> L'infrarouge a une longueur d'onde supérieure à 700 nm (au-delà du rouge) : invisible, ressenti comme chaleur. L'ultraviolet a une longueur d'onde inférieure à 400 nm (en deçà du violet) : invisible, responsable des coups de soleil et du bronzage.</p>
+        <div class="methode-box"><strong>Mémo du spectre :</strong> du plus court au plus long → UV (invisible) → Violet (400 nm) → Bleu → Vert → Jaune → Orange → Rouge (700 nm) → Infrarouge (invisible). Mémo des couleurs : Voici Bleu Vert Jaune Orange Rouge (VBJOR).</div>
+        <div class="vocab-box"><strong>nm = nanomètre :</strong> 1 nm = 10⁻⁹ m (un milliardième de mètre). C'est l'unité utilisée pour les longueurs d'onde de la lumière visible car elles sont très petites.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPanel(id,tab){
+  var panels=document.querySelectorAll('.panel');var tabs=document.querySelectorAll('.tab');
+  for(var i=0;i<panels.length;i++) panels[i].classList.remove('active');
+  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');
+}
+function showCorr(id){var el=document.getElementById(id);if(el) el.classList.toggle('show');}
+var QUESTIONS=[
+  {q:"À quelle vitesse la lumière se propage-t-elle dans le vide ?",opts:["340 m/s","3 000 m/s","300 000 km/s (3 × 10⁸ m/s)","1 500 m/s"],correct:2,
+   expl:"La lumière se propage dans le vide à environ 300 000 km/s, soit 3 × 10⁸ m/s. C'est la vitesse maximale dans l'univers. Dans l'air, cette vitesse est très légèrement inférieure mais on l'arrondit à 3 × 10⁸ m/s pour les calculs au brevet. 340 m/s est la vitesse du son dans l'air."},
+  {q:"Pourquoi le son ne se propage-t-il pas dans le vide ?",opts:["Parce qu'il est trop lent","Parce que le son est une onde mécanique qui a besoin d'un milieu matériel pour se propager","Parce que le vide absorbe les sons","Parce que le son est une onde électromagnétique"],correct:1,
+   expl:"Le son est une onde mécanique : il est produit par des vibrations qui se transmettent de molécule en molécule. Dans le vide, il n'y a pas de molécules, donc les vibrations ne peuvent pas se transmettre. La lumière, en revanche, est une onde électromagnétique qui n'a pas besoin de support matériel."},
+  {q:"Quelle est la fréquence minimale audible par l'oreille humaine ?",opts:["1 Hz","20 Hz","200 Hz","20 000 Hz"],correct:1,
+   expl:"L'oreille humaine entend les sons entre 20 Hz (sons graves très bas) et 20 000 Hz (sons aigus très hauts). En dessous de 20 Hz, on parle d'infrasons (non audibles mais ressentis). Au-dessus de 20 000 Hz, on parle d'ultrasons (non audibles, utilisés par les chauves-souris et les appareils d'échographie)."},
+  {q:"Quelle couleur correspond à la plus longue longueur d'onde dans le spectre visible ?",opts:["Le violet","Le bleu","Le vert","Le rouge"],correct:3,
+   expl:"Dans le spectre visible, le rouge a la plus grande longueur d'onde (environ 700 nm) et donc la plus basse fréquence. Le violet a la plus petite longueur d'onde (environ 400 nm) et la plus haute fréquence. La règle : longueur d'onde grande = rouge ; longueur d'onde petite = violet."},
+  {q:"Qu'est-ce qu'un infrarouge ?",opts:["Une lumière rouge très intense","Un rayonnement électromagnétique de longueur d'onde supérieure à 700 nm, invisible et ressenti comme chaleur","Un son de très haute fréquence","Un rayon ultraviolet de faible intensité"],correct:1,
+   expl:"L'infrarouge est un rayonnement électromagnétique dont la longueur d'onde est supérieure à 700 nm (au-delà du rouge visible). L'œil ne peut pas le voir, mais on le ressent comme de la chaleur (télécommandes, caméras thermiques, lampes chauffantes). Ne pas confondre avec l'ultraviolet (longueur d'onde < 400 nm)."},
+  {q:"Un observateur voit un éclair et entend le tonnerre 3 secondes plus tard. À quelle distance est l'orage ? (v_son = 340 m/s)",opts:["113 m","1 020 m","3 400 m","10 200 m"],correct:1,
+   expl:"d = v × t = 340 m/s × 3 s = 1 020 m ≈ 1 km. Règle pratique : 1 seconde de délai ≈ 340 m, soit environ 1 km toutes les 3 secondes. Si l'éclair et le tonnerre sont simultanés, l'orage est sur vous. Si le délai augmente, l'orage s'éloigne."},
+  {q:"Quelle est la relation entre vitesse, longueur d'onde et fréquence d'une onde ?",opts:["v = λ + f","v = λ × f","v = f / λ","v = λ / f"],correct:1,
+   expl:"La relation fondamentale des ondes est v = λ × f, où v est la vitesse de propagation en m/s, λ (lambda) la longueur d'onde en mètres et f la fréquence en hertz. On peut en déduire : λ = v/f et f = v/λ."},
+  {q:"Dans quel milieu le son se propage-t-il le plus vite ?",opts:["Dans le vide","Dans l'air","Dans l'eau","Dans l'acier (solide)"],correct:3,
+   expl:"Le son se propage d'autant plus vite que le milieu est dense et rigide. Dans l'acier, v ≈ 5 000 m/s. Dans l'eau, v ≈ 1 500 m/s. Dans l'air, v ≈ 340 m/s. Dans le vide : impossible (pas de son). Retenir : solide > liquide > gaz > vide."},
+  {q:"Qu'est-ce que la fréquence d'un son ?",opts:["Sa vitesse de propagation","Le nombre de vibrations par seconde, qui détermine son caractère grave ou aigu","Sa durée totale","L'amplitude de ses vibrations"],correct:1,
+   expl:"La fréquence (f) est le nombre de vibrations par seconde, mesurée en hertz (Hz). Une haute fréquence → son aigu (ex : sifflement). Une basse fréquence → son grave (ex : battement de tambour). La fréquence détermine la 'hauteur' du son. L'amplitude des vibrations détermine le volume (intensité sonore)."},
+  {q:"Quelle est la différence entre une onde électromagnétique et une onde mécanique ?",opts:["Les ondes électromagnétiques sont plus lentes","Les ondes mécaniques nécessitent un milieu matériel pour se propager ; les ondes électromagnétiques se propagent dans le vide","Les ondes électromagnétiques ne transportent pas d'énergie","Il n'y a aucune différence"],correct:1,
+   expl:"Les ondes mécaniques (son, vagues, séismes) ont besoin d'un milieu matériel pour se propager (solide, liquide ou gaz). Les ondes électromagnétiques (lumière, radio, rayons X…) se propagent dans le vide car elles ne nécessitent pas de support matériel. C'est pourquoi la lumière des étoiles nous parvient, mais pas leur son."},
+  {q:"Quelle couleur la lumière a-t-elle si sa longueur d'onde est de 530 nm ?",opts:["Rouge","Bleu","Vert","Violet"],correct:2,
+   expl:"530 nm se situe dans la partie verte du spectre visible. Repère : violet ≈ 400 nm, bleu ≈ 450 nm, vert ≈ 500-550 nm, jaune ≈ 580 nm, orange ≈ 620 nm, rouge ≈ 700 nm. 530 nm est donc dans la zone verte."},
+  {q:"À partir de quel niveau sonore y a-t-il un risque auditif ?",opts:["30 dB","60 dB","85 dB","200 dB"],correct:2,
+   expl:"À partir de 85 dB (décibels), une exposition prolongée peut provoquer des lésions auditives irréversibles. Repères : 0 dB = silence absolu, 60 dB = conversation normale, 85 dB = trafic intense, 100 dB = concert de rock, 120 dB = seuil de douleur. Les concerts et les casques audio réglés trop fort sont les principales causes de perte auditive chez les jeunes."},
+];
+var answered={},score=0;
+function buildQuiz(){
+  var c=document.getElementById('quiz-container');c.innerHTML=''; answered={}; score=0;
+  for(var i=0;i<QUESTIONS.length;i++){
+    var q=QUESTIONS[i];var opts='';
+    for(var j=0;j<q.opts.length;j++) opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';
+    var div=document.createElement('div');div.className='quiz-q';
+    div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;answered[qi]=choice;var q=QUESTIONS[qi];
+  var opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for(var i=0;i<opts.length;i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  var ok=choice===q.correct;if(ok) score++;
+  var expl=document.getElementById('expl-'+qi);
+  expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  var el=document.getElementById('quiz-score');var pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  var msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;window.showScore=showScore;window.buildQuiz=buildQuiz;
+</script>
+</body>
+</html>

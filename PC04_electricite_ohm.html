@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC04 — L'électricité — loi d'Ohm et circuits</title>
+<style>
+  :root{
+    --c:#2471A3;--c-light:#D6EAF8;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --vert:#1E8449;--vert-light:#D5F5E3;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;padding-bottom:40px}
+  header{background:var(--c);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:relative;z-index:50;-webkit-tap-highlight-color:transparent}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px}
+  .tab.active{color:var(--c);border-bottom-color:var(--c)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .sh-c{background:var(--c)}.sh-b{background:var(--bleu)}.sh-o{background:var(--orange)}.sh-v{background:var(--violet)}.sh-g{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--c-light);border-left:4px solid var(--c);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--c)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--c);font-weight:700}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--c-light);color:var(--c);font-weight:700;font-size:12px;padding:8px 12px;min-width:150px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .formule-box{background:white;border:2px solid var(--c);border-radius:10px;padding:14px;margin:10px 0;text-align:center}
+  .formule{font-size:20px;font-weight:700;color:var(--c);margin:6px 0;letter-spacing:1px}
+  .formule-desc{font-size:12px;color:var(--muted);margin-top:4px}
+  .circuit-grid{display:-webkit-flex;display:flex;gap:12px;-webkit-flex-wrap:wrap;flex-wrap:wrap;margin:10px 0}
+  .circuit-card{-webkit-flex:1 1 200px;flex:1 1 200px;background:white;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-size:13px}
+  .circuit-card h4{color:var(--c);font-size:13px;font-weight:700;margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  .tableau{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+  .tableau th{background:var(--c);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .tableau td{padding:8px 10px;border-bottom:0.5px solid var(--border)}
+  .tableau tr:last-child td{border-bottom:none}
+  .tableau tr:nth-child(even) td{background:#EBF5FB}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--c);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;color:var(--text);-webkit-tap-highlight-color:transparent}
+  .quiz-opt:hover{border-color:var(--c);background:var(--c-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:#FADBD8;border-color:#C0392B;color:#C0392B}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--c-light);border-left:4px solid var(--c);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:#FADBD8;color:#C0392B;border:1px solid #C0392B;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--c);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--c)}
+  .btn-reset{background:var(--c);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--c-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--c);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--c);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--c)}
+  .btn-corr{background:var(--c);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+</style>
+</head>
+<body>
+<header>
+  <h1>⚡ PC04 — L'électricité : loi d'Ohm et circuits</h1>
+  <p>Fiche complète · Séquence 4 · Physique-Chimie · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<div class="panel active" id="panel-fiche">
+  <div class="section">
+    <div class="section-head sh-c">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>En une phrase :</strong> Dans un circuit électrique, le <strong>courant</strong> (en A) circule grâce à une <strong>tension</strong> (en V) fournie par un générateur. La <strong>loi d'Ohm</strong> relie ces grandeurs à la résistance : <strong>U = R × I</strong>. Les circuits peuvent être en <strong>série</strong> ou en <strong>dérivation (parallèle)</strong>.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-b">🔌 Les grandeurs électriques fondamentales</div>
+    <div class="section-body">
+      <table class="tableau">
+        <tr><th>Grandeur</th><th>Symbole</th><th>Unité</th><th>Instrument de mesure</th></tr>
+        <tr><td><strong>Tension (ou voltage)</strong></td><td>U</td><td>Volt (V)</td><td>Voltmètre (en dérivation)</td></tr>
+        <tr><td><strong>Intensité du courant</strong></td><td>I</td><td>Ampère (A)</td><td>Ampèremètre (en série)</td></tr>
+        <tr><td><strong>Résistance</strong></td><td>R</td><td>Ohm (Ω)</td><td>Ohmmètre</td></tr>
+      </table>
+      <div class="warn-box"><strong>Règle de branchement :</strong> L'ampèremètre se branche <strong>en série</strong> (dans le circuit). Le voltmètre se branche <strong>en dérivation</strong> (aux bornes du composant mesuré). Les inverser peut endommager les instruments.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-o">📐 La loi d'Ohm</div>
+    <div class="section-body">
+      <div class="formule-box">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:4px">Loi d'Ohm</div>
+        <div class="formule">U = R × I</div>
+        <div class="formule-desc">U = tension en volts (V) · R = résistance en ohms (Ω) · I = intensité en ampères (A)</div>
+      </div>
+      <p style="font-size:13px;margin-top:10px;margin-bottom:8px">On peut déduire les trois formules :</p>
+      <div style="display:-webkit-flex;display:flex;gap:10px;-webkit-flex-wrap:wrap;flex-wrap:wrap">
+        <div class="formule-box" style="margin:0;-webkit-flex:1;flex:1;min-width:120px"><div class="formule" style="font-size:16px">U = R × I</div><div class="formule-desc">Calculer U</div></div>
+        <div class="formule-box" style="margin:0;-webkit-flex:1;flex:1;min-width:120px"><div class="formule" style="font-size:16px">R = U / I</div><div class="formule-desc">Calculer R</div></div>
+        <div class="formule-box" style="margin:0;-webkit-flex:1;flex:1;min-width:120px"><div class="formule" style="font-size:16px">I = U / R</div><div class="formule-desc">Calculer I</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-v">🔗 Circuits en série et en dérivation</div>
+    <div class="section-body">
+      <div class="circuit-grid">
+        <div class="circuit-card">
+          <h4>Circuit en série</h4>
+          <ul class="bull-list">
+            <li>Les composants sont branchés les uns après les autres (en chaîne).</li>
+            <li>Le courant est le même partout : I₁ = I₂ = I</li>
+            <li>Les tensions s'additionnent : U = U₁ + U₂</li>
+            <li>Si un composant est coupé, tout le circuit s'éteint.</li>
+          </ul>
+        </div>
+        <div class="circuit-card">
+          <h4>Circuit en dérivation (parallèle)</h4>
+          <ul class="bull-list">
+            <li>Les composants sont branchés en parallèle (même paire de points).</li>
+            <li>La tension est la même aux bornes de chaque branche : U₁ = U₂ = U</li>
+            <li>Les courants s'additionnent : I = I₁ + I₂</li>
+            <li>Si un composant est coupé, les autres continuent de fonctionner.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="success-box"><strong>Application concrète :</strong> L'installation électrique d'une maison est en dérivation. Chaque appareil reçoit la même tension (230 V) et peut fonctionner indépendamment. Si une ampoule grille, les autres restent allumées.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-g">📚 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Tension (U)</div><div class="mc-def">Différence de potentiel électrique entre deux points d'un circuit. Se mesure en volts (V) avec un voltmètre branché en dérivation.</div></div>
+      <div class="mc-row"><div class="mc-terme">Intensité (I)</div><div class="mc-def">Quantité de charges électriques qui traverse un conducteur par seconde. Se mesure en ampères (A) avec un ampèremètre branché en série.</div></div>
+      <div class="mc-row"><div class="mc-terme">Résistance (R)</div><div class="mc-def">Grandeur qui s'oppose au passage du courant. Se mesure en ohms (Ω). Plus R est grande, moins le courant circule facilement.</div></div>
+      <div class="mc-row"><div class="mc-terme">Loi d'Ohm</div><div class="mc-def">Relation entre tension, résistance et intensité : U = R × I. Elle permet de calculer n'importe laquelle de ces trois grandeurs si on connaît les deux autres.</div></div>
+      <div class="mc-row"><div class="mc-terme">Générateur</div><div class="mc-def">Composant qui fournit l'énergie électrique au circuit (pile, batterie, panneau solaire, prise secteur…).</div></div>
+      <div class="mc-row"><div class="mc-terme">Court-circuit</div><div class="mc-def">Connexion directe entre les deux bornes d'un générateur sans résistance. Très dangereux : courant très élevé, risque d'incendie.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz :</strong> 12 questions sur l'électricité, la loi d'Ohm et les circuits.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num"></div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-exo">
+  <div style="display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:8px">
+    <div style="font-size:14px;font-weight:700">Exercice type brevet</div>
+    <span class="duree-badge">⏱ Durée conseillée : 30 min</span>
+  </div>
+  <div class="doc-brevet">
+    <h3>Document — Un circuit électrique simple</h3>
+    <p>Un circuit électrique est composé d'une pile de 9 V, d'un interrupteur et de deux résistances. La résistance R₁ = 100 Ω est branchée en série avec la résistance R₂ = 200 Ω. L'ampèremètre placé dans le circuit indique I = 30 mA (milliampères).</p>
+    <p style="margin-top:8px">On cherche à vérifier la loi d'Ohm et à comparer les tensions aux bornes de chaque résistance.</p>
+    <div class="doc-source">Exercice reconstitué — type brevet Physique-Chimie</div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 1 — Loi d'Ohm<span class="pts">8 pts</span></div>
+    <div class="q-exo-body">
+      <p>Convertir I = 30 mA en ampères, puis calculer U₁ (tension aux bornes de R₁) et U₂ (tension aux bornes de R₂) en utilisant la loi d'Ohm.</p>
+      <textarea placeholder="Conversion : 30 mA = ... A\nU₁ = R₁ × I = ... × ... = ... V\nU₂ = R₂ × I = ... × ... = ... V"></textarea>
+      <button class="btn-corr" onclick="showCorr('c1')">Voir la correction</button>
+      <div class="corr-panel" id="c1">
+        <h4>✓ Correction</h4>
+        <p><strong>Conversion :</strong> 30 mA = 30 × 10⁻³ A = <strong>0,030 A</strong></p>
+        <p><strong>U₁</strong> = R₁ × I = 100 Ω × 0,030 A = <strong>3 V</strong></p>
+        <p><strong>U₂</strong> = R₂ × I = 200 Ω × 0,030 A = <strong>6 V</strong></p>
+        <div class="methode-box"><strong>Méthode :</strong> 1 mA = 0,001 A (diviser par 1000). Toujours convertir dans la même unité avant de calculer. Ici, R en ohms et I en ampères → U en volts.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 2 — Loi des tensions en série<span class="pts">6 pts</span></div>
+    <div class="q-exo-body">
+      <p>(a) Quelle est la tension totale U = U₁ + U₂ ? (b) Comparez avec la tension de la pile (9 V). Qu'observez-vous ? (c) Comment s'appelle cette propriété ?</p>
+      <textarea placeholder="(a) U = U₁ + U₂ = ... + ... = ... V\n(b) Comparaison : ...\n(c) ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c2')">Voir la correction</button>
+      <div class="corr-panel" id="c2">
+        <h4>✓ Correction</h4>
+        <p><strong>(a)</strong> U = U₁ + U₂ = 3 V + 6 V = <strong>9 V</strong></p>
+        <p><strong>(b)</strong> La tension totale calculée (9 V) est égale à la tension de la pile (9 V). ✓</p>
+        <p><strong>(c)</strong> C'est la <strong>loi des tensions en série</strong> : dans un circuit en série, la tension totale est égale à la somme des tensions aux bornes de chaque composant.</p>
+        <div class="methode-box"><strong>Lois des circuits à retenir :</strong><br>
+        Série : I partout identique, U = U₁ + U₂ + …<br>
+        Dérivation : U partout identique, I = I₁ + I₂ + …</div>
+        <div class="vocab-box"><strong>Remarque :</strong> R₂ = 2 × R₁ → U₂ = 2 × U₁. Plus la résistance est grande, plus la tension à ses bornes est grande (à intensité constante). C'est le principe du diviseur de tension.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 3 — Sécurité électrique<span class="pts">6 pts</span></div>
+    <div class="q-exo-body">
+      <p>(a) Qu'est-ce qu'un court-circuit ? (b) Pourquoi est-il dangereux ? (c) Quel dispositif de sécurité protège un circuit domestique des courts-circuits ?</p>
+      <textarea placeholder="(a) ...\n(b) ...\n(c) ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c3')">Voir la correction</button>
+      <div class="corr-panel" id="c3">
+        <h4>✓ Correction</h4>
+        <p><strong>(a)</strong> Un court-circuit est une connexion directe entre les deux bornes d'un générateur avec une résistance quasi nulle (un fil conducteur relie directement le + et le -).</p>
+        <p><strong>(b)</strong> D'après U = R × I : si R est très faible, I devient très élevé (I = U/R). Un courant très élevé provoque un échauffement intense des fils, risque d'incendie, et peut endommager les appareils et blesser des personnes.</p>
+        <p><strong>(c)</strong> Le <strong>fusible</strong> ou le <strong>disjoncteur</strong> protège le circuit. Quand le courant dépasse une valeur limite, le fusible fond (ou le disjoncteur se déclenche), coupant le circuit avant qu'un incendie se déclare.</p>
+        <div class="methode-box"><strong>Application directe de la loi d'Ohm :</strong> Si R = 0 (court-circuit) et U = 9 V, alors I = U/R = 9/0 → courant théoriquement infini. En pratique, I augmente très fortement jusqu'à faire fondre les fils.</div>
+        <div class="vocab-box"><strong>Vocabulaire :</strong> <em>Fusible</em> = fil mince qui fond au-delà d'une intensité seuil, coupant le circuit. <em>Disjoncteur</em> = interrupteur automatique qui se déclenche en cas de surcharge ou de court-circuit, réenclencher après.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPanel(id,tab){
+  var panels=document.querySelectorAll('.panel');var tabs=document.querySelectorAll('.tab');
+  for(var i=0;i<panels.length;i++) panels[i].classList.remove('active');
+  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');
+}
+function showCorr(id){var el=document.getElementById(id);if(el) el.classList.toggle('show');}
+var QUESTIONS=[
+  {q:"Quelle est la loi d'Ohm ?",opts:["U = I + R","U = R × I","U = R / I","I = U + R"],correct:1,
+   expl:"La loi d'Ohm est U = R × I, où U est la tension en volts (V), R la résistance en ohms (Ω) et I l'intensité en ampères (A). On peut la réécrire : R = U/I (calculer la résistance) ou I = U/R (calculer l'intensité). C'est la loi de base de l'électricité."},
+  {q:"Dans un circuit en série, que peut-on dire de l'intensité ?",opts:["Elle est différente en chaque point","Elle est nulle","Elle est la même en tous les points du circuit","Elle s'additionne aux bornes de chaque composant"],correct:2,
+   expl:"Dans un circuit en série, l'intensité est identique en tous les points : I₁ = I₂ = I. Le courant ne 'se perd' pas dans un circuit en série, il traverse tous les composants l'un après l'autre. En revanche, les tensions s'additionnent : U = U₁ + U₂."},
+  {q:"Comment branche-t-on un ampèremètre dans un circuit ?",opts:["En dérivation, aux bornes du composant","En série, dans le circuit","En parallèle avec le générateur","N'importe comment"],correct:1,
+   expl:"L'ampèremètre se branche toujours en série dans le circuit, pour que le courant le traverse entièrement. Branché en dérivation, il créerait un court-circuit (sa résistance interne est très faible). Le voltmètre, lui, se branche en dérivation (résistance interne très élevée)."},
+  {q:"Dans un circuit en dérivation, que peut-on dire de la tension ?",opts:["Elle est nulle dans toutes les branches","Elle s'additionne dans chaque branche","Elle est la même aux bornes de toutes les branches","Elle dépend de l'intensité dans chaque branche"],correct:2,
+   expl:"Dans un circuit en dérivation, la tension aux bornes de chaque branche est identique : U₁ = U₂ = U (tension du générateur). C'est l'intensité qui se divise : I = I₁ + I₂. C'est pourquoi les appareils électriques ménagers reçoivent tous la même tension (230 V)."},
+  {q:"Une résistance R = 50 Ω est soumise à une tension U = 10 V. Quelle est l'intensité ?",opts:["500 A","0,2 A","5 A","2 A"],correct:1,
+   expl:"I = U/R = 10 V ÷ 50 Ω = 0,2 A. La formule de la loi d'Ohm pour calculer I est I = U/R. Vérification : U = R × I = 50 × 0,2 = 10 V ✓."},
+  {q:"Quelle est l'unité de la résistance électrique ?",opts:["Le volt (V)","L'ampère (A)","L'ohm (Ω)","Le watt (W)"],correct:2,
+   expl:"La résistance électrique se mesure en ohms, symbolisé par la lettre grecque oméga (Ω), en hommage au physicien allemand Georg Simon Ohm qui a formulé la loi éponyme. Le volt (V) mesure la tension, l'ampère (A) mesure l'intensité, le watt (W) mesure la puissance."},
+  {q:"Qu'arrive-t-il aux autres lampes si une lampe grille dans un circuit en série ?",opts:["Elles brillent plus fort","Elles continuent de fonctionner normalement","Tout le circuit s'éteint","Elles clignotent"],correct:2,
+   expl:"Dans un circuit en série, les composants sont en chaîne : si l'un d'eux est interrompu (lampe grillée, interrupteur ouvert), le circuit est coupé et plus aucun courant ne circule. Toutes les lampes s'éteignent. C'est l'inconvénient du circuit en série. En dérivation, les autres lampes restent allumées."},
+  {q:"Comment mesure-t-on la tension aux bornes d'une résistance ?",opts:["Avec un ampèremètre branché en série","Avec un voltmètre branché en dérivation","Avec un dynamomètre","Avec un ohmmètre branché en série"],correct:1,
+   expl:"La tension se mesure avec un voltmètre, branché en dérivation (en parallèle) aux bornes du composant dont on veut mesurer la tension. La résistance interne du voltmètre est très élevée pour ne pas perturber le circuit. L'ampèremètre, lui, mesure l'intensité et se branche en série."},
+  {q:"Qu'est-ce qu'un générateur dans un circuit électrique ?",opts:["Un composant qui consomme de l'énergie","Un composant qui mesure la tension","Un composant qui fournit l'énergie électrique au circuit","Un composant qui stocke les électrons"],correct:2,
+   expl:"Un générateur est un composant qui fournit l'énergie électrique nécessaire au fonctionnement du circuit. Exemples : pile, batterie, panneau solaire, alternateur, prise secteur (230 V). Il maintient une tension entre ses deux bornes (+) et (-), ce qui met les charges électriques en mouvement."},
+  {q:"Un circuit comporte une pile de 12 V et une résistance de 60 Ω. Quelle est l'intensité ?",opts:["720 A","5 A","0,2 A","2 A"],correct:2,
+   expl:"I = U/R = 12 V ÷ 60 Ω = 0,2 A. Rappel : I = U/R. Vérification : U = R × I = 60 × 0,2 = 12 V ✓. 0,2 A = 200 mA."},
+  {q:"Dans un circuit en dérivation avec deux branches, I₁ = 0,3 A et I₂ = 0,5 A. Quelle est l'intensité totale fournie par le générateur ?",opts:["0,2 A","0,5 A","0,8 A","0,15 A"],correct:2,
+   expl:"Dans un circuit en dérivation, les courants s'additionnent : I = I₁ + I₂ = 0,3 + 0,5 = 0,8 A. C'est le générateur qui fournit cette intensité totale, qui se répartit ensuite dans les deux branches."},
+  {q:"Pourquoi les appareils électriques d'une maison sont-ils branchés en dérivation ?",opts:["Pour que le courant soit identique dans chaque appareil","Pour que chaque appareil reçoive la même tension (230 V) et puisse fonctionner indépendamment","Pour économiser de l'énergie","Pour que la résistance totale soit plus grande"],correct:1,
+   expl:"En dérivation, chaque appareil reçoit la même tension (230 V en France) et peut être allumé ou éteint indépendamment. Si une ampoule grille, les autres continuent de fonctionner. En série, tous les appareils seraient liés : si l'un s'arrête, tout s'éteint, et la tension se divise entre eux (ils seraient sous-alimentés)."},
+];
+var answered={},score=0;
+function buildQuiz(){
+  var c=document.getElementById('quiz-container');c.innerHTML=''; answered={}; score=0;
+  for(var i=0;i<QUESTIONS.length;i++){
+    var q=QUESTIONS[i];var opts='';
+    for(var j=0;j<q.opts.length;j++) opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';
+    var div=document.createElement('div');div.className='quiz-q';
+    div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;answered[qi]=choice;var q=QUESTIONS[qi];
+  var opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for(var i=0;i<opts.length;i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  var ok=choice===q.correct;if(ok) score++;
+  var expl=document.getElementById('expl-'+qi);
+  expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  var el=document.getElementById('quiz-score');var pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  var msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;window.showScore=showScore;window.buildQuiz=buildQuiz;
+</script>
+</body>
+</html>

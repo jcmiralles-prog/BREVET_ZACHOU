@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC03 — Les mouvements et les forces</title>
+<style>
+  :root{
+    --c:#2471A3;--c-light:#D6EAF8;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --vert:#1E8449;--vert-light:#D5F5E3;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;padding-bottom:40px}
+  header{background:var(--c);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:relative;z-index:50;-webkit-tap-highlight-color:transparent}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px}
+  .tab.active{color:var(--c);border-bottom-color:var(--c)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .sh-c{background:var(--c)}.sh-b{background:var(--bleu)}.sh-o{background:var(--orange)}.sh-v{background:var(--violet)}.sh-g{background:var(--gris)}
+  .section-body{padding:14px}
+  .info-box{background:var(--c-light);border-left:4px solid var(--c);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--c)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+  .bull-list{margin:8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"•";position:absolute;left:4px;color:var(--c);font-weight:700}
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--c-light);color:var(--c);font-weight:700;font-size:12px;padding:8px 12px;min-width:150px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+  .formule-box{background:white;border:2px solid var(--c);border-radius:10px;padding:14px;margin:10px 0;text-align:center}
+  .formule{font-size:20px;font-weight:700;color:var(--c);margin:6px 0;letter-spacing:1px}
+  .formule-desc{font-size:12px;color:var(--muted);margin-top:4px}
+  .tableau{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+  .tableau th{background:var(--c);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .tableau td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .tableau tr:last-child td{border-bottom:none}
+  .tableau tr:nth-child(even) td{background:#EBF5FB}
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--c);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;color:var(--text);-webkit-tap-highlight-color:transparent}
+  .quiz-opt:hover{border-color:var(--c);background:var(--c-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:#FADBD8;border-color:#C0392B;color:#C0392B}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--c-light);border-left:4px solid var(--c);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:#FADBD8;color:#C0392B;border:1px solid #C0392B;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--c);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--c)}
+  .btn-reset{background:var(--c);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--c-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--c);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--c);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;-webkit-box-sizing:border-box;box-sizing:border-box}
+  textarea:focus{outline:none;border-color:var(--c)}
+  .btn-corr{background:var(--c);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🏃 PC03 — Les mouvements et les forces</h1>
+  <p>Fiche complète · Séquence 3 · Physique-Chimie · Brevet 2026</p>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+  <div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+  <div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<div class="panel active" id="panel-fiche">
+  <div class="section">
+    <div class="section-head sh-c">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box"><strong>En une phrase :</strong> Une <strong>force</strong> est une action mécanique exercée sur un objet. Elle peut modifier son <strong>mouvement</strong> (vitesse, direction) ou le déformer. La vitesse se calcule avec <strong>v = d / t</strong>. Quand les forces sont équilibrées, l'objet est à l'équilibre (immobile ou en mouvement rectiligne uniforme).</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-b">📐 Caractéristiques d'une force</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Une force se caractérise par quatre éléments :</p>
+      <ul class="bull-list">
+        <li><strong>Le point d'application :</strong> l'endroit où la force s'exerce sur l'objet.</li>
+        <li><strong>La direction :</strong> la droite le long de laquelle la force agit (ex : verticale, horizontale).</li>
+        <li><strong>Le sens :</strong> vers le haut, vers le bas, vers la droite…</li>
+        <li><strong>L'intensité (valeur) :</strong> mesurée en <strong>newtons (N)</strong> avec un dynamomètre.</li>
+      </ul>
+      <p style="font-size:13px;margin-top:10px">Une force est représentée par une flèche (vecteur). La longueur de la flèche est proportionnelle à l'intensité.</p>
+      <div class="warn-box"><strong>À ne pas confondre :</strong> le <strong>poids</strong> (force exercée par la Terre sur un objet, vers le bas, en N) et la <strong>masse</strong> (quantité de matière, en kg). Relation : P = m × g (avec g ≈ 10 N/kg sur Terre).</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-o">⚡ La vitesse et le mouvement</div>
+    <div class="section-body">
+      <div class="formule-box">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:4px">Formule de la vitesse (vitesse moyenne)</div>
+        <div class="formule">v = d / t</div>
+        <div class="formule-desc">v = vitesse (m/s ou km/h) · d = distance parcourue (m ou km) · t = durée (s ou h)</div>
+      </div>
+      <table class="tableau" style="margin-top:10px">
+        <tr><th>Type de mouvement</th><th>Description</th><th>Exemple</th></tr>
+        <tr><td><strong>Rectiligne uniforme</strong></td><td>Ligne droite, vitesse constante</td><td>Voiture sur autoroute à 130 km/h constant</td></tr>
+        <tr><td><strong>Rectiligne accéléré</strong></td><td>Ligne droite, vitesse qui augmente</td><td>Voiture qui accélère au démarrage</td></tr>
+        <tr><td><strong>Rectiligne décéléré</strong></td><td>Ligne droite, vitesse qui diminue</td><td>Voiture qui freine</td></tr>
+        <tr><td><strong>Circulaire uniforme</strong></td><td>Trajectoire circulaire, vitesse constante</td><td>Manège, Terre autour du Soleil</td></tr>
+      </table>
+      <div class="success-box"><strong>Conversions à maîtriser :</strong> 1 m/s = 3,6 km/h. Pour convertir km/h → m/s : diviser par 3,6. Pour convertir m/s → km/h : multiplier par 3,6.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-v">⚖️ Équilibre des forces et lois de Newton</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li><strong>Principe d'inertie (1ère loi de Newton) :</strong> si les forces exercées sur un objet se compensent (forces équilibrées), l'objet reste immobile ou continue en mouvement rectiligne uniforme.</li>
+        <li><strong>Forces équilibrées :</strong> les forces ont la même intensité mais des sens opposés. Leur somme est nulle. L'objet ne change pas de mouvement.</li>
+        <li><strong>Forces non équilibrées :</strong> une force résultante existe. L'objet accélère, décélère ou change de direction.</li>
+      </ul>
+      <div class="info-box"><strong>Exemple :</strong> Un livre posé sur une table. Le poids (vers le bas) est compensé par la réaction de la table (vers le haut) : forces équilibrées → le livre reste immobile.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head sh-g">📚 Mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Force</div><div class="mc-def">Action mécanique exercée sur un objet, pouvant modifier son mouvement ou le déformer. Se mesure en newtons (N).</div></div>
+      <div class="mc-row"><div class="mc-terme">Newton (N)</div><div class="mc-def">Unité de mesure des forces. 1 newton est environ le poids d'une masse de 100 g sur Terre.</div></div>
+      <div class="mc-row"><div class="mc-terme">Poids</div><div class="mc-def">Force exercée par la Terre (ou tout astre) sur un objet, dirigée vers le centre de la Terre. P = m × g (g ≈ 10 N/kg sur Terre).</div></div>
+      <div class="mc-row"><div class="mc-terme">Masse</div><div class="mc-def">Quantité de matière d'un objet, mesurée en kilogrammes (kg). Elle ne change pas selon l'endroit (contrairement au poids).</div></div>
+      <div class="mc-row"><div class="mc-terme">Vitesse</div><div class="mc-def">Grandeur qui indique à quelle rapidité un objet se déplace. v = d/t. Unités : m/s ou km/h.</div></div>
+      <div class="mc-row"><div class="mc-terme">Trajectoire</div><div class="mc-def">L'ensemble des positions successives occupées par un objet en mouvement. Peut être rectiligne, circulaire, courbe…</div></div>
+      <div class="mc-row"><div class="mc-terme">Dynamomètre</div><div class="mc-def">Instrument de mesure des forces, gradué en newtons (N). Il contient un ressort dont l'allongement est proportionnel à la force appliquée.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz :</strong> 12 questions sur les mouvements et les forces.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num"></div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-exo">
+  <div style="display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:8px">
+    <div style="font-size:14px;font-weight:700">Exercice type brevet</div>
+    <span class="duree-badge">⏱ Durée conseillée : 30 min</span>
+  </div>
+  <div class="doc-brevet">
+    <h3>Document — Le freinage d'une voiture</h3>
+    <p>Une voiture roule à 90 km/h sur une route nationale. Le conducteur aperçoit un obstacle à 150 mètres et freine immédiatement. La voiture parcourt 25 mètres pendant le temps de réaction du conducteur (0,9 seconde), puis s'arrête après 75 mètres de freinage.</p>
+    <p style="margin-top:8px">Pendant le freinage, les forces de frottement des freins s'opposent au mouvement de la voiture. Ces forces déséquilibrent les forces agissant sur la voiture, ce qui provoque la décélération.</p>
+    <div class="doc-source">Exercice reconstitué — type brevet Physique-Chimie</div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 1 — Calcul de vitesse<span class="pts">6 pts</span></div>
+    <div class="q-exo-body">
+      <p>(a) Convertissez 90 km/h en m/s. (b) Vérifiez en utilisant v = d/t que la vitesse pendant le temps de réaction est bien égale à la vitesse initiale (d = 25 m, t = 0,9 s).</p>
+      <textarea placeholder="(a) Conversion : 90 km/h = ... m/s\n(b) v = d/t = ... / ... = ... m/s"></textarea>
+      <button class="btn-corr" onclick="showCorr('c1')">Voir la correction</button>
+      <div class="corr-panel" id="c1">
+        <h4>✓ Correction</h4>
+        <p><strong>(a)</strong> 90 km/h ÷ 3,6 = <strong>25 m/s</strong></p>
+        <p><strong>(b)</strong> v = d/t = 25 m ÷ 0,9 s ≈ 27,8 m/s ≈ <strong>25 m/s</strong> (valeur approchée conforme compte tenu des arrondis).</p>
+        <div class="methode-box"><strong>Méthode — conversion km/h → m/s :</strong> diviser par 3,6.<br>
+        Mémo : 36 km/h = 10 m/s, 72 km/h = 20 m/s, 108 km/h = 30 m/s.<br>
+        Pour v = d/t : bien convertir les unités avant de calculer (mètres et secondes pour obtenir m/s).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 2 — Forces et mouvement<span class="pts">7 pts</span></div>
+    <div class="q-exo-body">
+      <p>(a) Quelle est la distance totale d'arrêt de la voiture ? (b) La voiture peut-elle s'arrêter avant l'obstacle ? (c) Pendant le freinage, les forces sont-elles équilibrées ? Justifiez en vous appuyant sur le mouvement de la voiture.</p>
+      <textarea placeholder="(a) Distance totale : ...\n(b) ...\n(c) ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c2')">Voir la correction</button>
+      <div class="corr-panel" id="c2">
+        <h4>✓ Correction</h4>
+        <p><strong>(a)</strong> Distance totale = distance de réaction + distance de freinage = 25 m + 75 m = <strong>100 m</strong></p>
+        <p><strong>(b)</strong> L'obstacle est à 150 m. La voiture s'arrête après 100 m. 100 m &lt; 150 m → <strong>oui, la voiture s'arrête avant l'obstacle</strong> (avec 50 m à disposition).</p>
+        <p><strong>(c)</strong> Pendant le freinage, la voiture <em>décélère</em> (sa vitesse diminue). Un changement de vitesse signifie que les forces ne sont <strong>pas équilibrées</strong> : la force de freinage (frottement) est supérieure à la force motrice, ce qui crée une force résultante vers l'arrière qui ralentit la voiture.</p>
+        <div class="methode-box"><strong>Méthode :</strong> Si l'objet change de vitesse (accélère ou décélère), les forces sont non équilibrées. Si l'objet reste immobile ou a une vitesse constante, les forces sont équilibrées (principe d'inertie).</div>
+        <div class="vocab-box"><strong>Vocabulaire :</strong> <em>Distance de réaction</em> = distance parcourue pendant le temps de réaction du conducteur (avant de freiner). <em>Distance de freinage</em> = distance parcourue une fois les freins actionnés. <em>Distance d'arrêt</em> = somme des deux.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head">Question 3 — Poids et masse<span class="pts">7 pts</span></div>
+    <div class="q-exo-body">
+      <p>La voiture a une masse de 1 200 kg. (a) Calculez son poids sur Terre (g = 10 N/kg). (b) Si cette même voiture était sur la Lune où g = 1,6 N/kg, quelle serait son poids ? Sa masse changerait-elle ?</p>
+      <textarea placeholder="(a) P = m × g = ... × ... = ... N\n(b) P_lune = ... × ... = ... N\nLa masse : ..."></textarea>
+      <button class="btn-corr" onclick="showCorr('c3')">Voir la correction</button>
+      <div class="corr-panel" id="c3">
+        <h4>✓ Correction</h4>
+        <p><strong>(a)</strong> P = m × g = 1 200 kg × 10 N/kg = <strong>12 000 N</strong></p>
+        <p><strong>(b)</strong> P_lune = 1 200 kg × 1,6 N/kg = <strong>1 920 N</strong></p>
+        <p>La <strong>masse ne change pas</strong> : elle reste 1 200 kg. La masse est une propriété intrinsèque de l'objet, indépendante du lieu. C'est le poids qui change selon l'intensité de la pesanteur (g).</p>
+        <div class="methode-box"><strong>Méthode — P = m × g :</strong><br>
+        P = poids en newtons (N)<br>
+        m = masse en kilogrammes (kg)<br>
+        g = intensité de la pesanteur (10 N/kg sur Terre, 1,6 N/kg sur la Lune)<br>
+        Pour trouver la masse : m = P/g. Pour trouver g : g = P/m.</div>
+        <div class="vocab-box"><strong>Distinction essentielle :</strong> La <em>masse</em> (en kg) est la même partout dans l'univers. Le <em>poids</em> (en N) dépend de l'astre sur lequel on se trouve. Sur la Lune, on pèse 6 fois moins lourds que sur Terre, mais notre masse est identique.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPanel(id,tab){
+  var panels=document.querySelectorAll('.panel');var tabs=document.querySelectorAll('.tab');
+  for(var i=0;i<panels.length;i++) panels[i].classList.remove('active');
+  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('active');
+  document.getElementById('panel-'+id).classList.add('active');tab.classList.add('active');
+}
+function showCorr(id){var el=document.getElementById(id);if(el) el.classList.toggle('show');}
+var QUESTIONS=[
+  {q:"Quelle est l'unité de mesure des forces ?",opts:["Le kilogramme (kg)","Le mètre (m)","Le newton (N)","Le joule (J)"],correct:2,
+   expl:"Les forces se mesurent en newtons (N), en hommage au physicien Isaac Newton. 1 newton est approximativement le poids d'une masse de 100 g sur Terre. Le kilogramme mesure la masse, le mètre mesure les distances, le joule mesure l'énergie."},
+  {q:"Quelle est la formule de la vitesse moyenne ?",opts:["v = t × d","v = d / t","v = t / d","v = d + t"],correct:1,
+   expl:"La vitesse moyenne se calcule avec v = d / t, où d est la distance parcourue et t la durée du trajet. Les unités doivent être cohérentes : si d est en mètres et t en secondes, v est en m/s. Si d est en km et t en heures, v est en km/h."},
+  {q:"Quelle est la différence entre la masse et le poids ?",opts:["La masse et le poids sont la même chose","La masse est une force en N, le poids est une quantité de matière en kg","La masse (en kg) est invariable ; le poids (en N) dépend de l'astre","La masse change selon le lieu ; le poids reste constant"],correct:2,
+   expl:"La masse (kg) mesure la quantité de matière : elle ne change pas selon l'endroit. Le poids (N) est une force exercée par la pesanteur : il dépend de g, qui varie selon l'astre. Sur la Lune (g = 1,6 N/kg), on pèse 6 fois moins que sur Terre (g = 10 N/kg), mais notre masse reste identique."},
+  {q:"Quelle formule relie le poids, la masse et l'intensité de la pesanteur ?",opts:["P = m + g","P = m / g","P = m × g","P = g / m"],correct:2,
+   expl:"P = m × g, où P est le poids en newtons (N), m la masse en kilogrammes (kg) et g l'intensité de la pesanteur en N/kg. Sur Terre g ≈ 10 N/kg. Une masse de 60 kg a un poids de 60 × 10 = 600 N sur Terre."},
+  {q:"Un objet a une vitesse constante sur une trajectoire rectiligne. Que peut-on dire des forces qui s'exercent sur lui ?",opts:["Une seule force s'exerce sur lui","Les forces sont non équilibrées","Les forces sont équilibrées (principe d'inertie)","Il n'y a aucune force"],correct:2,
+   expl:"Selon le principe d'inertie (1ère loi de Newton), si un objet est immobile ou en mouvement rectiligne uniforme (vitesse constante), les forces qui s'exercent sur lui sont équilibrées, c'est-à-dire que leur somme est nulle. Le mouvement ne change que si les forces sont déséquilibrées."},
+  {q:"Par quel instrument mesure-t-on une force ?",opts:["Une balance","Un thermomètre","Un dynamomètre","Un voltmètre"],correct:2,
+   expl:"Un dynamomètre est l'instrument qui mesure les forces en newtons. Il contient un ressort : plus la force appliquée est grande, plus le ressort s'allonge. La graduation indique la valeur de la force. Une balance mesure une masse en kg (ou grammes), pas une force."},
+  {q:"Convertir 72 km/h en m/s.",opts:["7,2 m/s","20 m/s","200 m/s","0,02 m/s"],correct:1,
+   expl:"Pour convertir km/h en m/s, on divise par 3,6. 72 ÷ 3,6 = 20 m/s. Vérification : 20 m/s × 3 600 s = 72 000 m = 72 km en 1 heure. Mémo pratique : 36 km/h = 10 m/s, 72 km/h = 20 m/s, 108 km/h = 30 m/s."},
+  {q:"Quelle est la trajectoire d'un objet en mouvement circulaire uniforme ?",opts:["Une ligne droite à vitesse variable","Un cercle avec une vitesse qui reste constante en valeur","Un cercle avec une vitesse qui augmente","Une ligne droite à vitesse constante"],correct:1,
+   expl:"Un mouvement circulaire uniforme correspond à une trajectoire circulaire (le mobile suit un cercle) avec une vitesse dont la valeur reste constante. Cependant, la direction de la vitesse change continuellement → les forces ne sont pas équilibrées (il faut une force centripète vers le centre). Exemple : la Terre autour du Soleil."},
+  {q:"Un cycliste parcourt 36 km en 2 heures. Quelle est sa vitesse moyenne ?",opts:["18 km/h","36 km/h","72 km/h","5 m/s"],correct:0,
+   expl:"v = d/t = 36 km ÷ 2 h = 18 km/h. En m/s : 18 ÷ 3,6 = 5 m/s. La vitesse moyenne ne tient pas compte des variations de vitesse pendant le trajet : c'est la distance totale divisée par la durée totale."},
+  {q:"Quelles sont les 4 caractéristiques d'une force ?",opts:["Direction, sens, masse, valeur","Point d'application, direction, sens, intensité (valeur)","Longueur, largeur, hauteur, masse","Couleur, direction, sens, température"],correct:1,
+   expl:"Une force est entièrement définie par 4 caractéristiques : (1) le point d'application (où la force agit sur l'objet), (2) la direction (la droite selon laquelle la force agit), (3) le sens (vers le haut ou vers le bas, par exemple), (4) l'intensité ou valeur (mesurée en newtons). On la représente par une flèche (vecteur)."},
+  {q:"Quelle force s'oppose au mouvement d'un objet qui glisse sur une surface ?",opts:["La force de gravité","La force de frottement","La force normale","Le poids"],correct:1,
+   expl:"La force de frottement (ou force de friction) s'oppose toujours au mouvement. Elle agit entre deux surfaces en contact et dans le sens contraire du déplacement. C'est elle qui fait ralentir un objet qui glisse sans force motrice, ou qui permet à nos pieds de ne pas glisser en marchant."},
+  {q:"Qu'est-ce que le principe d'inertie (1ère loi de Newton) ?",opts:["Un objet accélère toujours en l'absence de force","Si les forces sont équilibrées, l'objet reste immobile ou en mouvement rectiligne uniforme","Plus un objet est lourd, plus il tombe vite","Une force crée toujours un mouvement circulaire"],correct:1,
+   expl:"Le principe d'inertie (1ère loi de Newton) dit : si les forces exercées sur un objet sont équilibrées (se compensent), l'objet reste dans son état : soit immobile, soit en mouvement rectiligne uniforme (même direction, même vitesse). Seule une force résultante non nulle peut changer cet état."},
+];
+var answered={},score=0;
+function buildQuiz(){
+  var c=document.getElementById('quiz-container');c.innerHTML=''; answered={}; score=0;
+  for(var i=0;i<QUESTIONS.length;i++){
+    var q=QUESTIONS[i];var opts='';
+    for(var j=0;j<q.opts.length;j++) opts+='<button class="quiz-opt" onclick="answer('+i+','+j+')">'+q.opts[j]+'</button>';
+    var div=document.createElement('div');div.className='quiz-q';
+    div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div><div class="quiz-options" id="opts-'+i+'">'+opts+'</div><div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  }
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;answered[qi]=choice;var q=QUESTIONS[qi];
+  var opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for(var i=0;i<opts.length;i++) opts[i].classList.add('disabled');
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  var ok=choice===q.correct;if(ok) score++;
+  var expl=document.getElementById('expl-'+qi);
+  expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  var el=document.getElementById('quiz-score');var pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  var msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+window.showPanel=showPanel;window.showCorr=showCorr;window.answer=answer;window.resetQuiz=resetQuiz;window.showScore=showScore;window.buildQuiz=buildQuiz;
+</script>
+</body>
+</html>
