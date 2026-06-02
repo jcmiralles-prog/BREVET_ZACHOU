@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M21 &mdash; Maths Brevet &middot; Jour 21</title>
+<style>
+:root{--orange:#D35400;--orange-light:#FDEBD0;--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--rouge:#C0392B;--rouge-light:#FADBD8;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
+.exo-body{padding:16px}
+.enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
+.enonce p{margin-bottom:8px}.enonce p:last-child{margin-bottom:0}
+.question{margin-bottom:18px}
+.question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
+.question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+.justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
+.justif-box b{color:#D35400}
+textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
+textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.correction.visible{display:block}
+.correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
+.correction p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+.methode-box b{display:block;margin-bottom:4px}
+.score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
+.score-info b{font-size:14px}
+.separator{height:1px;background:var(--border);margin:6px 0 14px}
+.tableau{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.tableau th,.tableau td{border:1px solid var(--border);padding:8px 10px;text-align:center}
+.tableau th{background:var(--orange-light);font-weight:700}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>&#128208; Maths &mdash; Jour 21</h1>
+  <div class="sub">Exercices type Brevet &middot; 20 &agrave; 30 minutes</div>
+  <div class="badge">10 juin 2026</div>
+</div>
+<div class="container">
+  <div style="background:#FFF3CD;border:1px solid #F0A500;border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#7D5A00"><b style="display:block;margin-bottom:8px;color:#D35400">&#128196; Vrais sujets utilis&eacute;s</b><a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-centres-etrangers.pdf" target="_blank" style="color:#D35400;font-weight:700;display:block;margin-bottom:4px">&#128229; Sujet Brevet 2024 Centres &eacute;trangers</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-centres-etrangers.pdf" target="_blank" style="color:#1E8449;font-weight:700;display:block;margin-bottom:8px">&#10003; Corrig&eacute; Brevet 2024 Centres &eacute;trangers</a>
+</div>
+  <div class="score-info"><b>Th&egrave;me : Vitesse, &eacute;criture scientifique, fractions</b><br>Trois classiques du QCM brevet. Montre tes calculs m&ecirc;me pour le QCM.</div>
+  <div class="exo-card"><div class="exo-header">Exercice 1 &mdash; Vitesse et proportionnalit&eacute; (Brevet 2024 Centres &eacute;trangers)</div><div class="exo-body"><div class="enonce"><p>Lili part en vacances. Elle parcourt <b>480 km en 5 h 42 min</b>.</p></div><div class="question">
+<div class="question-label">Question 1</div>
+<p>Convertis 5 h 42 min en minutes, puis calcule la vitesse moyenne en km/h, arrondie au dixi&egrave;me.</p>
+<div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> 5h42 = 5×60 + 42 minutes. Puis vitesse = distance ÷ temps (en heures). Montre toutes les étapes.</div>
+<textarea placeholder="&Eacute;cris ta r&eacute;ponse et ta justification ici..."></textarea>
+<button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+<div class="correction"><h4>&#10003;&#65038; Correction</h4><p>5 h 42 min = 5 × 60 + 42 = 300 + 42 = <b>342 minutes</b></p><p>342 minutes = 342/60 heures = 5,7 h</p><p>Vitesse = 480 ÷ 5,7 ≈ <b>84,2 km/h</b></p><div class="methode-box"><b>&#128204; M&eacute;thode</b> v = d/t. Convertir le temps en heures AVANT de diviser. 342 min ÷ 60 = 5,7 h. Puis 480 ÷ 5,7 = 84,2 km/h.</div></div>
+</div><div class="separator"></div><div class="question">
+<div class="question-label">Question 2</div>
+<p>Donne l'&eacute;criture scientifique de 0,193 × 10⁻¹⁰⁰.</p>
+<div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Une écriture scientifique s'écrit a × 10ⁿ avec 1 ≤ a < 10. Ici 0,193 n'est pas entre 1 et 10.</div>
+<textarea placeholder="&Eacute;cris ta r&eacute;ponse et ta justification ici..."></textarea>
+<button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+<div class="correction"><h4>&#10003;&#65038; Correction</h4><p>0,193 = 1,93 × 10⁻¹</p><p>Donc 0,193 × 10⁻¹⁰⁰ = 1,93 × 10⁻¹ × 10⁻¹⁰⁰ = <b>1,93 × 10⁻¹⁰¹</b></p><div class="methode-box"><b>&#128204; M&eacute;thode</b> Écriture scientifique : déplacer la virgule pour avoir un chiffre entre 1 et 9 avant la virgule. Chaque déplacement à droite de la virgule = ×10⁻¹. Additionner les exposants.</div></div>
+</div></div></div><div class="exo-card"><div class="exo-header">Exercice 2 &mdash; Fractions (Brevet 2024 Centres &eacute;trangers)</div><div class="exo-body"><div class="enonce"><p>L&eacute;a ach&egrave;te un v&eacute;lo &eacute;lectrique. Pour le r&eacute;server elle paye <b>1/5 du prix</b>. Le magasin lui propose de payer le reste en <b>trois paiements &eacute;gaux</b>.</p></div><div class="question">
+<div class="question-label">Question 1</div>
+<p>Quelle fraction du prix total repr&eacute;sente chacun des trois paiements ?</p>
+<div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Calcule d'abord ce qui reste après le paiement de 1/5. Divise ce reste par 3.</div>
+<textarea placeholder="&Eacute;cris ta r&eacute;ponse et ta justification ici..."></textarea>
+<button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+<div class="correction"><h4>&#10003;&#65038; Correction</h4><p>Reste à payer = 1 − 1/5 = 5/5 − 1/5 = <b>4/5</b></p><p>Chaque paiement = 4/5 ÷ 3 = 4/5 × 1/3 = <b>4/15</b> du prix total.</p><div class="methode-box"><b>&#128204; M&eacute;thode</b> Diviser une fraction par 3 = multiplier par 1/3. Vérification : 1/5 + 3×(4/15) = 3/15 + 12/15 = 15/15 = 1 ✓</div></div>
+</div></div></div>
+</div>
+<script>
+function toggleCorr(btn){
+  var c=btn.nextElementSibling;
+  if(c.classList.contains('visible')){c.classList.remove('visible');btn.textContent='Voir la correction ▼';}
+  else{c.classList.add('visible');btn.textContent='Masquer la correction ▲';}
+}
+</script>
+</body>
+</html>

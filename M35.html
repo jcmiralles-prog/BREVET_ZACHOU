@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M35 &mdash; Maths Brevet &middot; Jour 35</title>
+<style>
+:root{--orange:#D35400;--orange-light:#FDEBD0;--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--rouge:#C0392B;--rouge-light:#FADBD8;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
+.exo-body{padding:16px}
+.enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
+.enonce p{margin-bottom:8px}.enonce p:last-child{margin-bottom:0}
+.question{margin-bottom:18px}
+.question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
+.question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+.justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
+.justif-box b{color:#D35400}
+textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
+textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.correction.visible{display:block}
+.correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
+.correction p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+.methode-box b{display:block;margin-bottom:4px}
+.score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
+.score-info b{font-size:14px}
+.separator{height:1px;background:var(--border);margin:6px 0 14px}
+.tableau{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.tableau th,.tableau td{border:1px solid var(--border);padding:8px 10px;text-align:center}
+.tableau th{background:var(--orange-light);font-weight:700}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>&#128208; Maths &mdash; Jour 35</h1>
+  <div class="sub">Exercices type Brevet &middot; 20 &agrave; 30 minutes</div>
+  <div class="badge">24 juin 2026</div>
+</div>
+<div class="container">
+  <div style="background:#FFF3CD;border:1px solid #F0A500;border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#7D5A00"><b style="display:block;margin-bottom:8px;color:#D35400">&#128196; Vrais sujets utilis&eacute;s</b><a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-metropole.pdf" target="_blank" style="color:#D35400;font-weight:700;display:block;margin-bottom:4px">&#128229; Sujet Brevet 2024 M&eacute;tropole</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-metropole.pdf" target="_blank" style="color:#1E8449;font-weight:700;display:block;margin-bottom:8px">&#10003; Corrig&eacute; Brevet 2024 M&eacute;tropole</a>
+</div>
+  <div class="score-info"><b>Th&egrave;me : Pyramide : Pythagore et trigo</b><br>Pythagore appliqu&eacute; deux fois. Volume = base × h / 3.</div>
+  <div class="exo-card"><div class="exo-header">Exercice 1 &mdash; Pyramide : Pythagore et trigo (Brevet 2022 M&eacute;tropole style)</div><div class="exo-body"><div class="enonce"><p>Une pyramide &agrave; base carr&eacute;e a une base de c&ocirc;t&eacute; 8 cm et une hauteur de 10 cm. Le centre de la base est H.</p></div><div class="question">
+<div class="question-label">Question 1</div>
+<p>Calcule la longueur de l'ar&ecirc;te lat&eacute;rale SA (S = sommet, A = coin de la base). HA = moiti&eacute; de la diagonale de la base.</p>
+<div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> D'abord calcule la diagonale de la base (carré 8×8) par Pythagore. Puis HA = diagonale/2. Puis SA par Pythagore.</div>
+<textarea placeholder="&Eacute;cris ta r&eacute;ponse et ta justification ici..."></textarea>
+<button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+<div class="correction"><h4>&#10003;&#65038; Correction</h4><p>Diagonale de la base = √(8²+8²) = √128 = 8√2 ≈ 11,31 cm</p><p>HA = 8√2/2 = 4√2 ≈ 5,66 cm</p><p>SA² = SH² + HA² = 10² + (4√2)² = 100 + 32 = 132</p><p>SA = √132 ≈ <b>11,5 cm</b></p><div class="methode-box"><b>&#128204; M&eacute;thode</b> Appliquer Pythagore deux fois : 1) pour la diagonale de la base ; 2) pour l'arête latérale. Identifier les triangles rectangles.</div></div>
+</div><div class="separator"></div><div class="question">
+<div class="question-label">Question 2</div>
+<p>Calcule l'angle que fait l'ar&ecirc;te SA avec la base (angle SAH).</p>
+<div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Dans le triangle SHA rectangle en H, tan(SAH) = opposé/adjacent = SH/HA.</div>
+<textarea placeholder="&Eacute;cris ta r&eacute;ponse et ta justification ici..."></textarea>
+<button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+<div class="correction"><h4>&#10003;&#65038; Correction</h4><p>tan(SAH) = SH/HA = 10/(4√2) = 10/5,66 ≈ 1,768</p><p>SAH = arctan(1,768) ≈ <b>60°</b></p><div class="methode-box"><b>&#128204; M&eacute;thode</b> Dans le triangle SHA, l'angle droit est en H. Pour l'angle en A : opposé = SH, adjacent = HA. Utiliser tan = opposé/adjacent.</div></div>
+</div><div class="separator"></div><div class="question">
+<div class="question-label">Question 3</div>
+<p>Calcule le volume de la pyramide. (V = base × hauteur / 3)</p>
+<div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Base = carré de côté 8 cm. Hauteur = 10 cm.</div>
+<textarea placeholder="&Eacute;cris ta r&eacute;ponse et ta justification ici..."></textarea>
+<button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+<div class="correction"><h4>&#10003;&#65038; Correction</h4><p>Aire de la base = 8 × 8 = 64 cm²</p><p>Volume = 64 × 10 / 3 = 640/3 ≈ <b>213,3 cm³</b></p><div class="methode-box"><b>&#128204; M&eacute;thode</b> Volume pyramide = (Aire base × hauteur) / 3. La hauteur est perpendiculaire à la base (pas l'arête latérale).</div></div>
+</div></div></div>
+</div>
+<script>
+function toggleCorr(btn){
+  var c=btn.nextElementSibling;
+  if(c.classList.contains('visible')){c.classList.remove('visible');btn.textContent='Voir la correction ▼';}
+  else{c.classList.add('visible');btn.textContent='Masquer la correction ▲';}
+}
+</script>
+</body>
+</html>

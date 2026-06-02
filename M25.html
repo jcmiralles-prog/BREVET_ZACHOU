@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M25 &mdash; Maths Brevet &middot; Jour 25</title>
+<style>
+:root{--orange:#D35400;--orange-light:#FDEBD0;--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--rouge:#C0392B;--rouge-light:#FADBD8;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
+.exo-body{padding:16px}
+.enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
+.enonce p{margin-bottom:8px}.enonce p:last-child{margin-bottom:0}
+.question{margin-bottom:18px}
+.question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
+.question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+.justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
+.justif-box b{color:#D35400}
+textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
+textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.correction.visible{display:block}
+.correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
+.correction p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+.methode-box b{display:block;margin-bottom:4px}
+.score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
+.score-info b{font-size:14px}
+.separator{height:1px;background:var(--border);margin:6px 0 14px}
+.tableau{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.tableau th,.tableau td{border:1px solid var(--border);padding:8px 10px;text-align:center}
+.tableau th{background:var(--orange-light);font-weight:700}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>&#128208; Maths &mdash; Jour 25</h1>
+  <div class="sub">Exercices type Brevet &middot; 20 &agrave; 30 minutes</div>
+  <div class="badge">14 juin 2026</div>
+</div>
+<div class="container">
+  <div style="background:#FFF3CD;border:1px solid #F0A500;border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#7D5A00"><b style="display:block;margin-bottom:8px;color:#D35400">&#128196; Vrais sujets utilis&eacute;s</b><a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2024-centres-etrangers.pdf" target="_blank" style="color:#D35400;font-weight:700;display:block;margin-bottom:4px">&#128229; Sujet Brevet 2024 Centres &eacute;trangers</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2024-centres-etrangers.pdf" target="_blank" style="color:#1E8449;font-weight:700;display:block;margin-bottom:8px">&#10003; Corrig&eacute; Brevet 2024 Centres &eacute;trangers</a>
+</div>
+  <div class="score-info"><b>Th&egrave;me : C&ocirc;ne : volume et patron</b><br>Formules de g&eacute;om&eacute;trie dans l'espace. &Eacute;cris la formule avant de substituer.</div>
+  <div class="exo-card"><div class="exo-header">Exercice 1 &mdash; Cône : chapeau d'Halloween (Brevet 2024 Centres &eacute;trangers)</div><div class="exo-body"><div class="enonce"><p>Chapeau en forme de c&ocirc;ne : rayon OM = 9 cm, hauteur OS = 30 cm.<br>Formule : V = (1/3) × π × R² × h.</p></div><div class="question">
+<div class="question-label">Question 1</div>
+<p>D&eacute;montre que la longueur MS arrondie au dixi&egrave;me est 31,3 cm.</p>
+<div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Le triangle OMS est rectangle en O (hauteur ⊥ base). Utilise Pythagore : MS² = OM² + OS².</div>
+<textarea placeholder="&Eacute;cris ta r&eacute;ponse et ta justification ici..."></textarea>
+<button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+<div class="correction"><h4>&#10003;&#65038; Correction</h4><p>MS² = OM² + OS² = 9² + 30² = 81 + 900 = 981</p><p>MS = √981 ≈ <b>31,3 cm</b> ✓</p><div class="methode-box"><b>&#128204; M&eacute;thode</b> La hauteur OS est perpendiculaire au rayon OM → triangle rectangle en O. MS est l'hypoténuse (côté opposé à l'angle droit).</div></div>
+</div><div class="separator"></div><div class="question">
+<div class="question-label">Question 2</div>
+<p>Le tour de t&ecirc;te de L&eacute;o est 56 cm. Est-ce que le rayon OM = 9 cm est adapt&eacute; ?</p>
+<div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Calcule le périmètre du cercle de base : C = 2 × π × R. Compare à 56 cm.</div>
+<textarea placeholder="&Eacute;cris ta r&eacute;ponse et ta justification ici..."></textarea>
+<button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+<div class="correction"><h4>&#10003;&#65038; Correction</h4><p>C = 2 × π × 9 = 18π ≈ <b>56,55 cm</b></p><p>56,55 cm > 56 cm → le chapeau est légèrement plus grand que le tour de tête.</p><p><b>Oui, les dimensions sont adaptées</b> (le chapeau peut se mettre sur la tête).</p><div class="methode-box"><b>&#128204; M&eacute;thode</b> Tour de tête = périmètre du cercle de base = 2πR. Si C ≥ tour de tête, le chapeau rentre. Toujours conclure en répondant à la question.</div></div>
+</div><div class="separator"></div><div class="question">
+<div class="question-label">Question 3</div>
+<p>a) Montre que la longueur du cercle de rayon SM est 196,7 cm.<br>b) L'arc MM' mesure 56,5 cm. Calcule l'angle M'SM (en degr&eacute;s), arrondi &agrave; l'unit&eacute;.</p>
+<div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> a) C = 2 × π × SM = 2 × π × 31,3. b) Proportion : angle/360° = longueur arc / périmètre total.</div>
+<textarea placeholder="&Eacute;cris ta r&eacute;ponse et ta justification ici..."></textarea>
+<button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+<div class="correction"><h4>&#10003;&#65038; Correction</h4><p><b>a)</b> C = 2 × π × 31,3 = 62,6π ≈ <b>196,7 cm</b> ✓</p><p><b>b)</b> Proportion : angle/360 = 56,5/196,7<br>angle = 360 × 56,5/196,7 ≈ <b>103°</b></p><div class="methode-box"><b>&#128204; M&eacute;thode</b> Patron d'un cône : l'arc de cercle du patron est proportionnel à l'angle au sommet. angle/360° = longueur de l'arc / périmètre du grand cercle.</div></div>
+</div></div></div><div class="exo-card"><div class="exo-header">Exercice 2 &mdash; Volume et pourcentage (Brevet 2024 Centres &eacute;trangers)</div><div class="exo-body"><div class="enonce"><p>Chapeau cône : rayon 9 cm, hauteur 30 cm. Les bonbons atteignent le <b>milieu de la hauteur</b>.</p></div><div class="question">
+<div class="question-label">Question</div>
+<p>Le volume de bonbons repr&eacute;sente-t-il moins de 15 % du volume total ? Justifie.</p>
+<div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Volume total = (1/3)πR²h. Volume bonbons = petit cône similaire de hauteur 15 cm. Attention : le rayon diminue proportionnellement. Calcule les deux volumes puis le pourcentage.</div>
+<textarea placeholder="&Eacute;cris ta r&eacute;ponse et ta justification ici..."></textarea>
+<button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+<div class="correction"><h4>&#10003;&#65038; Correction</h4><p>Volume total = (1/3) × π × 9² × 30 = (1/3) × π × 81 × 30 = 810π ≈ <b>2545 cm³</b></p><p>Au milieu (h = 15 cm), le rayon est proportionnel : r = 9 × 15/30 = 4,5 cm</p><p>Volume bonbons = (1/3) × π × 4,5² × 15 = (1/3) × π × 20,25 × 15 = 101,25π ≈ 318 cm³</p><p>Pourcentage = 318/2545 × 100 ≈ <b>12,5 %</b></p><p>12,5 % &lt; 15 % → <b>L'estimation est correcte.</b></p><div class="methode-box"><b>&#128204; M&eacute;thode</b> Cônes similaires : quand la hauteur est divisée par 2, le rayon l'est aussi (proportionnalité). Le volume du petit cône = (1/2)³ × volume total = 1/8 du total = 12,5 %. Toujours vérifier avec le calcul.</div></div>
+</div></div></div>
+</div>
+<script>
+function toggleCorr(btn){
+  var c=btn.nextElementSibling;
+  if(c.classList.contains('visible')){c.classList.remove('visible');btn.textContent='Voir la correction ▼';}
+  else{c.classList.add('visible');btn.textContent='Masquer la correction ▲';}
+}
+</script>
+</body>
+</html>

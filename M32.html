@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M32 &mdash; Maths Brevet &middot; Jour 32</title>
+<style>
+:root{--orange:#D35400;--orange-light:#FDEBD0;--vert:#1E8449;--vert-light:#D5F5E3;--bleu:#1A5276;--rouge:#C0392B;--rouge-light:#FADBD8;--bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;--border:#DEE2E6;--radius:10px;}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+.header{background:var(--orange);color:white;padding:20px 16px 16px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.88}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:10px}
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.exo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.exo-header{background:var(--orange);color:white;padding:12px 16px;font-size:14px;font-weight:700}
+.exo-body{padding:16px}
+.enonce{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:6px;padding:14px;margin-bottom:16px;font-size:14px;line-height:1.7}
+.enonce p{margin-bottom:8px}.enonce p:last-child{margin-bottom:0}
+.question{margin-bottom:18px}
+.question-label{font-weight:700;color:var(--orange);font-size:14px;margin-bottom:8px}
+.question p{font-size:14px;line-height:1.6;margin-bottom:6px}
+.justif-box{background:#FFF3CD;border:1px solid #F0A500;border-radius:6px;padding:10px 14px;font-size:13px;color:#7D5A00;margin-top:8px}
+.justif-box b{color:#D35400}
+textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;-webkit-box-sizing:border-box;box-sizing:border-box;margin-top:8px}
+textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.btn-correction{background:var(--orange);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.correction{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.correction.visible{display:block}
+.correction h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.correction p{font-size:14px;line-height:1.7;margin-bottom:8px}
+.correction p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu)}
+.methode-box b{display:block;margin-bottom:4px}
+.score-info{background:var(--orange-light);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--orange)}
+.score-info b{font-size:14px}
+.separator{height:1px;background:var(--border);margin:6px 0 14px}
+.tableau{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.tableau th,.tableau td{border:1px solid var(--border);padding:8px 10px;text-align:center}
+.tableau th{background:var(--orange-light);font-weight:700}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>&#128208; Maths &mdash; Jour 32</h1>
+  <div class="sub">Exercices type Brevet &middot; 20 &agrave; 30 minutes</div>
+  <div class="badge">21 juin 2026</div>
+</div>
+<div class="container">
+  <div style="background:#FFF3CD;border:1px solid #F0A500;border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#7D5A00"><b style="display:block;margin-bottom:8px;color:#D35400">&#128196; Vrais sujets utilis&eacute;s</b><a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/sujet-brevet-maths-2023-polynesie.pdf" target="_blank" style="color:#D35400;font-weight:700;display:block;margin-bottom:4px">&#128229; Sujet Brevet 2023 Polyn&eacute;sie</a>
+<a href="https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/brevet/corrige-brevet-maths-2023-polynesie.pdf" target="_blank" style="color:#1E8449;font-weight:700;display:block;margin-bottom:8px">&#10003; Corrig&eacute; Brevet 2023 Polyn&eacute;sie</a>
+</div>
+  <div class="score-info"><b>Th&egrave;me : QCM : fonctions et identit&eacute;s remarquables</b><br>M&ecirc;me pour le QCM, justifie ton raisonnement pour t'entra&icirc;ner.</div>
+  <div class="exo-card"><div class="exo-header">Exercice 1 &mdash; QCM : fonctions et identit&eacute;s (Brevet 2023 Polyn&eacute;sie)</div><div class="exo-body"><div class="enonce"><p>QCM : justifie ton raisonnement pour chaque question (au brevet r&eacute;el ce n'est pas demand&eacute;, mais c'est ce qui te permet de progresser).</p></div><div class="question">
+<div class="question-label">Question 1</div>
+<p>f(x) = −2x + 3. Quelle est la bonne repr&eacute;sentation graphique : croissante ou d&eacute;croissante ? Quelle est l'ordonn&eacute;e &agrave; l'origine ?</p>
+<div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Le coefficient de x (pente) détermine si la fonction est croissante ou décroissante. L'ordonnée à l'origine = f(0).</div>
+<textarea placeholder="&Eacute;cris ta r&eacute;ponse et ta justification ici..."></textarea>
+<button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+<div class="correction"><h4>&#10003;&#65038; Correction</h4><p>f(x) = −2x + 3 : le coefficient de x est <b>−2</b> (négatif) → la fonction est <b>décroissante</b>.</p><p>f(0) = −2×0 + 3 = <b>3</b> → l'ordonnée à l'origine est 3.</p><div class="methode-box"><b>&#128204; M&eacute;thode</b> Fonction affine f(x) = ax + b : si a > 0 → croissante ; si a < 0 → décroissante. L'ordonnée à l'origine = b (valeur quand x = 0).</div></div>
+</div><div class="separator"></div><div class="question">
+<div class="question-label">Question 2</div>
+<p>D&eacute;veloppe (3x − 7)².</p>
+<div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> Utilise l'identité remarquable (a − b)² = a² − 2ab + b². Ici a = 3x et b = 7.</div>
+<textarea placeholder="&Eacute;cris ta r&eacute;ponse et ta justification ici..."></textarea>
+<button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+<div class="correction"><h4>&#10003;&#65038; Correction</h4><p>(3x − 7)² = (3x)² − 2×3x×7 + 7²</p><p>= 9x² − 42x + 49</p><div class="methode-box"><b>&#128204; M&eacute;thode</b> Identité (a−b)² = a² − 2ab + b². À connaître par cœur. Vérification : développer (3x−7)(3x−7) = 9x²−21x−21x+49 = 9x²−42x+49 ✓</div></div>
+</div><div class="separator"></div><div class="question">
+<div class="question-label">Question 3</div>
+<p>On donne le tableau de valeurs de h(x) = −x + 1. Dans un tableur, si la valeur de x est en cellule A1, quelle formule calcule h(x) ?<br>A) =−A1+1 &nbsp; B) =−A1 &nbsp; C) =−B1+1 &nbsp; D) =A1+1</p>
+<div class="justif-box"><b>&#128161; Ce qu'on attend&nbsp;:</b> La formule doit reproduire −x + 1 en utilisant la cellule A1 pour x.</div>
+<textarea placeholder="&Eacute;cris ta r&eacute;ponse et ta justification ici..."></textarea>
+<button class="btn-correction" onclick="toggleCorr(this)">Voir la correction &#9660;</button>
+<div class="correction"><h4>&#10003;&#65038; Correction</h4><p>h(x) = −x + 1, avec x en cellule A1.</p><p>La formule est <b>=−A1+1</b> (réponse A).</p><p>B est faux (oublie +1). C est faux (utilise B1 au lieu de A1). D est faux (signe +).</p><div class="methode-box"><b>&#128204; M&eacute;thode</b> Tableur : la formule reproduit le calcul mathématique en remplaçant x par la référence de cellule. Vérifier chaque option.</div></div>
+</div></div></div>
+</div>
+<script>
+function toggleCorr(btn){
+  var c=btn.nextElementSibling;
+  if(c.classList.contains('visible')){c.classList.remove('visible');btn.textContent='Voir la correction ▼';}
+  else{c.classList.add('visible');btn.textContent='Masquer la correction ▲';}
+}
+</script>
+</body>
+</html>
