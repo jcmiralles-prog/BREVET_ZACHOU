@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G5 — Les inégalités face au développement</title>
+<style>
+:root{
+  --bleu:#1A5276;--bleu-light:#D6EAF8;--bleu-dark:#154360;
+  --vert:#1E8449;--vert-light:#D5F5E3;
+  --rouge:#C0392B;--rouge-light:#FADBD8;
+  --orange:#D35400;--orange-light:#FDEBD0;
+  --violet:#6C3483;
+  --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+  --border:#DEE2E6;--radius:10px;
+}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;padding-bottom:40px}
+
+.header{background:var(--bleu);color:white;padding:20px 16px 0}
+.header-top{text-align:center;padding-bottom:16px}
+.header h1{font-size:21px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.85;margin-bottom:10px}
+.header .badges{display:-webkit-flex;display:flex;gap:8px;-webkit-justify-content:center;justify-content:center;-webkit-flex-wrap:wrap;flex-wrap:wrap;margin-bottom:14px}
+.badge{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12px;color:white}
+
+.tabs{display:-webkit-flex;display:flex;background:var(--bleu-dark);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab{padding:12px 18px;font-size:13px;font-weight:600;color:rgba(255,255,255,.65);cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;-webkit-tap-highlight-color:transparent}
+.tab.active{color:white;border-bottom-color:white}
+
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.tab-content{display:none}.tab-content.active{display:block}
+
+/* Fiche */
+.section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:18px;overflow:hidden}
+.section-head{background:var(--bleu);color:white;padding:11px 16px;font-size:14px;font-weight:700}
+.section-body{padding:16px}
+.notion{margin-bottom:14px}
+.notion:last-child{margin-bottom:0}
+.notion-title{font-weight:700;color:var(--bleu);font-size:14px;margin-bottom:6px}
+.notion p{font-size:14px;line-height:1.75;margin-bottom:6px}
+.notion p:last-child{margin-bottom:0}
+.def-box{background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;font-size:13px;margin:8px 0;line-height:1.6}
+.def-box b{color:var(--bleu)}
+.exemple-box{background:#F0F9FF;border:1px solid #AED6F1;border-radius:6px;padding:10px 14px;font-size:13px;margin:8px 0;line-height:1.6}
+.chiffre-box{background:var(--bleu-light);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:13px;line-height:1.7}
+.chiffre-box b{color:var(--bleu);font-size:14px}
+.retenir{background:#FFF9C4;border:1px solid #F9A825;border-radius:6px;padding:10px 14px;font-size:13px;margin-top:10px;line-height:1.6}
+.retenir b{color:#E65100}
+
+/* Quiz */
+.quiz-intro{background:var(--bleu-light);border:1px solid var(--bleu);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--bleu)}
+.q-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+.q-num{background:var(--bleu);color:white;padding:8px 14px;font-size:13px;font-weight:700}
+.q-body{padding:14px}
+.q-text{font-size:14px;font-weight:600;margin-bottom:12px;line-height:1.5}
+.options{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:8px}
+.opt{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:10px;padding:10px 14px;border:1px solid var(--border);border-radius:6px;cursor:pointer;background:white;font-size:14px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+.opt:hover{border-color:var(--bleu)}
+.opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:700}
+.opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+.opt.reveal{background:var(--vert-light);border-color:var(--vert)}
+.expl{display:none;margin-top:10px;padding:10px 14px;border-radius:6px;font-size:13px;line-height:1.6}
+.expl.ok{background:var(--vert-light);border:1px solid var(--vert);color:var(--vert)}
+.expl.ko{background:var(--rouge-light);border:1px solid var(--rouge);color:var(--rouge)}
+.score-box{background:var(--bleu);color:white;border-radius:10px;padding:18px;text-align:center;margin-top:20px;display:none}
+.score-box .score-num{font-size:32px;font-weight:700;margin-bottom:6px}
+.score-box .score-msg{font-size:14px;opacity:.9}
+.btn-reset{margin-top:14px;background:white;color:var(--bleu);border:none;border-radius:6px;padding:10px 24px;font-size:14px;font-weight:700;cursor:pointer}
+
+/* Brevet */
+.source-doc{background:var(--bleu-light);border:1px solid var(--bleu);border-radius:8px;padding:14px 16px;margin-bottom:20px;font-size:13px;line-height:1.7;color:var(--text)}
+.source-doc .src-label{font-weight:700;color:var(--bleu);font-size:12px;letter-spacing:.5px;margin-bottom:8px}
+.brev-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+.brev-qhead{background:var(--bleu);color:white;padding:10px 16px;font-size:13px;font-weight:700}
+.brev-qbody{padding:14px}
+.brev-qbody p{font-size:14px;line-height:1.6;margin-bottom:8px}
+.brev-qbody p:last-of-type{margin-bottom:0}
+.points{background:rgba(255,255,255,.25);border-radius:10px;padding:1px 10px;font-size:11px;margin-left:8px}
+textarea{width:100%;min-height:90px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;margin-top:10px;-webkit-box-sizing:border-box;box-sizing:border-box}
+textarea:focus{outline:2px solid var(--bleu);border-color:var(--bleu)}
+.btn-corr{background:var(--bleu);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.corr-block{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.corr-block.open{display:block}
+.corr-block h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.corr-block p{font-size:14px;line-height:1.75;margin-bottom:8px}
+.corr-block p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu);line-height:1.6}
+.methode-box b{display:block;margin-bottom:4px}
+.vocab-box{background:#FEF9E7;border-left:4px solid var(--orange);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:#7D5A00;line-height:1.6}
+.vocab-box b{display:block;margin-bottom:4px;color:var(--orange)}
+@media(max-width:500px){.header h1{font-size:18px}.tab{padding:10px 14px;font-size:12px}}
+</style>
+</head>
+<body id="g5">
+<div class="header">
+  <div class="header-top">
+    <h1>🌍 Les inégalités face au développement</h1>
+    <div class="sub">Géographie · Brevet 2026</div>
+    <div class="badges">
+      <span class="badge">📚 Fiche de cours</span>
+      <span class="badge">❓ 12 questions</span>
+      <span class="badge">📝 Exercice Brevet</span>
+    </div>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('g5',0)">📖 Fiche de cours</div>
+<div class="tab " onclick="showTab('g5',1)">❓ Quiz</div>
+<div class="tab " onclick="showTab('g5',2)">📝 Exercice Brevet</div>
+
+  </div>
+</div>
+<div class="tab-content active" id="g5-tab0">
+<div class="container">
+<div class="section"><div class="section-head">I. Mesurer le développement</div><div class="section-body"><div class="notion"><div class="notion-title">Le PIB et le IDH</div><p>Le <b>PIB (Produit Intérieur Brut)</b> mesure la richesse produite par un pays en un an. C'est l'indicateur économique le plus utilisé.</p><p>Mais le PIB ne mesure pas le bien-être. L'<b>IDH (Indice de Développement Humain)</b>, créé par l'ONU en 1990, mesure trois dimensions : l'espérance de vie, le niveau d'éducation et le niveau de vie (PIB/habitant).</p><p>L'IDH varie de 0 à 1 : un IDH proche de 1 indique un développement élevé.</p></div>
+<div class="def-box"><b>IDH</b> = Indice de Développement Humain. Il mesure l'espérance de vie + l'éducation + le niveau de vie. Plus il est proche de 1, plus le pays est développé.</div>
+<div class="chiffre-box"><b>IDH dans le monde (2022)</b><br>IDH le plus élevé : Suisse (0,962) | France : 0,903 | Chine : 0,788 | Inde : 0,633 | Niger : 0,394 (l'un des plus bas)</div></div></div><div class="section"><div class="section-head">II. La hiérarchie des pays dans le monde</div><div class="section-body"><div class="notion"><div class="notion-title">Les pays du Nord et du Sud</div><p>On distingue traditionnellement les <b>pays du Nord</b> (pays riches, développés : USA, Europe, Japon, Australie) et les <b>pays du Sud</b> (pays en développement : Afrique, Asie du Sud, Amérique latine).</p><p>Cette division est de plus en plus complexe avec l'émergence de nouveaux acteurs.</p></div>
+<div class="notion"><div class="notion-title">Les pays émergents</div><p>Les <b>pays émergents</b> sont des pays en fort développement économique qui ont connu une croissance rapide. Les plus importants forment le groupe des <b>BRICS</b> : Brésil, Russie, Inde, Chine, Afrique du Sud.</p><p>La Chine est devenue la 2e économie mondiale. Elle a sorti 800 millions de personnes de la pauvreté en 40 ans.</p></div>
+<div class="notion"><div class="notion-title">Les pays les moins avancés (PMA)</div><p>Les <b>PMA</b> (Pays les Moins Avancés) sont les pays les plus pauvres du monde. La plupart sont en Afrique subsaharienne (Niger, Mali, Tchad, Mozambique...).</p><p>Ils font face à la pauvreté extrême, l'insécurité alimentaire, le manque d'accès à l'eau, à la santé et à l'éducation.</p></div>
+<div class="chiffre-box"><b>Inégalités mondiales</b><br>1 % des personnes les plus riches possèdent autant que les 50 % les plus pauvres | 700 millions de personnes vivent avec moins de 2,15 $/jour | L'espérance de vie varie de 53 ans (Niger) à 84 ans (Japon)</div></div></div><div class="section"><div class="section-head">III. Les inégalités à toutes les échelles</div><div class="section-body"><div class="notion"><div class="notion-title">Des inégalités entre pays</div><p>Les inégalités entre pays sont immenses : le PIB par habitant est de 80 000 $ aux États-Unis contre 600 $ au Niger.</p><p>L'accès à la santé est très inégal : un enfant né au Niger a 20 fois plus de risques de mourir avant 5 ans qu'un enfant né en France.</p></div>
+<div class="notion"><div class="notion-title">Des inégalités dans les pays</div><p>Même dans les pays riches, il existe de fortes inégalités. Aux États-Unis, 40 millions de personnes vivent sous le seuil de pauvreté.</p><p>Dans les pays émergents comme la Chine, la croissance a profité surtout aux urbains, creusant les inégalités ville-campagne.</p></div>
+<div class="notion"><div class="notion-title">Les causes des inégalités</div><p><b>Colonisation</b> : l'exploitation coloniale a appauvri de nombreux pays du Sud.</p><p><b>Dettes</b> : de nombreux pays pauvres sont très endettés et remboursent plus qu'ils ne reçoivent d'aide.</p><p><b>Conflits armés</b> : les guerres détruisent l'économie et font fuir les populations.</p><p><b>Changement climatique</b> : les pays les plus pauvres sont les plus touchés par les catastrophes climatiques.</p></div>
+<div class="retenir"><b>⚠️ À retenir :</b> Les inégalités de développement s'analysent à plusieurs échelles : entre pays (Nord/Sud) et à l'intérieur des pays (riches/pauvres).</div></div></div>
+</div>
+</div>
+<div class="tab-content " id="g5-tab1">
+<div class="container">
+<div class="quiz-intro">12 questions sur les inégalités de développement. Clique sur ta réponse.</div><div class="q-card" id="g5-q1">
+  <div class="q-num">Question 1</div>
+  <div class="q-body">
+    <div class="q-text">Que mesure l'IDH ?</div>
+    <div class="options"><div class="opt" id="g5-q1-optA" onclick="answer('g5-quiz',1,'A','B','g5')">A. Uniquement la richesse économique d'un pays</div>
+<div class="opt" id="g5-q1-optB" onclick="answer('g5-quiz',1,'B','B','g5')">B. L'espérance de vie, l'éducation et le niveau de vie</div>
+<div class="opt" id="g5-q1-optC" onclick="answer('g5-quiz',1,'C','B','g5')">C. Le nombre de pauvres dans un pays</div>
+<div class="opt" id="g5-q1-optD" onclick="answer('g5-quiz',1,'D','B','g5')">D. La superficie d'un pays</div>
+</div>
+    <div class="expl ok" id="g5-q1-ok">✓ Bonne réponse ! L'IDH (Indice de Développement Humain) combine trois dimensions : espérance de vie, éducation et PIB par habitant.</div>
+    <div class="expl ko" id="g5-q1-ko">✗ À revoir. L'<b>IDH</b> mesure 3 choses : espérance de vie + éducation + niveau de vie (PIB/hab). Un pays peut être riche (PIB élevé) mais avec un IDH faible si l'éducation et la santé sont négligées.</div>
+  </div>
+</div><div class="q-card" id="g5-q2">
+  <div class="q-num">Question 2</div>
+  <div class="q-body">
+    <div class="q-text">Que signifie PIB ?</div>
+    <div class="options"><div class="opt" id="g5-q2-optA" onclick="answer('g5-quiz',2,'A','C','g5')">A. Produit Industriel Brésilien</div>
+<div class="opt" id="g5-q2-optB" onclick="answer('g5-quiz',2,'B','C','g5')">B. Plan d'Investissement Budgétaire</div>
+<div class="opt" id="g5-q2-optC" onclick="answer('g5-quiz',2,'C','C','g5')">C. Produit Intérieur Brut</div>
+<div class="opt" id="g5-q2-optD" onclick="answer('g5-quiz',2,'D','C','g5')">D. Puissance Industrielle de Base</div>
+</div>
+    <div class="expl ok" id="g5-q2-ok">✓ Bonne réponse ! Le PIB (Produit Intérieur Brut) mesure la valeur de tous les biens et services produits dans un pays en un an.</div>
+    <div class="expl ko" id="g5-q2-ko">✗ À revoir. <b>PIB = Produit Intérieur Brut</b>. C'est l'indicateur principal de la richesse économique d'un pays. Le PIB par habitant compare le niveau de vie entre pays.</div>
+  </div>
+</div><div class="q-card" id="g5-q3">
+  <div class="q-num">Question 3</div>
+  <div class="q-body">
+    <div class="q-text">Que signifie BRICS ?</div>
+    <div class="options"><div class="opt" id="g5-q3-optA" onclick="answer('g5-quiz',3,'A','B','g5')">A. Brésil, Russie, Italie, Chine, Suède</div>
+<div class="opt" id="g5-q3-optB" onclick="answer('g5-quiz',3,'B','B','g5')">B. Brésil, Russie, Inde, Chine, Afrique du Sud</div>
+<div class="opt" id="g5-q3-optC" onclick="answer('g5-quiz',3,'C','B','g5')">C. Birmanie, Rwanda, Iran, Corée, Sénégal</div>
+<div class="opt" id="g5-q3-optD" onclick="answer('g5-quiz',3,'D','B','g5')">D. Brésil, Roumanie, Inde, Croatie, Suisse</div>
+</div>
+    <div class="expl ok" id="g5-q3-ok">✓ Bonne réponse ! Les BRICS regroupent les 5 grands pays émergents : Brésil, Russie, Inde, Chine, Afrique du Sud.</div>
+    <div class="expl ko" id="g5-q3-ko">✗ À revoir. <b>BRICS</b> = Brésil, Russie, Inde, Chine, Afrique du Sud. Ce sont les grands pays émergents, avec une croissance économique forte.</div>
+  </div>
+</div><div class="q-card" id="g5-q4">
+  <div class="q-num">Question 4</div>
+  <div class="q-body">
+    <div class="q-text">Quelle est l'espérance de vie au Niger comparée au Japon ?</div>
+    <div class="options"><div class="opt" id="g5-q4-optA" onclick="answer('g5-quiz',4,'A','A','g5')">A. 53 ans (Niger) contre 84 ans (Japon)</div>
+<div class="opt" id="g5-q4-optB" onclick="answer('g5-quiz',4,'B','A','g5')">B. 65 ans (Niger) contre 90 ans (Japon)</div>
+<div class="opt" id="g5-q4-optC" onclick="answer('g5-quiz',4,'C','A','g5')">C. 70 ans (Niger) contre 80 ans (Japon)</div>
+<div class="opt" id="g5-q4-optD" onclick="answer('g5-quiz',4,'D','A','g5')">D. Identique dans les deux pays</div>
+</div>
+    <div class="expl ok" id="g5-q4-ok">✓ Bonne réponse ! L'espérance de vie est de 53 ans au Niger contre 84 ans au Japon, soit un écart de 31 ans.</div>
+    <div class="expl ko" id="g5-q4-ko">✗ À revoir. L'espérance de vie au Niger est de <b>53 ans</b> contre <b>84 ans</b> au Japon. Cet écart de 31 ans traduit les inégalités d'accès aux soins, à l'eau potable et à la nourriture.</div>
+  </div>
+</div><div class="q-card" id="g5-q5">
+  <div class="q-num">Question 5</div>
+  <div class="q-body">
+    <div class="q-text">Qu'est-ce qu'un pays émergent ?</div>
+    <div class="options"><div class="opt" id="g5-q5-optA" onclick="answer('g5-quiz',5,'A','C','g5')">A. Un pays qui vient d'obtenir son indépendance</div>
+<div class="opt" id="g5-q5-optB" onclick="answer('g5-quiz',5,'B','C','g5')">B. Un pays pauvre qui ne se développe pas</div>
+<div class="opt" id="g5-q5-optC" onclick="answer('g5-quiz',5,'C','C','g5')">C. Un pays en forte croissance économique qui s'industrialise rapidement</div>
+<div class="opt" id="g5-q5-optD" onclick="answer('g5-quiz',5,'D','C','g5')">D. Un pays développé qui entre en récession</div>
+</div>
+    <div class="expl ok" id="g5-q5-ok">✓ Bonne réponse ! Un pays émergent connaît une croissance économique forte et rapide, avec une industrialisation accélérée.</div>
+    <div class="expl ko" id="g5-q5-ko">✗ À revoir. Un pays <b>émergent</b> est en forte croissance. La Chine est le meilleur exemple : elle est passée d'un pays pauvre à la 2e économie mondiale en 40 ans.</div>
+  </div>
+</div><div class="q-card" id="g5-q6">
+  <div class="q-num">Question 6</div>
+  <div class="q-body">
+    <div class="q-text">Que signifie PMA ?</div>
+    <div class="options"><div class="opt" id="g5-q6-optA" onclick="answer('g5-quiz',6,'A','B','g5')">A. Pays les Mieux Armés</div>
+<div class="opt" id="g5-q6-optB" onclick="answer('g5-quiz',6,'B','B','g5')">B. Pays les Moins Avancés</div>
+<div class="opt" id="g5-q6-optC" onclick="answer('g5-quiz',6,'C','B','g5')">C. Peuples Marginaux d'Afrique</div>
+<div class="opt" id="g5-q6-optD" onclick="answer('g5-quiz',6,'D','B','g5')">D. Produit Mondial Agricole</div>
+</div>
+    <div class="expl ok" id="g5-q6-ok">✓ Bonne réponse ! Les PMA (Pays les Moins Avancés) sont les 46 pays les plus pauvres du monde, concentrés en Afrique subsaharienne.</div>
+    <div class="expl ko" id="g5-q6-ko">✗ À revoir. <b>PMA = Pays les Moins Avancés</b>. Ce sont les pays les plus pauvres, souffrant d'insécurité alimentaire, de manque d'eau et d'accès limité à la santé et à l'éducation.</div>
+  </div>
+</div><div class="q-card" id="g5-q7">
+  <div class="q-num">Question 7</div>
+  <div class="q-body">
+    <div class="q-text">Combien de personnes vivaient avec moins de 2,15 $/jour dans le monde ?</div>
+    <div class="options"><div class="opt" id="g5-q7-optA" onclick="answer('g5-quiz',7,'A','C','g5')">A. 10 millions</div>
+<div class="opt" id="g5-q7-optB" onclick="answer('g5-quiz',7,'B','C','g5')">B. 100 millions</div>
+<div class="opt" id="g5-q7-optC" onclick="answer('g5-quiz',7,'C','C','g5')">C. 700 millions</div>
+<div class="opt" id="g5-q7-optD" onclick="answer('g5-quiz',7,'D','C','g5')">D. 2 milliards</div>
+</div>
+    <div class="expl ok" id="g5-q7-ok">✓ Bonne réponse ! Environ 700 millions de personnes vivent sous le seuil de pauvreté extrême (moins de 2,15 $/jour).</div>
+    <div class="expl ko" id="g5-q7-ko">✗ À revoir. <b>700 millions</b> de personnes vivent dans l'extrême pauvreté. La majorité se trouve en Afrique subsaharienne et en Asie du Sud.</div>
+  </div>
+</div><div class="q-card" id="g5-q8">
+  <div class="q-num">Question 8</div>
+  <div class="q-body">
+    <div class="q-text">Quelle est la principale cause historique des inégalités entre pays du Nord et pays du Sud ?</div>
+    <div class="options"><div class="opt" id="g5-q8-optA" onclick="answer('g5-quiz',8,'A','B','g5')">A. Le manque de ressources naturelles dans les pays du Sud</div>
+<div class="opt" id="g5-q8-optB" onclick="answer('g5-quiz',8,'B','B','g5')">B. La colonisation qui a exploité les pays du Sud</div>
+<div class="opt" id="g5-q8-optC" onclick="answer('g5-quiz',8,'C','B','g5')">C. Le refus du commerce international par les pays du Sud</div>
+<div class="opt" id="g5-q8-optD" onclick="answer('g5-quiz',8,'D','B','g5')">D. La taille des pays du Sud</div>
+</div>
+    <div class="expl ok" id="g5-q8-ok">✓ Bonne réponse ! La colonisation a exploité les ressources et les populations des pays du Sud, retardant leur développement.</div>
+    <div class="expl ko" id="g5-q8-ko">✗ À revoir. La <b>colonisation</b> est une cause majeure des inégalités. Les pays colonisateurs ont exploité les ressources, imposé des cultures d'exportation et laissé peu d'industries locales.</div>
+  </div>
+</div><div class="q-card" id="g5-q9">
+  <div class="q-num">Question 9</div>
+  <div class="q-body">
+    <div class="q-text">Quel pays possède l'IDH le plus élevé au monde ?</div>
+    <div class="options"><div class="opt" id="g5-q9-optA" onclick="answer('g5-quiz',9,'A','C','g5')">A. Les États-Unis</div>
+<div class="opt" id="g5-q9-optB" onclick="answer('g5-quiz',9,'B','C','g5')">B. La Norvège</div>
+<div class="opt" id="g5-q9-optC" onclick="answer('g5-quiz',9,'C','C','g5')">C. La Suisse</div>
+<div class="opt" id="g5-q9-optD" onclick="answer('g5-quiz',9,'D','C','g5')">D. Le Japon</div>
+</div>
+    <div class="expl ok" id="g5-q9-ok">✓ Bonne réponse ! La Suisse a l'IDH le plus élevé avec 0,962 (rapport 2022). La Norvège était longtemps en tête.</div>
+    <div class="expl ko" id="g5-q9-ko">✗ À revoir. En 2022, la <b>Suisse</b> avait l'IDH le plus élevé (0,962). La France a un IDH de 0,903. Plus l'IDH est proche de 1, meilleur est le développement.</div>
+  </div>
+</div><div class="q-card" id="g5-q10">
+  <div class="q-num">Question 10</div>
+  <div class="q-body">
+    <div class="q-text">Les inégalités de développement existent-elles uniquement entre pays ?</div>
+    <div class="options"><div class="opt" id="g5-q10-optA" onclick="answer('g5-quiz',10,'A','B','g5')">A. Oui, seulement entre pays riches et pays pauvres</div>
+<div class="opt" id="g5-q10-optB" onclick="answer('g5-quiz',10,'B','B','g5')">B. Non, elles existent aussi à l'intérieur de chaque pays</div>
+<div class="opt" id="g5-q10-optC" onclick="answer('g5-quiz',10,'C','B','g5')">C. Non, elles ont disparu grâce à la mondialisation</div>
+<div class="opt" id="g5-q10-optD" onclick="answer('g5-quiz',10,'D','B','g5')">D. Oui, seulement entre le Nord et le Sud</div>
+</div>
+    <div class="expl ok" id="g5-q10-ok">✓ Bonne réponse ! Les inégalités existent entre pays mais aussi à l'intérieur des pays (entre riches et pauvres, entre villes et campagnes).</div>
+    <div class="expl ko" id="g5-q10-ko">✗ À revoir. Les inégalités sont <b>à toutes les échelles</b> : entre pays ET à l'intérieur des pays. Même les pays riches comme les USA ont des poches de pauvreté.</div>
+  </div>
+</div><div class="q-card" id="g5-q11">
+  <div class="q-num">Question 11</div>
+  <div class="q-body">
+    <div class="q-text">Comment la Chine a-t-elle réduit la pauvreté ?</div>
+    <div class="options"><div class="opt" id="g5-q11-optA" onclick="answer('g5-quiz',11,'A','B','g5')">A. En recevant d'énormes aides internationales</div>
+<div class="opt" id="g5-q11-optB" onclick="answer('g5-quiz',11,'B','B','g5')">B. Grâce à une forte croissance économique et une industrialisation massive</div>
+<div class="opt" id="g5-q11-optC" onclick="answer('g5-quiz',11,'C','B','g5')">C. En réduisant sa population</div>
+<div class="opt" id="g5-q11-optD" onclick="answer('g5-quiz',11,'D','B','g5')">D. En exportant uniquement des matières premières</div>
+</div>
+    <div class="expl ok" id="g5-q11-ok">✓ Bonne réponse ! La Chine a sorti 800 millions de personnes de la pauvreté en 40 ans grâce à une industrialisation accélérée et une ouverture au commerce mondial.</div>
+    <div class="expl ko" id="g5-q11-ko">✗ À revoir. La <b>Chine</b> est un cas unique : forte industrialisation, exportations massives, investissements. Elle a sorti 800 millions de personnes de la pauvreté entre 1980 et 2020.</div>
+  </div>
+</div><div class="q-card" id="g5-q12">
+  <div class="q-num">Question 12</div>
+  <div class="q-body">
+    <div class="q-text">Quel lien y a-t-il entre changement climatique et inégalités de développement ?</div>
+    <div class="options"><div class="opt" id="g5-q12-optA" onclick="answer('g5-quiz',12,'A','B','g5')">A. Le changement climatique touche tous les pays de façon identique</div>
+<div class="opt" id="g5-q12-optB" onclick="answer('g5-quiz',12,'B','B','g5')">B. Les pays les plus pauvres sont les plus vulnérables au changement climatique alors qu'ils en sont les moins responsables</div>
+<div class="opt" id="g5-q12-optC" onclick="answer('g5-quiz',12,'C','B','g5')">C. Le changement climatique favorise le développement des pays pauvres</div>
+<div class="opt" id="g5-q12-optD" onclick="answer('g5-quiz',12,'D','B','g5')">D. Il n'y a aucun lien</div>
+</div>
+    <div class="expl ok" id="g5-q12-ok">✓ Bonne réponse ! Les pays les plus pauvres subissent davantage les conséquences (sécheresses, inondations) tout en ayant émis peu de CO₂.</div>
+    <div class="expl ko" id="g5-q12-ko">✗ À revoir. C'est une grande <b>injustice climatique</b> : les pays pauvres émettent peu de CO₂ mais subissent le plus les effets du réchauffement (sécheresses, cyclones, montée des eaux).</div>
+  </div>
+</div><div class="score-box" id="g5-quiz-score"><div class="score-num" id="g5-quiz-score-num"></div><div class="score-msg" id="g5-quiz-score-msg"></div><button class="btn-reset" onclick="resetQuiz('g5-quiz','g5',12)">Recommencer</button></div>
+</div>
+</div>
+<div class="tab-content " id="g5-tab2">
+<div class="container">
+<div class="source-doc"><div class="src-label">📄 DOCUMENT — Sujet type Brevet</div>En 2022, l'IDH mondial moyen était de 0,732. Mais derrière cette moyenne se cachent d'immenses inégalités : l'IDH de la Suisse atteint 0,962, tandis que celui du Niger n'est que de 0,394. L'Inde, pays émergent, a un IDH de 0,633. Ces écarts reflètent des différences d'espérance de vie, d'accès à l'éducation et de niveau de vie. Au Niger, 40 % de la population vit sous le seuil de pauvreté, l'accès à l'eau potable n'est pas garanti pour tous et le taux d'alphabétisation des adultes n'est que de 37 %. À l'inverse, en France, l'espérance de vie est de 82 ans et la quasi-totalité de la population sait lire et écrire. Ces inégalités sont notamment héritées de l'histoire coloniale.</div><div class="brev-q">
+  <div class="brev-qhead">Question 1 — Compréhension <span class="points">4 pts</span></div>
+  <div class="brev-qbody">
+    <p>D'après le document, quels indicateurs permettent de mesurer le développement humain ? Donnez des exemples précis pour deux pays.</p>
+    <textarea placeholder="Rédige ta réponse ici..."></textarea>
+    <button class="btn-corr" onclick="toggleCorr(this)">Voir la correction ▼</button>
+    <div class="corr-block"><h4>✅ Correction</h4><p>L'IDH mesure trois indicateurs : <b>l'espérance de vie</b>, <b>l'accès à l'éducation</b> et <b>le niveau de vie</b>.</p><p>Exemple pour la <b>France</b> : espérance de vie de 82 ans, quasi-totalité de la population alphabétisée, IDH de 0,903.</p><p>Exemple pour le <b>Niger</b> : IDH de 0,394, seulement 37 % d'adultes alphabétisés, 40 % de la population sous le seuil de pauvreté.</p><div class="methode-box"><b>📌 Méthode</b> Répondre précisément avec des chiffres tirés du document. Toujours nommer les pays et les indicateurs.</div></div>
+  </div>
+</div><div class="brev-q">
+  <div class="brev-qhead">Question 2 — Analyse <span class="points">6 pts</span></div>
+  <div class="brev-qbody">
+    <p>Quelles sont les causes des inégalités de développement entre les pays ? Citez au moins trois causes.</p>
+    <textarea placeholder="Rédige ta réponse ici..."></textarea>
+    <button class="btn-corr" onclick="toggleCorr(this)">Voir la correction ▼</button>
+    <div class="corr-block"><h4>✅ Correction</h4><p><b>Cause 1 — L'histoire coloniale :</b> le document mentionne que les inégalités sont héritées de l'histoire coloniale. Les pays colonisés ont été exploités et n'ont pas pu développer leurs propres industries.</p><p><b>Cause 2 — L'endettement :</b> de nombreux pays pauvres consacrent une large part de leurs revenus au remboursement de leurs dettes, ce qui limite leurs investissements en santé et éducation.</p><p><b>Cause 3 — Les conflits armés :</b> les guerres détruisent les infrastructures et font fuir les populations, empêchant tout développement économique.</p><p><b>Cause 4 — Le changement climatique :</b> les pays les plus pauvres sont les plus vulnérables (sécheresses, inondations) ce qui aggrave leur situation.</p><div class="methode-box"><b>📌 Méthode</b> Pour les causes, utilise tes connaissances du cours en plus du document. Structure ta réponse avec des titres ou des numéros.</div><div class="vocab-box"><b>📚 Vocabulaire</b> <b>IDH</b> = Indice de Développement Humain. <b>PIB</b> = Produit Intérieur Brut. <b>PMA</b> = Pays les Moins Avancés. <b>Pays émergents</b> = pays en forte croissance économique.</div></div>
+  </div>
+</div><div class="brev-q">
+  <div class="brev-qhead">Question 3 — Développement construit <span class="points">10 pts</span></div>
+  <div class="brev-qbody">
+    <p>À partir du document et de vos connaissances, montrez que le monde est marqué par de profondes inégalités de développement, en vous appuyant sur des exemples précis.</p>
+    <textarea placeholder="Rédige ta réponse ici..."></textarea>
+    <button class="btn-corr" onclick="toggleCorr(this)">Voir la correction ▼</button>
+    <div class="corr-block"><h4>✅ Correction</h4><p><b>I. Des inégalités entre les pays</b></p><p>Le monde est divisé entre pays développés du Nord (IDH proche de 1 : Suisse 0,962, France 0,903) et pays pauvres du Sud (Niger 0,394). Ces écarts se mesurent à travers l'espérance de vie (84 ans au Japon contre 53 au Niger), l'éducation (37 % d'adultes alphabétisés au Niger) et le niveau de vie (PIB/habitant de 80 000 $ aux USA contre 600 $ au Niger).</p><p><b>II. Des pays émergents qui réduisent les inégalités</b></p><p>Certains pays du Sud ont fortement réduit les inégalités grâce à leur croissance économique. La Chine (IDH 0,788) a sorti 800 millions de personnes de la pauvreté. L'Inde (IDH 0,633) connaît une croissance rapide. Ces pays forment les BRICS.</p><p><b>III. Des inégalités qui persistent et s'aggravent</b></p><p>700 millions de personnes vivent encore dans l'extrême pauvreté. Les PMA, principalement en Afrique subsaharienne, restent très en retard. Le changement climatique aggrave la situation des plus pauvres. Ces inégalités ont des causes historiques (colonisation), économiques (dettes) et politiques (conflits).</p><div class="methode-box"><b>📌 Méthode</b> Structure en 3 parties équilibrées. Chaque partie doit contenir une idée + des exemples avec des chiffres et des noms de pays. Conclure en synthétisant.</div><div class="vocab-box"><b>📚 Vocabulaire clé</b> <b>IDH</b> : indice 0 à 1. <b>PMA</b> : pays les plus pauvres. <b>BRICS</b> : pays émergents. <b>Inégalités de développement</b> : écarts entre pays riches et pauvres.</div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<script>
+
+var currentTab = {};
+function showTab(sid, n) {
+  var tabs = document.querySelectorAll('#'+sid+' .tab');
+  var contents = document.querySelectorAll('#'+sid+' .tab-content');
+  for(var i=0;i<tabs.length;i++){tabs[i].classList.remove('active');contents[i].classList.remove('active');}
+  tabs[n].classList.add('active');contents[n].classList.add('active');
+}
+var qDone={}, qScore={}, qTotal={};
+function initQuiz(qid,total){qDone[qid]={};qScore[qid]=0;qTotal[qid]=total;}
+function answer(qid,qnum,chosen,correct,sid){
+  if(qDone[qid][qnum])return;
+  qDone[qid][qnum]=true;
+  var opts=document.querySelectorAll('#'+sid+'-q'+qnum+' .opt');
+  for(var i=0;i<opts.length;i++){opts[i].style.pointerEvents='none';}
+  var el=document.getElementById(sid+'-q'+qnum+'-opt'+chosen);
+  if(chosen===correct){
+    el.classList.add('correct');
+    qScore[qid]++;
+    var ex=document.getElementById(sid+'-q'+qnum+'-ok');
+    if(ex)ex.style.display='block';
+  } else {
+    el.classList.add('wrong');
+    var ex2=document.getElementById(sid+'-q'+qnum+'-ko');
+    if(ex2)ex2.style.display='block';
+    var cel=document.getElementById(sid+'-q'+qnum+'-opt'+correct);
+    if(cel)cel.classList.add('reveal');
+  }
+  var keys=Object.keys(qDone[qid]);
+  if(keys.length===qTotal[qid]){
+    var sc=document.getElementById(qid+'-score');
+    sc.style.display='block';
+    var pct=Math.round(qScore[qid]/qTotal[qid]*100);
+    var msg='';
+    if(pct===100)msg='Parfait ! 🎉 Tu maîtrises ce chapitre !';
+    else if(pct>=75)msg='Très bien ! Relis les corrections en rouge.';
+    else if(pct>=50)msg='Pas mal ! Revois la fiche de cours.';
+    else msg='Continue les révisions ! Relis bien la fiche.';
+    document.getElementById(qid+'-score-num').textContent=qScore[qid]+'/'+qTotal[qid];
+    document.getElementById(qid+'-score-msg').textContent=msg;
+  }
+}
+function resetQuiz(qid,sid,total){
+  qDone[qid]={};qScore[qid]=0;
+  var opts=document.querySelectorAll('#'+sid+'-quiz .opt');
+  for(var i=0;i<opts.length;i++){
+    opts[i].className='opt';opts[i].style.pointerEvents='';
+  }
+  var expls=document.querySelectorAll('#'+sid+'-quiz .expl');
+  for(var i=0;i<expls.length;i++){expls[i].style.display='none';}
+  var sc=document.getElementById(qid+'-score');
+  if(sc)sc.style.display='none';
+}
+function toggleCorr(btn){
+  var c=btn.nextElementSibling;
+  if(c.classList.contains('open')){c.classList.remove('open');btn.textContent='Voir la correction ▼';}
+  else{c.classList.add('open');btn.textContent='Masquer la correction ▲';}
+}
+
+initQuiz('g5-quiz', 12);
+</script>
+</body>
+</html>

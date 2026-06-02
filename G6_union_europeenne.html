@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G6 — L'Union européenne</title>
+<style>
+:root{
+  --bleu:#1A5276;--bleu-light:#D6EAF8;--bleu-dark:#154360;
+  --vert:#1E8449;--vert-light:#D5F5E3;
+  --rouge:#C0392B;--rouge-light:#FADBD8;
+  --orange:#D35400;--orange-light:#FDEBD0;
+  --violet:#6C3483;
+  --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+  --border:#DEE2E6;--radius:10px;
+}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;padding-bottom:40px}
+
+.header{background:var(--bleu);color:white;padding:20px 16px 0}
+.header-top{text-align:center;padding-bottom:16px}
+.header h1{font-size:21px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:13px;opacity:.85;margin-bottom:10px}
+.header .badges{display:-webkit-flex;display:flex;gap:8px;-webkit-justify-content:center;justify-content:center;-webkit-flex-wrap:wrap;flex-wrap:wrap;margin-bottom:14px}
+.badge{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12px;color:white}
+
+.tabs{display:-webkit-flex;display:flex;background:var(--bleu-dark);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab{padding:12px 18px;font-size:13px;font-weight:600;color:rgba(255,255,255,.65);cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;-webkit-tap-highlight-color:transparent}
+.tab.active{color:white;border-bottom-color:white}
+
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+.tab-content{display:none}.tab-content.active{display:block}
+
+/* Fiche */
+.section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:18px;overflow:hidden}
+.section-head{background:var(--bleu);color:white;padding:11px 16px;font-size:14px;font-weight:700}
+.section-body{padding:16px}
+.notion{margin-bottom:14px}
+.notion:last-child{margin-bottom:0}
+.notion-title{font-weight:700;color:var(--bleu);font-size:14px;margin-bottom:6px}
+.notion p{font-size:14px;line-height:1.75;margin-bottom:6px}
+.notion p:last-child{margin-bottom:0}
+.def-box{background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;font-size:13px;margin:8px 0;line-height:1.6}
+.def-box b{color:var(--bleu)}
+.exemple-box{background:#F0F9FF;border:1px solid #AED6F1;border-radius:6px;padding:10px 14px;font-size:13px;margin:8px 0;line-height:1.6}
+.chiffre-box{background:var(--bleu-light);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:13px;line-height:1.7}
+.chiffre-box b{color:var(--bleu);font-size:14px}
+.retenir{background:#FFF9C4;border:1px solid #F9A825;border-radius:6px;padding:10px 14px;font-size:13px;margin-top:10px;line-height:1.6}
+.retenir b{color:#E65100}
+
+/* Quiz */
+.quiz-intro{background:var(--bleu-light);border:1px solid var(--bleu);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--bleu)}
+.q-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+.q-num{background:var(--bleu);color:white;padding:8px 14px;font-size:13px;font-weight:700}
+.q-body{padding:14px}
+.q-text{font-size:14px;font-weight:600;margin-bottom:12px;line-height:1.5}
+.options{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:8px}
+.opt{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:10px;padding:10px 14px;border:1px solid var(--border);border-radius:6px;cursor:pointer;background:white;font-size:14px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+.opt:hover{border-color:var(--bleu)}
+.opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:700}
+.opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+.opt.reveal{background:var(--vert-light);border-color:var(--vert)}
+.expl{display:none;margin-top:10px;padding:10px 14px;border-radius:6px;font-size:13px;line-height:1.6}
+.expl.ok{background:var(--vert-light);border:1px solid var(--vert);color:var(--vert)}
+.expl.ko{background:var(--rouge-light);border:1px solid var(--rouge);color:var(--rouge)}
+.score-box{background:var(--bleu);color:white;border-radius:10px;padding:18px;text-align:center;margin-top:20px;display:none}
+.score-box .score-num{font-size:32px;font-weight:700;margin-bottom:6px}
+.score-box .score-msg{font-size:14px;opacity:.9}
+.btn-reset{margin-top:14px;background:white;color:var(--bleu);border:none;border-radius:6px;padding:10px 24px;font-size:14px;font-weight:700;cursor:pointer}
+
+/* Brevet */
+.source-doc{background:var(--bleu-light);border:1px solid var(--bleu);border-radius:8px;padding:14px 16px;margin-bottom:20px;font-size:13px;line-height:1.7;color:var(--text)}
+.source-doc .src-label{font-weight:700;color:var(--bleu);font-size:12px;letter-spacing:.5px;margin-bottom:8px}
+.brev-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+.brev-qhead{background:var(--bleu);color:white;padding:10px 16px;font-size:13px;font-weight:700}
+.brev-qbody{padding:14px}
+.brev-qbody p{font-size:14px;line-height:1.6;margin-bottom:8px}
+.brev-qbody p:last-of-type{margin-bottom:0}
+.points{background:rgba(255,255,255,.25);border-radius:10px;padding:1px 10px;font-size:11px;margin-left:8px}
+textarea{width:100%;min-height:90px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;resize:vertical;margin-top:10px;-webkit-box-sizing:border-box;box-sizing:border-box}
+textarea:focus{outline:2px solid var(--bleu);border-color:var(--bleu)}
+.btn-corr{background:var(--bleu);color:white;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.corr-block{display:none;margin-top:14px;background:var(--vert-light);border:1px solid var(--vert);border-radius:8px;padding:14px}
+.corr-block.open{display:block}
+.corr-block h4{color:var(--vert);font-size:14px;margin-bottom:10px;font-weight:700}
+.corr-block p{font-size:14px;line-height:1.75;margin-bottom:8px}
+.corr-block p:last-child{margin-bottom:0}
+.methode-box{background:#E8F4F8;border-left:4px solid var(--bleu);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--bleu);line-height:1.6}
+.methode-box b{display:block;margin-bottom:4px}
+.vocab-box{background:#FEF9E7;border-left:4px solid var(--orange);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:13px;color:#7D5A00;line-height:1.6}
+.vocab-box b{display:block;margin-bottom:4px;color:var(--orange)}
+@media(max-width:500px){.header h1{font-size:18px}.tab{padding:10px 14px;font-size:12px}}
+</style>
+</head>
+<body id="g6">
+<div class="header">
+  <div class="header-top">
+    <h1>🌍 L'Union européenne</h1>
+    <div class="sub">Géographie · Brevet 2026</div>
+    <div class="badges">
+      <span class="badge">📚 Fiche de cours</span>
+      <span class="badge">❓ 12 questions</span>
+      <span class="badge">📝 Exercice Brevet</span>
+    </div>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('g6',0)">📖 Fiche de cours</div>
+<div class="tab " onclick="showTab('g6',1)">❓ Quiz</div>
+<div class="tab " onclick="showTab('g6',2)">📝 Exercice Brevet</div>
+
+  </div>
+</div>
+<div class="tab-content active" id="g6-tab0">
+<div class="container">
+<div class="section"><div class="section-head">I. Construction et fonctionnement de l'UE</div><div class="section-body"><div class="notion"><div class="notion-title">Histoire de la construction européenne</div><p>L'Union européenne est née progressivement après la Seconde Guerre mondiale pour <b>assurer la paix</b> et la prospérité en Europe.</p><p><b>1951</b> : CECA (Communauté Européenne du Charbon et de l'Acier) — France, RFA, Italie, Belgique, Pays-Bas, Luxembourg.</p><p><b>1957</b> : Traité de Rome → Communauté Économique Européenne (CEE).</p><p><b>1992</b> : Traité de Maastricht → création de l'Union européenne (UE).</p><p><b>1995</b> : Espace Schengen → libre circulation des personnes.</p><p><b>2002</b> : adoption de l'euro dans 12 pays.</p><p><b>2016</b> : Brexit — le Royaume-Uni vote pour quitter l'UE (effectif en 2020).</p></div>
+<div class="chiffre-box"><b>L'UE en chiffres</b><br>27 pays membres (depuis le Brexit) | 450 millions d'habitants | 3e économie mondiale | 20 pays utilisent l'euro (zone euro) | Capitale administrative : Bruxelles (Belgique)</div>
+<div class="notion"><div class="notion-title">Les institutions européennes</div><p><b>Le Parlement européen</b> (Strasbourg, France) : représente les citoyens européens. Élu tous les 5 ans.</p><p><b>Le Conseil de l'Union européenne</b> : représente les gouvernements des États membres.</p><p><b>La Commission européenne</b> (Bruxelles) : propose les lois et veille à leur application.</p><p><b>La BCE</b> (Banque Centrale Européenne, Francfort) : gère la politique monétaire de la zone euro.</p></div></div></div><div class="section"><div class="section-head">II. Ce que l'UE apporte à ses citoyens</div><div class="section-body"><div class="notion"><div class="notion-title">La libre circulation</div><p>L'<b>espace Schengen</b> permet aux citoyens de se déplacer librement entre 26 pays sans contrôle aux frontières.</p><p>Les Européens peuvent <b>vivre, travailler et étudier</b> dans n'importe quel pays de l'UE.</p><p>Le programme <b>Erasmus</b> permet à des millions d'étudiants d'étudier dans un autre pays européen.</p></div>
+<div class="notion"><div class="notion-title">L'euro et le marché unique</div><p>L'<b>euro</b> est la monnaie commune de 20 pays. Il facilite les échanges commerciaux, le tourisme et supprime les risques de change.</p><p>Le <b>marché unique</b> permet la libre circulation des marchandises, des services, des capitaux et des personnes entre les pays membres.</p></div>
+<div class="notion"><div class="notion-title">La cohésion régionale</div><p>Les <b>fonds structurels</b> européens financent le développement des régions les plus pauvres de l'UE (Pologne, Roumanie, régions d'outre-mer).</p><p>L'objectif est de réduire les inégalités entre les régions riches et pauvres de l'UE.</p></div>
+<div class="chiffre-box"><b>L'euro</b><br>1 euro = monnaie de 20 pays depuis 2023 | Créé en 1999 pour les échanges financiers, en 2002 pour les billets et pièces | Pays hors zone euro dans l'UE : Pologne, Suède, Hongrie...</div></div></div><div class="section"><div class="section-head">III. Les défis de l'UE</div><div class="section-body"><div class="notion"><div class="notion-title">Des inégalités internes</div><p>L'UE n'est pas homogène : le PIB par habitant du Luxembourg (118 000 €) est 5 fois supérieur à celui de la Bulgarie (23 000 €).</p><p>Les pays de l'Est (Pologne, Roumanie, Bulgarie) sont plus pauvres que les pays de l'Ouest (Allemagne, France, Pays-Bas).</p></div>
+<div class="notion"><div class="notion-title">Des tensions politiques</div><p>Certains pays remettent en question les valeurs fondamentales de l'UE (état de droit, démocratie).</p><p>Le <b>Brexit</b> (sortie du Royaume-Uni en 2020) a fragilisé l'image de l'UE et posé des questions sur son avenir.</p><p>La montée des partis eurosceptiques dans plusieurs pays interroge le projet européen.</p></div>
+<div class="notion"><div class="notion-title">Des défis communs</div><p><b>La crise climatique</b> : le Pacte Vert européen vise la neutralité carbone en 2050.</p><p><b>La sécurité</b> : la guerre en Ukraine depuis 2022 a relancé le débat sur une défense européenne commune.</p><p><b>La migration</b> : les États membres ont du mal à s'entendre sur une politique migratoire commune.</p></div>
+<div class="retenir"><b>⚠️ À retenir :</b> L'UE est à la fois une réussite (paix, prospérité, libre circulation) et un projet en construction face à de nombreux défis (inégalités, Brexit, migrations, sécurité).</div></div></div>
+</div>
+</div>
+<div class="tab-content " id="g6-tab1">
+<div class="container">
+<div class="quiz-intro">12 questions sur l'Union européenne. Clique sur ta réponse.</div><div class="q-card" id="g6-q1">
+  <div class="q-num">Question 1</div>
+  <div class="q-body">
+    <div class="q-text">Combien de pays membres compte l'UE aujourd'hui ?</div>
+    <div class="options"><div class="opt" id="g6-q1-optA" onclick="answer('g6-quiz',1,'A','B','g6')">A. 25</div>
+<div class="opt" id="g6-q1-optB" onclick="answer('g6-quiz',1,'B','B','g6')">B. 27</div>
+<div class="opt" id="g6-q1-optC" onclick="answer('g6-quiz',1,'C','B','g6')">C. 28</div>
+<div class="opt" id="g6-q1-optD" onclick="answer('g6-quiz',1,'D','B','g6')">D. 30</div>
+</div>
+    <div class="expl ok" id="g6-q1-ok">✓ Bonne réponse ! L'UE compte 27 membres depuis le Brexit (sortie du Royaume-Uni en 2020).</div>
+    <div class="expl ko" id="g6-q1-ko">✗ À revoir. L'UE a <b>27 membres</b> depuis 2020. Avant le Brexit, elle en comptait 28. La France, l'Allemagne, l'Italie, l'Espagne et la Pologne sont parmi les plus grands.</div>
+  </div>
+</div><div class="q-card" id="g6-q2">
+  <div class="q-num">Question 2</div>
+  <div class="q-body">
+    <div class="q-text">Quel traité a officiellement créé l'Union européenne ?</div>
+    <div class="options"><div class="opt" id="g6-q2-optA" onclick="answer('g6-quiz',2,'A','B','g6')">A. Le traité de Rome (1957)</div>
+<div class="opt" id="g6-q2-optB" onclick="answer('g6-quiz',2,'B','B','g6')">B. Le traité de Maastricht (1992)</div>
+<div class="opt" id="g6-q2-optC" onclick="answer('g6-quiz',2,'C','B','g6')">C. L'Acte unique européen (1986)</div>
+<div class="opt" id="g6-q2-optD" onclick="answer('g6-quiz',2,'D','B','g6')">D. Le traité de Lisbonne (2007)</div>
+</div>
+    <div class="expl ok" id="g6-q2-ok">✓ Bonne réponse ! Le traité de Maastricht (1992) a créé officiellement l'Union européenne et introduit la citoyenneté européenne.</div>
+    <div class="expl ko" id="g6-q2-ko">✗ À revoir. C'est le <b>traité de Maastricht (1992)</b> qui a créé l'UE. Le traité de Rome (1957) avait créé la CEE (Communauté Économique Européenne).</div>
+  </div>
+</div><div class="q-card" id="g6-q3">
+  <div class="q-num">Question 3</div>
+  <div class="q-body">
+    <div class="q-text">Qu'est-ce que l'espace Schengen ?</div>
+    <div class="options"><div class="opt" id="g6-q3-optA" onclick="answer('g6-quiz',3,'A','B','g6')">A. La zone euro</div>
+<div class="opt" id="g6-q3-optB" onclick="answer('g6-quiz',3,'B','B','g6')">B. Un espace de libre circulation des personnes sans contrôles aux frontières</div>
+<div class="opt" id="g6-q3-optC" onclick="answer('g6-quiz',3,'C','B','g6')">C. Un accord commercial avec la Chine</div>
+<div class="opt" id="g6-q3-optD" onclick="answer('g6-quiz',3,'D','B','g6')">D. La zone de défense européenne</div>
+</div>
+    <div class="expl ok" id="g6-q3-ok">✓ Bonne réponse ! L'espace Schengen (créé en 1995) permet de voyager entre 26 pays européens sans passeport ni contrôle aux frontières.</div>
+    <div class="expl ko" id="g6-q3-ko">✗ À revoir. L'<b>espace Schengen</b> = libre circulation des personnes entre 26 pays. Tu peux voyager de la France en Espagne ou en Allemagne sans montrer ton passeport.</div>
+  </div>
+</div><div class="q-card" id="g6-q4">
+  <div class="q-num">Question 4</div>
+  <div class="q-body">
+    <div class="q-text">Dans combien de pays l'euro est-il utilisé ?</div>
+    <div class="options"><div class="opt" id="g6-q4-optA" onclick="answer('g6-quiz',4,'A','C','g6')">A. Dans tous les 27 pays de l'UE</div>
+<div class="opt" id="g6-q4-optB" onclick="answer('g6-quiz',4,'B','C','g6')">B. Dans 15 pays</div>
+<div class="opt" id="g6-q4-optC" onclick="answer('g6-quiz',4,'C','C','g6')">C. Dans 20 pays</div>
+<div class="opt" id="g6-q4-optD" onclick="answer('g6-quiz',4,'D','C','g6')">D. Dans 10 pays</div>
+</div>
+    <div class="expl ok" id="g6-q4-ok">✓ Bonne réponse ! En 2023, 20 pays de l'UE utilisent l'euro. Les autres ont conservé leur monnaie nationale (Pologne, Suède, Hongrie...).</div>
+    <div class="expl ko" id="g6-q4-ko">✗ À revoir. L'euro est utilisé dans <b>20 pays</b> de l'UE. Certains membres ont gardé leur monnaie : la Pologne (zloty), la Suède (couronne), la Hongrie (forint).</div>
+  </div>
+</div><div class="q-card" id="g6-q5">
+  <div class="q-num">Question 5</div>
+  <div class="q-body">
+    <div class="q-text">Que signifie Brexit ?</div>
+    <div class="options"><div class="opt" id="g6-q5-optA" onclick="answer('g6-quiz',5,'A','B','g6')">A. L'entrée du Brésil dans l'UE</div>
+<div class="opt" id="g6-q5-optB" onclick="answer('g6-quiz',5,'B','B','g6')">B. La sortie du Royaume-Uni de l'Union européenne</div>
+<div class="opt" id="g6-q5-optC" onclick="answer('g6-quiz',5,'C','B','g6')">C. Un accord commercial entre le Royaume-Uni et l'UE</div>
+<div class="opt" id="g6-q5-optD" onclick="answer('g6-quiz',5,'D','B','g6')">D. La création d'une armée européenne</div>
+</div>
+    <div class="expl ok" id="g6-q5-ok">✓ Bonne réponse ! Brexit = British Exit. Le Royaume-Uni a voté en 2016 pour quitter l'UE et en est sorti officiellement en 2020.</div>
+    <div class="expl ko" id="g6-q5-ko">✗ À revoir. <b>Brexit = British Exit</b>. Le référendum de 2016 a vu 52 % des Britanniques voter pour quitter l'UE. C'est effectif depuis le 31 janvier 2020.</div>
+  </div>
+</div><div class="q-card" id="g6-q6">
+  <div class="q-num">Question 6</div>
+  <div class="q-body">
+    <div class="q-text">Où siège le Parlement européen ?</div>
+    <div class="options"><div class="opt" id="g6-q6-optA" onclick="answer('g6-quiz',6,'A','C','g6')">A. Bruxelles, Belgique</div>
+<div class="opt" id="g6-q6-optB" onclick="answer('g6-quiz',6,'B','C','g6')">B. Paris, France</div>
+<div class="opt" id="g6-q6-optC" onclick="answer('g6-quiz',6,'C','C','g6')">C. Strasbourg, France</div>
+<div class="opt" id="g6-q6-optD" onclick="answer('g6-quiz',6,'D','C','g6')">D. Genève, Suisse</div>
+</div>
+    <div class="expl ok" id="g6-q6-ok">✓ Bonne réponse ! Le Parlement européen siège à Strasbourg (France). La Commission européenne est à Bruxelles.</div>
+    <div class="expl ko" id="g6-q6-ko">✗ À revoir. Le <b>Parlement européen</b> siège à <b>Strasbourg</b>. La Commission européenne est à Bruxelles. La BCE est à Francfort.</div>
+  </div>
+</div><div class="q-card" id="g6-q7">
+  <div class="q-num">Question 7</div>
+  <div class="q-body">
+    <div class="q-text">Quel programme permet aux étudiants européens d'étudier dans un autre pays de l'UE ?</div>
+    <div class="options"><div class="opt" id="g6-q7-optA" onclick="answer('g6-quiz',7,'A','B','g6')">A. Le programme Horizon</div>
+<div class="opt" id="g6-q7-optB" onclick="answer('g6-quiz',7,'B','B','g6')">B. Le programme Erasmus</div>
+<div class="opt" id="g6-q7-optC" onclick="answer('g6-quiz',7,'C','B','g6')">C. Le programme Schengen</div>
+<div class="opt" id="g6-q7-optD" onclick="answer('g6-quiz',7,'D','B','g6')">D. Le programme Frontex</div>
+</div>
+    <div class="expl ok" id="g6-q7-ok">✓ Bonne réponse ! Le programme Erasmus (créé en 1987) a permis à plus de 10 millions d'étudiants d'étudier à l'étranger.</div>
+    <div class="expl ko" id="g6-q7-ko">✗ À revoir. <b>Erasmus</b> est le programme d'échanges universitaires européens. Plus de 10 millions d'étudiants en ont bénéficié depuis 1987.</div>
+  </div>
+</div><div class="q-card" id="g6-q8">
+  <div class="q-num">Question 8</div>
+  <div class="q-body">
+    <div class="q-text">Quel est le premier objectif qui a motivé la construction européenne après 1945 ?</div>
+    <div class="options"><div class="opt" id="g6-q8-optA" onclick="answer('g6-quiz',8,'A','B','g6')">A. Créer une monnaie unique</div>
+<div class="opt" id="g6-q8-optB" onclick="answer('g6-quiz',8,'B','B','g6')">B. Assurer la paix entre les pays européens</div>
+<div class="opt" id="g6-q8-optC" onclick="answer('g6-quiz',8,'C','B','g6')">C. Concurrencer les États-Unis</div>
+<div class="opt" id="g6-q8-optD" onclick="answer('g6-quiz',8,'D','B','g6')">D. Créer un empire européen</div>
+</div>
+    <div class="expl ok" id="g6-q8-ok">✓ Bonne réponse ! Après deux guerres mondiales, l'objectif principal était d'assurer une paix durable entre les nations européennes.</div>
+    <div class="expl ko" id="g6-q8-ko">✗ À revoir. La construction européenne est née de la volonté d'<b>assurer la paix</b> après les ravages des deux guerres mondiales. La réconciliation franco-allemande en est le symbole.</div>
+  </div>
+</div><div class="q-card" id="g6-q9">
+  <div class="q-num">Question 9</div>
+  <div class="q-body">
+    <div class="q-text">Qu'est-ce que le marché unique européen ?</div>
+    <div class="options"><div class="opt" id="g6-q9-optA" onclick="answer('g6-quiz',9,'A','B','g6')">A. Un grand supermarché à Bruxelles</div>
+<div class="opt" id="g6-q9-optB" onclick="answer('g6-quiz',9,'B','B','g6')">B. La libre circulation des marchandises, services, capitaux et personnes dans l'UE</div>
+<div class="opt" id="g6-q9-optC" onclick="answer('g6-quiz',9,'C','B','g6')">C. Un accord commercial entre l'UE et les USA</div>
+<div class="opt" id="g6-q9-optD" onclick="answer('g6-quiz',9,'D','B','g6')">D. La politique agricole commune</div>
+</div>
+    <div class="expl ok" id="g6-q9-ok">✓ Bonne réponse ! Le marché unique permet la libre circulation des 4 libertés : marchandises, services, capitaux et personnes.</div>
+    <div class="expl ko" id="g6-q9-ko">✗ À revoir. Le <b>marché unique</b> garantit 4 libertés de circulation : marchandises, services, capitaux et personnes. C'est l'un des grands acquis de l'UE.</div>
+  </div>
+</div><div class="q-card" id="g6-q10">
+  <div class="q-num">Question 10</div>
+  <div class="q-body">
+    <div class="q-text">Quel pays a le PIB par habitant le plus élevé au sein de l'UE ?</div>
+    <div class="options"><div class="opt" id="g6-q10-optA" onclick="answer('g6-quiz',10,'A','C','g6')">A. L'Allemagne</div>
+<div class="opt" id="g6-q10-optB" onclick="answer('g6-quiz',10,'B','C','g6')">B. La France</div>
+<div class="opt" id="g6-q10-optC" onclick="answer('g6-quiz',10,'C','C','g6')">C. Le Luxembourg</div>
+<div class="opt" id="g6-q10-optD" onclick="answer('g6-quiz',10,'D','C','g6')">D. La Suède</div>
+</div>
+    <div class="expl ok" id="g6-q10-ok">✓ Bonne réponse ! Le Luxembourg a le PIB par habitant le plus élevé de l'UE (environ 118 000 €), grâce à son secteur financier.</div>
+    <div class="expl ko" id="g6-q10-ko">✗ À revoir. Le <b>Luxembourg</b> est le pays le plus riche par habitant dans l'UE. C'est un petit pays avec un secteur bancaire très important.</div>
+  </div>
+</div><div class="q-card" id="g6-q11">
+  <div class="q-num">Question 11</div>
+  <div class="q-body">
+    <div class="q-text">Quelle est la principale conséquence économique du Brexit pour le Royaume-Uni ?</div>
+    <div class="options"><div class="opt" id="g6-q11-optA" onclick="answer('g6-quiz',11,'A','B','g6')">A. Il n'y a eu aucune conséquence</div>
+<div class="opt" id="g6-q11-optB" onclick="answer('g6-quiz',11,'B','B','g6')">B. Le Royaume-Uni est sorti du marché unique et a perdu la libre circulation avec l'UE</div>
+<div class="opt" id="g6-q11-optC" onclick="answer('g6-quiz',11,'C','B','g6')">C. Le Royaume-Uni a adopté l'euro</div>
+<div class="opt" id="g6-q11-optD" onclick="answer('g6-quiz',11,'D','B','g6')">D. Le Royaume-Uni est devenu plus riche</div>
+</div>
+    <div class="expl ok" id="g6-q11-ok">✓ Bonne réponse ! En quittant l'UE, le Royaume-Uni a perdu l'accès au marché unique, entraînant des complications commerciales et administratives.</div>
+    <div class="expl ko" id="g6-q11-ko">✗ À revoir. Le Brexit a privé le Royaume-Uni du <b>marché unique</b> : les échanges avec l'UE sont plus compliqués, et les ressortissants britanniques ont perdu la libre circulation en Europe.</div>
+  </div>
+</div><div class="q-card" id="g6-q12">
+  <div class="q-num">Question 12</div>
+  <div class="q-body">
+    <div class="q-text">Quel événement depuis 2022 a relancé le débat sur une défense européenne commune ?</div>
+    <div class="options"><div class="opt" id="g6-q12-optA" onclick="answer('g6-quiz',12,'A','C','g6')">A. La crise économique de 2020</div>
+<div class="opt" id="g6-q12-optB" onclick="answer('g6-quiz',12,'B','C','g6')">B. La pandémie de Covid-19</div>
+<div class="opt" id="g6-q12-optC" onclick="answer('g6-quiz',12,'C','C','g6')">C. La guerre en Ukraine</div>
+<div class="opt" id="g6-q12-optD" onclick="answer('g6-quiz',12,'D','C','g6')">D. Le Brexit</div>
+</div>
+    <div class="expl ok" id="g6-q12-ok">✓ Bonne réponse ! L'invasion de l'Ukraine par la Russie en février 2022 a montré la nécessité d'une politique de défense commune en Europe.</div>
+    <div class="expl ko" id="g6-q12-ko">✗ À revoir. La <b>guerre en Ukraine</b> (depuis 2022) a mis en évidence la vulnérabilité de l'Europe et relancé les discussions sur une armée européenne commune.</div>
+  </div>
+</div><div class="score-box" id="g6-quiz-score"><div class="score-num" id="g6-quiz-score-num"></div><div class="score-msg" id="g6-quiz-score-msg"></div><button class="btn-reset" onclick="resetQuiz('g6-quiz','g6',12)">Recommencer</button></div>
+</div>
+</div>
+<div class="tab-content " id="g6-tab2">
+<div class="container">
+<div class="source-doc"><div class="src-label">📄 DOCUMENT — Sujet type Brevet</div>L'Union européenne est fondée sur des valeurs communes : respect de la dignité humaine, liberté, démocratie, État de droit. Elle regroupe aujourd'hui 27 pays et 450 millions d'habitants. Le marché unique permet la libre circulation des personnes, des marchandises et des capitaux. En 2022, la guerre en Ukraine a mis l'UE face à un défi sécuritaire majeur : l'Union a imposé des sanctions économiques à la Russie et accueilli plus de 8 millions de réfugiés ukrainiens, le plus grand mouvement de réfugiés en Europe depuis la Seconde Guerre mondiale. Cependant, l'UE reste divisée sur sa politique étrangère et de défense. Certains États membres appellent à la création d'une véritable armée européenne, tandis que d'autres préfèrent s'en remettre à l'OTAN.</div><div class="brev-q">
+  <div class="brev-qhead">Question 1 — Compréhension <span class="points">4 pts</span></div>
+  <div class="brev-qbody">
+    <p>D'après le document, quelles sont les valeurs fondamentales de l'UE ? Quel défi majeur l'UE a-t-elle dû affronter en 2022 ?</p>
+    <textarea placeholder="Rédige ta réponse ici..."></textarea>
+    <button class="btn-corr" onclick="toggleCorr(this)">Voir la correction ▼</button>
+    <div class="corr-block"><h4>✅ Correction</h4><p><b>Valeurs fondamentales</b> : le document cite le respect de la dignité humaine, la liberté, la démocratie et l'État de droit.</p><p><b>Défi majeur en 2022</b> : la guerre en Ukraine a représenté un défi sécuritaire sans précédent. L'UE a imposé des sanctions économiques à la Russie et accueilli plus de 8 millions de réfugiés ukrainiens, le plus grand mouvement de réfugiés en Europe depuis 1945.</p><div class="methode-box"><b>📌 Méthode</b> Question de compréhension = répondre en s'appuyant directement sur le texte. Citer des éléments précis du document.</div></div>
+  </div>
+</div><div class="brev-q">
+  <div class="brev-qhead">Question 2 — Analyse <span class="points">6 pts</span></div>
+  <div class="brev-qbody">
+    <p>Quels sont les apports concrets de l'Union européenne pour les citoyens européens ? Donnez au moins trois exemples.</p>
+    <textarea placeholder="Rédige ta réponse ici..."></textarea>
+    <button class="btn-corr" onclick="toggleCorr(this)">Voir la correction ▼</button>
+    <div class="corr-block"><h4>✅ Correction</h4><p><b>1. La libre circulation</b> : grâce à l'espace Schengen, les citoyens européens peuvent voyager, vivre et travailler dans les 26 pays sans contrôle aux frontières.</p><p><b>2. L'euro</b> : 20 pays partagent la même monnaie, ce qui facilite les échanges, le tourisme et supprime le risque de change.</p><p><b>3. La protection des droits</b> : la Cour de Justice de l'UE et la Charte des droits fondamentaux protègent les citoyens.</p><p><b>4. Le programme Erasmus</b> : plus de 10 millions d'étudiants ont pu étudier dans un autre pays européen.</p><p><b>5. Les fonds structurels</b> : ils financent le développement des régions les plus pauvres et réduisent les inégalités internes.</p><div class="methode-box"><b>📌 Méthode</b> Pour chaque apport, donner un exemple concret. Utilise des connecteurs : "grâce à", "par exemple", "notamment".</div><div class="vocab-box"><b>📚 Vocabulaire</b> <b>Espace Schengen</b> = libre circulation sans frontières. <b>Marché unique</b> = libre circulation des biens et personnes. <b>Zone euro</b> = pays utilisant l'euro. <b>Brexit</b> = sortie du Royaume-Uni.</div></div>
+  </div>
+</div><div class="brev-q">
+  <div class="brev-qhead">Question 3 — Développement construit <span class="points">10 pts</span></div>
+  <div class="brev-qbody">
+    <p>À partir du document et de vos connaissances, montrez que l'Union européenne est à la fois une construction réussie et un projet confronté à de nombreux défis.</p>
+    <textarea placeholder="Rédige ta réponse ici..."></textarea>
+    <button class="btn-corr" onclick="toggleCorr(this)">Voir la correction ▼</button>
+    <div class="corr-block"><h4>✅ Correction</h4><p><b>I. Une construction réussie</b></p><p>L'UE est d'abord une réussite historique : depuis 1945, aucune guerre n'a éclaté entre ses membres, alors qu'avant 1945 l'Europe était dévastée par des conflits répétés. L'UE a apporté la paix et la prospérité. Le marché unique (libre circulation des biens, services, personnes) a favorisé la croissance économique. L'euro facilite les échanges entre 20 pays. Le programme Erasmus a permis à 10 millions d'étudiants de se former à l'étranger.</p><p><b>II. Un projet confronté à des défis internes</b></p><p>L'UE reste marquée par de fortes inégalités : le PIB par habitant du Luxembourg (118 000 €) est 5 fois supérieur à celui de la Bulgarie. Le Brexit (2020) a fragilisé l'image de l'UE. La montée des partis eurosceptiques dans plusieurs pays (Hongrie, Italie) remet en cause les valeurs communes.</p><p><b>III. Des défis externes majeurs</b></p><p>La guerre en Ukraine depuis 2022 a révélé la difficulté d'une politique étrangère commune et relancé le débat sur une défense européenne. La crise migratoire divise les États membres. Le Pacte Vert européen vise la neutralité carbone en 2050 mais peine à faire consensus.</p><div class="methode-box"><b>📌 Méthode</b> Le sujet invite à montrer deux aspects : les réussites ET les défis. Ne pas faire que du positif ou que du négatif. Structure en 3 parties claires avec des exemples précis.</div><div class="vocab-box"><b>📚 Vocabulaire clé</b> <b>UE</b> : 27 membres. <b>Marché unique</b> : libre circulation. <b>Euro</b> : 20 pays. <b>Brexit</b> : sortie UK. <b>Schengen</b> : sans frontières. <b>Eurosceptique</b> : opposé au projet européen.</div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<script>
+
+var currentTab = {};
+function showTab(sid, n) {
+  var tabs = document.querySelectorAll('#'+sid+' .tab');
+  var contents = document.querySelectorAll('#'+sid+' .tab-content');
+  for(var i=0;i<tabs.length;i++){tabs[i].classList.remove('active');contents[i].classList.remove('active');}
+  tabs[n].classList.add('active');contents[n].classList.add('active');
+}
+var qDone={}, qScore={}, qTotal={};
+function initQuiz(qid,total){qDone[qid]={};qScore[qid]=0;qTotal[qid]=total;}
+function answer(qid,qnum,chosen,correct,sid){
+  if(qDone[qid][qnum])return;
+  qDone[qid][qnum]=true;
+  var opts=document.querySelectorAll('#'+sid+'-q'+qnum+' .opt');
+  for(var i=0;i<opts.length;i++){opts[i].style.pointerEvents='none';}
+  var el=document.getElementById(sid+'-q'+qnum+'-opt'+chosen);
+  if(chosen===correct){
+    el.classList.add('correct');
+    qScore[qid]++;
+    var ex=document.getElementById(sid+'-q'+qnum+'-ok');
+    if(ex)ex.style.display='block';
+  } else {
+    el.classList.add('wrong');
+    var ex2=document.getElementById(sid+'-q'+qnum+'-ko');
+    if(ex2)ex2.style.display='block';
+    var cel=document.getElementById(sid+'-q'+qnum+'-opt'+correct);
+    if(cel)cel.classList.add('reveal');
+  }
+  var keys=Object.keys(qDone[qid]);
+  if(keys.length===qTotal[qid]){
+    var sc=document.getElementById(qid+'-score');
+    sc.style.display='block';
+    var pct=Math.round(qScore[qid]/qTotal[qid]*100);
+    var msg='';
+    if(pct===100)msg='Parfait ! 🎉 Tu maîtrises ce chapitre !';
+    else if(pct>=75)msg='Très bien ! Relis les corrections en rouge.';
+    else if(pct>=50)msg='Pas mal ! Revois la fiche de cours.';
+    else msg='Continue les révisions ! Relis bien la fiche.';
+    document.getElementById(qid+'-score-num').textContent=qScore[qid]+'/'+qTotal[qid];
+    document.getElementById(qid+'-score-msg').textContent=msg;
+  }
+}
+function resetQuiz(qid,sid,total){
+  qDone[qid]={};qScore[qid]=0;
+  var opts=document.querySelectorAll('#'+sid+'-quiz .opt');
+  for(var i=0;i<opts.length;i++){
+    opts[i].className='opt';opts[i].style.pointerEvents='';
+  }
+  var expls=document.querySelectorAll('#'+sid+'-quiz .expl');
+  for(var i=0;i<expls.length;i++){expls[i].style.display='none';}
+  var sc=document.getElementById(qid+'-score');
+  if(sc)sc.style.display='none';
+}
+function toggleCorr(btn){
+  var c=btn.nextElementSibling;
+  if(c.classList.contains('open')){c.classList.remove('open');btn.textContent='Voir la correction ▼';}
+  else{c.classList.add('open');btn.textContent='Masquer la correction ▲';}
+}
+
+initQuiz('g6-quiz', 12);
+</script>
+</body>
+</html>
