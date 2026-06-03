@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planning Maths — Brevet 2026 — Zachou</title>
+<style>
+:root{
+  --orange:#D35400;--orange-light:#FDEBD0;
+  --vert:#1E8449;--vert-light:#D5F5E3;
+  --rouge:#C0392B;--rouge-light:#FADBD8;
+  --bleu:#1A5276;--bleu-light:#D6EAF8;
+  --gris:#5D6D7E;--gris-light:#EAF2FF;
+  --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+  --border:#DEE2E6;--radius:10px;
+}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:60px;-webkit-tap-highlight-color:transparent}
+
+.hero{background:var(--orange);color:white;padding:24px 20px;text-align:center}
+.hero h1{font-size:20px;font-weight:700;margin-bottom:6px}
+.hero h1 span{color:#FFD700}
+.hero-sub{font-size:13px;opacity:.9;margin-bottom:14px}
+.exam-pill{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:6px 18px;font-size:13px;color:white;font-weight:700}
+.exam-pill b{color:#FFD700}
+
+.container{max-width:740px;margin:0 auto;padding:20px 14px}
+
+/* Barre de progression */
+.progress-bar-wrap{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:20px}
+.progress-label{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;margin-bottom:10px}
+.progress-title{font-size:13px;font-weight:700;color:var(--text)}
+.progress-count{font-size:13px;font-weight:700;color:var(--orange)}
+.progress-track{background:var(--gris-light);border-radius:10px;height:14px;overflow:hidden}
+.progress-fill{background:var(--orange);height:14px;border-radius:10px;-webkit-transition:width 0.3s;transition:width 0.3s}
+.progress-legend{display:-webkit-flex;display:flex;gap:16px;margin-top:10px;-webkit-flex-wrap:wrap;flex-wrap:wrap}
+.leg{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.leg-dot{width:10px;height:10px;border-radius:50%}
+.leg-done{background:var(--vert)}
+.leg-todo{background:var(--gris-light);border:1px solid var(--border)}
+
+/* Filtres */
+.filters{display:-webkit-flex;display:flex;gap:8px;-webkit-flex-wrap:wrap;flex-wrap:wrap;margin-bottom:20px}
+.fb{background:white;border:2px solid var(--border);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer}
+.fb.active{background:var(--orange);border-color:var(--orange);color:white}
+
+/* Section thème */
+.theme-head{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:12px;margin:24px 0 10px}
+.theme-badge{font-size:11px;font-weight:700;letter-spacing:1px;padding:4px 14px;border-radius:20px;background:var(--orange);color:white;white-space:nowrap}
+.theme-line{-webkit-flex:1;flex:1;height:1px;background:var(--border)}
+
+/* Cartes séquence */
+.seq-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:8px;display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:12px;cursor:pointer;-webkit-transition:border-color 0.15s;transition:border-color 0.15s}
+.seq-card:hover{border-color:var(--orange)}
+.seq-card.done{background:#FAFFF8;border-color:var(--vert)}
+
+.check-box{width:22px;height:22px;border-radius:5px;border:2px solid var(--border);-webkit-flex-shrink:0;flex-shrink:0;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;margin-top:1px;-webkit-transition:background 0.15s,border-color 0.15s;transition:background 0.15s,border-color 0.15s}
+.seq-card.done .check-box{background:var(--vert);border-color:var(--vert);color:white;font-size:13px}
+
+.seq-info{-webkit-flex:1;flex:1}
+.seq-code{font-size:11px;font-weight:700;color:var(--orange);margin-bottom:3px}
+.seq-card.done .seq-code{color:var(--vert)}
+.seq-title{font-size:13px;font-weight:600;color:var(--text);line-height:1.4}
+.seq-date{font-size:11px;color:var(--muted);margin-top:4px}
+.seq-card.done .seq-title{color:var(--gris)}
+.seq-card.done .seq-date{color:var(--vert)}
+
+.tag-fait{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:6px}
+.tag-todo{display:inline-block;background:var(--orange-light);color:var(--orange);border:1px solid var(--orange);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:6px}
+.tag-annales{display:inline-block;background:#c0392b;color:white;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:6px}
+
+/* Bouton reset */
+.btn-reset{display:block;margin:28px auto 0;background:white;border:2px solid var(--border);border-radius:20px;padding:8px 24px;font-size:12px;color:var(--muted);cursor:pointer;font-family:inherit}
+.btn-reset:hover{border-color:var(--rouge);color:var(--rouge)}
+
+/* Exam countdown */
+.exam-box{background:white;border:2px solid var(--orange);border-radius:var(--radius);padding:14px 18px;margin-bottom:20px;text-align:center}
+.exam-box-title{font-size:12px;color:var(--muted);margin-bottom:4px}
+.exam-box-days{font-size:28px;font-weight:700;color:var(--orange)}
+.exam-box-sub{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>📐 Planning Maths — <span>Zachou</span> 💪</h1>
+  <div class="hero-sub">39 séquences · Brevet Mathématiques</div>
+  <div class="exam-pill">Examen : <b>29 juin 2026</b></div>
+</div>
+
+<div class="container">
+
+  <div class="exam-box">
+    <div class="exam-box-title">Compte à rebours</div>
+    <div class="exam-box-days" id="jours-restants">—</div>
+    <div class="exam-box-sub">jours avant l'examen de maths (29 juin)</div>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-label">
+      <span class="progress-title">Progression globale</span>
+      <span class="progress-count" id="prog-count">0 / 39</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="prog-fill" style="width:0%"></div>
+    </div>
+    <div class="progress-legend">
+      <span class="leg"><span class="leg-dot leg-done"></span>Séquence cochée</span>
+      <span class="leg"><span class="leg-dot leg-todo"></span>Séquence à réviser</span>
+    </div>
+  </div>
+
+  <div class="filters">
+    <div class="fb active" onclick="filtrer('tous')">Tout voir</div>
+    <div class="fb" onclick="filtrer('nombres')">Nombres</div>
+    <div class="fb" onclick="filtrer('algebre')">Algèbre</div>
+    <div class="fb" onclick="filtrer('geometrie')">Géométrie</div>
+    <div class="fb" onclick="filtrer('stats')">Stats &amp; Probas</div>
+    <div class="fb" onclick="filtrer('fonctions')">Fonctions</div>
+    <div class="fb" onclick="filtrer('annales')">Annales</div>
+    <div class="fb" onclick="filtrer('non-coches')">Non cochés</div>
+  </div>
+
+  <div id="planning-container"></div>
+
+  <button class="btn-reset" onclick="resetTout()">🔄 Tout remettre à zéro</button>
+
+</div>
+
+<script>
+
+var SEQS = [
+  /* ── NOMBRES & CALCUL ── */
+  {id:'M01', theme:'nombres', label:'Nombres', titre:'Calcul avec les fractions', date:'3–4 juin', fait:true},
+  {id:'M02', theme:'nombres', label:'Nombres', titre:'Puissances et notation scientifique', date:'3–4 juin', fait:true},
+  {id:'M03', theme:'nombres', label:'Nombres', titre:'Racines carrées', date:'5–6 juin', fait:true},
+  {id:'M04', theme:'nombres', label:'Nombres', titre:'Calculs avec les relatifs', date:'5–6 juin', fait:true},
+  {id:'M05', theme:'nombres', label:'Nombres', titre:'Proportionnalité et pourcentages', date:'7–8 juin', fait:true},
+
+  /* ── ALGÈBRE & CALCUL LITTÉRAL ── */
+  {id:'M06', theme:'algebre', label:'Algèbre', titre:'Développer et factoriser', date:'7–8 juin', fait:true},
+  {id:'M07', theme:'algebre', label:'Algèbre', titre:'Identités remarquables', date:'9–10 juin', fait:true},
+  {id:'M08', theme:'algebre', label:'Algèbre', titre:'Équations du premier degré', date:'9–10 juin', fait:true},
+  {id:'M09', theme:'algebre', label:'Algèbre', titre:'Systèmes d\'équations', date:'11–12 juin', fait:true},
+  {id:'M10', theme:'algebre', label:'Algèbre', titre:'Inéquations', date:'11–12 juin', fait:true},
+
+  /* ── FONCTIONS ── */
+  {id:'M11', theme:'fonctions', label:'Fonctions', titre:'Fonctions — généralités et vocabulaire', date:'13–14 juin', fait:true},
+  {id:'M12', theme:'fonctions', label:'Fonctions', titre:'Fonction linéaire et affine', date:'13–14 juin', fait:true},
+  {id:'M13', theme:'fonctions', label:'Fonctions', titre:'Lire et interpréter un graphique', date:'15–16 juin', fait:true},
+  {id:'M14', theme:'fonctions', label:'Fonctions', titre:'Variations d\'une fonction', date:'15–16 juin', fait:true},
+
+  /* ── GÉOMÉTRIE ── */
+  {id:'M15', theme:'geometrie', label:'Géométrie', titre:'Théorème de Pythagore', date:'17–18 juin', fait:true},
+  {id:'M16', theme:'geometrie', label:'Géométrie', titre:'Trigonométrie (sin, cos, tan)', date:'17–18 juin', fait:true},
+  {id:'M17', theme:'geometrie', label:'Géométrie', titre:'Triangles semblables et théorème de Thalès', date:'19–20 juin', fait:true},
+  {id:'M18', theme:'geometrie', label:'Géométrie', titre:'Agrandissement et réduction', date:'19–20 juin', fait:true},
+  {id:'M19', theme:'geometrie', label:'Géométrie', titre:'Aires et volumes — révision', date:'21 juin', fait:true},
+  {id:'M20', theme:'geometrie', label:'Géométrie', titre:'Géométrie dans l\'espace (solides)', date:'21 juin', fait:true},
+
+  {id:'M21', theme:'geometrie', label:'Géométrie', titre:'Transformations : symétrie axiale et centrale', date:'4–5 juin', fait:true},
+  {id:'M22', theme:'geometrie', label:'Géométrie', titre:'Translation et rotation', date:'6–7 juin', fait:true},
+  {id:'M23', theme:'geometrie', label:'Géométrie', titre:'Cercles — propriétés et angles inscrits', date:'8–9 juin', fait:true},
+  {id:'M24', theme:'geometrie', label:'Géométrie', titre:'Vecteurs — notion et opérations', date:'10–11 juin', fait:true},
+  {id:'M25', theme:'geometrie', label:'Géométrie', titre:'Coordonnées et repérage dans le plan', date:'12–13 juin', fait:true},
+
+  /* ── STATS & PROBAS ── */
+  {id:'M26', theme:'stats', label:'Stats & Probas', titre:'Statistiques — moyenne, médiane, étendue', date:'14–15 juin', fait:true},
+  {id:'M27', theme:'stats', label:'Stats & Probas', titre:'Diagrammes statistiques', date:'14–15 juin', fait:true},
+  {id:'M28', theme:'stats', label:'Stats & Probas', titre:'Probabilités — vocabulaire et calcul', date:'16–17 juin', fait:true},
+  {id:'M29', theme:'stats', label:'Stats & Probas', titre:'Probabilités — tableaux et arbres', date:'16–17 juin', fait:true},
+
+  /* ── ALGÈBRE (suite) ── */
+  {id:'M30', theme:'algebre', label:'Algèbre', titre:'Équations du second degré (cas simples)', date:'18–19 juin', fait:true},
+  {id:'M31', theme:'algebre', label:'Algèbre', titre:'Factorisation avancée', date:'18–19 juin', fait:true},
+  {id:'M32', theme:'algebre', label:'Algèbre', titre:'Problèmes avec mise en équation', date:'20–21 juin', fait:true},
+  {id:'M33', theme:'algebre', label:'Algèbre', titre:'Suites numériques', date:'20–21 juin', fait:true},
+
+  /* ── NOMBRES (suite) ── */
+  {id:'M34', theme:'nombres', label:'Nombres', titre:'Divisibilité, PGCD et fractions irréductibles', date:'22 juin', fait:true},
+  {id:'M35', theme:'nombres', label:'Nombres', titre:'Nombres premiers', date:'22 juin', fait:true},
+
+  /* ── FONCTIONS (suite) ── */
+  {id:'M36', theme:'fonctions', label:'Fonctions', titre:'Fonction inverse et fonction carrée', date:'23 juin', fait:true},
+  {id:'M37', theme:'fonctions', label:'Fonctions', titre:'Résolution graphique d\'équations', date:'23 juin', fait:true},
+
+  /* ── RÉVISION GÉNÉRALE ── */
+  {id:'M38', theme:'algebre', label:'Algèbre', titre:'Révision générale — exercices croisés', date:'24–25 juin', fait:true},
+
+  /* ── ANNALES ── */
+  {id:'ANNALES', theme:'annales', label:'Annales', titre:'Annales officielles Brevet (2020–2024)', date:'Tout au long', fait:true, annales:true}
+];
+
+var filtreActif = 'tous';
+
+function getEtat(id){
+  try{
+    var v = localStorage.getItem('math_' + id);
+    return v === '1';
+  }catch(e){return false;}
+}
+
+function setEtat(id, val){
+  try{localStorage.setItem('math_' + id, val ? '1' : '0');}catch(e){}
+}
+
+function updateProgress(){
+  var total = SEQS.length;
+  var coches = 0;
+  for(var i=0;i<SEQS.length;i++){
+    if(getEtat(SEQS[i].id)) coches++;
+  }
+  var pct = Math.round((coches/total)*100);
+  document.getElementById('prog-count').textContent = coches + ' / ' + total;
+  document.getElementById('prog-fill').style.width = pct + '%';
+}
+
+function toggleSeq(id){
+  var actuel = getEtat(id);
+  setEtat(id, !actuel);
+  render();
+  updateProgress();
+}
+
+function filtrer(f){
+  filtreActif = f;
+  var btns = document.querySelectorAll('.fb');
+  for(var i=0;i<btns.length;i++) btns[i].classList.remove('active');
+  event.target.classList.add('active');
+  render();
+}
+
+function resetTout(){
+  if(window.confirm('Remettre toutes les cases à zéro ?')){
+    for(var i=0;i<SEQS.length;i++){
+      setEtat(SEQS[i].id, false);
+    }
+    render();
+    updateProgress();
+  }
+}
+
+function render(){
+  var container = document.getElementById('planning-container');
+  container.innerHTML = '';
+
+  /* Filtrage */
+  var filtered = [];
+  for(var i=0;i<SEQS.length;i++){
+    var s = SEQS[i];
+    if(filtreActif === 'tous'){filtered.push(s); continue;}
+    if(filtreActif === 'non-coches' && !getEtat(s.id)){filtered.push(s); continue;}
+    if(filtreActif === s.theme){filtered.push(s); continue;}
+  }
+
+  if(filtered.length === 0){
+    container.innerHTML = '<p style="text-align:center;color:var(--muted);padding:30px 0;font-size:13px">Aucune séquence dans ce filtre.</p>';
+    return;
+  }
+
+  /* Regroupement par label de thème */
+  var themes = [];
+  var themeMap = {};
+  for(var i=0;i<filtered.length;i++){
+    var s = filtered[i];
+    if(!themeMap[s.label]){
+      themeMap[s.label] = [];
+      themes.push(s.label);
+    }
+    themeMap[s.label].push(s);
+  }
+
+  for(var t=0;t<themes.length;t++){
+    var label = themes[t];
+    var seqs = themeMap[label];
+
+    /* En-tête thème */
+    var head = document.createElement('div');
+    head.className = 'theme-head';
+    head.innerHTML = '<span class="theme-badge">' + label.toUpperCase() + '</span><div class="theme-line"></div>';
+    container.appendChild(head);
+
+    /* Cartes */
+    for(var j=0;j<seqs.length;j++){
+      (function(seq){
+        var done = getEtat(seq.id);
+        var card = document.createElement('div');
+        card.className = 'seq-card' + (done ? ' done' : '');
+        card.onclick = function(){ toggleSeq(seq.id); };
+
+        var checkContent = done ? '✓' : '';
+        var tagHtml = '';
+        if(seq.annales){
+          tagHtml = '<div class="tag-annales">📄 Annales PDF</div>';
+        } else if(done){
+          tagHtml = '<div class="tag-fait">✓ Révisé</div>';
+        } else {
+          tagHtml = '<div class="tag-todo">À réviser</div>';
+        }
+
+        card.innerHTML =
+          '<div class="check-box">' + checkContent + '</div>' +
+          '<div class="seq-info">' +
+            '<div class="seq-code">' + seq.id + '</div>' +
+            '<div class="seq-title">' + seq.titre + '</div>' +
+            '<div class="seq-date">📅 ' + seq.date + '</div>' +
+            tagHtml +
+          '</div>';
+
+        container.appendChild(card);
+      })(seqs[j]);
+    }
+  }
+}
+
+/* Compte à rebours */
+function updateCountdown(){
+  var exam = new Date('2026-06-29T08:00:00');
+  var now = new Date();
+  var diff = Math.ceil((exam - now) / (1000*60*60*24));
+  var el = document.getElementById('jours-restants');
+  if(diff > 0){
+    el.textContent = diff;
+  } else if(diff === 0){
+    el.textContent = "Aujourd\'hui !";
+    el.style.color = 'var(--rouge)';
+  } else {
+    el.textContent = "C\'est passé !";
+    el.style.color = 'var(--muted)';
+  }
+}
+
+/* Init : pré-cocher les séquences déjà faites si pas encore dans localStorage */
+function initEtats(){
+  for(var i=0;i<SEQS.length;i++){
+    var s = SEQS[i];
+    try{
+      if(localStorage.getItem('math_' + s.id) === null && s.fait){
+        setEtat(s.id, true);
+      }
+    }catch(e){}
+  }
+}
+
+initEtats();
+updateCountdown();
+render();
+updateProgress();
+
+</script>
+</body>
+</html>

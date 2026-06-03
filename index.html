@@ -11,14 +11,15 @@
   --vert:#1E8449;--vert-light:#D5F5E3;
   --orange:#D35400;--orange-light:#FDEBD0;
   --violet:#6C3483;--violet-light:#E8DAEF;
+  --pc:#2471A3;--pc-light:#D6EAF8;
   --gris:#5D6D7E;--gris-light:#EAF2FF;
-  --maths:#D35400;--maths-light:#FDEBD0;
   --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
   --border:#DEE2E6;--radius:10px;
 }
 *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:40px;-webkit-tap-highlight-color:transparent}
+
 .hero{background:var(--bleu);color:white;padding:24px 20px;text-align:center}
 .hero h1{font-size:22px;font-weight:700;margin-bottom:6px}
 .hero h1 span{color:#7EC8E3}
@@ -26,45 +27,50 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 .date-pills{display:-webkit-flex;display:flex;gap:8px;-webkit-justify-content:center;justify-content:center;-webkit-flex-wrap:wrap;flex-wrap:wrap}
 .date-pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:5px 14px;font-size:12px;color:white}
 .date-pill b{color:#FFD700}
+
 .container{max-width:740px;margin:0 auto;padding:20px 14px}
+
 .matiere-head{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:12px;margin:28px 0 12px}
 .matiere-badge{font-size:11px;font-weight:700;letter-spacing:1px;padding:4px 14px;border-radius:20px}
 .badge-h{background:var(--rouge);color:white}
 .badge-g{background:var(--bleu);color:white}
 .badge-f{background:var(--violet);color:white}
 .badge-emc{background:var(--vert);color:white}
+.badge-m{background:var(--orange);color:white}
+.badge-pc{background:var(--pc);color:white}
 .badge-plan{background:var(--text);color:white}
 .matiere-line{-webkit-flex:1;flex:1;height:1px;background:var(--border)}
+
 .cards{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:10px}
+
 .seq-link{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;text-decoration:none;color:var(--text);-webkit-flex:1 1 200px;flex:1 1 200px;display:block;-webkit-transition:border-color 0.15s,box-shadow 0.15s;transition:border-color 0.15s,box-shadow 0.15s}
 .seq-link:hover{box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .seq-link.hist:hover{border-color:var(--rouge)}
 .seq-link.geo:hover{border-color:var(--bleu)}
 .seq-link.fran:hover{border-color:var(--violet)}
 .seq-link.emc:hover{border-color:var(--vert)}
+.seq-link.mat:hover{border-color:var(--orange)}
+.seq-link.pc:hover{border-color:var(--pc)}
 .seq-link.plan:hover{border-color:var(--text)}
 .seq-link.disabled{opacity:.4;pointer-events:none}
+
 .sl-code{font-size:11px;font-weight:700;margin-bottom:5px}
 .hist .sl-code{color:var(--rouge)}
 .geo .sl-code{color:var(--bleu)}
 .fran .sl-code{color:var(--violet)}
 .emc .sl-code{color:var(--vert)}
+.mat .sl-code{color:var(--orange)}
+.pc .sl-code{color:var(--pc)}
 .plan .sl-code{color:var(--gris)}
+
 .sl-title{font-size:13px;color:var(--text);line-height:1.4;font-weight:600}
 .sl-sub{font-size:11px;color:var(--muted);margin-top:4px}
+
 .tag-dispo{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:8px}
 .tag-new{display:inline-block;background:var(--orange);color:white;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:8px}
 .tag-coming{display:inline-block;background:var(--gris-light);color:var(--gris);font-size:10px;padding:2px 8px;border-radius:20px;margin-top:8px;border:1px solid var(--border)}
 .tag-pdf{display:inline-block;background:#c0392b;color:white;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:8px}
-.badge-m{background:var(--maths);color:white}
-.badge-pc{background:#2471A3;color:white}
-.badge-svt{background:#117A65;color:white}
-.seq-link.maths:hover{border-color:var(--maths)}
-.seq-link.pc:hover{border-color:#2471A3}
-.seq-link.svt:hover{border-color:#117A65}
-.maths .sl-code{color:var(--maths)}
-.pc .sl-code{color:#2471A3}
-.svt .sl-code{color:#117A65}
+
 @media(max-width:500px){.hero h1{font-size:18px}.seq-link{-webkit-flex:1 1 100%;flex:1 1 100%}}
 </style>
 </head>
@@ -83,12 +89,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 <div class="container">
 
   <!-- PLANNINGS -->
-  <div class="matiere-head"><span class="matiere-badge badge-plan">PLANNINGS</span><div class="matiere-line"></div></div>
+  <div class="matiere-head">
+    <span class="matiere-badge badge-plan">PLANNINGS</span>
+    <div class="matiere-line"></div>
+  </div>
   <div class="cards">
-    <a class="seq-link plan" href="planning_brevet.html">
+    <a class="seq-link plan" href="0-HISTOIRE_GEO-EMC_planning_brevet_checklist.html">
       <div class="sl-code">PLANNING</div>
-      <div class="sl-title">Planning complet Brevet 2026</div>
-      <div class="sl-sub">Histoire · Géo · EMC · Français · PC · SVT</div>
+      <div class="sl-title">Histoire · Géo · EMC · Français · PC</div>
+      <div class="sl-sub">Toutes les séquences — cases à cocher</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link plan" href="planning_maths.html">
+      <div class="sl-code">PLANNING</div>
+      <div class="sl-title">Mathématiques — M01 à M39</div>
+      <div class="sl-sub">39 séquences — cases à cocher · exam 29 juin</div>
       <div class="tag-dispo">✓ Disponible</div>
     </a>
     <a class="seq-link plan" href="MATH-sujet Brevet révisions vacances Paques 2026 .pdf">
@@ -100,214 +115,208 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
   </div>
 
   <!-- HISTOIRE -->
-  <div class="matiere-head"><span class="matiere-badge badge-h">HISTOIRE</span><div class="matiere-line"></div></div>
+  <div class="matiere-head">
+    <span class="matiere-badge badge-h">HISTOIRE</span>
+    <div class="matiere-line"></div>
+  </div>
   <div class="cards">
     <a class="seq-link hist" href="H1_premiere_guerre_mondiale_v2.html">
-      <div class="sl-code">H1</div><div class="sl-title">La Première Guerre mondiale</div>
+      <div class="sl-code">H1</div>
+      <div class="sl-title">La Première Guerre mondiale</div>
       <div class="tag-dispo">✓ Disponible</div>
     </a>
     <a class="seq-link hist" href="H2_france_entre_deux_guerres.html">
-      <div class="sl-code">H2</div><div class="sl-title">La France entre-deux-guerres</div>
+      <div class="sl-code">H2</div>
+      <div class="sl-title">La France entre-deux-guerres</div>
       <div class="tag-dispo">✓ Disponible</div>
     </a>
     <a class="seq-link hist" href="H3_regimes_totalitaires.html">
-      <div class="sl-code">H3</div><div class="sl-title">Les régimes totalitaires</div>
+      <div class="sl-code">H3</div>
+      <div class="sl-title">Les régimes totalitaires</div>
       <div class="tag-dispo">✓ Disponible</div>
     </a>
     <a class="seq-link hist" href="H4_seconde_guerre_mondiale.html">
-      <div class="sl-code">H4</div><div class="sl-title">La Seconde Guerre mondiale</div>
+      <div class="sl-code">H4</div>
+      <div class="sl-title">La Seconde Guerre mondiale</div>
       <div class="tag-dispo">✓ Disponible</div>
     </a>
     <a class="seq-link hist" href="H5_resistance_liberation.html">
-      <div class="sl-code">H5</div><div class="sl-title">La Résistance et la Libération</div>
+      <div class="sl-code">H5</div>
+      <div class="sl-title">La Résistance et la Libération</div>
       <div class="tag-dispo">✓ Disponible</div>
     </a>
     <a class="seq-link hist" href="H6_guerre_froide.html">
-      <div class="sl-code">H6</div><div class="sl-title">La guerre froide</div>
+      <div class="sl-code">H6</div>
+      <div class="sl-title">La guerre froide</div>
       <div class="tag-dispo">✓ Disponible</div>
     </a>
     <a class="seq-link hist" href="H7_decolonisation.html">
-      <div class="sl-code">H7</div><div class="sl-title">La décolonisation</div>
+      <div class="sl-code">H7</div>
+      <div class="sl-title">La décolonisation</div>
       <div class="tag-dispo">✓ Disponible</div>
     </a>
     <a class="seq-link hist" href="H8_construction_europeenne.html">
-      <div class="sl-code">H8</div><div class="sl-title">La construction européenne</div>
+      <div class="sl-code">H8</div>
+      <div class="sl-title">La construction européenne</div>
       <div class="tag-dispo">✓ Disponible</div>
     </a>
-    <a class="seq-link hist" href="H9_ve_republique.html">
-      <div class="sl-code">H9</div><div class="sl-title">La Ve République</div>
-      <div class="tag-new">★ Nouveau</div>
+    <a class="seq-link hist" href="H9_cinquieme_republique.html">
+      <div class="sl-code">H9</div>
+      <div class="sl-title">La Ve République</div>
+      <div class="tag-dispo">✓ Disponible</div>
     </a>
     <div class="seq-link hist disabled">
-      <div class="sl-code">H10</div><div class="sl-title">La mondialisation</div>
+      <div class="sl-code">H10</div>
+      <div class="sl-title">La mondialisation</div>
       <div class="tag-coming">À venir</div>
     </div>
     <div class="seq-link hist disabled">
-      <div class="sl-code">H11</div><div class="sl-title">Le monde aujourd'hui</div>
+      <div class="sl-code">H11</div>
+      <div class="sl-title">Le monde aujourd'hui</div>
       <div class="tag-coming">À venir</div>
     </div>
   </div>
 
   <!-- GÉOGRAPHIE -->
-  <div class="matiere-head"><span class="matiere-badge badge-g">GÉOGRAPHIE</span><div class="matiere-line"></div></div>
+  <div class="matiere-head">
+    <span class="matiere-badge badge-g">GÉOGRAPHIE</span>
+    <div class="matiere-line"></div>
+  </div>
   <div class="cards">
     <a class="seq-link geo" href="G1_aires_urbaines_v2.html">
-      <div class="sl-code">G1</div><div class="sl-title">Les grandes aires urbaines</div>
+      <div class="sl-code">G1</div>
+      <div class="sl-title">Les grandes aires urbaines</div>
       <div class="tag-dispo">✓ Disponible</div>
     </a>
     <a class="seq-link geo" href="G2_espaces_productifs.html">
-      <div class="sl-code">G2</div><div class="sl-title">Les espaces productifs</div>
+      <div class="sl-code">G2</div>
+      <div class="sl-title">Les espaces productifs</div>
       <div class="tag-dispo">✓ Disponible</div>
     </a>
     <a class="seq-link geo" href="G3_espaces_peu_peuples.html">
-      <div class="sl-code">G3</div><div class="sl-title">Les espaces peu peuplés</div>
-      <div class="tag-new">★ Nouveau</div>
+      <div class="sl-code">G3</div>
+      <div class="sl-title">Les espaces peu peuplés</div>
+      <div class="tag-dispo">✓ Disponible</div>
     </a>
     <a class="seq-link geo" href="G4_mobilites_humaines.html">
-      <div class="sl-code">G4</div><div class="sl-title">Les mobilités humaines</div>
-      <div class="tag-new">★ Nouveau</div>
+      <div class="sl-code">G4</div>
+      <div class="sl-title">Les mobilités humaines</div>
+      <div class="tag-dispo">✓ Disponible</div>
     </a>
     <a class="seq-link geo" href="G5_inegalites_developpement.html">
-      <div class="sl-code">G5</div><div class="sl-title">Les inégalités face au développement</div>
-      <div class="tag-new">★ Nouveau</div>
+      <div class="sl-code">G5</div>
+      <div class="sl-title">Les inégalités face au développement</div>
+      <div class="tag-dispo">✓ Disponible</div>
     </a>
     <a class="seq-link geo" href="G6_union_europeenne.html">
-      <div class="sl-code">G6</div><div class="sl-title">L'Union européenne</div>
-      <div class="tag-new">★ Nouveau</div>
+      <div class="sl-code">G6</div>
+      <div class="sl-title">L'Union européenne</div>
+      <div class="tag-dispo">✓ Disponible</div>
     </a>
   </div>
 
   <!-- FRANÇAIS -->
-  <div class="matiere-head"><span class="matiere-badge badge-f">FRANÇAIS</span><div class="matiere-line"></div></div>
-  <div class="cards">
-    <a class="seq-link fran" href="F1_les_accords.html">
-      <div class="sl-code">F1</div><div class="sl-title">Les accords</div>
-      <div class="tag-dispo">✓ Disponible</div>
-    </a>
-    <a class="seq-link fran" href="F2_les_temps_verbaux.html">
-      <div class="sl-code">F2</div><div class="sl-title">Les temps verbaux</div>
-      <div class="tag-dispo">✓ Disponible</div>
-    </a>
-    <a class="seq-link fran" href="F3_types_formes_phrases.html">
-      <div class="sl-code">F3</div><div class="sl-title">Types et formes de phrases</div>
-      <div class="tag-dispo">✓ Disponible</div>
-    </a>
-    <a class="seq-link fran" href="F4_propositions_subordonnees.html">
-      <div class="sl-code">F4</div><div class="sl-title">Les propositions subordonnées</div>
-      <div class="tag-dispo">✓ Disponible</div>
-    </a>
-    <a class="seq-link fran" href="F5_discours_direct_indirect.html">
-      <div class="sl-code">F5</div><div class="sl-title">Discours direct et indirect</div>
-      <div class="tag-dispo">✓ Disponible</div>
-    </a>
-    <a class="seq-link fran" href="F6_type_texte_point_de_vue.html">
-      <div class="sl-code">F6</div><div class="sl-title">Type de texte et point de vue</div>
-      <div class="tag-dispo">✓ Disponible</div>
-    </a>
-    <a class="seq-link fran" href="F7_figures_de_style.html">
-      <div class="sl-code">F7</div><div class="sl-title">Les figures de style</div>
-      <div class="tag-dispo">✓ Disponible</div>
-    </a>
-    <a class="seq-link fran" href="F8_texte_litteraire.html">
-      <div class="sl-code">F8</div><div class="sl-title">Texte littéraire</div>
-      <div class="tag-dispo">✓ Disponible</div>
-    </a>
-    <a class="seq-link fran" href="F9_texte_argumentatif.html">
-      <div class="sl-code">F9</div><div class="sl-title">Texte argumentatif</div>
-      <div class="tag-dispo">✓ Disponible</div>
-    </a>
-    <a class="seq-link fran" href="F10_rediger_texte_narratif.html">
-      <div class="sl-code">F10</div><div class="sl-title">Rédiger un texte narratif</div>
-      <div class="tag-dispo">✓ Disponible</div>
-    </a>
-    <a class="seq-link fran" href="F11_rediger_texte_argumentatif.html">
-      <div class="sl-code">F11</div><div class="sl-title">Rédiger un texte argumentatif</div>
-      <div class="tag-dispo">✓ Disponible</div>
-    </a>
-    <a class="seq-link fran" href="F12_la_dictee_preparee.html">
-      <div class="sl-code">F12</div><div class="sl-title">La dictée préparée</div>
-      <div class="tag-dispo">✓ Disponible</div>
-    </a>
+  <div class="matiere-head">
+    <span class="matiere-badge badge-f">FRANÇAIS</span>
+    <div class="matiere-line"></div>
   </div>
-
-  <!-- MATHS -->
-  <div class="matiere-head"><span class="matiere-badge badge-m">MATHS</span><div class="matiere-line"></div></div>
   <div class="cards">
-    <a class="seq-link maths" href="MATHS_annales.html">
-      <div class="sl-code">ANNALES</div>
-      <div class="sl-title">Tous les vrais sujets du Brevet</div>
-      <div class="sl-sub">2020 → 2024 · PDF corrigés</div>
-      <div class="tag-dispo">✓ Disponible</div>
-    </a>
-    <a class="seq-link maths" href="M01.html"><div class="sl-code">M01</div><div class="sl-title">Probabilités · Programmes de calcul</div><div class="sl-sub">21 mai</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M02.html"><div class="sl-code">M02</div><div class="sl-title">Pythagore · Thalès</div><div class="sl-sub">22 mai</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M03.html"><div class="sl-code">M03</div><div class="sl-title">Statistiques · PGCD</div><div class="sl-sub">23 mai</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M04.html"><div class="sl-code">M04</div><div class="sl-title">Fonctions · Trigonométrie</div><div class="sl-sub">24 mai</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M05.html"><div class="sl-code">M05</div><div class="sl-title">Volumes · Pourcentages</div><div class="sl-sub">25 mai</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M06.html"><div class="sl-code">M06</div><div class="sl-title">Calcul littéral · Vitesse</div><div class="sl-sub">26 mai</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M07.html"><div class="sl-code">M07</div><div class="sl-title">QCM · Médiane</div><div class="sl-sub">27 mai</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M08.html"><div class="sl-code">M08</div><div class="sl-title">Thalès · Triangles semblables</div><div class="sl-sub">28 mai</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M09.html"><div class="sl-code">M09</div><div class="sl-title">Ratio &amp; PGCD</div><div class="sl-sub">29 mai</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M10.html"><div class="sl-code">M10</div><div class="sl-title">Statistiques JO</div><div class="sl-sub">30 mai</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M11.html"><div class="sl-code">M11</div><div class="sl-title">G&eacute;om&eacute;trie : angles &amp; arcs</div><div class="sl-sub">31 mai</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M12.html"><div class="sl-code">M12</div><div class="sl-title">Probabilit&eacute;s : tableau</div><div class="sl-sub">1 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M13.html"><div class="sl-code">M13</div><div class="sl-title">Factorisation &amp; programmes</div><div class="sl-sub">2 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M14.html"><div class="sl-code">M14</div><div class="sl-title">Fonctions affines</div><div class="sl-sub">3 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M15.html"><div class="sl-code">M15</div><div class="sl-title">Thal&egrave;s &amp; &eacute;tag&egrave;re</div><div class="sl-sub">4 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M16.html"><div class="sl-code">M16</div><div class="sl-title">R&eacute;ductions &amp; nombres premiers</div><div class="sl-sub">5 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M17.html"><div class="sl-code">M17</div><div class="sl-title">Volumes &amp; &eacute;nergie</div><div class="sl-sub">6 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M18.html"><div class="sl-code">M18</div><div class="sl-title">&Eacute;quations 2&egrave;me degr&eacute;</div><div class="sl-sub">7 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M19.html"><div class="sl-code">M19</div><div class="sl-title">Statistiques compl&egrave;tes</div><div class="sl-sub">8 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M20.html"><div class="sl-code">M20</div><div class="sl-title">R&eacute;vision g&eacute;n&eacute;rale</div><div class="sl-sub">9 juin</div><div class="tag-new">★ Nouveau</div></a>
-<a class="seq-link maths" href="M21.html"><div class="sl-code">M21</div><div class="sl-title">Vitesse &amp; &eacute;criture scientifique</div><div class="sl-sub">10 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M22.html"><div class="sl-code">M22</div><div class="sl-title">PPCM : circuits</div><div class="sl-sub">11 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M23.html"><div class="sl-code">M23</div><div class="sl-title">Programme calcul &amp; factorisation</div><div class="sl-sub">12 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M24.html"><div class="sl-code">M24</div><div class="sl-title">Thal&egrave;s &amp; homoth&eacute;tie</div><div class="sl-sub">13 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M25.html"><div class="sl-code">M25</div><div class="sl-title">C&ocirc;ne &amp; patron</div><div class="sl-sub">14 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M26.html"><div class="sl-code">M26</div><div class="sl-title">Panneaux solaires</div><div class="sl-sub">15 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M27.html"><div class="sl-code">M27</div><div class="sl-title">Thal&egrave;s &amp; mat&eacute;riaux</div><div class="sl-sub">16 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M28.html"><div class="sl-code">M28</div><div class="sl-title">Probabilit&eacute;s : boules &amp; d&eacute;</div><div class="sl-sub">17 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M29.html"><div class="sl-code">M29</div><div class="sl-title">Piste karting : PPCM</div><div class="sl-sub">18 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M30.html"><div class="sl-code">M30</div><div class="sl-title">Suites g&eacute;om&eacute;triques</div><div class="sl-sub">19 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M31.html"><div class="sl-code">M31</div><div class="sl-title">Statistiques march&eacute;</div><div class="sl-sub">20 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M32.html"><div class="sl-code">M32</div><div class="sl-title">QCM fonctions</div><div class="sl-sub">21 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M33.html"><div class="sl-code">M33</div><div class="sl-title">Factorisation programme</div><div class="sl-sub">22 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M34.html"><div class="sl-code">M34</div><div class="sl-title">Probabilit&eacute;s roue</div><div class="sl-sub">23 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M35.html"><div class="sl-code">M35</div><div class="sl-title">Pyramide : trigo</div><div class="sl-sub">24 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M36.html"><div class="sl-code">M36</div><div class="sl-title">Syst&egrave;me &eacute;quations</div><div class="sl-sub">25 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M37.html"><div class="sl-code">M37</div><div class="sl-title">Proba &amp; g&eacute;om&eacute;trie espace</div><div class="sl-sub">26 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M38.html"><div class="sl-code">M38</div><div class="sl-title">Sujet complet</div><div class="sl-sub">27 juin</div><div class="tag-new">★ Nouveau</div></a>
-    <a class="seq-link maths" href="M39.html"><div class="sl-code">M39</div><div class="sl-title">Bilan final J-1 &#127881;</div><div class="sl-sub">28 juin</div><div class="tag-new">★ Nouveau</div></a>
-  </div>
-
-  <!-- PHYSIQUE-CHIMIE -->
-  <div class="matiere-head"><span class="matiere-badge badge-pc">PHYSIQUE-CHIMIE</span><div class="matiere-line"></div></div>
-  <div class="cards">
-    <a class="seq-link pc" href="PC01_atome_matiere.html"><div class="sl-code">PC01</div><div class="sl-title">L'atome et la matière</div><div class="tag-dispo">✓ Disponible</div></a>
-    <a class="seq-link pc" href="PC02_reactions_chimiques.html"><div class="sl-code">PC02</div><div class="sl-title">Les réactions chimiques</div><div class="tag-dispo">✓ Disponible</div></a>
-    <a class="seq-link pc" href="PC03_mouvements_forces.html"><div class="sl-code">PC03</div><div class="sl-title">Les mouvements et les forces</div><div class="tag-dispo">✓ Disponible</div></a>
-    <a class="seq-link pc" href="PC04_electricite_ohm.html"><div class="sl-code">PC04</div><div class="sl-title">Électricité : loi d'Ohm et circuits</div><div class="tag-dispo">✓ Disponible</div></a>
-    <a class="seq-link pc" href="PC05_energie_puissance.html"><div class="sl-code">PC05</div><div class="sl-title">Énergie : puissance et rendement</div><div class="tag-dispo">✓ Disponible</div></a>
-    <a class="seq-link pc" href="PC06_signaux_lumiere_son.html"><div class="sl-code">PC06</div><div class="sl-title">Les signaux : lumière et son</div><div class="tag-dispo">✓ Disponible</div></a>
-  </div>
-
-  <!-- SVT -->
-  <div class="matiere-head"><span class="matiere-badge badge-svt">SVT</span><div class="matiere-line"></div></div>
-  <div class="cards">
-    <div class="seq-link svt disabled"><div class="sl-code">S01</div><div class="sl-title">L'ADN et les chromosomes</div><div class="tag-coming">À venir</div></div>
-    <div class="seq-link svt disabled"><div class="sl-code">S02</div><div class="sl-title">Reproduction et hérédité</div><div class="tag-coming">À venir</div></div>
-    <div class="seq-link svt disabled"><div class="sl-code">S03</div><div class="sl-title">L'évolution du vivant</div><div class="tag-coming">À venir</div></div>
-    <div class="seq-link svt disabled"><div class="sl-code">S04</div><div class="sl-title">Le système nerveux</div><div class="tag-coming">À venir</div></div>
-    <div class="seq-link svt disabled"><div class="sl-code">S05</div><div class="sl-title">L'immunité</div><div class="tag-coming">À venir</div></div>
-    <div class="seq-link svt disabled"><div class="sl-code">S06</div><div class="sl-title">Les enjeux environnementaux</div><div class="tag-coming">À venir</div></div>
+    <a class="seq-link fran" href="F1_les_accords.html"><div class="sl-code">F1</div><div class="sl-title">Les accords</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link fran" href="F2_les_temps_verbaux.html"><div class="sl-code">F2</div><div class="sl-title">Les temps verbaux</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link fran" href="F3_types_formes_phrases.html"><div class="sl-code">F3</div><div class="sl-title">Types et formes de phrases</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link fran" href="F4_propositions_subordonnees.html"><div class="sl-code">F4</div><div class="sl-title">Les propositions subordonnées</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link fran" href="F5_discours_direct_indirect.html"><div class="sl-code">F5</div><div class="sl-title">Discours direct et indirect</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link fran" href="F6_type_texte_point_vue.html"><div class="sl-code">F6</div><div class="sl-title">Type de texte et point de vue</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link fran" href="F7_figures_de_style.html"><div class="sl-code">F7</div><div class="sl-title">Les figures de style</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link fran" href="F8_texte_litteraire.html"><div class="sl-code">F8</div><div class="sl-title">Texte littéraire</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link fran" href="F9_texte_argumentatif.html"><div class="sl-code">F9</div><div class="sl-title">Texte argumentatif</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link fran" href="F10_rediger_texte_narratif.html"><div class="sl-code">F10</div><div class="sl-title">Rédiger un texte narratif</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link fran" href="F11_rediger_texte_argumentatif.html"><div class="sl-code">F11</div><div class="sl-title">Rédiger un texte argumentatif</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link fran" href="F12_la_dictee_preparee.html"><div class="sl-code">F12</div><div class="sl-title">La dictée préparée</div><div class="tag-dispo">✓ Disponible</div></a>
   </div>
 
   <!-- EMC -->
-  <div class="matiere-head"><span class="matiere-badge badge-emc">EMC</span><div class="matiere-line"></div></div>
+  <div class="matiere-head">
+    <span class="matiere-badge badge-emc">EMC</span>
+    <div class="matiere-line"></div>
+  </div>
   <div class="cards">
     <div class="seq-link emc disabled"><div class="sl-code">EMC1</div><div class="sl-title">La démocratie et la citoyenneté</div><div class="tag-coming">À venir</div></div>
     <div class="seq-link emc disabled"><div class="sl-code">EMC2</div><div class="sl-title">Les institutions de la République</div><div class="tag-coming">À venir</div></div>
     <div class="seq-link emc disabled"><div class="sl-code">EMC3</div><div class="sl-title">L'engagement citoyen</div><div class="tag-coming">À venir</div></div>
+  </div>
+
+  <!-- PHYSIQUE-CHIMIE -->
+  <div class="matiere-head">
+    <span class="matiere-badge badge-pc">PHYSIQUE-CHIMIE</span>
+    <div class="matiere-line"></div>
+  </div>
+  <div class="cards">
+    <a class="seq-link pc" href="PC01_atome_matiere.html"><div class="sl-code">PC01</div><div class="sl-title">L'atome et la matière</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link pc" href="PC02_reactions_chimiques.html"><div class="sl-code">PC02</div><div class="sl-title">Les réactions chimiques</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link pc" href="PC03_mouvements_forces.html"><div class="sl-code">PC03</div><div class="sl-title">Mouvements et forces</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link pc" href="PC04_electricite_ohm.html"><div class="sl-code">PC04</div><div class="sl-title">Électricité et loi d'Ohm</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link pc" href="PC05_energie_puissance.html"><div class="sl-code">PC05</div><div class="sl-title">Énergie et puissance</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link pc" href="PC06_signaux_lumiere_son.html"><div class="sl-code">PC06</div><div class="sl-title">Signaux — lumière et son</div><div class="tag-dispo">✓ Disponible</div></a>
+  </div>
+
+  <!-- MATHÉMATIQUES -->
+  <div class="matiere-head">
+    <span class="matiere-badge badge-m">MATHÉMATIQUES</span>
+    <div class="matiere-line"></div>
+  </div>
+  <div class="cards">
+    <a class="seq-link mat" href="planning_maths.html">
+      <div class="sl-code">PLANNING</div>
+      <div class="sl-title">📐 Voir le planning maths complet</div>
+      <div class="sl-sub">M01 → M39 · cases à cocher · 29 juin</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link mat" href="MATHS_annales.html">
+      <div class="sl-code">ANNALES</div>
+      <div class="sl-title">Annales officielles Brevet</div>
+      <div class="sl-sub">2020–2024 · Métropole, Polynésie, Asie</div>
+      <div class="tag-dispo">✓ Disponible</div>
+    </a>
+    <a class="seq-link mat" href="M01_fractions.html"><div class="sl-code">M01</div><div class="sl-title">Calcul avec les fractions</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M02_puissances_notation_scientifique.html"><div class="sl-code">M02</div><div class="sl-title">Puissances et notation scientifique</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M03_racines_carrees.html"><div class="sl-code">M03</div><div class="sl-title">Racines carrées</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M04_calculs_relatifs.html"><div class="sl-code">M04</div><div class="sl-title">Calculs avec les relatifs</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M05_proportionnalite_pourcentages.html"><div class="sl-code">M05</div><div class="sl-title">Proportionnalité et pourcentages</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M06_developper_factoriser.html"><div class="sl-code">M06</div><div class="sl-title">Développer et factoriser</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M07_identites_remarquables.html"><div class="sl-code">M07</div><div class="sl-title">Identités remarquables</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M08_equations_premier_degre.html"><div class="sl-code">M08</div><div class="sl-title">Équations du premier degré</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M09_systemes_equations.html"><div class="sl-code">M09</div><div class="sl-title">Systèmes d'équations</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M10_inequations.html"><div class="sl-code">M10</div><div class="sl-title">Inéquations</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M11_fonctions_generalites.html"><div class="sl-code">M11</div><div class="sl-title">Fonctions — généralités</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M12_fonction_lineaire_affine.html"><div class="sl-code">M12</div><div class="sl-title">Fonction linéaire et affine</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M13_lire_graphique.html"><div class="sl-code">M13</div><div class="sl-title">Lire et interpréter un graphique</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M14_variations_fonction.html"><div class="sl-code">M14</div><div class="sl-title">Variations d'une fonction</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M15_pythagore.html"><div class="sl-code">M15</div><div class="sl-title">Théorème de Pythagore</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M16_trigonometrie.html"><div class="sl-code">M16</div><div class="sl-title">Trigonométrie (sin, cos, tan)</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M17_thales_semblables.html"><div class="sl-code">M17</div><div class="sl-title">Triangles semblables et Thalès</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M18_agrandissement_reduction.html"><div class="sl-code">M18</div><div class="sl-title">Agrandissement et réduction</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M19_aires_volumes.html"><div class="sl-code">M19</div><div class="sl-title">Aires et volumes — révision</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M20_geometrie_espace.html"><div class="sl-code">M20</div><div class="sl-title">Géométrie dans l'espace</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M21_transformations_symetrie.html"><div class="sl-code">M21</div><div class="sl-title">Symétrie axiale et centrale</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M22_translation_rotation.html"><div class="sl-code">M22</div><div class="sl-title">Translation et rotation</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M23_cercles_angles.html"><div class="sl-code">M23</div><div class="sl-title">Cercles — propriétés et angles inscrits</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M24_vecteurs.html"><div class="sl-code">M24</div><div class="sl-title">Vecteurs — notion et opérations</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M25_coordonnees_reperage.html"><div class="sl-code">M25</div><div class="sl-title">Coordonnées et repérage</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M26_statistiques.html"><div class="sl-code">M26</div><div class="sl-title">Statistiques — moyenne, médiane, étendue</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M27_diagrammes_statistiques.html"><div class="sl-code">M27</div><div class="sl-title">Diagrammes statistiques</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M28_probabilites_calcul.html"><div class="sl-code">M28</div><div class="sl-title">Probabilités — vocabulaire et calcul</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M29_probabilites_arbres.html"><div class="sl-code">M29</div><div class="sl-title">Probabilités — tableaux et arbres</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M30_equations_second_degre.html"><div class="sl-code">M30</div><div class="sl-title">Équations du second degré (cas simples)</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M31_factorisation_avancee.html"><div class="sl-code">M31</div><div class="sl-title">Factorisation avancée</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M32_problemes_equations.html"><div class="sl-code">M32</div><div class="sl-title">Problèmes avec mise en équation</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M33_suites_numeriques.html"><div class="sl-code">M33</div><div class="sl-title">Suites numériques</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M34_divisibilite_pgcd.html"><div class="sl-code">M34</div><div class="sl-title">Divisibilité, PGCD et fractions irréductibles</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M35_nombres_premiers.html"><div class="sl-code">M35</div><div class="sl-title">Nombres premiers</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M36_fonction_inverse_carree.html"><div class="sl-code">M36</div><div class="sl-title">Fonction inverse et fonction carrée</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M37_resolution_graphique.html"><div class="sl-code">M37</div><div class="sl-title">Résolution graphique d'équations</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M38_revision_generale.html"><div class="sl-code">M38</div><div class="sl-title">Révision générale — exercices croisés</div><div class="tag-dispo">✓ Disponible</div></a>
+    <a class="seq-link mat" href="M39_bilan_final.html"><div class="sl-code">M39</div><div class="sl-title">Bilan final avant le brevet</div><div class="tag-dispo">✓ Disponible</div></a>
   </div>
 
 </div>
