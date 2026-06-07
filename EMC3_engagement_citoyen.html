@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMC3 — L'engagement citoyen</title>
+<style>
+  :root{
+    --rouge:#C0392B;--rouge-light:#FADBD8;--rouge-mid:#E74C3C;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --vert:#1E8449;--vert-light:#D5F5E3;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+    --accent:#6C3483;--accent-light:#E8DAEF;--accent-tint:#FAF5FC;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:rgba(0,0,0,0)}
+  header{background:var(--accent);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:relative;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;-webkit-transition:all 0.15s;transition:all 0.15s}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+
+  /* SECTIONS */
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.rouge{background:var(--rouge)}
+  .section-head.bleu{background:var(--bleu)}
+  .section-head.vert{background:var(--vert)}
+  .section-head.orange{background:var(--orange)}
+  .section-head.violet{background:var(--violet)}
+  .section-head.gris{background:var(--gris)}
+  .section-head.accent{background:var(--accent)}
+  .section-body{padding:14px}
+
+  /* INFO BOX */
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+
+  /* BULLETS */
+  .bull-list{margin:8px 0 8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"\2022";position:absolute;left:4px;color:var(--accent);font-weight:700}
+
+  /* FRISE */
+  .frise-container{overflow-x:auto;padding-bottom:6px}
+  .frise{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:0;min-width:900px;padding:20px 0 10px;position:relative}
+  .frise::before{content:'';position:absolute;top:42px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--orange),var(--bleu));z-index:0}
+  .frise-item{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;position:relative;z-index:1;cursor:pointer}
+  .frise-dot{width:16px;height:16px;border-radius:50%;background:var(--accent);border:3px solid white;box-shadow:0 0 0 2px var(--accent);margin-bottom:8px;-webkit-transition:-webkit-transform 0.15s;transition:transform 0.15s}
+  .frise-item:hover .frise-dot{-webkit-transform:scale(1.4);transform:scale(1.4)}
+  .frise-item.important .frise-dot{width:22px;height:22px;background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+  .frise-date{font-size:10px;font-weight:700;color:var(--accent);text-align:center;margin-bottom:4px;line-height:1.2}
+  .frise-label{font-size:10px;color:var(--muted);text-align:center;max-width:80px;line-height:1.3}
+  .frise-detail{display:none;background:white;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6;margin-top:8px;max-width:160px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.1);position:absolute;top:70px;z-index:10;min-width:140px}
+  .frise-detail.show{display:block}
+  .frise-detail strong{color:var(--accent);display:block;margin-bottom:4px}
+
+  /* TABLE DATES */
+  .dates-table{width:100%;border-collapse:collapse;font-size:13px}
+  .dates-table th{background:var(--accent);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .dates-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .dates-table tr:last-child td{border-bottom:none}
+  .dates-table tr:nth-child(even) td{background:var(--accent-tint)}
+  .dates-table .date-cell{font-weight:700;color:var(--accent);white-space:nowrap;min-width:110px}
+  .dates-table .event-cell{font-weight:600;color:var(--text)}
+  .dates-table .detail-cell{color:var(--muted);font-size:12px}
+
+  /* DEUX CAMPS / DEUX COLONNES */
+  .camps-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+  .camp{border-radius:8px;overflow:hidden}
+  .camp-head{padding:8px 12px;font-size:13px;font-weight:700;color:white;text-align:center}
+  .camp-body{padding:10px 12px;font-size:12px;line-height:1.9}
+  .camp-body li{list-style:none;padding:1px 0}
+  .camp-body li::before{content:"\2192 ";color:inherit;font-weight:700}
+
+  /* MOT CLE */
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--accent-light);color:var(--accent);font-weight:700;font-size:12px;padding:8px 12px;min-width:130px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+
+  /* PERSO */
+  .perso-row{display:-webkit-flex;display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);-webkit-align-items:flex-start;align-items:flex-start}
+  .perso-row:last-child{border-bottom:none}
+  .perso-avatar{width:40px;height:40px;border-radius:50%;background:var(--accent);color:white;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:14px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0}
+  .perso-info{-webkit-flex:1;flex:1}
+  .perso-nom{font-weight:700;font-size:13px;color:var(--accent);margin-bottom:2px}
+  .perso-camp{font-size:10px;background:var(--accent-light);color:var(--accent);padding:1px 8px;border-radius:20px;display:inline-block;margin-bottom:4px}
+  .perso-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+  /* BILAN */
+  .bilan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:4px}
+  .bilan-card{border-radius:8px;padding:12px;text-align:center}
+  .bilan-card .num{font-size:24px;font-weight:800;margin-bottom:4px}
+  .bilan-card .lbl{font-size:11px;line-height:1.4}
+
+  /* ENCHAINEMENT */
+  .chain{counter-reset:chain}
+  .chain-item{display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;-webkit-align-items:flex-start;align-items:flex-start}
+  .chain-num{background:var(--accent);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0;margin-top:1px}
+  .chain-text{font-size:13px;line-height:1.6;-webkit-flex:1;flex:1}
+  .chain-text strong{color:var(--accent)}
+
+  /* BREVET BOX */
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+
+  /* QUIZ */
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--accent);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;-webkit-transition:all 0.15s;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--accent);background:var(--accent-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .btn-reset{background:var(--accent);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+
+  /* EXOS */
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--accent-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--accent);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--accent);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px}
+  textarea:focus{outline:none;border-color:var(--accent)}
+  .btn-corr{background:var(--accent);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+
+  @media(max-width:500px){.camps-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🤝 EMC3 — L'engagement citoyen</h1>
+  <p>Fiche complète · Enseignement moral et civique · Brevet 2026</p>
+</header>
+
+<div class="tabs">
+<div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+<div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+<div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ══════════════════════════ FICHE ══════════════════════════ -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head accent">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> S'engager, c'est <strong>agir pour les autres et pour la société</strong>. Cela peut prendre beaucoup de formes : voter, aider dans une <strong>association</strong>, faire du <strong>bénévolat</strong>, défendre son pays… L'engagement fait vivre la démocratie et renforce la <strong>solidarité</strong>.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">🙋 Qu'est-ce que s'engager ?</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">S'engager, c'est <strong>participer à la vie de la société</strong> au lieu de rester de côté. On peut s'engager pour aider les autres, défendre une cause (l'environnement, la solidarité…) ou faire fonctionner la démocratie.</p>
+      <ul class="bull-list">
+        <li>On peut s'engager <strong>seul</strong> (par exemple en donnant son sang) ou <strong>en groupe</strong> (dans une association).</li>
+        <li>On peut s'engager <strong>à tout âge</strong> : même les collégiens peuvent s'engager.</li>
+        <li>L'engagement est souvent <strong>gratuit</strong> : on agit pour aider, pas pour gagner de l'argent.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">🌟 Les différentes formes d'engagement</div>
+    <div class="section-body">
+      <div class="camps-grid">
+        <div class="camp">
+          <div class="camp-head" style="background:var(--accent)">FORMES D'ENGAGEMENT</div>
+          <div class="camp-body" style="background:var(--accent-light);color:var(--accent)">
+            <ul>
+              <li>Voter aux élections</li>
+              <li>Aider dans une association</li>
+              <li>Faire du bénévolat</li>
+              <li>S'engager dans l'armée</li>
+              <li>Donner son sang</li>
+            </ul>
+          </div>
+        </div>
+        <div class="camp">
+          <div class="camp-head" style="background:var(--bleu)">À QUOI ÇA SERT</div>
+          <div class="camp-body" style="background:var(--bleu-light);color:var(--bleu)">
+            <ul>
+              <li>Choisir ses représentants</li>
+              <li>Aider les plus fragiles</li>
+              <li>Donner de son temps</li>
+              <li>Défendre son pays</li>
+              <li>Sauver des vies</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;margin-top:12px">Une <strong>association</strong> est un groupe de personnes qui se réunissent librement pour agir ensemble autour d'un même but (le sport, la culture, l'aide aux autres…). En France, la liberté de créer une association est garantie par la <strong>loi de 1901</strong>.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">🛡️ La défense nationale</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Défendre son pays est aussi une forme d'engagement. La France possède une <strong>armée professionnelle</strong> (des militaires de métier).</p>
+      <ul class="bull-list">
+        <li>À 16 ans, après le recensement, chaque jeune participe à la <strong>journée défense et citoyenneté</strong>, qui informe sur la défense du pays et la citoyenneté.</li>
+        <li>On peut aussi rejoindre la <strong>réserve</strong> : des citoyens qui aident l'armée en plus de leur travail habituel.</li>
+        <li>Défendre son pays, c'est protéger les autres et les valeurs de la République.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">🎒 L'engagement des jeunes</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">On peut s'engager dès le collège ! Voici quelques exemples :</p>
+      <ul class="bull-list">
+        <li><strong>Délégué de classe :</strong> élu par ses camarades, il représente la classe et fait remonter ses idées.</li>
+        <li><strong>Conseil de vie collégienne :</strong> il permet aux élèves de participer à la vie du collège et de proposer des projets.</li>
+        <li><strong>Service civique :</strong> entre 16 et 25 ans, un jeune peut s'engager pendant plusieurs mois dans une mission d'intérêt général (aide, environnement, solidarité…).</li>
+      </ul>
+      <div class="success-box"><strong>À retenir :</strong> S'engager jeune, c'est apprendre à donner son avis, à écouter les autres et à agir pour le groupe. C'est un bon entraînement à la citoyenneté !</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">📝 Les mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Engagement</div><div class="mc-def">Le fait d'agir et de participer à la vie de la société pour aider les autres ou défendre une cause.</div></div>
+      <div class="mc-row"><div class="mc-terme">Association</div><div class="mc-def">Groupe de personnes réunies librement pour agir ensemble autour d'un même but. La loi de 1901 garantit la liberté d'en créer.</div></div>
+      <div class="mc-row"><div class="mc-terme">Bénévolat</div><div class="mc-def">Le fait de donner de son temps pour aider, gratuitement, sans être payé.</div></div>
+      <div class="mc-row"><div class="mc-terme">Solidarité</div><div class="mc-def">Le fait de s'entraider entre membres d'une même société, surtout envers les plus fragiles.</div></div>
+      <div class="mc-row"><div class="mc-terme">Service civique</div><div class="mc-def">Mission d'intérêt général que peut accomplir un jeune de 16 à 25 ans pendant plusieurs mois.</div></div>
+      <div class="mc-row"><div class="mc-terme">Défense nationale</div><div class="mc-def">L'ensemble des moyens qui protègent le pays. La France a une armée professionnelle, complétée par la réserve.</div></div>
+      <div class="mc-row"><div class="mc-terme">Délégué de classe</div><div class="mc-def">Élève élu par ses camarades pour représenter la classe et porter ses idées.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">💡 Pourquoi s'engager ?</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li>Pour aider les autres et faire preuve de <strong>solidarité</strong>.</li>
+        <li>Pour faire vivre la <strong>fraternité</strong>, une des valeurs de la République.</li>
+        <li>Pour faire fonctionner la <strong>démocratie</strong> : une démocratie a besoin de citoyens actifs.</li>
+        <li>Pour se sentir <strong>utile</strong> et apprendre à travailler avec les autres.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head violet">🎯 Ce qui tombe souvent au brevet</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li>Définir l'<strong>engagement</strong> et citer plusieurs formes</li>
+        <li>Expliquer ce qu'est une <strong>association</strong> (loi de 1901)</li>
+        <li>Donner des exemples d'<strong>engagement des jeunes</strong> (délégué, service civique…)</li>
+        <li>Expliquer le rôle de la <strong>journée défense et citoyenneté</strong></li>
+        <li>Dire <strong>pourquoi</strong> l'engagement est utile à la démocratie</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ QUIZ ══════════════════════════ -->
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz EMC3 :</strong> 12 questions sur l'engagement citoyen. Clique sur ta réponse pour voir l'explication.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num">0/12</div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Recommencer</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════ EXERCICE ══════════════════════ -->
+<div class="panel" id="panel-exo">
+
+  <div style="display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:10px;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap">
+    <span class="duree-badge">⏱ Durée : 30 minutes</span>
+    <span style="font-size:12px;color:var(--muted)">Exercice — Étude de documents (épreuve d'EMC)</span>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Document 1 — Témoignage d'une jeune bénévole</h3>
+    <p>« J'ai 17 ans et, le samedi, je suis bénévole dans une association qui distribue des repas aux personnes sans logement. Je ne suis pas payée, mais je me sens utile : j'aide des gens en difficulté et je rencontre d'autres jeunes engagés comme moi. Cette année, je pense aussi faire un service civique pour m'occuper d'enfants à l'hôpital. Pour moi, s'engager, c'est donner un peu de son temps pour les autres. »</p>
+    <div class="doc-source">Source : témoignage adapté à des fins pédagogiques, 2026.</div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Document 2 — S'engager : quelques repères</h3>
+    <p>
+      • <strong>Loi de 1901 :</strong> liberté de créer une association<br>
+      • <strong>Bénévolat :</strong> donner de son temps gratuitement<br>
+      • <strong>Service civique :</strong> pour les jeunes de 16 à 25 ans<br>
+      • <strong>Au collège :</strong> délégué de classe, conseil de vie collégienne<br>
+      • <strong>Défense :</strong> journée défense et citoyenneté à 16 ans<br>
+      • <strong>Valeurs :</strong> solidarité et fraternité
+    </p>
+    <div class="doc-source">Source : repères d'éducation civique, manuel de 3ème.</div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Comprendre les documents</span><span class="pts">5 points</span></div>
+    <div class="q-exo-body">
+      <p>À l'aide du document 1, explique de quelles façons cette jeune fille s'engage. Donne au moins deux exemples.</p>
+      <textarea placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p>Cette jeune fille s'engage de plusieurs façons. Le document 1 montre d'abord qu'elle est bénévole dans une association qui distribue des repas aux personnes sans logement : elle donne de son temps gratuitement pour aider les autres.</p>
+        <p style="margin-top:8px">Ensuite, elle explique qu'elle envisage de faire un service civique pour s'occuper d'enfants à l'hôpital. Ce sont donc deux formes d'engagement différentes : le bénévolat dans une association et le service civique, tous les deux au service des autres.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Quand on demande « au moins deux exemples », repère-les bien dans le document et présente-les clairement l'un après l'autre. Nomme la forme d'engagement à chaque fois (bénévolat, service civique).</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Bénévole</em> = personne qui aide gratuitement. <em>Service civique</em> = mission au service des autres, pour les 16-25 ans.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser un élément précis</span><span class="pts">5 points</span></div>
+    <div class="q-exo-body">
+      <p>En t'appuyant sur le document 2, explique comment un jeune de ton âge peut s'engager, au collège ou en dehors.</p>
+      <textarea placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p>Un jeune peut s'engager de plusieurs manières. Au collège, le document 2 indique qu'il peut devenir délégué de classe ou participer au conseil de vie collégienne pour donner son avis et proposer des projets.</p>
+        <p style="margin-top:8px">En dehors du collège, il peut aussi faire du bénévolat dans une association ou, à partir de 16 ans, s'engager dans un service civique. Il existe donc de nombreuses façons de s'engager, adaptées à l'âge des jeunes.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Organise ta réponse en deux endroits : « au collège » d'un côté, « en dehors » de l'autre. Cela rend ta réponse claire et complète.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Délégué</em> = élève élu pour représenter sa classe. <em>Conseil de vie collégienne</em> = lieu où les élèves participent à la vie du collège.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Développement construit</span><span class="pts">10 points</span></div>
+    <div class="q-exo-body">
+      <p><strong>Sujet :</strong> En t'appuyant sur les documents et sur tes connaissances, explique ce qu'est l'engagement citoyen, donne plusieurs exemples et montre pourquoi il est important pour la société.</p>
+      <p style="font-size:12px;color:var(--muted);margin-top:4px">Rédige un paragraphe organisé : introduction, 2 ou 3 arguments illustrés, conclusion. Environ 12–18 lignes.</p>
+      <textarea placeholder="Écris ton paragraphe ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Correction — exemple de paragraphe rédigé</h4>
+        <p><strong>Introduction :</strong> L'engagement citoyen, c'est le fait d'agir et de participer à la vie de la société pour aider les autres ou défendre une cause. Il peut prendre de nombreuses formes et concerne tous les citoyens, même les plus jeunes.</p>
+        <p style="margin-top:8px"><strong>Argument 1 — De nombreuses formes :</strong> On peut s'engager en votant, en aidant dans une association (garantie par la loi de 1901), en faisant du bénévolat ou en donnant son sang. Comme le montre le document 1, une jeune fille est bénévole pour distribuer des repas aux personnes sans logement.</p>
+        <p style="margin-top:8px"><strong>Argument 2 — L'engagement des jeunes :</strong> On peut s'engager dès le collège, en devenant délégué de classe ou en participant au conseil de vie collégienne. Le document 2 rappelle aussi le service civique, possible dès 16 ans, et la journée défense et citoyenneté.</p>
+        <p style="margin-top:8px"><strong>Argument 3 — Pourquoi c'est important :</strong> L'engagement renforce la solidarité et la fraternité, deux valeurs de la République. Il fait aussi vivre la démocratie, car celle-ci a besoin de citoyens actifs qui participent et s'entraident.</p>
+        <p style="margin-top:8px"><strong>Conclusion :</strong> Ainsi, l'engagement citoyen aide les autres, renforce la solidarité et fait fonctionner la démocratie. Chacun, même jeune, peut y participer à sa façon.</p>
+        <div class="methode-box">
+          <strong>💡 Méthode — Le développement construit en 4 étapes :</strong><br>
+          1. Introduction : définis « l'engagement citoyen ».<br>
+          2. Arguments : donne des exemples variés, puis explique l'intérêt.<br>
+          3. Connecteurs : « D'abord… », « Ensuite… », « Enfin… ».<br>
+          4. Conclusion : montre pourquoi l'engagement est utile à tous.
+        </div>
+        <div class="vocab-box">
+          <strong>📖 Vocabulaire utile pour rédiger :</strong><br>
+          — <em>Engagement</em> = action de participer pour les autres<br>
+          — <em>Bénévolat</em> = aide gratuite, sans être payé<br>
+          — <em>Solidarité</em> = entraide entre les membres de la société<br>
+          — <em>Fraternité</em> = lien d'amitié et d'entraide entre les citoyens
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── TABS ──
+function showPanel(id,tab){
+  var panels=document.querySelectorAll('.panel');
+  for(var i=0;i<panels.length;i++){panels[i].classList.remove('active');}
+  var tabs=document.querySelectorAll('.tab');
+  for(var j=0;j<tabs.length;j++){tabs[j].classList.remove('active');}
+  document.getElementById('panel-'+id).classList.add('active');
+  tab.classList.add('active');
+}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+
+// ── FRISE ──
+
+
+// ── QUIZ ──
+var QUESTIONS=[{"q": "Que veut dire « s'engager » ?", "opts": ["Rester chez soi sans rien faire", "Agir et participer à la vie de la société pour les autres", "Gagner beaucoup d'argent", "Voyager à l'étranger"], "correct": 1, "expl": "S'engager, c'est agir et participer à la vie de la société, souvent pour aider les autres ou défendre une cause. C'est le contraire de rester de côté."}, {"q": "Qu'est-ce qu'une association ?", "opts": ["Une entreprise qui vend des produits", "Un groupe de personnes réunies librement autour d'un même but", "Un service de l'État", "Un parti politique au pouvoir"], "correct": 1, "expl": "Une association est un groupe de personnes qui se réunissent librement pour agir ensemble autour d'un même but (sport, culture, solidarité…). La liberté d'en créer est garantie par la loi de 1901."}, {"q": "Quelle loi garantit la liberté de créer une association en France ?", "opts": ["La loi de 1789", "La loi de 1901", "La loi de 1944", "La loi de 1958"], "correct": 1, "expl": "C'est la loi de 1901 qui garantit la liberté d'association en France. Grâce à elle, chacun peut créer ou rejoindre une association librement."}, {"q": "Qu'est-ce que le bénévolat ?", "opts": ["Donner de son temps gratuitement pour aider", "Un travail très bien payé", "Une punition", "Un impôt"], "correct": 0, "expl": "Le bénévolat, c'est donner de son temps gratuitement pour aider, sans être payé. C'est une forme d'engagement très répandue, par exemple dans les associations."}, {"q": "À partir de quel âge un jeune peut-il faire un service civique ?", "opts": ["10 ans", "16 ans", "30 ans", "40 ans"], "correct": 1, "expl": "Le service civique est ouvert aux jeunes de 16 à 25 ans. Il leur permet de s'engager plusieurs mois dans une mission d'intérêt général (aide, environnement, solidarité…)."}, {"q": "Qui représente les élèves d'une classe au collège ?", "opts": ["Le directeur", "Le délégué de classe", "Le professeur principal", "Le maire"], "correct": 1, "expl": "Le délégué de classe est un élève élu par ses camarades pour représenter la classe et faire remonter ses idées. C'est une première forme d'engagement au collège."}, {"q": "Que se passe-t-il à 16 ans après le recensement ?", "opts": ["On devient majeur", "On participe à la journée défense et citoyenneté", "On entre obligatoirement dans l'armée", "On peut voter"], "correct": 1, "expl": "Après le recensement à 16 ans, chaque jeune participe à la journée défense et citoyenneté. Cette journée informe sur la défense du pays et sur la citoyenneté."}, {"q": "Quelle armée la France possède-t-elle aujourd'hui ?", "opts": ["Une armée obligatoire pour tous", "Une armée professionnelle", "Aucune armée", "Une armée d'enfants"], "correct": 1, "expl": "La France possède une armée professionnelle, c'est-à-dire composée de militaires de métier. Elle est complétée par la réserve, formée de citoyens qui aident l'armée."}, {"q": "Donner son sang est une forme d'engagement parce que…", "opts": ["cela rapporte de l'argent", "cela peut sauver des vies", "c'est obligatoire", "cela permet de voter"], "correct": 1, "expl": "Donner son sang est une forme d'engagement solidaire : c'est un geste gratuit qui peut sauver des vies. C'est un exemple d'engagement que l'on peut faire seul."}, {"q": "Pourquoi l'engagement est-il important pour la démocratie ?", "opts": ["Parce qu'une démocratie a besoin de citoyens actifs", "Parce qu'il supprime les élections", "Parce qu'il rend les gens riches", "Parce qu'il interdit les associations"], "correct": 0, "expl": "Une démocratie a besoin de citoyens actifs qui participent, votent, s'entraident et défendent des causes. L'engagement fait donc vivre la démocratie au quotidien."}, {"q": "Quelle valeur de la République est renforcée par l'entraide et l'engagement ?", "opts": ["La fraternité", "La richesse", "La vitesse", "Le silence"], "correct": 0, "expl": "L'entraide et l'engagement renforcent la fraternité, l'une des trois valeurs de la devise « Liberté, Égalité, Fraternité ». S'engager pour les autres, c'est faire vivre cette fraternité."}, {"q": "Quel organe permet aux élèves de participer à la vie de leur collège ?", "opts": ["Le conseil de vie collégienne", "Le conseil des ministres", "Le Sénat", "Le tribunal"], "correct": 0, "expl": "Le conseil de vie collégienne permet aux élèves de donner leur avis, de proposer des projets et de participer à la vie de leur collège. C'est une forme d'engagement adaptée aux jeunes."}];
+var answered={},score=0;
+function buildQuiz(){
+  var c=document.getElementById('quiz-container');
+  c.innerHTML=''; answered={}; score=0;
+  QUESTIONS.forEach(function(q,i){
+    var div=document.createElement('div');
+    div.className='quiz-q';
+    var opts=q.opts.map(function(o,j){return '<button class="quiz-opt" onclick="answer('+i+','+j+')">'+o+'</button>';}).join('');
+    div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div>'+
+      '<div class="quiz-options" id="opts-'+i+'">'+opts+'</div>'+
+      '<div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  });
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;
+  answered[qi]=choice;
+  var q=QUESTIONS[qi];
+  var opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for(var k=0;k<opts.length;k++){opts[k].classList.add('disabled');}
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  var ok=choice===q.correct;
+  if(ok) score++;
+  var expl=document.getElementById('expl-'+qi);
+  expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  var el=document.getElementById('quiz-score');
+  var pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  var msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;
+  el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+
+window.showPanel=showPanel;
+window.showCorr=showCorr;
+window.buildQuiz=buildQuiz;
+window.answer=answer;
+window.showScore=showScore;
+window.resetQuiz=resetQuiz;
+</script>
+</body>
+</html>

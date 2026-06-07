@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMC2 — Les institutions de la République</title>
+<style>
+  :root{
+    --rouge:#C0392B;--rouge-light:#FADBD8;--rouge-mid:#E74C3C;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --vert:#1E8449;--vert-light:#D5F5E3;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+    --accent:#6C3483;--accent-light:#E8DAEF;--accent-tint:#FAF5FC;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:rgba(0,0,0,0)}
+  header{background:var(--accent);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:relative;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;-webkit-transition:all 0.15s;transition:all 0.15s}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+
+  /* SECTIONS */
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.rouge{background:var(--rouge)}
+  .section-head.bleu{background:var(--bleu)}
+  .section-head.vert{background:var(--vert)}
+  .section-head.orange{background:var(--orange)}
+  .section-head.violet{background:var(--violet)}
+  .section-head.gris{background:var(--gris)}
+  .section-head.accent{background:var(--accent)}
+  .section-body{padding:14px}
+
+  /* INFO BOX */
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+
+  /* BULLETS */
+  .bull-list{margin:8px 0 8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"\2022";position:absolute;left:4px;color:var(--accent);font-weight:700}
+
+  /* FRISE */
+  .frise-container{overflow-x:auto;padding-bottom:6px}
+  .frise{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:0;min-width:900px;padding:20px 0 10px;position:relative}
+  .frise::before{content:'';position:absolute;top:42px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--orange),var(--bleu));z-index:0}
+  .frise-item{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;position:relative;z-index:1;cursor:pointer}
+  .frise-dot{width:16px;height:16px;border-radius:50%;background:var(--accent);border:3px solid white;box-shadow:0 0 0 2px var(--accent);margin-bottom:8px;-webkit-transition:-webkit-transform 0.15s;transition:transform 0.15s}
+  .frise-item:hover .frise-dot{-webkit-transform:scale(1.4);transform:scale(1.4)}
+  .frise-item.important .frise-dot{width:22px;height:22px;background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+  .frise-date{font-size:10px;font-weight:700;color:var(--accent);text-align:center;margin-bottom:4px;line-height:1.2}
+  .frise-label{font-size:10px;color:var(--muted);text-align:center;max-width:80px;line-height:1.3}
+  .frise-detail{display:none;background:white;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6;margin-top:8px;max-width:160px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.1);position:absolute;top:70px;z-index:10;min-width:140px}
+  .frise-detail.show{display:block}
+  .frise-detail strong{color:var(--accent);display:block;margin-bottom:4px}
+
+  /* TABLE DATES */
+  .dates-table{width:100%;border-collapse:collapse;font-size:13px}
+  .dates-table th{background:var(--accent);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .dates-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .dates-table tr:last-child td{border-bottom:none}
+  .dates-table tr:nth-child(even) td{background:var(--accent-tint)}
+  .dates-table .date-cell{font-weight:700;color:var(--accent);white-space:nowrap;min-width:110px}
+  .dates-table .event-cell{font-weight:600;color:var(--text)}
+  .dates-table .detail-cell{color:var(--muted);font-size:12px}
+
+  /* DEUX CAMPS / DEUX COLONNES */
+  .camps-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+  .camp{border-radius:8px;overflow:hidden}
+  .camp-head{padding:8px 12px;font-size:13px;font-weight:700;color:white;text-align:center}
+  .camp-body{padding:10px 12px;font-size:12px;line-height:1.9}
+  .camp-body li{list-style:none;padding:1px 0}
+  .camp-body li::before{content:"\2192 ";color:inherit;font-weight:700}
+
+  /* MOT CLE */
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--accent-light);color:var(--accent);font-weight:700;font-size:12px;padding:8px 12px;min-width:130px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+
+  /* PERSO */
+  .perso-row{display:-webkit-flex;display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);-webkit-align-items:flex-start;align-items:flex-start}
+  .perso-row:last-child{border-bottom:none}
+  .perso-avatar{width:40px;height:40px;border-radius:50%;background:var(--accent);color:white;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:14px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0}
+  .perso-info{-webkit-flex:1;flex:1}
+  .perso-nom{font-weight:700;font-size:13px;color:var(--accent);margin-bottom:2px}
+  .perso-camp{font-size:10px;background:var(--accent-light);color:var(--accent);padding:1px 8px;border-radius:20px;display:inline-block;margin-bottom:4px}
+  .perso-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+  /* BILAN */
+  .bilan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:4px}
+  .bilan-card{border-radius:8px;padding:12px;text-align:center}
+  .bilan-card .num{font-size:24px;font-weight:800;margin-bottom:4px}
+  .bilan-card .lbl{font-size:11px;line-height:1.4}
+
+  /* ENCHAINEMENT */
+  .chain{counter-reset:chain}
+  .chain-item{display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;-webkit-align-items:flex-start;align-items:flex-start}
+  .chain-num{background:var(--accent);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0;margin-top:1px}
+  .chain-text{font-size:13px;line-height:1.6;-webkit-flex:1;flex:1}
+  .chain-text strong{color:var(--accent)}
+
+  /* BREVET BOX */
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+
+  /* QUIZ */
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--accent);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;-webkit-transition:all 0.15s;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--accent);background:var(--accent-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .btn-reset{background:var(--accent);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+
+  /* EXOS */
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--accent-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--accent);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--accent);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px}
+  textarea:focus{outline:none;border-color:var(--accent)}
+  .btn-corr{background:var(--accent);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+
+  @media(max-width:500px){.camps-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🏛️ EMC2 — Les institutions de la République</h1>
+  <p>Fiche complète · Enseignement moral et civique · Brevet 2026</p>
+</header>
+
+<div class="tabs">
+<div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+<div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+<div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ══════════════════════════ FICHE ══════════════════════════ -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head accent">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> Depuis <strong>1958</strong>, la France vit sous la <strong>Cinquième République</strong>. Le pouvoir est partagé entre le <strong>président</strong>, le <strong>gouvernement</strong> et le <strong>Parlement</strong>. Cette séparation des pouvoirs empêche qu'une seule personne décide de tout.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">📜 La Cinquième République et la Constitution</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">En <strong>1958</strong>, la France adopte une nouvelle <strong>Constitution</strong>. C'est le texte le plus important du pays : il fixe les règles du fonctionnement de l'État et les droits des citoyens. C'est le début de la Cinquième République.</p>
+      <ul class="bull-list">
+        <li>La Constitution organise les différents <strong>pouvoirs</strong> et leurs rôles.</li>
+        <li>Elle garantit les <strong>libertés</strong> et les droits des citoyens.</li>
+        <li>Aucune loi ne peut aller contre la Constitution.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">⚖️ La séparation des pouvoirs</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Pour éviter qu'une seule personne ait tout le pouvoir, on sépare les pouvoirs en trois. Cette idée vient du philosophe <strong>Montesquieu</strong>.</p>
+      <div class="camps-grid">
+        <div class="camp">
+          <div class="camp-head" style="background:var(--accent)">LES TROIS POUVOIRS</div>
+          <div class="camp-body" style="background:var(--accent-light);color:var(--accent)">
+            <ul>
+              <li>Pouvoir exécutif</li>
+              <li>Pouvoir législatif</li>
+              <li>Pouvoir judiciaire</li>
+            </ul>
+          </div>
+        </div>
+        <div class="camp">
+          <div class="camp-head" style="background:var(--bleu)">QUI L'EXERCE</div>
+          <div class="camp-body" style="background:var(--bleu-light);color:var(--bleu)">
+            <ul>
+              <li>Le président et le gouvernement</li>
+              <li>Le Parlement (députés et sénateurs)</li>
+              <li>Les juges et les tribunaux</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;margin-top:12px">Le pouvoir <strong>exécutif</strong> applique les lois, le pouvoir <strong>législatif</strong> vote les lois, et le pouvoir <strong>judiciaire</strong> fait respecter les lois et juge ceux qui ne les respectent pas.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">👤 Le président de la République</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li>Il est élu pour <strong>5 ans</strong> au <strong>suffrage universel direct</strong> : ce sont les citoyens qui le choisissent directement.</li>
+        <li>Il est le <strong>chef de l'État</strong> et le <strong>chef des armées</strong>.</li>
+        <li>Il nomme le <strong>Premier ministre</strong>.</li>
+        <li>Il <strong>promulgue</strong> les lois, c'est-à-dire qu'il les rend officielles.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">🏢 Le gouvernement</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li>Il est dirigé par le <strong>Premier ministre</strong>, nommé par le président.</li>
+        <li>Il est composé des <strong>ministres</strong> (Éducation, Santé, Économie…).</li>
+        <li>Il <strong>dirige la politique</strong> de la France et fait appliquer les lois.</li>
+        <li>Avec le président, il forme le <strong>pouvoir exécutif</strong>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">🗳️ Le Parlement : qui fait les lois</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Le Parlement vote les lois. Il est composé de <strong>deux chambres</strong> :</p>
+      <div class="camps-grid">
+        <div class="camp">
+          <div class="camp-head" style="background:var(--bleu)">L'ASSEMBLÉE NATIONALE</div>
+          <div class="camp-body" style="background:var(--bleu-light);color:var(--bleu)">
+            <ul>
+              <li>Composée de députés</li>
+              <li>Élus pour 5 ans</li>
+              <li>Au suffrage universel direct</li>
+              <li>Vote les lois</li>
+            </ul>
+          </div>
+        </div>
+        <div class="camp">
+          <div class="camp-head" style="background:var(--accent)">LE SÉNAT</div>
+          <div class="camp-body" style="background:var(--accent-light);color:var(--accent)">
+            <ul>
+              <li>Composé de sénateurs</li>
+              <li>Élus de façon indirecte</li>
+              <li>Examine aussi les lois</li>
+              <li>Représente les territoires</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;margin-top:12px">Le Parlement forme le <strong>pouvoir législatif</strong> : c'est lui qui discute et vote les lois.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">📝 Les mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Constitution</div><div class="mc-def">Texte le plus important d'un pays : il fixe les règles de fonctionnement de l'État et les droits des citoyens.</div></div>
+      <div class="mc-row"><div class="mc-terme">Cinquième République</div><div class="mc-def">Régime politique de la France depuis 1958. Elle organise le partage du pouvoir entre le président, le gouvernement et le Parlement.</div></div>
+      <div class="mc-row"><div class="mc-terme">Séparation des pouvoirs</div><div class="mc-def">Partage du pouvoir en trois (exécutif, législatif, judiciaire) pour éviter qu'une seule personne décide de tout. Idée de Montesquieu.</div></div>
+      <div class="mc-row"><div class="mc-terme">Pouvoir exécutif</div><div class="mc-def">Pouvoir qui applique les lois et dirige le pays : le président et le gouvernement.</div></div>
+      <div class="mc-row"><div class="mc-terme">Pouvoir législatif</div><div class="mc-def">Pouvoir qui vote les lois : le Parlement (Assemblée nationale et Sénat).</div></div>
+      <div class="mc-row"><div class="mc-terme">Pouvoir judiciaire</div><div class="mc-def">Pouvoir qui fait respecter les lois et juge ceux qui ne les respectent pas : les juges et les tribunaux.</div></div>
+      <div class="mc-row"><div class="mc-terme">Suffrage universel direct</div><div class="mc-def">Mode d'élection où les citoyens votent directement pour choisir une personne (comme le président ou les députés).</div></div>
+      <div class="mc-row"><div class="mc-terme">Promulguer</div><div class="mc-def">Rendre une loi officielle. C'est le président qui promulgue les lois votées par le Parlement.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head violet">🎯 Ce qui tombe souvent au brevet</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li>Dire depuis quand existe la <strong>Cinquième République</strong> (1958) et ce qu'est la <strong>Constitution</strong></li>
+        <li>Expliquer la <strong>séparation des pouvoirs</strong> et citer les trois pouvoirs</li>
+        <li>Décrire le rôle du <strong>président</strong> (élu 5 ans, chef de l'État et des armées)</li>
+        <li>Expliquer ce que fait le <strong>Parlement</strong> (voter les lois)</li>
+        <li>Différencier <strong>Assemblée nationale</strong> et <strong>Sénat</strong></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ QUIZ ══════════════════════════ -->
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz EMC2 :</strong> 12 questions sur les institutions de la République. Clique sur ta réponse pour voir l'explication.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num">0/12</div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Recommencer</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════ EXERCICE ══════════════════════ -->
+<div class="panel" id="panel-exo">
+
+  <div style="display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:10px;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap">
+    <span class="duree-badge">⏱ Durée : 30 minutes</span>
+    <span style="font-size:12px;color:var(--muted)">Exercice — Étude de documents (épreuve d'EMC)</span>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Document 1 — Comment une loi est faite</h3>
+    <p>« En France, une loi suit un parcours précis. D'abord, elle est discutée et votée par le Parlement, c'est-à-dire par l'Assemblée nationale et le Sénat. Une fois que la loi est votée, le président de la République la promulgue : il la signe pour la rendre officielle. Le gouvernement doit ensuite veiller à ce qu'elle soit appliquée partout dans le pays. »</p>
+    <div class="doc-source">Source : texte adapté à des fins pédagogiques, manuel d'EMC de 3ème.</div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Document 2 — Les institutions en quelques repères</h3>
+    <p>
+      • <strong>1958 :</strong> début de la Cinquième République (Constitution)<br>
+      • <strong>Pouvoir exécutif :</strong> le président et le gouvernement<br>
+      • <strong>Pouvoir législatif :</strong> le Parlement (Assemblée nationale + Sénat)<br>
+      • <strong>Pouvoir judiciaire :</strong> les juges et les tribunaux<br>
+      • <strong>Le président :</strong> élu pour 5 ans au suffrage universel direct<br>
+      • <strong>Idée clé :</strong> la séparation des pouvoirs (Montesquieu)
+    </p>
+    <div class="doc-source">Source : repères d'éducation civique, manuel de 3ème.</div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Comprendre les documents</span><span class="pts">5 points</span></div>
+    <div class="q-exo-body">
+      <p>À l'aide du document 1, explique les différentes étapes par lesquelles passe une loi, du vote jusqu'à son application.</p>
+      <textarea placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p>Une loi passe par plusieurs étapes. D'abord, comme l'explique le document 1, elle est discutée et votée par le Parlement, c'est-à-dire par l'Assemblée nationale et le Sénat.</p>
+        <p style="margin-top:8px">Ensuite, le président de la République la promulgue : il la signe pour la rendre officielle. Enfin, le gouvernement veille à ce que la loi soit appliquée partout dans le pays. On voit donc que plusieurs pouvoirs interviennent : le pouvoir législatif vote, et le pouvoir exécutif rend officiel puis applique.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour une question sur des « étapes », réponds dans l'ordre, en utilisant des mots comme « d'abord », « ensuite », « enfin ». Cela montre que tu as compris le déroulement.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Promulguer</em> = rendre une loi officielle en la signant. <em>Appliquer</em> = faire respecter concrètement.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser un élément précis</span><span class="pts">5 points</span></div>
+    <div class="q-exo-body">
+      <p>En t'appuyant sur le document 2, explique ce qu'est la <strong>séparation des pouvoirs</strong> et pourquoi elle est importante.</p>
+      <textarea placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p>La séparation des pouvoirs consiste à partager le pouvoir en trois. Le document 2 distingue le pouvoir exécutif (le président et le gouvernement), le pouvoir législatif (le Parlement) et le pouvoir judiciaire (les juges et les tribunaux).</p>
+        <p style="margin-top:8px">Cette idée, défendue par Montesquieu, est importante car elle empêche qu'une seule personne détienne tout le pouvoir. Chaque pouvoir contrôle un peu les autres, ce qui protège la liberté des citoyens et fait fonctionner la démocratie.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Quand on demande « ce que c'est » et « pourquoi c'est important », fais deux parties : d'abord la définition (avec les exemples du document), puis l'explication de l'intérêt.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Séparation</em> = partage, division. <em>Contrôler</em> = vérifier, surveiller pour éviter les abus.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Développement construit</span><span class="pts">10 points</span></div>
+    <div class="q-exo-body">
+      <p><strong>Sujet :</strong> En t'appuyant sur les documents et sur tes connaissances, explique comment fonctionnent les institutions de la Cinquième République et qui détient les différents pouvoirs.</p>
+      <p style="font-size:12px;color:var(--muted);margin-top:4px">Rédige un paragraphe organisé : introduction, 2 ou 3 arguments illustrés, conclusion. Environ 12–18 lignes.</p>
+      <textarea placeholder="Écris ton paragraphe ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Correction — exemple de paragraphe rédigé</h4>
+        <p><strong>Introduction :</strong> Depuis 1958, la France vit sous la Cinquième République, organisée par la Constitution. Le pouvoir y est partagé entre plusieurs institutions, selon le principe de la séparation des pouvoirs.</p>
+        <p style="margin-top:8px"><strong>Argument 1 — Le pouvoir exécutif :</strong> Il est exercé par le président de la République et le gouvernement. Le président est élu pour 5 ans au suffrage universel direct ; il est chef de l'État et des armées. Le gouvernement, dirigé par le Premier ministre, applique les lois et dirige la politique du pays.</p>
+        <p style="margin-top:8px"><strong>Argument 2 — Le pouvoir législatif :</strong> Comme le montre le document 1, c'est le Parlement, composé de l'Assemblée nationale et du Sénat, qui vote les lois. Une fois votées, ces lois sont promulguées par le président.</p>
+        <p style="margin-top:8px"><strong>Argument 3 — Le pouvoir judiciaire :</strong> Les juges et les tribunaux font respecter les lois et jugent ceux qui ne les respectent pas. Cette troisième séparation, voulue par Montesquieu, empêche qu'une seule personne décide de tout.</p>
+        <p style="margin-top:8px"><strong>Conclusion :</strong> Ainsi, les institutions de la Cinquième République partagent le pouvoir entre trois pouvoirs. Cet équilibre protège la démocratie et les libertés des citoyens.</p>
+        <div class="methode-box">
+          <strong>💡 Méthode — Le développement construit en 4 étapes :</strong><br>
+          1. Introduction : situe la date (1958) et le mot-clé (séparation des pouvoirs).<br>
+          2. Arguments : un paragraphe par pouvoir, avec qui l'exerce et ce qu'il fait.<br>
+          3. Connecteurs : « D'abord… », « Ensuite… », « Enfin… ».<br>
+          4. Conclusion : explique pourquoi ce partage protège la démocratie.
+        </div>
+        <div class="vocab-box">
+          <strong>📖 Vocabulaire utile pour rédiger :</strong><br>
+          — <em>Institution</em> = grand organe de l'État (président, Parlement…)<br>
+          — <em>Exécutif</em> = qui applique les lois<br>
+          — <em>Législatif</em> = qui vote les lois<br>
+          — <em>Judiciaire</em> = qui juge et fait respecter les lois
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── TABS ──
+function showPanel(id,tab){
+  var panels=document.querySelectorAll('.panel');
+  for(var i=0;i<panels.length;i++){panels[i].classList.remove('active');}
+  var tabs=document.querySelectorAll('.tab');
+  for(var j=0;j<tabs.length;j++){tabs[j].classList.remove('active');}
+  document.getElementById('panel-'+id).classList.add('active');
+  tab.classList.add('active');
+}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+
+// ── FRISE ──
+
+
+// ── QUIZ ──
+var QUESTIONS=[{"q": "Depuis quand la France vit-elle sous la Cinquième République ?", "opts": ["1789", "1944", "1958", "2000"], "correct": 2, "expl": "La Cinquième République commence en 1958, avec l'adoption d'une nouvelle Constitution. C'est le régime politique actuel de la France."}, {"q": "Qu'est-ce que la Constitution ?", "opts": ["Une loi comme les autres", "Le texte le plus important du pays, qui fixe les règles de l'État", "Un journal officiel", "Le discours du président"], "correct": 1, "expl": "La Constitution est le texte le plus important d'un pays. Elle fixe les règles de fonctionnement de l'État et garantit les droits des citoyens. Aucune loi ne peut aller contre la Constitution."}, {"q": "Qui a développé l'idée de la séparation des pouvoirs ?", "opts": ["Napoléon", "Montesquieu", "Jules Ferry", "Victor Hugo"], "correct": 1, "expl": "L'idée de séparer les pouvoirs vient du philosophe Montesquieu. Le but est d'éviter qu'une seule personne détienne tout le pouvoir, ce qui protège la démocratie."}, {"q": "Quels sont les trois pouvoirs de l'État ?", "opts": ["Le roi, l'armée et l'Église", "L'exécutif, le législatif et le judiciaire", "Le maire, le préfet et le ministre", "La police, la justice et l'école"], "correct": 1, "expl": "Les trois pouvoirs sont : l'exécutif (qui applique les lois), le législatif (qui vote les lois) et le judiciaire (qui fait respecter les lois et juge)."}, {"q": "Qui exerce le pouvoir législatif en France ?", "opts": ["Le président seul", "Le Parlement (Assemblée nationale et Sénat)", "Les juges", "Le Premier ministre"], "correct": 1, "expl": "Le pouvoir législatif, c'est-à-dire le pouvoir de voter les lois, est exercé par le Parlement. Celui-ci est composé de l'Assemblée nationale (les députés) et du Sénat (les sénateurs)."}, {"q": "Pour combien de temps le président de la République est-il élu ?", "opts": ["3 ans", "5 ans", "7 ans", "10 ans"], "correct": 1, "expl": "Le président de la République est élu pour 5 ans, au suffrage universel direct, c'est-à-dire directement par les citoyens."}, {"q": "Le président de la République est aussi…", "opts": ["le maire de Paris", "le chef des armées", "un juge", "un député"], "correct": 1, "expl": "Le président de la République est le chef de l'État et le chef des armées. Il nomme aussi le Premier ministre et promulgue les lois."}, {"q": "Qui dirige le gouvernement ?", "opts": ["Le président de la République", "Le Premier ministre", "Le président du Sénat", "Le maire"], "correct": 1, "expl": "Le gouvernement est dirigé par le Premier ministre, qui est nommé par le président. Le gouvernement est composé des ministres et dirige la politique du pays."}, {"q": "Qui forme le pouvoir exécutif ?", "opts": ["Les juges", "Le président et le gouvernement", "Les députés et les sénateurs", "Les citoyens"], "correct": 1, "expl": "Le pouvoir exécutif est formé par le président de la République et le gouvernement (Premier ministre et ministres). Il applique les lois et dirige le pays."}, {"q": "Que veut dire « promulguer une loi » ?", "opts": ["La voter", "La rendre officielle", "La supprimer", "La traduire"], "correct": 1, "expl": "Promulguer une loi, c'est la rendre officielle. C'est le président de la République qui promulgue les lois après qu'elles ont été votées par le Parlement."}, {"q": "Comment les députés de l'Assemblée nationale sont-ils choisis ?", "opts": ["Ils sont nommés par le président", "Ils sont élus au suffrage universel direct pour 5 ans", "Ils héritent de leur poste", "Ils sont tirés au sort"], "correct": 1, "expl": "Les députés sont élus au suffrage universel direct, c'est-à-dire directement par les citoyens, pour une durée de 5 ans. Ils siègent à l'Assemblée nationale et votent les lois."}, {"q": "Pourquoi sépare-t-on les pouvoirs ?", "opts": ["Pour aller plus vite", "Pour éviter qu'une seule personne détienne tout le pouvoir", "Pour économiser de l'argent", "Pour supprimer les élections"], "correct": 1, "expl": "On sépare les pouvoirs pour éviter qu'une seule personne ou un seul groupe détienne tout le pouvoir. Cela protège la liberté des citoyens et fait fonctionner la démocratie."}];
+var answered={},score=0;
+function buildQuiz(){
+  var c=document.getElementById('quiz-container');
+  c.innerHTML=''; answered={}; score=0;
+  QUESTIONS.forEach(function(q,i){
+    var div=document.createElement('div');
+    div.className='quiz-q';
+    var opts=q.opts.map(function(o,j){return '<button class="quiz-opt" onclick="answer('+i+','+j+')">'+o+'</button>';}).join('');
+    div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div>'+
+      '<div class="quiz-options" id="opts-'+i+'">'+opts+'</div>'+
+      '<div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  });
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;
+  answered[qi]=choice;
+  var q=QUESTIONS[qi];
+  var opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for(var k=0;k<opts.length;k++){opts[k].classList.add('disabled');}
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  var ok=choice===q.correct;
+  if(ok) score++;
+  var expl=document.getElementById('expl-'+qi);
+  expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  var el=document.getElementById('quiz-score');
+  var pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  var msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;
+  el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+
+window.showPanel=showPanel;
+window.showCorr=showCorr;
+window.buildQuiz=buildQuiz;
+window.answer=answer;
+window.showScore=showScore;
+window.resetQuiz=resetQuiz;
+</script>
+</body>
+</html>

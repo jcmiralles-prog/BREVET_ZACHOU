@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMC1 — La démocratie et la citoyenneté</title>
+<style>
+  :root{
+    --rouge:#C0392B;--rouge-light:#FADBD8;--rouge-mid:#E74C3C;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --vert:#1E8449;--vert-light:#D5F5E3;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+    --accent:#6C3483;--accent-light:#E8DAEF;--accent-tint:#FAF5FC;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:rgba(0,0,0,0)}
+  header{background:var(--accent);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:relative;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;-webkit-transition:all 0.15s;transition:all 0.15s}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+
+  /* SECTIONS */
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.rouge{background:var(--rouge)}
+  .section-head.bleu{background:var(--bleu)}
+  .section-head.vert{background:var(--vert)}
+  .section-head.orange{background:var(--orange)}
+  .section-head.violet{background:var(--violet)}
+  .section-head.gris{background:var(--gris)}
+  .section-head.accent{background:var(--accent)}
+  .section-body{padding:14px}
+
+  /* INFO BOX */
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+
+  /* BULLETS */
+  .bull-list{margin:8px 0 8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"\2022";position:absolute;left:4px;color:var(--accent);font-weight:700}
+
+  /* FRISE */
+  .frise-container{overflow-x:auto;padding-bottom:6px}
+  .frise{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:0;min-width:900px;padding:20px 0 10px;position:relative}
+  .frise::before{content:'';position:absolute;top:42px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--orange),var(--bleu));z-index:0}
+  .frise-item{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;position:relative;z-index:1;cursor:pointer}
+  .frise-dot{width:16px;height:16px;border-radius:50%;background:var(--accent);border:3px solid white;box-shadow:0 0 0 2px var(--accent);margin-bottom:8px;-webkit-transition:-webkit-transform 0.15s;transition:transform 0.15s}
+  .frise-item:hover .frise-dot{-webkit-transform:scale(1.4);transform:scale(1.4)}
+  .frise-item.important .frise-dot{width:22px;height:22px;background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+  .frise-date{font-size:10px;font-weight:700;color:var(--accent);text-align:center;margin-bottom:4px;line-height:1.2}
+  .frise-label{font-size:10px;color:var(--muted);text-align:center;max-width:80px;line-height:1.3}
+  .frise-detail{display:none;background:white;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6;margin-top:8px;max-width:160px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.1);position:absolute;top:70px;z-index:10;min-width:140px}
+  .frise-detail.show{display:block}
+  .frise-detail strong{color:var(--accent);display:block;margin-bottom:4px}
+
+  /* TABLE DATES */
+  .dates-table{width:100%;border-collapse:collapse;font-size:13px}
+  .dates-table th{background:var(--accent);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .dates-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .dates-table tr:last-child td{border-bottom:none}
+  .dates-table tr:nth-child(even) td{background:var(--accent-tint)}
+  .dates-table .date-cell{font-weight:700;color:var(--accent);white-space:nowrap;min-width:110px}
+  .dates-table .event-cell{font-weight:600;color:var(--text)}
+  .dates-table .detail-cell{color:var(--muted);font-size:12px}
+
+  /* DEUX CAMPS / DEUX COLONNES */
+  .camps-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+  .camp{border-radius:8px;overflow:hidden}
+  .camp-head{padding:8px 12px;font-size:13px;font-weight:700;color:white;text-align:center}
+  .camp-body{padding:10px 12px;font-size:12px;line-height:1.9}
+  .camp-body li{list-style:none;padding:1px 0}
+  .camp-body li::before{content:"\2192 ";color:inherit;font-weight:700}
+
+  /* MOT CLE */
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--accent-light);color:var(--accent);font-weight:700;font-size:12px;padding:8px 12px;min-width:130px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+
+  /* PERSO */
+  .perso-row{display:-webkit-flex;display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);-webkit-align-items:flex-start;align-items:flex-start}
+  .perso-row:last-child{border-bottom:none}
+  .perso-avatar{width:40px;height:40px;border-radius:50%;background:var(--accent);color:white;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:14px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0}
+  .perso-info{-webkit-flex:1;flex:1}
+  .perso-nom{font-weight:700;font-size:13px;color:var(--accent);margin-bottom:2px}
+  .perso-camp{font-size:10px;background:var(--accent-light);color:var(--accent);padding:1px 8px;border-radius:20px;display:inline-block;margin-bottom:4px}
+  .perso-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+  /* BILAN */
+  .bilan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:4px}
+  .bilan-card{border-radius:8px;padding:12px;text-align:center}
+  .bilan-card .num{font-size:24px;font-weight:800;margin-bottom:4px}
+  .bilan-card .lbl{font-size:11px;line-height:1.4}
+
+  /* ENCHAINEMENT */
+  .chain{counter-reset:chain}
+  .chain-item{display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;-webkit-align-items:flex-start;align-items:flex-start}
+  .chain-num{background:var(--accent);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0;margin-top:1px}
+  .chain-text{font-size:13px;line-height:1.6;-webkit-flex:1;flex:1}
+  .chain-text strong{color:var(--accent)}
+
+  /* BREVET BOX */
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+
+  /* QUIZ */
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--accent);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;-webkit-transition:all 0.15s;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--accent);background:var(--accent-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .btn-reset{background:var(--accent);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+
+  /* EXOS */
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--accent-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--accent);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--accent);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px}
+  textarea:focus{outline:none;border-color:var(--accent)}
+  .btn-corr{background:var(--accent);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+
+  @media(max-width:500px){.camps-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🗳️ EMC1 — La démocratie et la citoyenneté</h1>
+  <p>Fiche complète · Enseignement moral et civique · Brevet 2026</p>
+</header>
+
+<div class="tabs">
+<div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+<div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+<div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ══════════════════════════ FICHE ══════════════════════════ -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head accent">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> La <strong>démocratie</strong> est un système où le pouvoir appartient au peuple. En France, ce sont les <strong>citoyens</strong> qui élisent leurs représentants. Être citoyen, c'est avoir des <strong>droits</strong> (comme voter) mais aussi des <strong>devoirs</strong> (comme respecter la loi).
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">🏛️ Qu'est-ce que la démocratie ?</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Le mot « démocratie » vient de deux mots grecs : <strong>démos</strong> (le peuple) et <strong>kratos</strong> (le pouvoir). La démocratie, c'est donc le <strong>pouvoir du peuple</strong>.</p>
+      <ul class="bull-list">
+        <li>Dans une démocratie, ce sont les citoyens qui décident, directement ou en élisant des représentants.</li>
+        <li>En France, on parle de <strong>démocratie représentative</strong> : les citoyens votent pour élire des personnes (le président, les députés…) qui décident à leur place.</li>
+        <li>Dans une démocratie, les libertés sont respectées : liberté de penser, de s'exprimer, de se réunir.</li>
+      </ul>
+      <div class="warn-box"><strong>Le contraire :</strong> Une dictature est un régime où une seule personne ou un seul groupe détient tout le pouvoir et où les libertés ne sont pas respectées.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">⚖️ Les valeurs et principes de la République française</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">La France est une République démocratique. Sa devise est : <strong>« Liberté, Égalité, Fraternité »</strong>.</p>
+      <div class="camps-grid">
+        <div class="camp">
+          <div class="camp-head" style="background:var(--accent)">LES VALEURS</div>
+          <div class="camp-body" style="background:var(--accent-light);color:var(--accent)">
+            <ul>
+              <li>Liberté</li>
+              <li>Égalité</li>
+              <li>Fraternité</li>
+              <li>Laïcité</li>
+            </ul>
+          </div>
+        </div>
+        <div class="camp">
+          <div class="camp-head" style="background:var(--bleu)">CE QUE ÇA VEUT DIRE</div>
+          <div class="camp-body" style="background:var(--bleu-light);color:var(--bleu)">
+            <ul>
+              <li>Être libre dans le respect des autres</li>
+              <li>Mêmes droits pour tous</li>
+              <li>Solidarité entre les citoyens</li>
+              <li>L'État ne favorise aucune religion</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;margin-top:12px">La <strong>laïcité</strong> est très importante : l'État reste neutre face aux religions. Chacun est libre de croire ou de ne pas croire, mais la religion reste une affaire privée. À l'école, ce principe garantit que tous les élèves sont traités de la même façon.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">👤 Le citoyen : des droits et des devoirs</div>
+    <div class="section-body">
+      <div class="camps-grid">
+        <div class="camp">
+          <div class="camp-head" style="background:var(--vert)">LES DROITS</div>
+          <div class="camp-body" style="background:var(--vert-light);color:var(--vert)">
+            <ul>
+              <li>Voter et être élu</li>
+              <li>S'exprimer librement</li>
+              <li>Être protégé par la loi</li>
+              <li>Se réunir, manifester</li>
+            </ul>
+          </div>
+        </div>
+        <div class="camp">
+          <div class="camp-head" style="background:var(--orange)">LES DEVOIRS</div>
+          <div class="camp-body" style="background:var(--orange-light);color:var(--orange)">
+            <ul>
+              <li>Respecter la loi</li>
+              <li>Payer ses impôts</li>
+              <li>Être juré si on est appelé</li>
+              <li>Respecter les autres</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;margin-top:12px">Un citoyen n'a pas seulement des droits : il a aussi des devoirs. C'est ce qui permet à la société de bien fonctionner et à la démocratie de vivre.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">🇫🇷 Comment devient-on citoyen français ?</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li>On est français par la <strong>nationalité</strong> : par le « droit du sang » (avoir un parent français) ou le « droit du sol » (naître en France et y vivre sous certaines conditions).</li>
+        <li>À <strong>16 ans</strong>, on doit se faire <strong>recenser</strong> à la mairie : c'est une obligation.</li>
+        <li>On participe ensuite à la <strong>journée défense et citoyenneté</strong>, qui informe les jeunes sur leurs droits et leurs devoirs.</li>
+        <li>À <strong>18 ans</strong>, on devient majeur : on peut alors <strong>voter</strong>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">📝 Les mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Démocratie</div><div class="mc-def">Système politique dans lequel le pouvoir appartient au peuple : les citoyens décident ou élisent leurs représentants.</div></div>
+      <div class="mc-row"><div class="mc-terme">Citoyen</div><div class="mc-def">Personne qui appartient à une communauté politique (un pays) et qui possède des droits et des devoirs.</div></div>
+      <div class="mc-row"><div class="mc-terme">République</div><div class="mc-def">Régime politique où les dirigeants sont élus et où le pouvoir n'appartient pas à un roi. La France est une République.</div></div>
+      <div class="mc-row"><div class="mc-terme">Suffrage universel</div><div class="mc-def">Droit de vote accordé à tous les citoyens majeurs, sans distinction de richesse, de sexe ou d'origine.</div></div>
+      <div class="mc-row"><div class="mc-terme">Laïcité</div><div class="mc-def">Principe selon lequel l'État reste neutre face aux religions. Chacun est libre de croire ou non ; la religion relève de la vie privée.</div></div>
+      <div class="mc-row"><div class="mc-terme">Droits</div><div class="mc-def">Ce que la loi autorise et garantit au citoyen (voter, s'exprimer, être protégé…).</div></div>
+      <div class="mc-row"><div class="mc-terme">Devoirs</div><div class="mc-def">Ce que le citoyen doit faire pour la société (respecter la loi, payer ses impôts, être juré…).</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">🗳️ Le droit de vote en France</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Le vote est un droit fondamental du citoyen. En France, il est :</p>
+      <ul class="bull-list">
+        <li><strong>Universel :</strong> tous les citoyens majeurs peuvent voter.</li>
+        <li><strong>Égal :</strong> chaque vote compte pareil (« une personne, une voix »).</li>
+        <li><strong>Secret :</strong> personne ne peut savoir pour qui on vote.</li>
+      </ul>
+      <div class="success-box"><strong>À retenir :</strong> Le suffrage universel masculin date de 1848. Les femmes ont obtenu le droit de vote bien plus tard, en 1944. Voter est un droit mais aussi une façon de faire vivre la démocratie.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head violet">🎯 Ce qui tombe souvent au brevet</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li>Définir la <strong>démocratie</strong> (le pouvoir du peuple)</li>
+        <li>Citer la <strong>devise</strong> et les <strong>valeurs</strong> de la République</li>
+        <li>Expliquer la <strong>laïcité</strong></li>
+        <li>Distinguer <strong>droits</strong> et <strong>devoirs</strong> du citoyen</li>
+        <li>Décrire les caractéristiques du <strong>droit de vote</strong> (universel, égal, secret)</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ QUIZ ══════════════════════════ -->
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz EMC1 :</strong> 12 questions sur la démocratie et la citoyenneté. Clique sur ta réponse pour voir l'explication.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num">0/12</div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Recommencer</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════ EXERCICE ══════════════════════ -->
+<div class="panel" id="panel-exo">
+
+  <div style="display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:10px;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap">
+    <span class="duree-badge">⏱ Durée : 30 minutes</span>
+    <span style="font-size:12px;color:var(--muted)">Exercice — Étude de documents (épreuve d'EMC)</span>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Document 1 — Témoignage d'une électrice</h3>
+    <p>« Le jour de l'élection, je me rends dans mon bureau de vote. Je prends les bulletins, je passe dans l'isoloir pour choisir en secret, puis je glisse mon enveloppe dans l'urne. Personne ne sait pour qui je vote, et mon vote compte autant que celui de n'importe quel autre citoyen. Voter, pour moi, c'est participer à la vie de mon pays. »</p>
+    <div class="doc-source">Source : témoignage adapté à des fins pédagogiques, 2026.</div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Document 2 — Quelques repères</h3>
+    <p>
+      • <strong>Devise de la République :</strong> Liberté, Égalité, Fraternité<br>
+      • <strong>1848 :</strong> suffrage universel masculin<br>
+      • <strong>1944 :</strong> droit de vote des femmes<br>
+      • <strong>16 ans :</strong> recensement obligatoire à la mairie<br>
+      • <strong>18 ans :</strong> majorité et droit de vote<br>
+      • <strong>Le vote est :</strong> universel, égal et secret
+    </p>
+    <div class="doc-source">Source : repères d'éducation civique, manuel de 3ème.</div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Comprendre les documents</span><span class="pts">5 points</span></div>
+    <div class="q-exo-body">
+      <p>À l'aide du document 1, explique pourquoi on dit que le vote est <strong>secret</strong> et <strong>égal</strong>.</p>
+      <textarea placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p>Le vote est secret parce que personne ne peut savoir pour qui on a voté. Le document 1 explique que l'électrice passe dans l'isoloir pour choisir en secret avant de glisser son enveloppe dans l'urne.</p>
+        <p style="margin-top:8px">Le vote est aussi égal, car le document précise que son vote compte autant que celui de n'importe quel autre citoyen. C'est le principe « une personne, une voix » : tous les votes ont la même valeur. Ces deux caractéristiques protègent la liberté et l'égalité des électeurs.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Quand une question contient deux mots (ici « secret » et « égal »), réponds bien aux deux, l'un après l'autre, en t'appuyant à chaque fois sur une phrase du document.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Isoloir</em> = petite cabine où l'on choisit son bulletin sans être vu. <em>Urne</em> = boîte dans laquelle on dépose son vote.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser un élément précis</span><span class="pts">5 points</span></div>
+    <div class="q-exo-body">
+      <p>En t'appuyant sur le document 2, explique pourquoi on peut dire que le droit de vote n'a pas toujours été <strong>universel</strong> en France.</p>
+      <textarea placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p>Le droit de vote n'a pas toujours été universel parce qu'au début, tout le monde ne pouvait pas voter. Le document 2 montre que le suffrage universel masculin date de 1848 : à cette époque, seuls les hommes pouvaient voter.</p>
+        <p style="margin-top:8px">Les femmes, elles, n'ont obtenu le droit de vote qu'en 1944, soit près d'un siècle plus tard. Le vote n'est donc devenu vraiment universel, c'est-à-dire ouvert à tous les citoyens majeurs, que progressivement au cours de l'histoire.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour montrer une évolution, compare deux dates : ce qui existait avant (1848, seulement les hommes) et ce qui change après (1944, les femmes). Les dates précises rendent ta réponse solide.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Universel</em> = qui concerne tout le monde. <em>Suffrage</em> = autre mot pour dire « vote ».</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Développement construit</span><span class="pts">10 points</span></div>
+    <div class="q-exo-body">
+      <p><strong>Sujet :</strong> En t'appuyant sur les documents et sur tes connaissances, explique ce qu'est la démocratie et montre que le citoyen a des droits mais aussi des devoirs.</p>
+      <p style="font-size:12px;color:var(--muted);margin-top:4px">Rédige un paragraphe organisé : introduction, 2 ou 3 arguments illustrés, conclusion. Environ 12–18 lignes.</p>
+      <textarea placeholder="Écris ton paragraphe ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Correction — exemple de paragraphe rédigé</h4>
+        <p><strong>Introduction :</strong> La démocratie est un système politique dans lequel le pouvoir appartient au peuple. En France, ce sont les citoyens qui élisent leurs représentants : on parle de démocratie représentative.</p>
+        <p style="margin-top:8px"><strong>Argument 1 — Le citoyen a des droits :</strong> Le citoyen peut voter, s'exprimer librement et être protégé par la loi. Comme le montre le document 1, le vote est universel, égal et secret : chaque citoyen choisit en secret et son vote compte autant que celui des autres.</p>
+        <p style="margin-top:8px"><strong>Argument 2 — Mais aussi des devoirs :</strong> Être citoyen, ce n'est pas seulement avoir des droits. Le citoyen doit aussi respecter la loi, payer ses impôts et, parfois, être juré. Ces devoirs permettent à la société de bien fonctionner.</p>
+        <p style="margin-top:8px"><strong>Argument 3 — Des valeurs communes :</strong> La République repose sur la devise « Liberté, Égalité, Fraternité » et sur la laïcité. Ces valeurs garantissent que tous les citoyens sont traités de la même façon.</p>
+        <p style="margin-top:8px"><strong>Conclusion :</strong> Ainsi, la démocratie ne fonctionne que si les citoyens utilisent leurs droits, comme le vote, tout en respectant leurs devoirs. C'est cet équilibre qui fait vivre la République.</p>
+        <div class="methode-box">
+          <strong>💡 Méthode — Le développement construit en 4 étapes :</strong><br>
+          1. Introduction : définis le mot-clé (ici « démocratie »).<br>
+          2. Arguments : sépare bien les droits et les devoirs, avec un exemple pour chaque.<br>
+          3. Connecteurs : « D'abord… », « Mais aussi… », « Enfin… ».<br>
+          4. Conclusion : montre que droits et devoirs vont ensemble.
+        </div>
+        <div class="vocab-box">
+          <strong>📖 Vocabulaire utile pour rédiger :</strong><br>
+          — <em>Représentant</em> = personne élue qui décide au nom des citoyens<br>
+          — <em>Droit</em> = ce que la loi autorise<br>
+          — <em>Devoir</em> = ce que le citoyen doit faire<br>
+          — <em>Laïcité</em> = neutralité de l'État face aux religions
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── TABS ──
+function showPanel(id,tab){
+  var panels=document.querySelectorAll('.panel');
+  for(var i=0;i<panels.length;i++){panels[i].classList.remove('active');}
+  var tabs=document.querySelectorAll('.tab');
+  for(var j=0;j<tabs.length;j++){tabs[j].classList.remove('active');}
+  document.getElementById('panel-'+id).classList.add('active');
+  tab.classList.add('active');
+}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+
+// ── FRISE ──
+
+
+// ── QUIZ ──
+var QUESTIONS=[{"q": "Que veut dire le mot « démocratie » ?", "opts": ["Le pouvoir d'un roi", "Le pouvoir du peuple", "Le pouvoir de l'armée", "Le pouvoir d'une seule personne"], "correct": 1, "expl": "Le mot démocratie vient du grec « démos » (le peuple) et « kratos » (le pouvoir). La démocratie est donc le pouvoir du peuple : ce sont les citoyens qui décident ou qui élisent leurs représentants."}, {"q": "Quelle est la devise de la République française ?", "opts": ["Travail, Famille, Patrie", "Liberté, Égalité, Fraternité", "Un pour tous, tous pour un", "Paix et Justice"], "correct": 1, "expl": "La devise de la République française est « Liberté, Égalité, Fraternité ». Elle résume les grandes valeurs sur lesquelles repose la République."}, {"q": "Qu'est-ce que la démocratie représentative ?", "opts": ["Les citoyens décident eux-mêmes de toutes les lois", "Les citoyens élisent des représentants qui décident à leur place", "Une seule personne décide pour tout le monde", "Personne ne décide"], "correct": 1, "expl": "Dans une démocratie représentative, les citoyens votent pour élire des représentants (le président, les députés…) qui prennent les décisions à leur place. C'est le système de la France."}, {"q": "Qu'est-ce que la laïcité ?", "opts": ["L'interdiction de toutes les religions", "La neutralité de l'État face aux religions", "Une religion officielle de l'État", "L'obligation d'avoir une religion"], "correct": 1, "expl": "La laïcité est le principe selon lequel l'État reste neutre face aux religions. Chacun est libre de croire ou de ne pas croire, mais la religion relève de la vie privée. L'État ne favorise aucune religion."}, {"q": "Le droit de vote en France est secret. Qu'est-ce que cela signifie ?", "opts": ["On vote en public devant tout le monde", "Personne ne peut savoir pour qui on a voté", "Seuls les riches peuvent voter", "On vote plusieurs fois"], "correct": 1, "expl": "Le vote est secret : personne ne peut savoir pour qui on a voté. C'est pour cela qu'on utilise un isoloir et une enveloppe. Cela protège la liberté de chaque électeur."}, {"q": "Lequel de ces éléments est un DEVOIR du citoyen ?", "opts": ["Voter", "Respecter la loi", "S'exprimer librement", "Manifester"], "correct": 1, "expl": "Respecter la loi est un devoir du citoyen. Voter, s'exprimer ou manifester sont des droits. Le citoyen a à la fois des droits et des devoirs, et les deux sont nécessaires au bon fonctionnement de la société."}, {"q": "À quel âge doit-on se faire recenser à la mairie ?", "opts": ["12 ans", "16 ans", "18 ans", "21 ans"], "correct": 1, "expl": "À 16 ans, chaque jeune doit se faire recenser à la mairie : c'est une obligation. Cela permet ensuite d'être convoqué à la journée défense et citoyenneté."}, {"q": "À quel âge devient-on majeur et peut-on voter en France ?", "opts": ["16 ans", "18 ans", "20 ans", "21 ans"], "correct": 1, "expl": "En France, on devient majeur à 18 ans. C'est à partir de cet âge qu'on peut voter et exercer pleinement ses droits de citoyen."}, {"q": "En quelle année les femmes ont-elles obtenu le droit de vote en France ?", "opts": ["1848", "1900", "1944", "1981"], "correct": 2, "expl": "Les femmes ont obtenu le droit de vote en France en 1944. Le suffrage universel masculin, lui, datait déjà de 1848. C'est donc tardivement que le vote est devenu vraiment universel."}, {"q": "Que veut dire « suffrage universel » ?", "opts": ["Seuls les hommes votent", "Seuls les riches votent", "Tous les citoyens majeurs peuvent voter", "Personne ne vote"], "correct": 2, "expl": "Le suffrage universel signifie que tous les citoyens majeurs peuvent voter, sans distinction de richesse, de sexe ou d'origine. C'est un principe essentiel de la démocratie."}, {"q": "Qu'est-ce qu'un citoyen ?", "opts": ["Une personne qui vit seule à la campagne", "Une personne qui appartient à un pays et possède des droits et des devoirs", "Une personne qui travaille pour l'armée", "Une personne très riche"], "correct": 1, "expl": "Un citoyen est une personne qui appartient à une communauté politique (un pays) et qui possède des droits (voter, s'exprimer…) ainsi que des devoirs (respecter la loi, payer ses impôts…)."}, {"q": "Quel régime est le contraire d'une démocratie ?", "opts": ["Une République", "Une dictature", "Une élection", "Une assemblée"], "correct": 1, "expl": "Une dictature est le contraire d'une démocratie : c'est un régime où une seule personne ou un seul groupe détient tout le pouvoir et où les libertés des citoyens ne sont pas respectées."}];
+var answered={},score=0;
+function buildQuiz(){
+  var c=document.getElementById('quiz-container');
+  c.innerHTML=''; answered={}; score=0;
+  QUESTIONS.forEach(function(q,i){
+    var div=document.createElement('div');
+    div.className='quiz-q';
+    var opts=q.opts.map(function(o,j){return '<button class="quiz-opt" onclick="answer('+i+','+j+')">'+o+'</button>';}).join('');
+    div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div>'+
+      '<div class="quiz-options" id="opts-'+i+'">'+opts+'</div>'+
+      '<div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  });
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;
+  answered[qi]=choice;
+  var q=QUESTIONS[qi];
+  var opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for(var k=0;k<opts.length;k++){opts[k].classList.add('disabled');}
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  var ok=choice===q.correct;
+  if(ok) score++;
+  var expl=document.getElementById('expl-'+qi);
+  expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  var el=document.getElementById('quiz-score');
+  var pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  var msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;
+  el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+
+window.showPanel=showPanel;
+window.showCorr=showCorr;
+window.buildQuiz=buildQuiz;
+window.answer=answer;
+window.showScore=showScore;
+window.resetQuiz=resetQuiz;
+</script>
+</body>
+</html>

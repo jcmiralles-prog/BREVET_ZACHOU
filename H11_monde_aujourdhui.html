@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H11 — Le monde aujourd'hui</title>
+<style>
+  :root{
+    --rouge:#C0392B;--rouge-light:#FADBD8;--rouge-mid:#E74C3C;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --vert:#1E8449;--vert-light:#D5F5E3;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+    --accent:#C0392B;--accent-light:#FADBD8;--accent-tint:#FFF8F8;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:rgba(0,0,0,0)}
+  header{background:var(--accent);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:relative;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;-webkit-transition:all 0.15s;transition:all 0.15s}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+
+  /* SECTIONS */
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.rouge{background:var(--rouge)}
+  .section-head.bleu{background:var(--bleu)}
+  .section-head.vert{background:var(--vert)}
+  .section-head.orange{background:var(--orange)}
+  .section-head.violet{background:var(--violet)}
+  .section-head.gris{background:var(--gris)}
+  .section-head.accent{background:var(--accent)}
+  .section-body{padding:14px}
+
+  /* INFO BOX */
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+
+  /* BULLETS */
+  .bull-list{margin:8px 0 8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"\2022";position:absolute;left:4px;color:var(--accent);font-weight:700}
+
+  /* FRISE */
+  .frise-container{overflow-x:auto;padding-bottom:6px}
+  .frise{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:0;min-width:900px;padding:20px 0 10px;position:relative}
+  .frise::before{content:'';position:absolute;top:42px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--orange),var(--bleu));z-index:0}
+  .frise-item{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;position:relative;z-index:1;cursor:pointer}
+  .frise-dot{width:16px;height:16px;border-radius:50%;background:var(--accent);border:3px solid white;box-shadow:0 0 0 2px var(--accent);margin-bottom:8px;-webkit-transition:-webkit-transform 0.15s;transition:transform 0.15s}
+  .frise-item:hover .frise-dot{-webkit-transform:scale(1.4);transform:scale(1.4)}
+  .frise-item.important .frise-dot{width:22px;height:22px;background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+  .frise-date{font-size:10px;font-weight:700;color:var(--accent);text-align:center;margin-bottom:4px;line-height:1.2}
+  .frise-label{font-size:10px;color:var(--muted);text-align:center;max-width:80px;line-height:1.3}
+  .frise-detail{display:none;background:white;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6;margin-top:8px;max-width:160px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.1);position:absolute;top:70px;z-index:10;min-width:140px}
+  .frise-detail.show{display:block}
+  .frise-detail strong{color:var(--accent);display:block;margin-bottom:4px}
+
+  /* TABLE DATES */
+  .dates-table{width:100%;border-collapse:collapse;font-size:13px}
+  .dates-table th{background:var(--accent);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .dates-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .dates-table tr:last-child td{border-bottom:none}
+  .dates-table tr:nth-child(even) td{background:var(--accent-tint)}
+  .dates-table .date-cell{font-weight:700;color:var(--accent);white-space:nowrap;min-width:110px}
+  .dates-table .event-cell{font-weight:600;color:var(--text)}
+  .dates-table .detail-cell{color:var(--muted);font-size:12px}
+
+  /* DEUX CAMPS / DEUX COLONNES */
+  .camps-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+  .camp{border-radius:8px;overflow:hidden}
+  .camp-head{padding:8px 12px;font-size:13px;font-weight:700;color:white;text-align:center}
+  .camp-body{padding:10px 12px;font-size:12px;line-height:1.9}
+  .camp-body li{list-style:none;padding:1px 0}
+  .camp-body li::before{content:"\2192 ";color:inherit;font-weight:700}
+
+  /* MOT CLE */
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--accent-light);color:var(--accent);font-weight:700;font-size:12px;padding:8px 12px;min-width:130px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+
+  /* PERSO */
+  .perso-row{display:-webkit-flex;display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);-webkit-align-items:flex-start;align-items:flex-start}
+  .perso-row:last-child{border-bottom:none}
+  .perso-avatar{width:40px;height:40px;border-radius:50%;background:var(--accent);color:white;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:14px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0}
+  .perso-info{-webkit-flex:1;flex:1}
+  .perso-nom{font-weight:700;font-size:13px;color:var(--accent);margin-bottom:2px}
+  .perso-camp{font-size:10px;background:var(--accent-light);color:var(--accent);padding:1px 8px;border-radius:20px;display:inline-block;margin-bottom:4px}
+  .perso-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+  /* BILAN */
+  .bilan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:4px}
+  .bilan-card{border-radius:8px;padding:12px;text-align:center}
+  .bilan-card .num{font-size:24px;font-weight:800;margin-bottom:4px}
+  .bilan-card .lbl{font-size:11px;line-height:1.4}
+
+  /* ENCHAINEMENT */
+  .chain{counter-reset:chain}
+  .chain-item{display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;-webkit-align-items:flex-start;align-items:flex-start}
+  .chain-num{background:var(--accent);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0;margin-top:1px}
+  .chain-text{font-size:13px;line-height:1.6;-webkit-flex:1;flex:1}
+  .chain-text strong{color:var(--accent)}
+
+  /* BREVET BOX */
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+
+  /* QUIZ */
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--accent);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;-webkit-transition:all 0.15s;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--accent);background:var(--accent-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .btn-reset{background:var(--accent);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+
+  /* EXOS */
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--accent-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--accent);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--accent);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px}
+  textarea:focus{outline:none;border-color:var(--accent)}
+  .btn-corr{background:var(--accent);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+
+  @media(max-width:500px){.camps-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌐 H11 — Le monde aujourd'hui</h1>
+  <p>Fiche complète · Séquence 11 · Histoire · Brevet 2026</p>
+</header>
+
+<div class="tabs">
+<div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+<div class="tab" onclick="showPanel('frise',this)">📅 Frise</div>
+<div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+<div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ══════════════════════════ FICHE ══════════════════════════ -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head accent">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> Depuis la <strong>fin de la guerre froide en 1991</strong>, le monde a changé. Les États-Unis sont devenus la grande puissance, mais d'autres pays comme la <strong>Chine</strong> montent en force. Le monde d'aujourd'hui est marqué par de <strong>nouveaux conflits</strong> et par de grands <strong>défis communs</strong> : le climat, les migrations et les inégalités.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">🌍 Un monde qui a changé depuis 1991</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">Jusqu'en 1991, le monde était divisé en deux camps qui s'opposaient pendant la guerre froide : les États-Unis d'un côté, l'Union soviétique de l'autre. En 1991, l'<strong>Union soviétique disparaît</strong>.</p>
+      <ul class="bull-list">
+        <li>Les <strong>États-Unis</strong> deviennent alors la seule très grande puissance mondiale (on parle d'« hyperpuissance »).</li>
+        <li>Mais peu à peu, d'autres puissances montent : la <strong>Chine</strong> devient la deuxième économie du monde, et d'autres pays comme l'Inde se développent.</li>
+        <li>On dit que le monde devient <strong>multipolaire</strong> : il n'y a plus un seul pays qui décide, mais plusieurs grandes puissances.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">⚔️ De nouveaux conflits et menaces</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li><strong>Le terrorisme :</strong> les attentats du <strong>11 septembre 2001</strong> aux États-Unis marquent le début d'une lutte mondiale contre le terrorisme.</li>
+        <li><strong>Des guerres régionales :</strong> il existe encore de nombreux conflits dans le monde, notamment au Proche et au Moyen-Orient.</li>
+        <li><strong>Le retour de la guerre en Europe :</strong> en 2022, la guerre commence en Ukraine, ce qui inquiète beaucoup de pays.</li>
+      </ul>
+      <div class="warn-box"><strong>À retenir :</strong> La fin de la guerre froide n'a pas amené une paix totale : de nouveaux conflits et de nouvelles menaces sont apparus.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">🌡️ Les grands défis du monde d'aujourd'hui</div>
+    <div class="section-body">
+      <div class="camps-grid">
+        <div class="camp">
+          <div class="camp-head" style="background:var(--bleu)">LES DÉFIS</div>
+          <div class="camp-body" style="background:var(--bleu-light);color:var(--bleu)">
+            <ul>
+              <li>Le réchauffement climatique</li>
+              <li>Les migrations</li>
+              <li>Les inégalités</li>
+              <li>Les pandémies</li>
+            </ul>
+          </div>
+        </div>
+        <div class="camp">
+          <div class="camp-head" style="background:var(--accent)">POURQUOI C'EST IMPORTANT</div>
+          <div class="camp-body" style="background:var(--accent-light);color:var(--accent)">
+            <ul>
+              <li>Cela concerne toute la planète</li>
+              <li>Aucun pays ne peut agir seul</li>
+              <li>Il faut coopérer entre pays</li>
+              <li>L'avenir en dépend</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;margin-top:12px">Ces défis sont <strong>mondiaux</strong> : ils touchent tous les pays. Par exemple, le réchauffement climatique ne s'arrête pas aux frontières. C'est pourquoi les pays essaient de se mettre d'accord, comme avec l'<strong>accord de Paris sur le climat (2015)</strong>.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">📝 Les mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Puissance</div><div class="mc-def">Pays capable d'influencer le reste du monde par son économie, son armée ou sa culture (par exemple les États-Unis et la Chine).</div></div>
+      <div class="mc-row"><div class="mc-terme">Monde multipolaire</div><div class="mc-def">Monde dans lequel plusieurs grandes puissances coexistent, au lieu d'une seule qui déciderait de tout.</div></div>
+      <div class="mc-row"><div class="mc-terme">Terrorisme</div><div class="mc-def">Utilisation de la violence (attentats) pour semer la peur et faire pression sur des gouvernements ou des populations.</div></div>
+      <div class="mc-row"><div class="mc-terme">Migration</div><div class="mc-def">Déplacement de personnes qui quittent leur pays pour aller vivre ailleurs, souvent pour des raisons économiques, politiques ou climatiques.</div></div>
+      <div class="mc-row"><div class="mc-terme">Réchauffement climatique</div><div class="mc-def">Augmentation de la température moyenne de la planète, surtout à cause des activités humaines, avec des conséquences graves pour l'environnement.</div></div>
+      <div class="mc-row"><div class="mc-terme">Organisation des Nations unies</div><div class="mc-def">Organisation qui regroupe presque tous les pays du monde pour essayer de maintenir la paix et de régler les conflits.</div></div>
+      <div class="mc-row"><div class="mc-terme">Coopération</div><div class="mc-def">Le fait, pour plusieurs pays, de travailler ensemble pour résoudre un problème commun.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">🇫🇷 Quelle est la place de la France dans le monde ?</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li>La France est un <strong>membre permanent</strong> du Conseil de sécurité de l'Organisation des Nations unies : elle participe aux grandes décisions sur la paix dans le monde.</li>
+        <li>La France fait partie de l'<strong>Union européenne</strong>, un groupe de pays européens qui coopèrent ensemble.</li>
+        <li>La France possède une <strong>armée puissante</strong> et participe à des missions à l'étranger.</li>
+        <li>Sa langue et sa culture sont présentes sur plusieurs continents.</li>
+      </ul>
+      <div class="success-box"><strong>À retenir :</strong> La France n'est pas la plus grande puissance, mais elle reste un pays qui compte et qui participe aux grandes décisions mondiales.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">🔗 La logique des événements — enchaînement complet</div>
+    <div class="section-body">
+      <div class="chain">
+        <div class="chain-item"><div class="chain-num">1</div><div class="chain-text">En <strong>1991</strong>, la fin de la guerre froide laisse les <strong>États-Unis</strong> comme seule très grande puissance.</div></div>
+        <div class="chain-item"><div class="chain-num">2</div><div class="chain-text">Les <strong>attentats du 11 septembre 2001</strong> ouvrent une lutte mondiale contre le terrorisme.</div></div>
+        <div class="chain-item"><div class="chain-num">3</div><div class="chain-text">La <strong>Chine</strong> et d'autres pays montent en puissance : le monde devient <strong>multipolaire</strong>.</div></div>
+        <div class="chain-item"><div class="chain-num">4</div><div class="chain-text">De grands <strong>défis communs</strong> apparaissent : climat, migrations, inégalités, pandémies.</div></div>
+        <div class="chain-item"><div class="chain-num">5</div><div class="chain-text">Les pays tentent de <strong>coopérer</strong>, par exemple avec l'accord de Paris sur le climat (2015).</div></div>
+        <div class="chain-item"><div class="chain-num">6</div><div class="chain-text">En <strong>2022</strong>, la guerre revient en Europe avec le conflit en Ukraine.</div></div>
+        <div class="chain-item"><div class="chain-num">7</div><div class="chain-text">La <strong>France</strong>, membre permanent de l'Organisation des Nations unies et de l'Union européenne, participe à ces grands enjeux.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head violet">🎯 Ce qui tombe souvent au brevet</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li>Expliquer ce qui change avec la <strong>fin de la guerre froide (1991)</strong></li>
+        <li>Définir un <strong>monde multipolaire</strong> et citer des puissances</li>
+        <li>Citer un <strong>conflit</strong> ou une <strong>menace</strong> du monde actuel</li>
+        <li>Présenter un grand <strong>défi mondial</strong> (climat, migrations…)</li>
+        <li>Décrire la <strong>place de la France</strong> dans le monde</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ FRISE ══════════════════════════ -->
+<div class="panel" id="panel-frise">
+  <div class="section">
+    <div class="section-head accent">📅 Frise chronologique interactive</div>
+    <div class="section-body">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Clique sur chaque point pour voir le détail.</p>
+      <div class="frise-container">
+        <div class="frise" id="frise-interactive"></div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-head bleu">📋 Tableau complet des dates</div>
+    <div class="section-body">
+      <table class="dates-table">
+        <thead><tr><th>Date</th><th>Événement</th><th>Ce qu'il faut comprendre</th></tr></thead>
+        <tbody>
+          <tr><td class="date-cell">1991</td><td class="event-cell">Fin de la guerre froide</td><td class="detail-cell">L'Union soviétique disparaît ; les États-Unis deviennent la grande puissance.</td></tr>
+          <tr><td class="date-cell">2001</td><td class="event-cell">Attentats du 11 septembre</td><td class="detail-cell">Des attentats frappent les États-Unis : début de la lutte contre le terrorisme.</td></tr>
+          <tr><td class="date-cell">2002</td><td class="event-cell">L'euro entre en circulation</td><td class="detail-cell">L'euro devient la monnaie de plusieurs pays de l'Union européenne.</td></tr>
+          <tr><td class="date-cell">2008</td><td class="event-cell">Crise financière mondiale</td><td class="detail-cell">L'économie de toute la planète est touchée.</td></tr>
+          <tr><td class="date-cell">2015</td><td class="event-cell">Accord de Paris sur le climat</td><td class="detail-cell">Presque tous les pays s'engagent à limiter le réchauffement climatique.</td></tr>
+          <tr><td class="date-cell">2020</td><td class="event-cell">Pandémie mondiale</td><td class="detail-cell">Le monde entier est touché ; les échanges sont fortement perturbés.</td></tr>
+          <tr><td class="date-cell">2022</td><td class="event-cell">Début de la guerre en Ukraine</td><td class="detail-cell">La guerre revient en Europe et inquiète l'ensemble des pays.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ QUIZ ══════════════════════════ -->
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz H11 :</strong> 12 questions sur le monde aujourd'hui. Clique sur ta réponse pour voir l'explication.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num">0/12</div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Recommencer</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════ EXERCICE ══════════════════════ -->
+<div class="panel" id="panel-exo">
+
+  <div style="display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:10px;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap">
+    <span class="duree-badge">⏱ Durée : 40 minutes</span>
+    <span style="font-size:12px;color:var(--muted)">Exercice — Analyse de documents (comme au vrai brevet)</span>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Document 1 — Le monde après la guerre froide</h3>
+    <p>« En 1991, l'Union soviétique disparaît et la guerre froide se termine. Pendant quelques années, les États-Unis sont la seule très grande puissance du monde. Mais peu à peu, d'autres pays montent en force, surtout la Chine, devenue la deuxième économie mondiale. On parle aujourd'hui d'un monde multipolaire, où plusieurs grandes puissances coexistent. »</p>
+    <div class="doc-source">Source : texte adapté à des fins pédagogiques, manuel d'histoire de 3ème.</div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Document 2 — Les grands défis du monde d'aujourd'hui</h3>
+    <p>
+      • <strong>Le climat :</strong> la planète se réchauffe à cause des activités humaines<br>
+      • <strong>Les migrations :</strong> des millions de personnes quittent leur pays<br>
+      • <strong>Les inégalités :</strong> entre pays riches et pays pauvres<br>
+      • <strong>Les conflits :</strong> terrorisme, guerres régionales, guerre en Ukraine (2022)<br>
+      • <strong>Une réponse possible :</strong> la coopération entre les pays (accord de Paris sur le climat, 2015)
+    </p>
+    <div class="doc-source">Source : repères généraux sur le monde actuel, 2026.</div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Comprendre les documents</span><span class="pts">5 points</span></div>
+    <div class="q-exo-body">
+      <p>À l'aide du document 1, explique ce qui change dans le monde après 1991. Cite au moins deux puissances mentionnées.</p>
+      <textarea placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p>Après 1991, le monde change beaucoup. Le document 1 explique qu'avec la disparition de l'Union soviétique, la guerre froide se termine et les États-Unis deviennent, pendant quelques années, la seule très grande puissance.</p>
+        <p style="margin-top:8px">Mais ensuite, d'autres pays montent en force, surtout la Chine, devenue la deuxième économie du monde. Le monde devient alors multipolaire, c'est-à-dire qu'il n'y a plus un seul pays qui décide de tout, mais plusieurs grandes puissances. Les deux puissances citées sont donc les États-Unis et la Chine.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour répondre, repère d'abord la date (1991) et l'événement (fin de la guerre froide), puis explique les conséquences. N'oublie pas de citer précisément les exemples demandés (ici, deux puissances).</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Puissance</em> = pays qui peut influencer le reste du monde. <em>Multipolaire</em> = avec plusieurs grands pôles de puissance.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser un élément précis</span><span class="pts">5 points</span></div>
+    <div class="q-exo-body">
+      <p>En t'appuyant sur le document 2, explique pourquoi on dit que le réchauffement climatique est un <strong>défi mondial</strong>.</p>
+      <textarea placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p>Le réchauffement climatique est un défi mondial parce qu'il concerne la planète entière et pas seulement un pays. Le document 2 explique que la planète se réchauffe à cause des activités humaines.</p>
+        <p style="margin-top:8px">Comme le climat ne s'arrête pas aux frontières, aucun pays ne peut régler ce problème tout seul. C'est pourquoi les pays doivent coopérer, par exemple avec l'accord de Paris sur le climat signé en 2015. C'est cette dimension planétaire et la nécessité d'agir ensemble qui font du climat un véritable défi mondial.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour expliquer un mot comme « mondial », montre que le problème touche tout le monde et qu'il faut coopérer. Donne ensuite un exemple précis tiré du document (ici, l'accord de Paris).</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Défi</em> = problème difficile qu'il faut réussir à résoudre. <em>Coopérer</em> = travailler ensemble.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Développement construit</span><span class="pts">10 points</span></div>
+    <div class="q-exo-body">
+      <p><strong>Sujet :</strong> En t'appuyant sur les documents et sur tes connaissances, présente le monde d'aujourd'hui : ses grandes puissances, ses conflits et ses grands défis.</p>
+      <p style="font-size:12px;color:var(--muted);margin-top:4px">Rédige un paragraphe organisé : introduction, 2 ou 3 arguments illustrés, conclusion. Environ 15–20 lignes.</p>
+      <textarea placeholder="Écris ton paragraphe ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Correction — exemple de paragraphe rédigé</h4>
+        <p><strong>Introduction :</strong> Depuis la fin de la guerre froide en 1991, le monde a beaucoup changé. C'est aujourd'hui un monde multipolaire, marqué par plusieurs grandes puissances, des conflits et de grands défis communs.</p>
+        <p style="margin-top:8px"><strong>Argument 1 — Plusieurs grandes puissances :</strong> Après 1991, les États-Unis sont la seule très grande puissance. Mais, comme le montre le document 1, la Chine est devenue la deuxième économie du monde. Le monde compte donc désormais plusieurs grandes puissances.</p>
+        <p style="margin-top:8px"><strong>Argument 2 — Des conflits et des menaces :</strong> La paix n'est pas totale. Les attentats du 11 septembre 2001 ont lancé la lutte contre le terrorisme, et en 2022 la guerre est revenue en Europe avec le conflit en Ukraine.</p>
+        <p style="margin-top:8px"><strong>Argument 3 — De grands défis communs :</strong> Le document 2 rappelle les grands défis du monde : le réchauffement climatique, les migrations et les inégalités. Ces problèmes concernent toute la planète, c'est pourquoi les pays coopèrent, par exemple avec l'accord de Paris sur le climat de 2015.</p>
+        <p style="margin-top:8px"><strong>Conclusion :</strong> Ainsi, le monde d'aujourd'hui est plus connecté mais aussi plus complexe : il faut coopérer pour relever ses grands défis. La France, membre de l'Organisation des Nations unies et de l'Union européenne, y participe.</p>
+        <div class="methode-box">
+          <strong>💡 Méthode — Le développement construit en 4 étapes :</strong><br>
+          1. Introduction : présente le sujet et l'idée principale.<br>
+          2. Arguments : 2 ou 3 idées, chacune avec un exemple précis (une date, un pays, un fait du document).<br>
+          3. Connecteurs : « D'abord… », « Ensuite… », « Enfin… ».<br>
+          4. Conclusion : fais un bilan et n'oublie pas la place de la France.
+        </div>
+        <div class="vocab-box">
+          <strong>📖 Vocabulaire utile pour rédiger :</strong><br>
+          — <em>Multipolaire</em> = avec plusieurs grandes puissances<br>
+          — <em>Conflit</em> = affrontement, guerre ou désaccord grave<br>
+          — <em>Défi</em> = problème difficile à résoudre<br>
+          — <em>Coopérer</em> = travailler ensemble
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── TABS ──
+function showPanel(id,tab){
+  var panels=document.querySelectorAll('.panel');
+  for(var i=0;i<panels.length;i++){panels[i].classList.remove('active');}
+  var tabs=document.querySelectorAll('.tab');
+  for(var j=0;j<tabs.length;j++){tabs[j].classList.remove('active');}
+  document.getElementById('panel-'+id).classList.add('active');
+  tab.classList.add('active');
+}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+
+// ── FRISE ──
+var FRISE_DATA=[{"date": "1991", "label": "Fin de la\nguerre froide", "detail": "L'Union soviétique disparaît. Les États-Unis deviennent la seule grande puissance.", "important": true}, {"date": "2001", "label": "Attentats du\n11 septembre", "detail": "Des attentats frappent les États-Unis. Début de la lutte mondiale contre le terrorisme.", "important": true}, {"date": "2002", "label": "L'euro\nmonnaie", "detail": "L'euro devient la monnaie de plusieurs pays de l'Union européenne, dont la France.", "important": false}, {"date": "2008", "label": "Crise\nmondiale", "detail": "Une grave crise financière touche l'économie du monde entier.", "important": false}, {"date": "2015", "label": "Accord de Paris\nsur le climat", "detail": "Presque tous les pays s'engagent à limiter le réchauffement de la planète.", "important": true}, {"date": "2020", "label": "Pandémie\nmondiale", "detail": "Une pandémie touche le monde entier et montre la dépendance entre les pays.", "important": true}, {"date": "2022", "label": "Guerre en\nUkraine", "detail": "La guerre revient en Europe et inquiète l'ensemble des pays.", "important": true}];
+var frise=document.getElementById('frise-interactive');
+if(frise){
+  FRISE_DATA.forEach(function(item,i){
+    var el=document.createElement('div');
+    el.className='frise-item'+(item.important?' important':'');
+    el.innerHTML='<div class="frise-date">'+item.date.replace('\n','<br>')+'</div>'+
+      '<div class="frise-dot"></div>'+
+      '<div class="frise-label">'+item.label.replace('\n','<br>')+'</div>'+
+      '<div class="frise-detail" id="fd-'+i+'"><strong>'+item.date+'</strong>'+item.detail+'</div>';
+    el.onclick=function(){
+      var dets=document.querySelectorAll('.frise-detail');
+      for(var j=0;j<dets.length;j++){if(j!==i)dets[j].classList.remove('show');}
+      document.getElementById('fd-'+i).classList.toggle('show');
+    };
+    frise.appendChild(el);
+  });
+}
+
+
+// ── QUIZ ──
+var QUESTIONS=[{"q": "Quel événement marque un grand changement dans le monde en 1991 ?", "opts": ["La création de l'euro", "La fin de la guerre froide", "Les attentats du 11 septembre", "L'accord de Paris sur le climat"], "correct": 1, "expl": "En 1991, la guerre froide se termine avec la disparition de l'Union soviétique. C'est un grand tournant : les États-Unis deviennent alors la seule très grande puissance mondiale."}, {"q": "Quel pays devient la seule très grande puissance après 1991 ?", "opts": ["La Chine", "La France", "Les États-Unis", "La Russie"], "correct": 2, "expl": "Après la fin de la guerre froide, les États-Unis restent la seule très grande puissance mondiale. On parle parfois d'« hyperpuissance » américaine dans les années 1990."}, {"q": "Que veut dire « monde multipolaire » ?", "opts": ["Un monde dirigé par un seul pays", "Un monde où plusieurs grandes puissances coexistent", "Un monde sans aucune puissance", "Un monde uniquement européen"], "correct": 1, "expl": "Un monde multipolaire est un monde dans lequel plusieurs grandes puissances coexistent (États-Unis, Chine, etc.), au lieu d'un seul pays qui déciderait de tout."}, {"q": "Quel pays est devenu la deuxième économie du monde ?", "opts": ["Le Brésil", "La Chine", "L'Australie", "Le Canada"], "correct": 1, "expl": "La Chine est devenue la deuxième économie du monde grâce à son développement très rapide. C'est l'une des grandes puissances qui font du monde un monde multipolaire."}, {"q": "Quel événement de 2001 marque le début de la lutte mondiale contre le terrorisme ?", "opts": ["Les attentats du 11 septembre aux États-Unis", "La chute du mur de Berlin", "La guerre en Ukraine", "La crise financière"], "correct": 0, "expl": "Les attentats du 11 septembre 2001 frappent les États-Unis et provoquent une réaction mondiale : c'est le début d'une grande lutte internationale contre le terrorisme."}, {"q": "Qu'est-ce que le terrorisme ?", "opts": ["Une forme de commerce", "L'utilisation de la violence pour semer la peur", "Un type d'élection", "Une organisation humanitaire"], "correct": 1, "expl": "Le terrorisme est l'utilisation de la violence, comme des attentats, pour semer la peur et faire pression sur des gouvernements ou des populations."}, {"q": "Quel grand défi concerne toute la planète et le climat ?", "opts": ["Le réchauffement climatique", "La construction de routes", "La baisse du tourisme", "L'augmentation du nombre de musées"], "correct": 0, "expl": "Le réchauffement climatique est l'augmentation de la température moyenne de la planète. C'est un défi mondial car il touche tous les pays et qu'aucun pays ne peut le régler seul."}, {"q": "En quelle année est signé l'accord de Paris sur le climat ?", "opts": ["1991", "2001", "2015", "2022"], "correct": 2, "expl": "L'accord de Paris sur le climat est signé en 2015. Presque tous les pays du monde s'y engagent à limiter le réchauffement climatique : c'est un exemple de coopération mondiale."}, {"q": "Qu'est-ce qu'une migration ?", "opts": ["Le déplacement de personnes qui quittent leur pays pour vivre ailleurs", "Un voyage d'affaires d'une journée", "Le commerce entre deux villes", "Un type de monnaie"], "correct": 0, "expl": "Une migration est le déplacement de personnes qui quittent leur pays pour aller vivre ailleurs, souvent pour des raisons économiques, politiques ou liées au climat. C'est l'un des grands enjeux du monde actuel."}, {"q": "Quelle organisation regroupe presque tous les pays pour maintenir la paix ?", "opts": ["L'Organisation des Nations unies", "La firme multinationale", "Le club des pays riches", "L'Organisation des transports"], "correct": 0, "expl": "L'Organisation des Nations unies regroupe presque tous les pays du monde. Son but est de maintenir la paix et de régler les conflits par la discussion. La France en est un membre permanent du Conseil de sécurité."}, {"q": "Quelle est l'une des places de la France dans le monde aujourd'hui ?", "opts": ["Elle ne participe à aucune organisation", "Elle est membre permanent du Conseil de sécurité de l'Organisation des Nations unies", "Elle est la première puissance économique mondiale", "Elle n'a pas d'armée"], "correct": 1, "expl": "La France est un membre permanent du Conseil de sécurité de l'Organisation des Nations unies. Elle participe donc aux grandes décisions sur la paix, fait partie de l'Union européenne et possède une armée puissante."}, {"q": "Quel événement de 2022 marque le retour de la guerre en Europe ?", "opts": ["La crise financière", "La pandémie mondiale", "La guerre en Ukraine", "La création de l'euro"], "correct": 2, "expl": "En 2022, la guerre commence en Ukraine. C'est le retour d'un conflit majeur en Europe, ce qui inquiète l'ensemble des pays et montre que la paix n'est jamais totalement acquise."}];
+var answered={},score=0;
+function buildQuiz(){
+  var c=document.getElementById('quiz-container');
+  c.innerHTML=''; answered={}; score=0;
+  QUESTIONS.forEach(function(q,i){
+    var div=document.createElement('div');
+    div.className='quiz-q';
+    var opts=q.opts.map(function(o,j){return '<button class="quiz-opt" onclick="answer('+i+','+j+')">'+o+'</button>';}).join('');
+    div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div>'+
+      '<div class="quiz-options" id="opts-'+i+'">'+opts+'</div>'+
+      '<div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  });
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;
+  answered[qi]=choice;
+  var q=QUESTIONS[qi];
+  var opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for(var k=0;k<opts.length;k++){opts[k].classList.add('disabled');}
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  var ok=choice===q.correct;
+  if(ok) score++;
+  var expl=document.getElementById('expl-'+qi);
+  expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  var el=document.getElementById('quiz-score');
+  var pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  var msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;
+  el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+
+window.showPanel=showPanel;
+window.showCorr=showCorr;
+window.buildQuiz=buildQuiz;
+window.answer=answer;
+window.showScore=showScore;
+window.resetQuiz=resetQuiz;
+</script>
+</body>
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H10 — La mondialisation</title>
+<style>
+  :root{
+    --rouge:#C0392B;--rouge-light:#FADBD8;--rouge-mid:#E74C3C;
+    --bleu:#1A5276;--bleu-light:#D6EAF8;
+    --vert:#1E8449;--vert-light:#D5F5E3;
+    --orange:#D35400;--orange-light:#FDEBD0;
+    --violet:#6C3483;--violet-light:#E8DAEF;
+    --gris:#5D6D7E;
+    --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+    --border:#DEE2E6;--radius:10px;
+    --accent:#C0392B;--accent-light:#FADBD8;--accent-tint:#FFF8F8;
+  }
+  *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:rgba(0,0,0,0)}
+  header{background:var(--accent);color:white;padding:18px 20px;text-align:center}
+  header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  header p{font-size:12px;opacity:0.9}
+  .tabs{display:-webkit-flex;display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:relative;top:0;z-index:50}
+  .tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;-webkit-transition:all 0.15s;transition:all 0.15s}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+  .panel{display:none;padding:14px;max-width:740px;margin:0 auto}
+  .panel.active{display:block}
+
+  /* SECTIONS */
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .section-head{padding:11px 14px;font-size:14px;font-weight:700;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;color:white}
+  .section-head.rouge{background:var(--rouge)}
+  .section-head.bleu{background:var(--bleu)}
+  .section-head.vert{background:var(--vert)}
+  .section-head.orange{background:var(--orange)}
+  .section-head.violet{background:var(--violet)}
+  .section-head.gris{background:var(--gris)}
+  .section-head.accent{background:var(--accent)}
+  .section-body{padding:14px}
+
+  /* INFO BOX */
+  .info-box{background:var(--bleu-light);border-left:4px solid var(--bleu);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin-bottom:10px}
+  .info-box strong{color:var(--bleu)}
+  .warn-box{background:var(--orange-light);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .warn-box strong{color:var(--orange)}
+  .success-box{background:var(--vert-light);border-left:4px solid var(--vert);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;margin:10px 0}
+  .success-box strong{color:var(--vert)}
+
+  /* BULLETS */
+  .bull-list{margin:8px 0 8px 0;padding:0}
+  .bull-list li{font-size:13px;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+  .bull-list li::before{content:"\2022";position:absolute;left:4px;color:var(--accent);font-weight:700}
+
+  /* FRISE */
+  .frise-container{overflow-x:auto;padding-bottom:6px}
+  .frise{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:0;min-width:900px;padding:20px 0 10px;position:relative}
+  .frise::before{content:'';position:absolute;top:42px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--orange),var(--bleu));z-index:0}
+  .frise-item{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;position:relative;z-index:1;cursor:pointer}
+  .frise-dot{width:16px;height:16px;border-radius:50%;background:var(--accent);border:3px solid white;box-shadow:0 0 0 2px var(--accent);margin-bottom:8px;-webkit-transition:-webkit-transform 0.15s;transition:transform 0.15s}
+  .frise-item:hover .frise-dot{-webkit-transform:scale(1.4);transform:scale(1.4)}
+  .frise-item.important .frise-dot{width:22px;height:22px;background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+  .frise-date{font-size:10px;font-weight:700;color:var(--accent);text-align:center;margin-bottom:4px;line-height:1.2}
+  .frise-label{font-size:10px;color:var(--muted);text-align:center;max-width:80px;line-height:1.3}
+  .frise-detail{display:none;background:white;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6;margin-top:8px;max-width:160px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.1);position:absolute;top:70px;z-index:10;min-width:140px}
+  .frise-detail.show{display:block}
+  .frise-detail strong{color:var(--accent);display:block;margin-bottom:4px}
+
+  /* TABLE DATES */
+  .dates-table{width:100%;border-collapse:collapse;font-size:13px}
+  .dates-table th{background:var(--accent);color:white;padding:8px 10px;text-align:left;font-weight:600}
+  .dates-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+  .dates-table tr:last-child td{border-bottom:none}
+  .dates-table tr:nth-child(even) td{background:var(--accent-tint)}
+  .dates-table .date-cell{font-weight:700;color:var(--accent);white-space:nowrap;min-width:110px}
+  .dates-table .event-cell{font-weight:600;color:var(--text)}
+  .dates-table .detail-cell{color:var(--muted);font-size:12px}
+
+  /* DEUX CAMPS / DEUX COLONNES */
+  .camps-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+  .camp{border-radius:8px;overflow:hidden}
+  .camp-head{padding:8px 12px;font-size:13px;font-weight:700;color:white;text-align:center}
+  .camp-body{padding:10px 12px;font-size:12px;line-height:1.9}
+  .camp-body li{list-style:none;padding:1px 0}
+  .camp-body li::before{content:"\2192 ";color:inherit;font-weight:700}
+
+  /* MOT CLE */
+  .mc-row{display:-webkit-flex;display:flex;gap:0;margin-bottom:8px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border)}
+  .mc-terme{background:var(--accent-light);color:var(--accent);font-weight:700;font-size:12px;padding:8px 12px;min-width:130px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+  .mc-def{padding:8px 12px;font-size:13px;-webkit-flex:1;flex:1;line-height:1.5}
+
+  /* PERSO */
+  .perso-row{display:-webkit-flex;display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);-webkit-align-items:flex-start;align-items:flex-start}
+  .perso-row:last-child{border-bottom:none}
+  .perso-avatar{width:40px;height:40px;border-radius:50%;background:var(--accent);color:white;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:14px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0}
+  .perso-info{-webkit-flex:1;flex:1}
+  .perso-nom{font-weight:700;font-size:13px;color:var(--accent);margin-bottom:2px}
+  .perso-camp{font-size:10px;background:var(--accent-light);color:var(--accent);padding:1px 8px;border-radius:20px;display:inline-block;margin-bottom:4px}
+  .perso-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+  /* BILAN */
+  .bilan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:4px}
+  .bilan-card{border-radius:8px;padding:12px;text-align:center}
+  .bilan-card .num{font-size:24px;font-weight:800;margin-bottom:4px}
+  .bilan-card .lbl{font-size:11px;line-height:1.4}
+
+  /* ENCHAINEMENT */
+  .chain{counter-reset:chain}
+  .chain-item{display:-webkit-flex;display:flex;gap:12px;margin-bottom:10px;-webkit-align-items:flex-start;align-items:flex-start}
+  .chain-num{background:var(--accent);color:white;width:26px;height:26px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:12px;font-weight:700;-webkit-flex-shrink:0;flex-shrink:0;margin-top:1px}
+  .chain-text{font-size:13px;line-height:1.6;-webkit-flex:1;flex:1}
+  .chain-text strong{color:var(--accent)}
+
+  /* BREVET BOX */
+  .brevet-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+  .brevet-box strong{color:var(--violet)}
+
+  /* QUIZ */
+  .quiz-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+  .quiz-q-head{padding:12px 14px;font-size:14px;font-weight:600}
+  .quiz-q-num{display:inline-block;background:var(--accent);color:white;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:8px}
+  .quiz-options{padding:0 14px 14px}
+  .quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:white;-webkit-transition:all 0.15s;transition:all 0.15s;color:var(--text)}
+  .quiz-opt:hover{border-color:var(--accent);background:var(--accent-light)}
+  .quiz-opt.correct{background:var(--vert-light);border-color:var(--vert);color:var(--vert);font-weight:600}
+  .quiz-opt.wrong{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge)}
+  .quiz-opt.disabled{pointer-events:none}
+  .quiz-expl{display:none;margin:4px 14px 14px;padding:10px 14px;background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0;font-size:13px;line-height:1.5}
+  .quiz-expl.show{display:block}
+  .tag-ar{display:inline-block;background:var(--rouge-light);color:var(--rouge);border:1px solid var(--rouge);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .tag-ok{display:inline-block;background:var(--vert-light);color:var(--vert);border:1px solid var(--vert);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:6px}
+  .quiz-score{background:var(--card);border:2px solid var(--bleu);border-radius:var(--radius);padding:16px;text-align:center;margin-top:10px;display:none}
+  .quiz-score.show{display:block}
+  .score-num{font-size:36px;font-weight:700;color:var(--bleu)}
+  .btn-reset{background:var(--accent);color:white;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+
+  /* EXOS */
+  .doc-brevet{background:#FFFDF5;border:2px solid #D4A017;border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .doc-brevet h3{color:#7D6608;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+  .doc-brevet p{font-size:13px;line-height:1.7}
+  .doc-source{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .q-exo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .q-exo-head{background:var(--accent-light);padding:10px 14px;font-size:13px;font-weight:700;color:var(--accent);display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+  .pts{font-size:12px;background:var(--accent);color:white;padding:2px 8px;border-radius:20px}
+  .q-exo-body{padding:14px}
+  .q-exo-body p{font-size:13px;margin-bottom:8px}
+  textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px}
+  textarea:focus{outline:none;border-color:var(--accent)}
+  .btn-corr{background:var(--accent);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+  .corr-panel{display:none;margin-top:12px;padding:14px;background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+  .corr-panel.show{display:block}
+  .corr-panel h4{color:var(--vert);font-size:13px;margin-bottom:6px}
+  .methode-box{background:white;border:1px solid var(--vert);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:12px}
+  .methode-box strong{color:var(--vert)}
+  .vocab-box{background:var(--violet-light);border-left:4px solid var(--violet);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px}
+  .vocab-box strong{color:var(--violet)}
+  .duree-badge{background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+
+  @media(max-width:500px){.camps-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌍 H10 — La mondialisation</h1>
+  <p>Fiche complète · Séquence 10 · Histoire-Géographie · Brevet 2026</p>
+</header>
+
+<div class="tabs">
+<div class="tab active" onclick="showPanel('fiche',this)">📋 Fiche</div>
+<div class="tab" onclick="showPanel('frise',this)">📅 Frise</div>
+<div class="tab" onclick="showPanel('quiz',this)">❓ Quiz</div>
+<div class="tab" onclick="showPanel('exo',this)">✏️ Exercice brevet</div>
+</div>
+
+<!-- ══════════════════════════ FICHE ══════════════════════════ -->
+<div class="panel active" id="panel-fiche">
+
+  <div class="section">
+    <div class="section-head accent">⚡ L'essentiel à retenir</div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>En une phrase :</strong> La <strong>mondialisation</strong> est la mise en relation de toutes les parties du monde par des <strong>échanges</strong> de plus en plus nombreux : marchandises, argent, informations et personnes. Elle s'accélère fortement depuis les <strong>années 1980</strong>. C'est un monde plus connecté, mais aussi plus <strong>inégal</strong>.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">🔎 Qu'est-ce que la mondialisation ?</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">La mondialisation, c'est le fait que les différents pays du monde sont de plus en plus <strong>reliés entre eux</strong>. Un téléphone peut être conçu aux États-Unis, fabriqué en Chine avec des pièces venues de plusieurs pays, puis vendu partout dans le monde. Tout circule plus vite et plus loin qu'avant.</p>
+      <ul class="bull-list">
+        <li><strong>Les marchandises</strong> voyagent par bateau, avion et camion (vêtements, voitures, téléphones…).</li>
+        <li><strong>L'argent</strong> (les capitaux) circule instantanément d'un pays à l'autre.</li>
+        <li><strong>Les informations</strong> circulent grâce à internet et aux réseaux numériques.</li>
+        <li><strong>Les personnes</strong> se déplacent : touristes, travailleurs, étudiants, migrants.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">🚀 Pourquoi la mondialisation s'est-elle accélérée ?</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li><strong>Les progrès des transports :</strong> le <strong>conteneur</strong> (grosse boîte métallique standard) permet de transporter énormément de marchandises pour pas cher. Les porte-conteneurs et les avions relient tous les continents.</li>
+        <li><strong>Les progrès du numérique :</strong> internet et le téléphone permettent de communiquer et d'envoyer de l'argent dans le monde entier en quelques secondes.</li>
+        <li><strong>La libre circulation des échanges :</strong> les pays ont réduit les taxes aux frontières pour favoriser le commerce. L'<strong>Organisation mondiale du commerce</strong> (créée en 1995) encourage le commerce entre les pays.</li>
+        <li><strong>La fin de la guerre froide (1991) :</strong> avec la disparition de l'Union soviétique, presque tous les pays s'ouvrent au commerce mondial.</li>
+      </ul>
+      <div class="warn-box"><strong>À retenir :</strong> Sans le conteneur et internet, la mondialisation telle qu'on la connaît aujourd'hui serait impossible.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">🏢 Qui sont les acteurs de la mondialisation ?</div>
+    <div class="section-body">
+      <div class="camps-grid">
+        <div class="camp">
+          <div class="camp-head" style="background:var(--bleu)">LES PRINCIPAUX ACTEURS</div>
+          <div class="camp-body" style="background:var(--bleu-light);color:var(--bleu)">
+            <ul>
+              <li>Les firmes multinationales</li>
+              <li>Les États</li>
+              <li>Les grandes villes (métropoles)</li>
+              <li>Les organisations internationales</li>
+            </ul>
+          </div>
+        </div>
+        <div class="camp">
+          <div class="camp-head" style="background:var(--accent)">LEUR RÔLE</div>
+          <div class="camp-body" style="background:var(--accent-light);color:var(--accent)">
+            <ul>
+              <li>Produire et vendre partout</li>
+              <li>Encourager ou limiter les échanges</li>
+              <li>Concentrer richesses et décisions</li>
+              <li>Fixer les règles du commerce</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;margin-top:12px">Une <strong>firme multinationale</strong> est une très grande entreprise présente dans plusieurs pays (par exemple dans l'automobile, le numérique ou l'alimentation). Pour payer moins cher, elle peut <strong>délocaliser</strong> sa production, c'est-à-dire installer ses usines dans des pays où les salaires sont plus bas.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head accent">📝 Les mots-clés à maîtriser</div>
+    <div class="section-body">
+      <div class="mc-row"><div class="mc-terme">Mondialisation</div><div class="mc-def">Mise en relation des différentes parties du monde par des échanges de plus en plus nombreux (marchandises, argent, informations, personnes).</div></div>
+      <div class="mc-row"><div class="mc-terme">Flux</div><div class="mc-def">Tout ce qui circule entre les territoires : flux de marchandises, flux d'argent, flux d'informations, flux de personnes.</div></div>
+      <div class="mc-row"><div class="mc-terme">Conteneur</div><div class="mc-def">Grande boîte métallique de taille standard qui permet de transporter facilement et à bas prix d'énormes quantités de marchandises par bateau.</div></div>
+      <div class="mc-row"><div class="mc-terme">Firme multinationale</div><div class="mc-def">Très grande entreprise présente dans plusieurs pays, qui produit et vend dans le monde entier.</div></div>
+      <div class="mc-row"><div class="mc-terme">Délocaliser</div><div class="mc-def">Déplacer la production d'une usine vers un pays où les coûts (surtout les salaires) sont plus bas.</div></div>
+      <div class="mc-row"><div class="mc-terme">Métropole</div><div class="mc-def">Grande ville qui concentre les richesses, les décisions et les activités importantes (par exemple New York, Londres, Shanghai, Paris).</div></div>
+      <div class="mc-row"><div class="mc-terme">Façade maritime</div><div class="mc-def">Littoral équipé de grands ports par lesquels passent les marchandises (par exemple les côtes de la Chine ou de l'Europe du Nord-Ouest).</div></div>
+      <div class="mc-row"><div class="mc-terme">Inégalités</div><div class="mc-def">Différences importantes de richesse et de développement entre les régions du monde : certaines profitent de la mondialisation, d'autres restent à l'écart.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head bleu">🗺️ Un monde inégal</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:10px">La mondialisation ne profite pas à tout le monde de la même façon.</p>
+      <ul class="bull-list">
+        <li><strong>Les centres :</strong> l'Amérique du Nord, l'Europe de l'Ouest et l'Asie de l'Est concentrent l'essentiel des richesses et des échanges.</li>
+        <li><strong>Les pays émergents :</strong> des pays comme la Chine, l'Inde ou le Brésil se développent très vite et participent de plus en plus à la mondialisation.</li>
+        <li><strong>Les territoires en marge :</strong> certaines régions, notamment en Afrique, restent à l'écart des grands flux et restent pauvres.</li>
+      </ul>
+      <div class="success-box"><strong>À retenir :</strong> La mondialisation crée à la fois de la richesse et de fortes inégalités entre les territoires.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">⚖️ Effets et contestations</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li><strong>Une uniformisation culturelle :</strong> les mêmes marques, films, musiques et habitudes se retrouvent partout dans le monde.</li>
+        <li><strong>Des inquiétudes environnementales :</strong> transporter autant de marchandises pollue et le climat se réchauffe.</li>
+        <li><strong>Des contestations :</strong> certaines personnes critiquent une mondialisation jugée injuste : c'est le mouvement <strong>altermondialiste</strong> (qui veut une « autre » mondialisation, plus juste et plus respectueuse de l'environnement).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head orange">🔗 La logique des événements — enchaînement complet</div>
+    <div class="section-body">
+      <div class="chain">
+        <div class="chain-item"><div class="chain-num">1</div><div class="chain-text">Après <strong>1945</strong>, les pays reconstruisent leur économie et développent peu à peu le commerce international.</div></div>
+        <div class="chain-item"><div class="chain-num">2</div><div class="chain-text">Dans les <strong>années 1950–1960</strong>, le <strong>conteneur</strong> révolutionne le transport des marchandises.</div></div>
+        <div class="chain-item"><div class="chain-num">3</div><div class="chain-text">À partir des <strong>années 1980</strong>, le numérique et la baisse des taxes accélèrent fortement les échanges.</div></div>
+        <div class="chain-item"><div class="chain-num">4</div><div class="chain-text">La <strong>fin de la guerre froide (1991)</strong> ouvre presque tous les pays au commerce mondial.</div></div>
+        <div class="chain-item"><div class="chain-num">5</div><div class="chain-text">En <strong>1995</strong>, l'Organisation mondiale du commerce encourage les échanges entre les pays.</div></div>
+        <div class="chain-item"><div class="chain-num">6</div><div class="chain-text">Des <strong>pays émergents</strong> (Chine, Inde, Brésil) deviennent des acteurs majeurs de l'économie mondiale.</div></div>
+        <div class="chain-item"><div class="chain-num">7</div><div class="chain-text">Aujourd'hui, la mondialisation crée des <strong>richesses</strong> mais aussi de fortes <strong>inégalités</strong> et des problèmes environnementaux.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head violet">🎯 Ce qui tombe souvent au brevet</div>
+    <div class="section-body">
+      <ul class="bull-list">
+        <li>Définir la <strong>mondialisation</strong> et donner des exemples de flux</li>
+        <li>Expliquer le rôle du <strong>conteneur</strong> et du <strong>numérique</strong></li>
+        <li>Présenter les <strong>acteurs</strong> (firmes multinationales, métropoles)</li>
+        <li>Montrer que la mondialisation est <strong>inégale</strong> selon les territoires</li>
+        <li>Citer une <strong>limite</strong> ou une critique (environnement, inégalités, altermondialisme)</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ FRISE ══════════════════════════ -->
+<div class="panel" id="panel-frise">
+  <div class="section">
+    <div class="section-head accent">📅 Frise chronologique interactive</div>
+    <div class="section-body">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Clique sur chaque point pour voir le détail.</p>
+      <div class="frise-container">
+        <div class="frise" id="frise-interactive"></div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-head bleu">📋 Tableau complet des dates</div>
+    <div class="section-body">
+      <table class="dates-table">
+        <thead><tr><th>Date</th><th>Événement</th><th>Ce qu'il faut comprendre</th></tr></thead>
+        <tbody>
+          <tr><td class="date-cell">Après 1945</td><td class="event-cell">Reconstruction et essor du commerce</td><td class="detail-cell">Les pays développent peu à peu les échanges internationaux.</td></tr>
+          <tr><td class="date-cell">Années 1950</td><td class="event-cell">Invention du conteneur</td><td class="detail-cell">Le transport de marchandises devient beaucoup moins cher et plus rapide.</td></tr>
+          <tr><td class="date-cell">Années 1980</td><td class="event-cell">Accélération de la mondialisation</td><td class="detail-cell">Le numérique et la baisse des taxes font exploser les échanges.</td></tr>
+          <tr><td class="date-cell">1991</td><td class="event-cell">Fin de la guerre froide</td><td class="detail-cell">Presque tous les pays s'ouvrent au commerce mondial.</td></tr>
+          <tr><td class="date-cell">1995</td><td class="event-cell">Création de l'Organisation mondiale du commerce</td><td class="detail-cell">Elle encourage et organise le commerce entre les pays.</td></tr>
+          <tr><td class="date-cell">2001</td><td class="event-cell">La Chine rejoint le commerce mondial</td><td class="detail-cell">Elle devient « l'atelier du monde » et un acteur majeur.</td></tr>
+          <tr><td class="date-cell">2008</td><td class="event-cell">Crise financière mondiale</td><td class="detail-cell">Partie des États-Unis, elle touche l'économie de toute la planète.</td></tr>
+          <tr><td class="date-cell">2020</td><td class="event-cell">Pandémie mondiale</td><td class="detail-cell">Les échanges ralentissent ; le monde découvre sa forte dépendance.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ QUIZ ══════════════════════════ -->
+<div class="panel" id="panel-quiz">
+  <div class="info-box" style="margin-bottom:14px"><strong>Quiz H10 :</strong> 12 questions sur la mondialisation. Clique sur ta réponse pour voir l'explication.</div>
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num">0/12</div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Recommencer</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════ EXERCICE ══════════════════════ -->
+<div class="panel" id="panel-exo">
+
+  <div style="display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:10px;margin-bottom:14px;-webkit-flex-wrap:wrap;flex-wrap:wrap">
+    <span class="duree-badge">⏱ Durée : 40 minutes</span>
+    <span style="font-size:12px;color:var(--muted)">Exercice — Analyse de documents (comme au vrai brevet)</span>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Document 1 — Le voyage d'un téléphone</h3>
+    <p>« Mon téléphone a été imaginé par une entreprise installée aux États-Unis. Il a été fabriqué dans une grande usine en Chine, avec un écran venu de Corée et des composants venus de plusieurs autres pays. Une fois terminé, il a traversé l'océan dans un porte-conteneurs géant avant d'être vendu dans un magasin près de chez moi, en France. »</p>
+    <div class="doc-source">Source : témoignage adapté à des fins pédagogiques, 2026.</div>
+  </div>
+
+  <div class="doc-brevet">
+    <h3>Document 2 — Quelques repères chiffrés</h3>
+    <p>
+      • <strong>Années 1950 :</strong> invention du conteneur<br>
+      • <strong>Plus de 80 %</strong> des marchandises voyagent aujourd'hui par bateau<br>
+      • <strong>1995 :</strong> création de l'Organisation mondiale du commerce<br>
+      • <strong>Centres de la mondialisation :</strong> Amérique du Nord, Europe de l'Ouest, Asie de l'Est<br>
+      • <strong>Pays émergents :</strong> Chine, Inde, Brésil…<br>
+      • Une grande partie de l'<strong>Afrique</strong> reste à l'écart des grands flux
+    </p>
+    <div class="doc-source">Source : données géographiques générales, manuel de 3ème.</div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 1 — Comprendre les documents</span><span class="pts">5 points</span></div>
+    <div class="q-exo-body">
+      <p>À l'aide du document 1, explique en quoi le voyage d'un téléphone est un bon exemple de mondialisation. Cite au moins deux pays différents concernés.</p>
+      <textarea placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr1')">Voir la correction</button>
+      <div class="corr-panel" id="corr1">
+        <h4>✅ Correction</h4>
+        <p>Le voyage d'un téléphone montre bien la mondialisation, car un seul objet relie plusieurs pays du monde. Le document 1 explique que le téléphone a été imaginé aux États-Unis, fabriqué en Chine, avec un écran venu de Corée, puis vendu en France.</p>
+        <p style="margin-top:8px">Cela prouve que la production est partagée entre plusieurs pays et que les marchandises circulent partout grâce aux transports comme le porte-conteneurs. C'est exactement le principe de la mondialisation : la mise en relation des différentes parties du monde par les échanges.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Pour répondre, repère d'abord les pays cités dans le document, puis explique ce qu'ils font (imaginer, fabriquer, vendre). Termine toujours par une petite conclusion qui relie l'exemple au mot du cours (« mondialisation »).</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Composant</em> = petite pièce qui sert à fabriquer un objet. <em>Porte-conteneurs</em> = très grand bateau qui transporte des conteneurs.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 2 — Analyser un élément précis</span><span class="pts">5 points</span></div>
+    <div class="q-exo-body">
+      <p>En t'appuyant sur le document 2, explique pourquoi on peut dire que la mondialisation est <strong>inégale</strong>.</p>
+      <textarea placeholder="Écris ta réponse ici…"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr2')">Voir la correction</button>
+      <div class="corr-panel" id="corr2">
+        <h4>✅ Correction</h4>
+        <p>La mondialisation est inégale parce qu'elle ne profite pas à toutes les régions du monde de la même façon. Le document 2 montre que les richesses et les échanges se concentrent surtout dans trois centres : l'Amérique du Nord, l'Europe de l'Ouest et l'Asie de l'Est.</p>
+        <p style="margin-top:8px">À l'inverse, le document précise qu'une grande partie de l'Afrique reste à l'écart des grands flux. Certaines régions participent donc beaucoup à la mondialisation, tandis que d'autres en profitent peu : c'est ce qui crée des inégalités entre les territoires.</p>
+        <div class="methode-box"><strong>💡 Méthode :</strong> Quand on te demande de montrer une « inégalité », compare toujours deux situations opposées : ici, les régions riches au centre contre les régions à l'écart. Le contraste rend ta réponse claire.</div>
+        <div class="vocab-box"><strong>📖 Vocabulaire :</strong> <em>Inégal</em> = qui n'est pas pareil pour tout le monde. <em>À l'écart</em> = mis de côté, qui ne participe pas vraiment.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-exo">
+    <div class="q-exo-head"><span>Question 3 — Développement construit</span><span class="pts">10 points</span></div>
+    <div class="q-exo-body">
+      <p><strong>Sujet :</strong> En t'appuyant sur les documents et sur tes connaissances, explique ce qu'est la mondialisation et montre qu'elle a des effets positifs mais aussi des limites.</p>
+      <p style="font-size:12px;color:var(--muted);margin-top:4px">Rédige un paragraphe organisé : introduction avec définition, 2 ou 3 arguments illustrés, conclusion. Environ 15–20 lignes.</p>
+      <textarea placeholder="Écris ton paragraphe ici…" style="min-height:160px"></textarea>
+      <button class="btn-corr" onclick="showCorr('corr3')">Voir la correction</button>
+      <div class="corr-panel" id="corr3">
+        <h4>✅ Correction — exemple de paragraphe rédigé</h4>
+        <p><strong>Introduction :</strong> La mondialisation est la mise en relation des différentes parties du monde par des échanges de plus en plus nombreux : marchandises, argent, informations et personnes. Elle s'est fortement accélérée depuis les années 1980.</p>
+        <p style="margin-top:8px"><strong>Argument 1 — Un monde plus relié :</strong> Grâce au conteneur et aux porte-conteneurs, les marchandises circulent partout à bas prix. Comme le montre le document 1, un simple téléphone peut être imaginé aux États-Unis, fabriqué en Chine et vendu en France. Internet permet aussi d'échanger des informations en quelques secondes.</p>
+        <p style="margin-top:8px"><strong>Argument 2 — Des effets positifs :</strong> La mondialisation crée des richesses et permet à des pays émergents comme la Chine, l'Inde ou le Brésil de se développer rapidement. Elle facilite aussi les voyages et l'accès à de nombreux produits.</p>
+        <p style="margin-top:8px"><strong>Argument 3 — Mais des limites :</strong> La mondialisation est inégale : certaines régions, comme une grande partie de l'Afrique, restent à l'écart. Elle pollue aussi beaucoup à cause des transports et inquiète pour l'environnement. C'est pourquoi les altermondialistes réclament une mondialisation plus juste.</p>
+        <p style="margin-top:8px"><strong>Conclusion :</strong> Ainsi, la mondialisation relie le monde et crée des richesses, mais elle augmente aussi les inégalités et pose des problèmes pour la planète.</p>
+        <div class="methode-box">
+          <strong>💡 Méthode — Le développement construit en 4 étapes :</strong><br>
+          1. Introduction : définis le mot-clé du sujet (ici « mondialisation »).<br>
+          2. Arguments : 2 ou 3 idées, chacune avec un exemple précis (un chiffre, un pays, un fait du document).<br>
+          3. Connecteurs : « D'abord… », « Ensuite… », « Mais… », « Comme le montre le document… ».<br>
+          4. Conclusion : fais un bilan qui pèse le pour et le contre.
+        </div>
+        <div class="vocab-box">
+          <strong>📖 Vocabulaire utile pour rédiger :</strong><br>
+          — <em>Relier</em> = mettre en lien, connecter<br>
+          — <em>Émergent</em> = qui se développe vite<br>
+          — <em>Inégal</em> = qui n'est pas pareil pour tous<br>
+          — <em>Limite</em> = ce qui pose problème, le côté négatif
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── TABS ──
+function showPanel(id,tab){
+  var panels=document.querySelectorAll('.panel');
+  for(var i=0;i<panels.length;i++){panels[i].classList.remove('active');}
+  var tabs=document.querySelectorAll('.tab');
+  for(var j=0;j<tabs.length;j++){tabs[j].classList.remove('active');}
+  document.getElementById('panel-'+id).classList.add('active');
+  tab.classList.add('active');
+}
+function showCorr(id){document.getElementById(id).classList.toggle('show');}
+
+// ── FRISE ──
+var FRISE_DATA=[{"date": "Années 1950", "label": "Le\nconteneur", "detail": "L'invention du conteneur permet de transporter beaucoup de marchandises à bas prix.", "important": true}, {"date": "Années 1980", "label": "Accélération\ndes échanges", "detail": "Le numérique et la baisse des taxes font fortement augmenter le commerce mondial.", "important": false}, {"date": "1991", "label": "Fin de la\nguerre froide", "detail": "La disparition de l'Union soviétique ouvre presque tous les pays au commerce mondial.", "important": true}, {"date": "1995", "label": "Organisation\nmondiale du\ncommerce", "detail": "Cette organisation encourage et organise le commerce entre les pays.", "important": true}, {"date": "2001", "label": "La Chine\nentre dans\nle commerce", "detail": "La Chine rejoint l'Organisation mondiale du commerce et devient l'« atelier du monde ».", "important": false}, {"date": "2008", "label": "Crise\nfinancière", "detail": "Une grave crise financière partie des États-Unis touche l'économie du monde entier.", "important": false}, {"date": "2020", "label": "Pandémie\nmondiale", "detail": "La pandémie ralentit les échanges et révèle la forte dépendance entre les pays.", "important": true}];
+var frise=document.getElementById('frise-interactive');
+if(frise){
+  FRISE_DATA.forEach(function(item,i){
+    var el=document.createElement('div');
+    el.className='frise-item'+(item.important?' important':'');
+    el.innerHTML='<div class="frise-date">'+item.date.replace('\n','<br>')+'</div>'+
+      '<div class="frise-dot"></div>'+
+      '<div class="frise-label">'+item.label.replace('\n','<br>')+'</div>'+
+      '<div class="frise-detail" id="fd-'+i+'"><strong>'+item.date+'</strong>'+item.detail+'</div>';
+    el.onclick=function(){
+      var dets=document.querySelectorAll('.frise-detail');
+      for(var j=0;j<dets.length;j++){if(j!==i)dets[j].classList.remove('show');}
+      document.getElementById('fd-'+i).classList.toggle('show');
+    };
+    frise.appendChild(el);
+  });
+}
+
+
+// ── QUIZ ──
+var QUESTIONS=[{"q": "Qu'est-ce que la mondialisation ?", "opts": ["La création d'un seul gouvernement mondial", "La mise en relation des parties du monde par des échanges de plus en plus nombreux", "La fin des frontières entre les pays", "Un voyage autour du monde"], "correct": 1, "expl": "La mondialisation est la mise en relation des différentes parties du monde par des échanges de plus en plus nombreux : marchandises, argent, informations et personnes. Ce n'est pas un gouvernement unique ni la disparition des frontières."}, {"q": "Quelle invention a permis de transporter beaucoup de marchandises à bas prix ?", "opts": ["L'avion à réaction", "Le conteneur", "Le train à grande vitesse", "La voiture électrique"], "correct": 1, "expl": "Le conteneur est une grande boîte métallique de taille standard. Il permet de charger et décharger très vite d'énormes quantités de marchandises sur les bateaux, ce qui fait baisser fortement le prix du transport."}, {"q": "Que circule-t-il dans les « flux » de la mondialisation ?", "opts": ["Seulement des marchandises", "Seulement de l'argent", "Des marchandises, de l'argent, des informations et des personnes", "Seulement des touristes"], "correct": 2, "expl": "Les flux désignent tout ce qui circule entre les territoires : les marchandises, l'argent (les capitaux), les informations (grâce à internet) et les personnes (touristes, travailleurs, migrants)."}, {"q": "Qu'est-ce qu'une firme multinationale ?", "opts": ["Une entreprise présente dans un seul pays", "Une très grande entreprise présente dans plusieurs pays", "Une association sans but commercial", "Une administration de l'État"], "correct": 1, "expl": "Une firme multinationale est une très grande entreprise présente dans plusieurs pays. Elle produit et vend dans le monde entier et c'est l'un des principaux acteurs de la mondialisation."}, {"q": "Que veut dire « délocaliser » ?", "opts": ["Fermer définitivement une entreprise", "Déplacer la production vers un pays où les coûts sont plus bas", "Vendre une entreprise à l'État", "Ouvrir un magasin dans le centre-ville"], "correct": 1, "expl": "Délocaliser, c'est déplacer la production d'une usine vers un pays où les coûts, surtout les salaires, sont plus bas. Les firmes le font pour produire moins cher."}, {"q": "Quel outil a révolutionné la circulation des informations ?", "opts": ["Le télégraphe", "La radio", "Internet", "Le journal papier"], "correct": 2, "expl": "Internet permet de communiquer et d'échanger des informations partout dans le monde en quelques secondes. C'est l'un des moteurs essentiels de la mondialisation actuelle."}, {"q": "Quelle organisation, créée en 1995, encourage le commerce entre les pays ?", "opts": ["L'Organisation mondiale du commerce", "L'Organisation des Nations unies", "La Croix-Rouge", "L'Union européenne"], "correct": 0, "expl": "L'Organisation mondiale du commerce, créée en 1995, encourage et organise les échanges commerciaux entre les pays, notamment en réduisant les taxes aux frontières."}, {"q": "Qu'est-ce qu'une métropole ?", "opts": ["Un petit village isolé", "Une grande ville qui concentre richesses, décisions et activités", "Une zone agricole", "Une île déserte"], "correct": 1, "expl": "Une métropole est une grande ville qui concentre les richesses, les décisions et les activités importantes. New York, Londres, Shanghai et Paris sont des exemples de métropoles mondiales."}, {"q": "Quelle région est plutôt restée à l'écart des grands flux de la mondialisation ?", "opts": ["L'Asie de l'Est", "L'Europe de l'Ouest", "Une grande partie de l'Afrique", "L'Amérique du Nord"], "correct": 2, "expl": "Les centres de la mondialisation sont l'Amérique du Nord, l'Europe de l'Ouest et l'Asie de l'Est. Une grande partie de l'Afrique reste, elle, à l'écart des principaux flux et plus pauvre. La mondialisation est donc inégale."}, {"q": "Comment appelle-t-on des pays comme la Chine, l'Inde ou le Brésil ?", "opts": ["Des pays en guerre", "Des pays émergents", "Des pays neutres", "Des pays isolés"], "correct": 1, "expl": "On les appelle des pays émergents : ce sont des pays qui se développent très vite et qui participent de plus en plus à la mondialisation et à l'économie mondiale."}, {"q": "Quelle est une critique souvent faite à la mondialisation ?", "opts": ["Elle rend tous les pays parfaitement égaux", "Elle pollue et augmente les inégalités", "Elle empêche les gens de voyager", "Elle supprime internet"], "correct": 1, "expl": "On reproche souvent à la mondialisation de polluer (à cause des transports) et d'augmenter les inégalités entre les territoires. Les altermondialistes réclament une mondialisation plus juste et plus respectueuse de l'environnement."}, {"q": "Quel événement de 1991 a ouvert presque tous les pays au commerce mondial ?", "opts": ["La création de l'euro", "La fin de la guerre froide", "La première mission sur Mars", "La construction du canal de Suez"], "correct": 1, "expl": "La fin de la guerre froide en 1991, avec la disparition de l'Union soviétique, a ouvert presque tous les pays du monde au commerce international et a accéléré la mondialisation."}];
+var answered={},score=0;
+function buildQuiz(){
+  var c=document.getElementById('quiz-container');
+  c.innerHTML=''; answered={}; score=0;
+  QUESTIONS.forEach(function(q,i){
+    var div=document.createElement('div');
+    div.className='quiz-q';
+    var opts=q.opts.map(function(o,j){return '<button class="quiz-opt" onclick="answer('+i+','+j+')">'+o+'</button>';}).join('');
+    div.innerHTML='<div class="quiz-q-head"><span class="quiz-q-num">'+(i+1)+'</span>'+q.q+'</div>'+
+      '<div class="quiz-options" id="opts-'+i+'">'+opts+'</div>'+
+      '<div class="quiz-expl" id="expl-'+i+'"></div>';
+    c.appendChild(div);
+  });
+  document.getElementById('quiz-score').classList.remove('show');
+}
+function answer(qi,choice){
+  if(answered[qi]!==undefined) return;
+  answered[qi]=choice;
+  var q=QUESTIONS[qi];
+  var opts=document.querySelectorAll('#opts-'+qi+' .quiz-opt');
+  for(var k=0;k<opts.length;k++){opts[k].classList.add('disabled');}
+  opts[choice].classList.add(choice===q.correct?'correct':'wrong');
+  if(choice!==q.correct) opts[q.correct].classList.add('correct');
+  var ok=choice===q.correct;
+  if(ok) score++;
+  var expl=document.getElementById('expl-'+qi);
+  expl.innerHTML='<span class="'+(ok?'tag-ok':'tag-ar')+'">'+(ok?'✓ Bonne réponse !':'✗ À revoir')+'</span><br>'+q.expl;
+  expl.classList.add('show');
+  if(Object.keys(answered).length===QUESTIONS.length) showScore();
+}
+function showScore(){
+  var el=document.getElementById('quiz-score');
+  var pct=Math.round(score/QUESTIONS.length*100);
+  document.getElementById('score-num').textContent=score+'/'+QUESTIONS.length;
+  var msg='';
+  if(pct>=90) msg='🎉 Excellent Zach ! Tu maîtrises parfaitement ce chapitre !';
+  else if(pct>=70) msg='👍 Très bien ! Relis les questions marquées "à revoir" et tu seras au top.';
+  else if(pct>=50) msg='💪 Pas mal ! Relis la fiche et recommence — tu vas y arriver.';
+  else msg='📋 Relis bien la fiche de révision, puis retente le quiz. Tu vas progresser !';
+  document.getElementById('score-msg').textContent=msg;
+  el.classList.add('show');
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+
+window.showPanel=showPanel;
+window.showCorr=showCorr;
+window.buildQuiz=buildQuiz;
+window.answer=answer;
+window.showScore=showScore;
+window.resetQuiz=resetQuiz;
+</script>
+</body>
+</html>
