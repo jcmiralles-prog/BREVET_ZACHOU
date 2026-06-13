@@ -85,7 +85,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 
 <div class="hero">
   <h1>📐 Planning Maths — <span>Zachou</span> 💪</h1>
-  <div class="hero-sub">39 séquences · Brevet Mathématiques</div>
+  <div class="hero-sub">39 jours d'exercices type Brevet · + Annales</div>
   <div class="exam-pill">Examen : <b>29 juin 2026</b></div>
 </div>
 
@@ -100,14 +100,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
   <div class="progress-bar-wrap">
     <div class="progress-label">
       <span class="progress-title">Progression globale</span>
-      <span class="progress-count" id="prog-count">0 / 39</span>
+      <span class="progress-count" id="prog-count">0 / 40</span>
     </div>
     <div class="progress-track">
       <div class="progress-fill" id="prog-fill" style="width:0%"></div>
     </div>
     <div class="progress-legend">
-      <span class="leg"><span class="leg-dot leg-done"></span>Séquence cochée</span>
-      <span class="leg"><span class="leg-dot leg-todo"></span>Séquence à réviser</span>
+      <span class="leg"><span class="leg-dot leg-done"></span>Jour fait</span>
+      <span class="leg"><span class="leg-dot leg-todo"></span>Jour à faire</span>
     </div>
   </div>
 
@@ -131,64 +131,46 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 <script>
 
 var SEQS = [
-  /* ── NOMBRES & CALCUL ── */
-  {id:'M01', theme:'nombres', label:'Nombres', titre:'Calcul avec les fractions', date:'3–4 juin', fait:true},
-  {id:'M02', theme:'nombres', label:'Nombres', titre:'Puissances et notation scientifique', date:'3–4 juin', fait:true},
-  {id:'M03', theme:'nombres', label:'Nombres', titre:'Racines carrées', date:'5–6 juin', fait:true},
-  {id:'M04', theme:'nombres', label:'Nombres', titre:'Calculs avec les relatifs', date:'5–6 juin', fait:true},
-  {id:'M05', theme:'nombres', label:'Nombres', titre:'Proportionnalité et pourcentages', date:'7–8 juin', fait:true},
+  {id:'M01', theme:'stats', label:'Stats & Probas', titre:'Probabilités + Calcul littéral', date:'21 mai (Jour 1)', fait:true},
+  {id:'M02', theme:'geometrie', label:'Géométrie', titre:'Pythagore + Thalès', date:'22 mai (Jour 2)', fait:true},
+  {id:'M03', theme:'nombres', label:'Nombres', titre:'Statistiques + Arithmétique (PGCD)', date:'23 mai (Jour 3)', fait:true},
+  {id:'M04', theme:'fonctions', label:'Fonctions', titre:'Fonctions + Trigonométrie', date:'24 mai (Jour 4)', fait:true},
+  {id:'M05', theme:'nombres', label:'Nombres', titre:'Volumes + Pourcentages', date:'25 mai (Jour 5)', fait:true},
+  {id:'M06', theme:'algebre', label:'Algèbre', titre:'Calcul littéral et équations', date:'26 mai (Jour 6)', fait:true},
+  {id:'M07', theme:'stats', label:'Stats & Probas', titre:'QCM + Médiane', date:'27 mai (Jour 7)', fait:true},
+  {id:'M08', theme:'geometrie', label:'Géométrie', titre:'Thalès + Triangles semblables', date:'28 mai (Jour 8)', fait:true},
+  {id:'M09', theme:'nombres', label:'Nombres', titre:'Ratio, proportionnalité et PGCD', date:'29 mai (Jour 9)', fait:true},
+  {id:'M10', theme:'stats', label:'Stats & Probas', titre:'Statistiques : étendue, moyenne, médiane', date:'30 mai (Jour 10)', fait:true},
+  {id:'M11', theme:'geometrie', label:'Géométrie', titre:'Pythagore, angles, arcs de cercle', date:'31 mai (Jour 11)', fait:true},
+  {id:'M12', theme:'stats', label:'Stats & Probas', titre:'Probabilités : tableau double entrée', date:'1 juin (Jour 12)', fait:true},
+  {id:'M13', theme:'algebre', label:'Algèbre', titre:'Factorisation et programmes de calcul', date:'2 juin (Jour 13)', fait:true},
+  {id:'M14', theme:'fonctions', label:'Fonctions', titre:'Fonctions affines : interprétation', date:'3 juin (Jour 14)', fait:true},
+  {id:'M15', theme:'geometrie', label:'Géométrie', titre:'Thalès : étagère et plafond', date:'4 juin (Jour 15)', fait:true},
+  {id:'M16', theme:'nombres', label:'Nombres', titre:'Pourcentages, réductions et nombres premiers', date:'5 juin (Jour 16)', fait:true},
+  {id:'M17', theme:'geometrie', label:'Géométrie', titre:'Volumes et énergie', date:'6 juin (Jour 17)', fait:true},
+  {id:'M18', theme:'algebre', label:'Algèbre', titre:'Équations du second degré et factorisation', date:'7 juin (Jour 18)', fait:true},
+  {id:'M19', theme:'stats', label:'Stats & Probas', titre:'Statistiques complètes : étendue, moyenne, médiane', date:'8 juin (Jour 19)', fait:true},
+  {id:'M20', theme:'algebre', label:'Algèbre', titre:'Révision générale : tous thèmes', date:'9 juin (Jour 20)', fait:true},
+  {id:'M21', theme:'nombres', label:'Nombres', titre:'Vitesse, écriture scientifique, fractions', date:'10 juin (Jour 21)', fait:true},
+  {id:'M22', theme:'nombres', label:'Nombres', titre:'PPCM : circuits d\'entraînement', date:'11 juin (Jour 22)', fait:true},
+  {id:'M23', theme:'algebre', label:'Algèbre', titre:'Programme de calcul + équation-produit', date:'12 juin (Jour 23)', fait:true},
+  {id:'M24', theme:'geometrie', label:'Géométrie', titre:'Thalès, Pythagore, homothétie', date:'13 juin (Jour 24)', fait:true},
+  {id:'M25', theme:'geometrie', label:'Géométrie', titre:'Cône : volume et patron', date:'14 juin (Jour 25)', fait:true},
+  {id:'M26', theme:'geometrie', label:'Géométrie', titre:'Panneaux solaires : Pythagore et trigo', date:'15 juin (Jour 26)', fait:true},
+  {id:'M27', theme:'geometrie', label:'Géométrie', titre:'Thalès et coût de matériaux', date:'16 juin (Jour 27)', fait:true},
+  {id:'M28', theme:'stats', label:'Stats & Probas', titre:'Probabilités : boules et dé', date:'17 juin (Jour 28)', fait:true},
+  {id:'M29', theme:'geometrie', label:'Géométrie', titre:'Piste de karting : périmètre et PPCM', date:'18 juin (Jour 29)', fait:true},
+  {id:'M30', theme:'algebre', label:'Algèbre', titre:'Suites géométriques : carrés', date:'19 juin (Jour 30)', fait:true},
+  {id:'M31', theme:'stats', label:'Stats & Probas', titre:'Statistiques complètes : marché', date:'20 juin (Jour 31)', fait:true},
+  {id:'M32', theme:'fonctions', label:'Fonctions', titre:'QCM : fonctions et identités remarquables', date:'21 juin (Jour 32)', fait:true},
+  {id:'M33', theme:'algebre', label:'Algèbre', titre:'Programme de calcul : factorisation', date:'22 juin (Jour 33)', fait:true},
+  {id:'M34', theme:'stats', label:'Stats & Probas', titre:'Probabilités : roue et fractions', date:'23 juin (Jour 34)', fait:true},
+  {id:'M35', theme:'geometrie', label:'Géométrie', titre:'Pyramide : Pythagore et trigo', date:'24 juin (Jour 35)', fait:true},
+  {id:'M36', theme:'algebre', label:'Algèbre', titre:'Système d\'équations et inéquations', date:'25 juin (Jour 36)', fait:true},
+  {id:'M37', theme:'stats', label:'Stats & Probas', titre:'Probabilités et géométrie dans l\'espace', date:'26 juin (Jour 37)', fait:true},
+  {id:'M38', theme:'algebre', label:'Algèbre', titre:'Sujet complet type brevet (partie 1)', date:'27 juin (Jour 38)', fait:true},
+  {id:'M39', theme:'algebre', label:'Algèbre', titre:'Bilan final : veille du brevet', date:'28 juin (Jour 39)', fait:true},
 
-  /* ── ALGÈBRE & CALCUL LITTÉRAL ── */
-  {id:'M06', theme:'algebre', label:'Algèbre', titre:'Développer et factoriser', date:'7–8 juin', fait:true},
-  {id:'M07', theme:'algebre', label:'Algèbre', titre:'Identités remarquables', date:'9–10 juin', fait:true},
-  {id:'M08', theme:'algebre', label:'Algèbre', titre:'Équations du premier degré', date:'9–10 juin', fait:true},
-  {id:'M09', theme:'algebre', label:'Algèbre', titre:'Systèmes d\'équations', date:'11–12 juin', fait:true},
-  {id:'M10', theme:'algebre', label:'Algèbre', titre:'Inéquations', date:'11–12 juin', fait:true},
-
-  /* ── FONCTIONS ── */
-  {id:'M11', theme:'fonctions', label:'Fonctions', titre:'Fonctions — généralités et vocabulaire', date:'13–14 juin', fait:true},
-  {id:'M12', theme:'fonctions', label:'Fonctions', titre:'Fonction linéaire et affine', date:'13–14 juin', fait:true},
-  {id:'M13', theme:'fonctions', label:'Fonctions', titre:'Lire et interpréter un graphique', date:'15–16 juin', fait:true},
-  {id:'M14', theme:'fonctions', label:'Fonctions', titre:'Variations d\'une fonction', date:'15–16 juin', fait:true},
-
-  /* ── GÉOMÉTRIE ── */
-  {id:'M15', theme:'geometrie', label:'Géométrie', titre:'Théorème de Pythagore', date:'17–18 juin', fait:true},
-  {id:'M16', theme:'geometrie', label:'Géométrie', titre:'Trigonométrie (sin, cos, tan)', date:'17–18 juin', fait:true},
-  {id:'M17', theme:'geometrie', label:'Géométrie', titre:'Triangles semblables et théorème de Thalès', date:'19–20 juin', fait:true},
-  {id:'M18', theme:'geometrie', label:'Géométrie', titre:'Agrandissement et réduction', date:'19–20 juin', fait:true},
-  {id:'M19', theme:'geometrie', label:'Géométrie', titre:'Aires et volumes — révision', date:'21 juin', fait:true},
-  {id:'M20', theme:'geometrie', label:'Géométrie', titre:'Géométrie dans l\'espace (solides)', date:'21 juin', fait:true},
-
-  {id:'M21', theme:'geometrie', label:'Géométrie', titre:'Transformations : symétrie axiale et centrale', date:'4–5 juin', fait:true},
-  {id:'M22', theme:'geometrie', label:'Géométrie', titre:'Translation et rotation', date:'6–7 juin', fait:true},
-  {id:'M23', theme:'geometrie', label:'Géométrie', titre:'Cercles — propriétés et angles inscrits', date:'8–9 juin', fait:true},
-  {id:'M24', theme:'geometrie', label:'Géométrie', titre:'Vecteurs — notion et opérations', date:'10–11 juin', fait:true},
-  {id:'M25', theme:'geometrie', label:'Géométrie', titre:'Coordonnées et repérage dans le plan', date:'12–13 juin', fait:true},
-
-  /* ── STATS & PROBAS ── */
-  {id:'M26', theme:'stats', label:'Stats & Probas', titre:'Statistiques — moyenne, médiane, étendue', date:'14–15 juin', fait:true},
-  {id:'M27', theme:'stats', label:'Stats & Probas', titre:'Diagrammes statistiques', date:'14–15 juin', fait:true},
-  {id:'M28', theme:'stats', label:'Stats & Probas', titre:'Probabilités — vocabulaire et calcul', date:'16–17 juin', fait:true},
-  {id:'M29', theme:'stats', label:'Stats & Probas', titre:'Probabilités — tableaux et arbres', date:'16–17 juin', fait:true},
-
-  /* ── ALGÈBRE (suite) ── */
-  {id:'M30', theme:'algebre', label:'Algèbre', titre:'Équations du second degré (cas simples)', date:'18–19 juin', fait:true},
-  {id:'M31', theme:'algebre', label:'Algèbre', titre:'Factorisation avancée', date:'18–19 juin', fait:true},
-  {id:'M32', theme:'algebre', label:'Algèbre', titre:'Problèmes avec mise en équation', date:'20–21 juin', fait:true},
-  {id:'M33', theme:'algebre', label:'Algèbre', titre:'Suites numériques', date:'20–21 juin', fait:true},
-
-  /* ── NOMBRES (suite) ── */
-  {id:'M34', theme:'nombres', label:'Nombres', titre:'Divisibilité, PGCD et fractions irréductibles', date:'22 juin', fait:true},
-  {id:'M35', theme:'nombres', label:'Nombres', titre:'Nombres premiers', date:'22 juin', fait:true},
-
-  /* ── FONCTIONS (suite) ── */
-  {id:'M36', theme:'fonctions', label:'Fonctions', titre:'Fonction inverse et fonction carrée', date:'23 juin', fait:true},
-  {id:'M37', theme:'fonctions', label:'Fonctions', titre:'Résolution graphique d\'équations', date:'23 juin', fait:true},
-
-  /* ── RÉVISION GÉNÉRALE ── */
-  {id:'M38', theme:'algebre', label:'Algèbre', titre:'Révision générale — exercices croisés', date:'24–25 juin', fait:true},
-
-  /* ── ANNALES ── */
   {id:'ANNALES', theme:'annales', label:'Annales', titre:'Annales officielles Brevet (2020–2024)', date:'Tout au long', fait:true, annales:true}
 ];
 
@@ -245,7 +227,6 @@ function render(){
   var container = document.getElementById('planning-container');
   container.innerHTML = '';
 
-  /* Filtrage */
   var filtered = [];
   for(var i=0;i<SEQS.length;i++){
     var s = SEQS[i];
@@ -259,7 +240,6 @@ function render(){
     return;
   }
 
-  /* Regroupement par label de thème */
   var themes = [];
   var themeMap = {};
   for(var i=0;i<filtered.length;i++){
@@ -275,13 +255,11 @@ function render(){
     var label = themes[t];
     var seqs = themeMap[label];
 
-    /* En-tête thème */
     var head = document.createElement('div');
     head.className = 'theme-head';
     head.innerHTML = '<span class="theme-badge">' + label.toUpperCase() + '</span><div class="theme-line"></div>';
     container.appendChild(head);
 
-    /* Cartes */
     for(var j=0;j<seqs.length;j++){
       (function(seq){
         var done = getEtat(seq.id);
@@ -294,9 +272,9 @@ function render(){
         if(seq.annales){
           tagHtml = '<div class="tag-annales">📄 Annales PDF</div>';
         } else if(done){
-          tagHtml = '<div class="tag-fait">✓ Révisé</div>';
+          tagHtml = '<div class="tag-fait">✓ Fait</div>';
         } else {
-          tagHtml = '<div class="tag-todo">À réviser</div>';
+          tagHtml = '<div class="tag-todo">À faire</div>';
         }
 
         card.innerHTML =
@@ -314,7 +292,6 @@ function render(){
   }
 }
 
-/* Compte à rebours */
 function updateCountdown(){
   var exam = new Date('2026-06-29T08:00:00');
   var now = new Date();
@@ -323,15 +300,14 @@ function updateCountdown(){
   if(diff > 0){
     el.textContent = diff;
   } else if(diff === 0){
-    el.textContent = "Aujourd\'hui !";
+    el.textContent = "Aujourd'hui !";
     el.style.color = 'var(--rouge)';
   } else {
-    el.textContent = "C\'est passé !";
+    el.textContent = "C'est passé !";
     el.style.color = 'var(--muted)';
   }
 }
 
-/* Init : pré-cocher les séquences déjà faites si pas encore dans localStorage */
 function initEtats(){
   for(var i=0;i<SEQS.length;i++){
     var s = SEQS[i];
