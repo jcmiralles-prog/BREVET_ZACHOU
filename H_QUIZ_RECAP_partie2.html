@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Histoire Partie 2/3 — H5 à H8 — Brevet Zachou</title>
+<style>
+:root{
+  --rouge:#C0392B;--rouge-light:#FADBD8;
+  --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+  --border:#DEE2E6;--radius:10px;
+  --vert:#27AE60;--vert-light:#D5F5E3;
+}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:60px}
+
+.header{background:var(--rouge);color:white;padding:22px 20px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:6px}
+.header p{font-size:13px;opacity:.9}
+
+.container{max-width:740px;margin:0 auto;padding:18px 14px}
+
+.back{display:inline-block;margin-bottom:14px;color:var(--rouge);text-decoration:none;font-size:13px;font-weight:600}
+
+.intro{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px;font-size:14px;line-height:1.6}
+
+.progress-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-bottom:16px;position:relative}
+.progress-bar{height:8px;background:var(--border);border-radius:6px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;background:var(--rouge);width:0%;-webkit-transition:width 0.3s;transition:width 0.3s}
+.progress-text{font-size:13px;font-weight:600}
+
+.chapitre-head{background:var(--rouge);color:white;border-radius:var(--radius) var(--radius) 0 0;padding:10px 16px;font-size:14px;font-weight:700;margin-top:22px}
+
+.question-card{background:var(--card);border:1px solid var(--border);border-radius:0 0 var(--radius) var(--radius);padding:16px;margin-bottom:0;border-top:none}
+.question-card + .chapitre-head{margin-top:22px}
+.question-card.standalone{border-radius:var(--radius);margin-bottom:14px}
+
+.q-num{font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px}
+.q-text{font-size:14px;font-weight:600;margin-bottom:12px;line-height:1.5}
+
+.choices{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:8px}
+.choice{display:block;width:100%;text-align:left;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--text);cursor:pointer;-webkit-tap-highlight-color:transparent;font-family:inherit}
+.choice:active{opacity:.8}
+.choice.correct{background:var(--vert-light);border-color:var(--vert);font-weight:600}
+.choice.incorrect{background:var(--rouge-light);border-color:var(--rouge)}
+.choice.disabled{pointer-events:none}
+
+.result-tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:10px}
+.result-tag.ok{background:var(--vert-light);color:var(--vert)}
+.result-tag.ko{background:var(--rouge-light);color:var(--rouge)}
+
+.explication{display:none;margin-top:10px;background:var(--bg);border-left:3px solid var(--rouge);border-radius:6px;padding:10px 12px;font-size:13px;line-height:1.6;color:var(--text)}
+.explication.show{display:block}
+.explication b{color:var(--rouge)}
+
+.score-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;margin-top:24px;display:none}
+.score-box.show{display:block}
+.score-box .score-num{font-size:40px;font-weight:700;color:var(--rouge);margin-bottom:8px}
+.score-box .score-msg{font-size:14px;line-height:1.6;margin-bottom:16px}
+
+.btn{display:inline-block;background:var(--rouge);color:white;border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;font-family:inherit}
+.btn.secondary{background:var(--card);color:var(--rouge);border:1px solid var(--rouge)}
+
+.btn-finish-wrap{text-align:center;margin-top:24px}
+
+@media(max-width:500px){.header h1{font-size:17px}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🎯 Quiz Histoire — Partie 2/3 — H5 à H8</h1>
+  <p>20 questions — H5 à H8 (Résistance → Construction européenne)</p>
+</div>
+
+<div class="container">
+
+  <a class="back" href="index.html">← Retour à l'accueil</a>
+
+  <div class="intro">
+    Salut Zachou 👋 Voici la partie 2/3 du quiz récap (H5 à H8 (Résistance → Construction européenne)), avec quelques pièges classiques du brevet. Pas de stress : si tu te trompes, l'explication te dit exactement pourquoi, pour que tu retiennes la bonne info la prochaine fois. Prends ton temps, lis bien chaque réponse même si tu as juste !
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-text" id="progressText">0 / 20 répondues</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div id="quizContainer"></div>
+
+  <div class="btn-finish-wrap">
+    <button class="btn" onclick="finishQuiz()">Voir mon score final</button>
+  </div>
+
+  <div class="score-box" id="scoreBox">
+    <div class="score-num" id="scoreNum">0 / 20</div>
+    <div class="score-msg" id="scoreMsg"></div>
+    <button class="btn secondary" onclick="resetQuiz()">🔄 Recommencer</button>
+  </div>
+
+</div>
+
+<script>
+var QUESTIONS = [
+{chap:"H5 — La Résistance et la Libération", q:"Qu'est-ce que l'appel du 18 juin 1940 ?", choices:["Un discours de Pétain annonçant la collaboration","Un appel radiophonique du général de Gaulle, depuis Londres, invitant les Français à continuer le combat","Un traité signé avec l'Allemagne","La déclaration de guerre de 1939"], correct:1,
+exp:"Le <b>18 juin 1940</b>, le général <b>de Gaulle</b>, réfugié à Londres, lance à la radio (BBC) un appel aux Français pour qu'ils continuent la résistance contre l'Allemagne, alors que Pétain s'apprête à demander l'armistice. Cet appel est considéré comme l'acte fondateur de la <b>France libre</b> et de la Résistance extérieure. Piège : ne pas confondre de Gaulle (résistance) et Pétain (collaboration), ce sont deux figures opposées de cette période."},
+{chap:"H5 — La Résistance et la Libération", q:"Qui est Jean Moulin ?", choices:["Un collaborateur du régime de Vichy","Un résistant qui a unifié les mouvements de Résistance intérieure en créant le CNR (Conseil National de la Résistance) en 1943","Un soldat allemand","Le président de la République en 1944"], correct:1,
+exp:"<b>Jean Moulin</b> est un grand résistant envoyé par de Gaulle pour unifier les différents mouvements de résistance en France occupée. Il crée le <b>CNR</b> (Conseil National de la Résistance) en mai 1943, qui regroupe résistants de tous horizons politiques. Arrêté et torturé par la Gestapo en 1943, il meurt sans avoir parlé. Il est aujourd'hui un symbole de la Résistance, ses cendres reposent au Panthéon."},
+{chap:"H5 — La Résistance et la Libération", q:"Quelles actions menaient les résistants pendant l'Occupation ?", choices:["Uniquement écrire des articles favorables aux nazis","Sabotages, renseignement pour les Alliés, aide aux personnes pourchassées (Juifs, opposants), diffusion de journaux clandestins","Participer aux défilés militaires allemands","Aucune action, ils attendaient seulement la fin de la guerre"], correct:1,
+exp:"Les résistants menaient des actions variées et risquées : <b>sabotages</b> (voies ferrées, usines travaillant pour l'Allemagne), <b>renseignement</b> transmis aux Alliés, <b>aide à l'évasion</b> (Juifs, prisonniers évadés, aviateurs alliés), et diffusion de <b>journaux clandestins</b> pour informer la population (comme « Combat » ou « Libération »). Ces actions étaient extrêmement dangereuses : la torture et la déportation menaçaient les résistants arrêtés."},
+{chap:"H5 — La Résistance et la Libération", q:"Que se passe-t-il à la Libération concernant les personnes ayant collaboré avec l'occupant ?", choices:["Rien, elles sont toutes pardonnées immédiatement","Une période d'épuration (jugements, condamnations, parfois exécutions) vise les collaborateurs, dont le maréchal Pétain qui est condamné","Elles sont nommées au gouvernement","Elles fuient toutes définitivement en Allemagne sans être jugées"], correct:1,
+exp:"À la Libération (1944-1945), une phase d'<b>épuration</b> a lieu : des tribunaux jugent les personnes ayant collaboré activement avec l'occupant. Le maréchal <b>Pétain</b> est jugé et condamné à mort (peine commuée en détention à vie en raison de son âge), tandis que Pierre Laval, autre dirigeant de Vichy, est exécuté. Cette période montre la volonté de rendre justice après les années de collaboration."},
+{chap:"H5 — La Résistance et la Libération", q:"Quelles grandes réformes sont mises en place en France à la sortie de la guerre (1944-1946) ?", choices:["La suppression du droit de vote pour tous","La Sécurité sociale, le droit de vote des femmes (1944), les nationalisations de grandes entreprises","Le retour à la monarchie","Aucune réforme, tout reste comme avant-guerre"], correct:1,
+exp:"À la Libération, le <b>Conseil National de la Résistance</b> et le gouvernement provisoire de de Gaulle mettent en place des réformes profondes : création de la <b>Sécurité sociale</b> (1945, protection contre la maladie, la vieillesse...), le <b>droit de vote des femmes</b> (ordonnance de 1944, premières élections en 1945), et la <b>nationalisation</b> de secteurs clés (énergie, banques, transports). Ces réformes posent les bases de la France moderne d'après-guerre."},
+{chap:"H6 — La guerre froide", q:"Qu'est-ce que la guerre froide ?", choices:["Un conflit armé direct entre les États-Unis et l'URSS","Une opposition idéologique, politique et militaire entre les États-Unis (bloc capitaliste) et l'URSS (bloc communiste), de 1947 à 1991, sans affrontement direct entre les deux superpuissances","Une guerre menée uniquement en Antarctique","Le nom d'une bataille de la Seconde Guerre mondiale"], correct:1,
+exp:"La <b>guerre froide</b> oppose deux superpuissances aux idéologies opposées (capitalisme/démocratie pour les USA, communisme pour l'URSS), de 1947 à 1991. On parle de guerre « froide » car les deux blocs ne s'affrontent <b>jamais directement militairement</b> (cela aurait pu provoquer une guerre nucléaire), mais s'opposent via des conflits indirects (guerres « par procuration » comme la Corée ou le Vietnam), la course aux armements et la propagande."},
+{chap:"H6 — La guerre froide", q:"Que symbolise le mur de Berlin (construit en 1961) ?", choices:["La coopération entre l'Est et l'Ouest","La division de l'Europe et du monde en deux blocs pendant la guerre froide ; sa chute en 1989 marque la fin de cette division","Une frontière entre la France et l'Allemagne","Un monument touristique sans signification politique"], correct:1,
+exp:"Le <b>mur de Berlin</b>, construit en 1961 par l'Allemagne de l'Est (communiste), sépare Berlin-Ouest (zone occidentale) de Berlin-Est. Il devient le symbole le plus fort du <b>« rideau de fer »</b> qui divise l'Europe entre bloc de l'Ouest et bloc de l'Est. Sa <b>chute en 1989</b>, suivie de la réunification allemande en 1990, marque symboliquement la fin de la guerre froide en Europe."},
+{chap:"H6 — La guerre froide", q:"Quelle crise de 1962 a fait craindre une guerre nucléaire entre les États-Unis et l'URSS ?", choices:["La crise de Suez","La crise des missiles de Cuba","La guerre du Golfe","La crise de Berlin de 1948"], correct:1,
+exp:"La <b>crise des missiles de Cuba</b> (octobre 1962) survient quand l'URSS installe des missiles nucléaires à Cuba, à proximité des États-Unis. Le président Kennedy impose un blocus naval. Pendant quelques jours, le monde est au bord d'une guerre nucléaire, avant qu'un accord soit trouvé : l'URSS retire ses missiles. C'est considéré comme le moment le plus tendu de toute la guerre froide."},
+{chap:"H6 — La guerre froide", q:"Qu'appelle-t-on les « pays satellites » de l'URSS ?", choices:["Des pays d'Amérique du Sud alliés aux États-Unis","Les pays d'Europe de l'Est (Pologne, Hongrie, Tchécoslovaquie...) sous influence et contrôle politique direct de l'URSS après 1945","Des pays situés sur la Lune","Des pays neutres pendant la guerre froide"], correct:1,
+exp:"Après 1945, l'URSS impose des régimes communistes dans les pays d'<b>Europe de l'Est</b> qu'elle a libérés de l'occupation nazie (Pologne, Hongrie, Tchécoslovaquie, Roumanie, RDA...). Ces pays, appelés « <b>satellites</b> », sont officiellement indépendants mais suivent en réalité les décisions de Moscou. Toute tentative de s'émanciper est réprimée (Hongrie 1956, Prague 1968)."},
+{chap:"H6 — La guerre froide", q:"Comment se termine la guerre froide ?", choices:["Par une guerre nucléaire totale","Par l'effondrement progressif du bloc communiste : chute du mur de Berlin (1989) puis dissolution de l'URSS (1991)","Elle n'est jamais terminée, elle continue aujourd'hui à l'identique","Par la victoire militaire de l'URSS sur les États-Unis"], correct:1,
+exp:"La guerre froide se termine sans guerre directe, par l'<b>effondrement du bloc communiste</b> : les régimes communistes d'Europe de l'Est s'écroulent en 1989 (chute du mur de Berlin), puis l'<b>URSS elle-même se dissout en 1991</b>, donnant naissance à la Russie et à plusieurs nouveaux pays indépendants. Les États-Unis restent alors la seule superpuissance mondiale pendant un temps."},
+{chap:"H7 — La décolonisation", q:"Qu'est-ce que la décolonisation ?", choices:["La création de nouvelles colonies par la France","Le processus par lequel les colonies obtiennent leur indépendance, principalement entre les années 1940 et 1960","Une guerre entre la France et l'Allemagne","Le retour des colons en métropole sans aucun changement politique"], correct:1,
+exp:"La <b>décolonisation</b> est le processus par lequel les colonies (territoires dominés par une puissance européenne) accèdent à l'<b>indépendance</b>. Ce mouvement est très fort après la Seconde Guerre mondiale (1945) et se déroule surtout dans les années <b>1950-1960</b>, en Asie puis en Afrique. Il peut se faire de manière pacifique (négociation) ou violente (guerre)."},
+{chap:"H7 — La décolonisation", q:"Quelle guerre de décolonisation, particulièrement violente, oppose la France à des indépendantistes algériens de 1954 à 1962 ?", choices:["La guerre d'Indochine","La guerre d'Algérie","La guerre du Vietnam","La guerre des Malouines"], correct:1,
+exp:"La <b>guerre d'Algérie</b> (1954-1962) oppose l'armée française au <b>FLN</b> (Front de Libération Nationale), qui réclame l'indépendance de l'Algérie, alors considérée comme une partie de la France (3 départements français). Cette guerre, très violente (torture, attentats, répression), se termine par les <b>accords d'Évian (1962)</b> et l'indépendance de l'Algérie. La guerre d'Indochine (1946-1954), elle, concerne le Vietnam actuel, sous domination française avant son indépendance."},
+{chap:"H7 — La décolonisation", q:"Comment l'indépendance de la plupart des colonies françaises d'Afrique subsaharienne se déroule-t-elle, en 1960 ?", choices:["Par des guerres violentes systématiques comme en Algérie","De manière globalement négociée et pacifique, surnommée parfois « l'année de l'Afrique »","Elles ne sont jamais devenues indépendantes","Par une intervention de l'ONU qui force la France à partir"], correct:1,
+exp:"En <b>1960</b>, surnommée « l'année de l'Afrique », la plupart des colonies françaises d'Afrique subsaharienne (Sénégal, Côte d'Ivoire, Mali, Cameroun...) obtiennent leur indépendance de manière <b>plus négociée et pacifique</b> que l'Algérie, sous l'impulsion notamment du général de Gaulle qui propose une nouvelle relation (Communauté française, puis indépendance). Attention : « pacifique » ne veut pas dire qu'il n'y a eu aucune tension, mais cela contraste fortement avec la violence de la guerre d'Algérie."},
+{chap:"H7 — La décolonisation", q:"Qu'est-ce que le « tiers-monde » ?", choices:["Un troisième continent découvert au XXe siècle","Une expression désignant les pays nouvellement indépendants, souvent pauvres, qui ne veulent appartenir ni au bloc occidental ni au bloc communiste pendant la guerre froide","Un groupe de pays européens","Un synonyme exact de l'Union européenne"], correct:1,
+exp:"L'expression « <b>tiers-monde</b> » (créée dans les années 1950) désigne les pays récemment décolonisés d'Afrique, d'Asie et d'Amérique latine. Beaucoup de ces pays se regroupent dans le <b>mouvement des non-alignés</b> (conférence de Bandung, 1955) pour affirmer leur volonté de ne pas choisir entre le bloc occidental (USA) et le bloc communiste (URSS) pendant la guerre froide, tout en cherchant à se développer économiquement."},
+{chap:"H7 — La décolonisation", q:"Quelle conséquence la décolonisation a-t-elle eue sur la carte du monde et l'ONU ?", choices:["Le nombre de pays membres de l'ONU a fortement diminué","Le nombre de pays indépendants (et donc de membres de l'ONU) a fortement augmenté, avec l'arrivée de nombreux nouveaux États africains et asiatiques","La carte du monde n'a pas changé du tout","Tous les nouveaux pays ont rejoint automatiquement l'Union européenne"], correct:1,
+exp:"La décolonisation a profondément <b>redessiné la carte du monde</b> : des dizaines de nouveaux pays indépendants apparaissent en Afrique et en Asie entre 1945 et les années 1970. Ces nouveaux États rejoignent l'<b>ONU</b>, dont le nombre de membres explose (passant d'environ 50 en 1945 à plus de 150 dans les années 1970). Cela change aussi les équilibres politiques mondiaux, ces pays devenant des acteurs sur la scène internationale, notamment via le mouvement des non-alignés."},
+{chap:"H8 — La construction européenne", q:"Pourquoi l'Europe occidentale entame-t-elle un processus de construction européenne après 1945 ?", choices:["Pour créer un nouvel empire colonial","Pour éviter de nouvelles guerres entre pays européens (notamment France-Allemagne) en les liant par la coopération économique","Pour copier exactement le modèle des États-Unis d'Amérique","Parce que l'ONU l'a imposé par la force"], correct:1,
+exp:"Après deux guerres mondiales meurtrières, en grande partie d'origine européenne, l'idée naît de <b>lier économiquement les pays européens</b> (en particulier la France et l'Allemagne, ennemis historiques) pour rendre une nouvelle guerre entre eux impossible ou trop coûteuse. C'est l'idée fondatrice de la construction européenne : la paix par la coopération économique, pas seulement par les traités politiques."},
+{chap:"H8 — La construction européenne", q:"Quel traité fondateur de 1957 crée la Communauté Économique Européenne (CEE) ?", choices:["Le traité de Versailles","Le traité de Rome","Le traité de Maastricht","Le traité de Lisbonne"], correct:1,
+exp:"Le <b>traité de Rome</b> (1957) crée la <b>CEE</b> (Communauté Économique Européenne), avec 6 pays fondateurs (France, Allemagne de l'Ouest, Italie, Belgique, Pays-Bas, Luxembourg). L'objectif est de créer un marché commun. Le traité de Versailles (1919) concerne la fin de la Première Guerre mondiale ; le traité de Maastricht (1992) crée l'Union européenne et l'euro ; le traité de Lisbonne (2007) modifie le fonctionnement institutionnel — ne confonds pas ces dates !"},
+{chap:"H8 — La construction européenne", q:"Quel traité de 1992 crée l'Union européenne (UE) telle qu'on la connaît, avec le projet d'une monnaie unique ?", choices:["Le traité de Rome","Le traité de Maastricht","Le traité de Schengen","Le traité de Versailles"], correct:1,
+exp:"Le <b>traité de Maastricht</b> (1992) transforme la CEE en <b>Union européenne</b> et prépare la création d'une monnaie unique, l'<b>euro</b> (mise en circulation en 2002). Le traité de Schengen (1985, appliqué à partir de 1995) concerne quant à lui la <b>libre circulation des personnes</b> (suppression des contrôles aux frontières intérieures) — c'est un sujet différent de la monnaie, attention à ne pas les confondre dans une réponse."},
+{chap:"H8 — La construction européenne", q:"Combien de pays sont membres fondateurs de la CEE en 1957 ?", choices:["3 pays","6 pays","12 pays","27 pays"], correct:1,
+exp:"En 1957, <b>6 pays</b> fondent la CEE : France, Allemagne de l'Ouest (RFA), Italie, Belgique, Pays-Bas, Luxembourg. Depuis, l'Union européenne s'est élargie progressivement (notamment après la fin de la guerre froide, avec l'entrée de nombreux pays d'Europe de l'Est dans les années 2000) pour atteindre 27 membres aujourd'hui (après le Brexit, sortie du Royaume-Uni en 2020)."},
+{chap:"H8 — La construction européenne", q:"Quelle institution représente les citoyens européens et est élue au suffrage universel direct depuis 1979 ?", choices:["Le Conseil de sécurité de l'ONU","Le Parlement européen","Le Sénat français","L'OTAN"], correct:1,
+exp:"Le <b>Parlement européen</b> est l'institution de l'UE élue directement par les citoyens des pays membres (depuis 1979, tous les 5 ans). Il vote les lois européennes avec le Conseil de l'UE. Le Conseil de sécurité de l'ONU est une institution mondiale (pas seulement européenne) ; le Sénat français est une institution nationale ; l'OTAN est une alliance militaire (pas une institution de l'UE)."}
+];
+
+var userAnswers = new Array(QUESTIONS.length).fill(null);
+
+function buildQuiz(){
+  var container = document.getElementById('quizContainer');
+  var html = '';
+  var lastChap = '';
+  for(var i=0;i<QUESTIONS.length;i++){
+    var q = QUESTIONS[i];
+    if(q.chap !== lastChap){
+      html += '<div class="chapitre-head">' + q.chap + '</div>';
+      lastChap = q.chap;
+    }
+    html += '<div class="question-card" id="card-'+i+'">';
+    html += '<div class="q-num">Question '+(i+1)+' / '+QUESTIONS.length+'</div>';
+    html += '<div class="q-text">'+q.q+'</div>';
+    html += '<div class="choices">';
+    for(var c=0;c<q.choices.length;c++){
+      html += '<button class="choice" id="c-'+i+'-'+c+'" onclick="answer('+i+','+c+')">'+q.choices[c]+'</button>';
+    }
+    html += '</div>';
+    html += '<div class="result-tag" id="tag-'+i+'" style="display:none"></div>';
+    html += '<div class="explication" id="exp-'+i+'"><b>Explication :</b> '+q.exp+'</div>';
+    html += '</div>';
+  }
+  container.innerHTML = html;
+}
+
+function answer(qIndex, choiceIndex){
+  if(userAnswers[qIndex] !== null) return;
+  userAnswers[qIndex] = choiceIndex;
+  var q = QUESTIONS[qIndex];
+  for(var c=0;c<q.choices.length;c++){
+    var btn = document.getElementById('c-'+qIndex+'-'+c);
+    btn.classList.add('disabled');
+    if(c === q.correct){
+      btn.classList.add('correct');
+    } else if(c === choiceIndex){
+      btn.classList.add('incorrect');
+    }
+  }
+  var tag = document.getElementById('tag-'+qIndex);
+  tag.style.display = 'inline-block';
+  if(choiceIndex === q.correct){
+    tag.className = 'result-tag ok';
+    tag.textContent = '✓ Bonne réponse';
+  } else {
+    tag.className = 'result-tag ko';
+    tag.textContent = '✗ À revoir';
+  }
+  document.getElementById('exp-'+qIndex).classList.add('show');
+  updateProgress();
+}
+
+function updateProgress(){
+  var answered = 0;
+  for(var i=0;i<userAnswers.length;i++){
+    if(userAnswers[i] !== null) answered++;
+  }
+  document.getElementById('progressText').textContent = answered + ' / ' + QUESTIONS.length + ' répondues';
+  document.getElementById('progressFill').style.width = (answered/QUESTIONS.length*100) + '%';
+}
+
+function finishQuiz(){
+  var score = 0;
+  for(var i=0;i<userAnswers.length;i++){
+    if(userAnswers[i] === QUESTIONS[i].correct) score++;
+  }
+  var box = document.getElementById('scoreBox');
+  var pct = Math.round(score/QUESTIONS.length*100);
+  document.getElementById('scoreNum').textContent = score + ' / ' + QUESTIONS.length;
+  var msg = '';
+  if(pct >= 80){
+    msg = 'Excellent Zachou, tu maîtrises vraiment bien le programme d\'Histoire ! Relis juste les explications des questions « à revoir » pour être parfait. 🚀';
+  } else if(pct >= 60){
+    msg = 'Bon travail ! Tu as de bonnes bases. Reprends calmement les questions « à revoir », les explications t\'aideront à combler les petits trous. Tu progresses bien. 💪';
+  } else if(pct >= 40){
+    msg = 'C\'est un bon début pour repérer ce qu\'il faut revoir. Pas de panique : relis les explications une par une, ce sont elles qui te feront progresser le plus. Refais le quiz dans quelques jours, tu verras la différence. 🙂';
+  } else {
+    msg = 'Pas de souci, ce quiz sert justement à repérer ce que tu connais moins. Prends le temps de lire chaque explication tranquillement, ça va rentrer petit à petit. Tu peux refaire ce quiz autant de fois que tu veux, c\'est fait pour ça !';
+  }
+  document.getElementById('scoreMsg').textContent = msg;
+  box.classList.add('show');
+  box.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function resetQuiz(){
+  if(!window.confirm('Recommencer le quiz depuis le début ?')) return;
+  userAnswers = new Array(QUESTIONS.length).fill(null);
+  buildQuiz();
+  updateProgress();
+  document.getElementById('scoreBox').classList.remove('show');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+buildQuiz();
+updateProgress();
+</script>
+
+</body>
+</html>
