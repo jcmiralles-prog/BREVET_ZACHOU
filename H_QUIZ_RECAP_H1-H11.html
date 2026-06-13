@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Récap Histoire H1-H11 — Brevet Zachou</title>
+<style>
+:root{
+  --rouge:#C0392B;--rouge-light:#FADBD8;
+  --bg:#F8F9FA;--card:#FFFFFF;--text:#2C3E50;--muted:#7F8C8D;
+  --border:#DEE2E6;--radius:10px;
+  --vert:#27AE60;--vert-light:#D5F5E3;
+}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:60px}
+
+.header{background:var(--rouge);color:white;padding:22px 20px;text-align:center}
+.header h1{font-size:20px;font-weight:700;margin-bottom:6px}
+.header p{font-size:13px;opacity:.9}
+
+.container{max-width:740px;margin:0 auto;padding:18px 14px}
+
+.back{display:inline-block;margin-bottom:14px;color:var(--rouge);text-decoration:none;font-size:13px;font-weight:600}
+
+.intro{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px;font-size:14px;line-height:1.6}
+
+.progress-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-bottom:16px;position:relative}
+.progress-bar{height:8px;background:var(--border);border-radius:6px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;background:var(--rouge);width:0%;-webkit-transition:width 0.3s;transition:width 0.3s}
+.progress-text{font-size:13px;font-weight:600}
+
+.chapitre-head{background:var(--rouge);color:white;border-radius:var(--radius) var(--radius) 0 0;padding:10px 16px;font-size:14px;font-weight:700;margin-top:22px}
+
+.question-card{background:var(--card);border:1px solid var(--border);border-radius:0 0 var(--radius) var(--radius);padding:16px;margin-bottom:0;border-top:none}
+.question-card + .chapitre-head{margin-top:22px}
+.question-card.standalone{border-radius:var(--radius);margin-bottom:14px}
+
+.q-num{font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px}
+.q-text{font-size:14px;font-weight:600;margin-bottom:12px;line-height:1.5}
+
+.choices{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:8px}
+.choice{display:block;width:100%;text-align:left;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--text);cursor:pointer;-webkit-tap-highlight-color:transparent;font-family:inherit}
+.choice:active{opacity:.8}
+.choice.correct{background:var(--vert-light);border-color:var(--vert);font-weight:600}
+.choice.incorrect{background:var(--rouge-light);border-color:var(--rouge)}
+.choice.disabled{pointer-events:none}
+
+.result-tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:10px}
+.result-tag.ok{background:var(--vert-light);color:var(--vert)}
+.result-tag.ko{background:var(--rouge-light);color:var(--rouge)}
+
+.explication{display:none;margin-top:10px;background:var(--bg);border-left:3px solid var(--rouge);border-radius:6px;padding:10px 12px;font-size:13px;line-height:1.6;color:var(--text)}
+.explication.show{display:block}
+.explication b{color:var(--rouge)}
+
+.score-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;margin-top:24px;display:none}
+.score-box.show{display:block}
+.score-box .score-num{font-size:40px;font-weight:700;color:var(--rouge);margin-bottom:8px}
+.score-box .score-msg{font-size:14px;line-height:1.6;margin-bottom:16px}
+
+.btn{display:inline-block;background:var(--rouge);color:white;border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;font-family:inherit}
+.btn.secondary{background:var(--card);color:var(--rouge);border:1px solid var(--rouge)}
+
+.btn-finish-wrap{text-align:center;margin-top:24px}
+
+@media(max-width:500px){.header h1{font-size:17px}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🎯 Quiz Récap — Histoire H1 à H11</h1>
+  <p>55 questions pour réviser tout le programme, sans pression</p>
+</div>
+
+<div class="container">
+
+  <a class="back" href="index.html">← Retour à l'accueil</a>
+
+  <div class="intro">
+    Salut Zachou 👋 Ce quiz reprend <b>5 questions par chapitre</b> (H1 à H11), avec quelques pièges classiques du brevet. Pas de stress : si tu te trompes, l'explication te dit exactement pourquoi, pour que tu retiennes la bonne info la prochaine fois. Prends ton temps, lis bien chaque réponse même si tu as juste !
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-text" id="progressText">0 / 55 répondues</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div id="quizContainer"></div>
+
+  <div class="btn-finish-wrap">
+    <button class="btn" onclick="finishQuiz()">Voir mon score final</button>
+  </div>
+
+  <div class="score-box" id="scoreBox">
+    <div class="score-num" id="scoreNum">0 / 55</div>
+    <div class="score-msg" id="scoreMsg"></div>
+    <button class="btn secondary" onclick="resetQuiz()">🔄 Recommencer</button>
+  </div>
+
+</div>
+
+<script>
+var QUESTIONS = [
+// ===== H1 — Première Guerre mondiale =====
+{chap:"H1 — La Première Guerre mondiale", q:"En quelle année commence la Première Guerre mondiale ?", choices:["1912","1914","1916","1918"], correct:1,
+exp:"La guerre commence en <b>1914</b>, suite à l'assassinat de l'archiduc François-Ferdinand à Sarajevo (28 juin 1914). Elle se termine en <b>1918</b> (Armistice du 11 novembre). Astuce pour retenir : 14-18, comme on dit toujours « la guerre de 14-18 »."},
+
+{chap:"H1 — La Première Guerre mondiale", q:"Qu'est-ce que la « guerre de tranchées » ?", choices:["Une guerre rapide et mobile","Une guerre où les soldats vivent et combattent dans des fossés creusés dans le sol","Une guerre uniquement maritime","Une guerre menée seulement par les généraux"], correct:1,
+exp:"La <b>guerre de tranchées</b> caractérise le front ouest à partir de fin 1914 : les soldats s'enterrent dans des tranchées face à face, dans la boue, le froid, avec les rats et les bombardements. C'est un symbole de la violence de masse de cette guerre. Piège : ne pas confondre avec une guerre de mouvement rapide, c'est l'inverse !"},
+
+{chap:"H1 — La Première Guerre mondiale", q:"Quelle bataille de 1916 est devenue le symbole de la violence extrême de la guerre ?", choices:["La bataille de la Marne","La bataille de Verdun","La bataille de Waterloo","La bataille d'Austerlitz"], correct:1,
+exp:"<b>Verdun</b> (février-décembre 1916) est LA bataille à retenir : environ 300 000 morts pour un gain de terrain quasi nul. Elle symbolise la guerre d'usure et l'horreur des combats. Attention, Waterloo (1815) et Austerlitz (1805) sont des batailles napoléoniennes, donc bien plus anciennes et hors-sujet."},
+
+{chap:"H1 — La Première Guerre mondiale", q:"Quel événement de 1917 a un impact énorme sur la suite de la guerre ?", choices:["L'entrée en guerre du Japon","La révolution russe et la sortie de la Russie de la guerre","La fin du génocide arménien","La création de la Société des Nations"], correct:1,
+exp:"En 1917, la <b>révolution russe</b> renverse le tsar puis amène les bolcheviks (Lénine) au pouvoir : la Russie signe la paix avec l'Allemagne et sort de la guerre (traité de Brest-Litovsk, 1918). La même année 1917, les <b>États-Unis</b> entrent en guerre du côté des Alliés, ce qui change l'équilibre des forces. La SDN est créée APRÈS la guerre, en 1920 — piège classique de date."},
+
+{chap:"H1 — La Première Guerre mondiale", q:"Quelle est une conséquence directe de la Première Guerre mondiale ?", choices:["Le traité de Versailles (1919) impose de lourdes sanctions à l'Allemagne","La France perd l'Alsace-Lorraine","Les États-Unis deviennent une colonie française","La guerre se termine sans aucun traité"], correct:0,
+exp:"Le <b>traité de Versailles</b> (28 juin 1919) impose à l'Allemagne, vaincue, des réparations financières énormes, une perte de territoires (dont l'Alsace-Lorraine qu'elle RESTITUE à la France) et une limitation de son armée. C'est l'inverse de la réponse 2 : c'est la France qui RÉCUPÈRE l'Alsace-Lorraine, perdue en 1871. Ce traité, jugé humiliant par les Allemands, alimentera les tensions qui mèneront à la Seconde Guerre mondiale."},
+
+// ===== H2 — France entre-deux-guerres =====
+{chap:"H2 — La France entre-deux-guerres", q:"Que désigne l'expression « entre-deux-guerres » ?", choices:["La période 1900-1914","La période 1919-1939","La période 1945-1960","La période 1789-1815"], correct:1,
+exp:"L'entre-deux-guerres désigne la période entre la fin de la Première Guerre mondiale (<b>1919</b>) et le début de la Seconde Guerre mondiale (<b>1939</b>). C'est une période marquée par une crise économique mondiale et la montée des tensions politiques en Europe."},
+
+{chap:"H2 — La France entre-deux-guerres", q:"Quelle crise économique mondiale éclate en 1929 ?", choices:["La crise du pétrole","Le krach boursier de Wall Street","La crise de l'euro","La crise des subprimes"], correct:1,
+exp:"Le <b>krach de 1929</b> (jeudi noir, 24 octobre 1929) à la Bourse de New York (Wall Street) déclenche une crise économique mondiale : chômage massif, faillites, misère. La France est touchée un peu plus tard, vers 1931-1932. La crise des subprimes (2008) est bien plus récente, ne pas confondre."},
+
+{chap:"H2 — La France entre-deux-guerres", q:"Qu'est-ce que le Front populaire (1936) ?", choices:["Un parti d'extrême droite","Une coalition de gauche au pouvoir qui met en place des réformes sociales (congés payés, semaine de 40h)","Une armée de résistants","Un traité signé avec l'Allemagne"], correct:1,
+exp:"Le <b>Front populaire</b> est une coalition de partis de gauche (radicaux, socialistes, communistes) qui gagne les élections de 1936, menée par Léon Blum. Les <b>accords de Matignon</b> qui suivent apportent des avancées sociales majeures : congés payés (2 semaines), semaine de travail à 40h, augmentation des salaires. Piège : ce n'est pas un parti unique, mais une alliance de plusieurs partis."},
+
+{chap:"H2 — La France entre-deux-guerres", q:"Qui dirige le gouvernement du Front populaire en 1936 ?", choices:["Charles de Gaulle","Léon Blum","Philippe Pétain","Georges Clemenceau"], correct:1,
+exp:"<b>Léon Blum</b>, socialiste, devient président du Conseil (équivalent de Premier ministre) en juin 1936. C'est le premier président du Conseil socialiste et juif de France. Attention : de Gaulle et Pétain sont des figures importantes mais de la période suivante (Seconde Guerre mondiale) ; Clemenceau est celui de la Première Guerre mondiale (« Père la Victoire »)."},
+
+{chap:"H2 — La France entre-deux-guerres", q:"Comment les années 1930 voient-elles évoluer la vie politique en France ?", choices:["Une stabilité politique totale, sans aucune tension","Une montée des extrémismes (ligues d'extrême droite) et de fortes tensions politiques, illustrées par la crise du 6 février 1934","La disparition de tous les partis politiques","Une alliance immédiate avec l'Allemagne nazie"], correct:1,
+exp:"Les années 1930 sont marquées par une <b>instabilité politique forte</b> : crise économique, montée des ligues d'extrême droite (anciens combattants, nationalistes), et l'émeute du <b>6 février 1934</b> où des manifestants d'extrême droite tentent de marcher sur l'Assemblée nationale, faisant des morts. Cette crise pousse les partis de gauche à s'unir, ce qui donnera naissance au Front populaire en 1936."},
+
+// ===== H3 — Régimes totalitaires =====
+{chap:"H3 — Les régimes totalitaires", q:"Quels sont les trois régimes totalitaires majeurs de l'entre-deux-guerres ?", choices:["La France, le Royaume-Uni et les États-Unis","L'URSS de Staline, l'Italie fasciste de Mussolini et l'Allemagne nazie de Hitler","L'Espagne, le Portugal et la Grèce","Le Japon, la Chine et l'Inde"], correct:1,
+exp:"Les trois grands régimes totalitaires à connaître sont : <b>l'URSS</b> sous Staline (communisme), <b>l'Italie</b> sous Mussolini (fascisme, dès 1922) et <b>l'Allemagne</b> sous Hitler (nazisme, dès 1933). Tous partagent des points communs : parti unique, propagande, culte du chef, terreur policière, négation des libertés individuelles."},
+
+{chap:"H3 — Les régimes totalitaires", q:"En quelle année Hitler arrive-t-il au pouvoir en Allemagne ?", choices:["1929","1933","1936","1939"], correct:1,
+exp:"Hitler est nommé chancelier le 30 janvier <b>1933</b>. Il transforme rapidement l'Allemagne en dictature (incendie du Reichstag en 1933, puis lois qui suppriment les autres partis). 1929 = krach boursier ; 1936 = Front populaire en France ; 1939 = début de la Seconde Guerre mondiale. Ne pas confondre ces dates clés !"},
+
+{chap:"H3 — Les régimes totalitaires", q:"Qu'est-ce qu'un régime totalitaire ?", choices:["Un régime démocratique avec plusieurs partis","Un régime à parti unique qui contrôle tous les aspects de la société (économie, culture, vie privée) par la propagande et la terreur","Un régime où le peuple vote librement tous les 5 ans","Un régime sans aucun gouvernement"], correct:1,
+exp:"Un régime <b>totalitaire</b> cherche à contrôler TOUS les aspects de la vie (le mot vient de « total ») : un seul parti autorisé, propagande omniprésente, culte de la personnalité du chef, police politique qui surveille et réprime (Gestapo en Allemagne, NKVD en URSS), endoctrinement de la jeunesse. C'est très différent d'une démocratie où plusieurs partis peuvent s'exprimer librement."},
+
+{chap:"H3 — Les régimes totalitaires", q:"Que désigne la « Grande Terreur » en URSS sous Staline ?", choices:["Une période de paix totale","Une vague de répression massive (procès truqués, déportations, exécutions) contre les opposants réels ou supposés, dans les années 1930","Une fête nationale","Une victoire militaire contre l'Allemagne"], correct:1,
+exp:"La <b>Grande Terreur</b> (1936-1938) désigne les purges staliniennes : des millions de personnes (cadres du parti, militaires, simples citoyens) sont arrêtées, envoyées au goulag (camps de travail forcé) ou exécutées, souvent sur la base d'accusations fabriquées. Cela montre que le totalitarisme soviétique repose sur la terreur pour éliminer toute opposition, même imaginaire."},
+
+{chap:"H3 — Les régimes totalitaires", q:"Quel point commun peut-on trouver entre le nazisme, le fascisme et le stalinisme ?", choices:["Ils respectent tous la liberté de la presse","Ils utilisent tous la propagande, le culte du chef et la répression pour contrôler la population","Ils sont tous issus d'élections libres et démocratiques sur le long terme","Ils n'ont aucun lien avec l'armée"], correct:1,
+exp:"Malgré des idéologies différentes (nazisme = racisme et nationalisme extrême ; fascisme = nationalisme et autoritarisme ; stalinisme = communisme dévoyé), ces trois régimes partagent des <b>méthodes communes</b> : propagande intense (affiches, cinéma, radio), culte de la personnalité du chef (Hitler, Mussolini, Staline), encadrement de la jeunesse, et répression violente de toute opposition (camps, police politique). C'est ce qui permet de les classer ensemble comme « régimes totalitaires »."},
+
+// ===== H4 — Seconde Guerre mondiale =====
+{chap:"H4 — La Seconde Guerre mondiale", q:"Quel événement marque le début de la Seconde Guerre mondiale ?", choices:["L'invasion de la Pologne par l'Allemagne le 1er septembre 1939","L'attaque de Pearl Harbor","Le débarquement de Normandie","La bataille de Stalingrad"], correct:0,
+exp:"La guerre commence le <b>1er septembre 1939</b> quand l'Allemagne nazie envahit la Pologne. La France et le Royaume-Uni déclarent alors la guerre à l'Allemagne (3 septembre 1939). Pearl Harbor (décembre 1941), le débarquement (juin 1944) et Stalingrad (1942-1943) sont des événements importants mais POSTÉRIEURS au début de la guerre — piège classique sur l'ordre chronologique."},
+
+{chap:"H4 — La Seconde Guerre mondiale", q:"Qu'est-ce que la Shoah ?", choices:["Une bataille militaire","Le génocide des Juifs d'Europe organisé par l'Allemagne nazie, qui a fait environ 6 millions de morts","Un traité de paix","Le nom d'un camp de prisonniers de guerre français"], correct:1,
+exp:"La <b>Shoah</b> (mot hébreu signifiant « catastrophe ») désigne l'extermination systématique des Juifs d'Europe par les nazis : environ <b>6 millions</b> de personnes assassinées, notamment dans les camps d'extermination (Auschwitz-Birkenau, Treblinka...). C'est un génocide, c'est-à-dire la volonté d'exterminer un groupe entier en raison de son origine. Les Roms et d'autres groupes (handicapés, homosexuels...) ont aussi été persécutés et exterminés."},
+
+{chap:"H4 — La Seconde Guerre mondiale", q:"Quel régime dirige la France entre 1940 et 1944, après la défaite face à l'Allemagne ?", choices:["La Troisième République continue normalement","Le régime de Vichy, dirigé par le maréchal Pétain, qui collabore avec l'Allemagne nazie","La République gaullienne","Le Front populaire"], correct:1,
+exp:"Après la défaite de juin 1940, la France est coupée en deux : une zone occupée par les Allemands et une zone « libre » administrée depuis <b>Vichy</b> par le maréchal <b>Pétain</b>. Ce régime met en place une politique de <b>collaboration</b> avec l'occupant nazi (notamment la rafle du Vel d'Hiv en 1942, la persécution des Juifs de France). Attention : Vichy n'est PAS une continuation normale de la République, c'est un régime autoritaire qui a aboli la démocratie."},
+
+{chap:"H4 — La Seconde Guerre mondiale", q:"Quel événement de juin 1944 marque le début de la libération de la France par les Alliés ?", choices:["Le débarquement en Normandie","La signature de l'armistice de 1940","La bataille de Verdun","La création de l'ONU"], correct:0,
+exp:"Le <b>6 juin 1944</b> (« D-Day »), les Alliés (Américains, Britanniques, Canadiens...) débarquent sur les plages de Normandie. C'est le début de la libération du territoire français, qui se poursuit jusqu'à la libération de Paris (25 août 1944). L'armistice de 1940 est l'inverse (la défaite française), Verdun appartient à la Première Guerre mondiale, et l'ONU est créée APRÈS la guerre, en 1945."},
+
+{chap:"H4 — La Seconde Guerre mondiale", q:"Comment la Seconde Guerre mondiale se termine-t-elle en 1945 ?", choices:["Par la capitulation de l'Allemagne (mai) puis du Japon (août, après les bombes atomiques d'Hiroshima et Nagasaki)","Par un traité de paix signé en 1939","Par la victoire de l'Allemagne en Europe","La guerre ne s'est jamais terminée"], correct:0,
+exp:"En <b>mai 1945</b>, l'Allemagne capitule (8 mai = Victoire en Europe). La guerre continue dans le Pacifique contre le Japon, jusqu'aux bombardements atomiques américains sur <b>Hiroshima</b> (6 août) et <b>Nagasaki</b> (9 août 1945), qui poussent le Japon à capituler le 2 septembre 1945. C'est la fin de la guerre la plus meurtrière de l'Histoire, avec environ 60 millions de morts au total."},
+
+// ===== H5 — Résistance et Libération =====
+{chap:"H5 — La Résistance et la Libération", q:"Qu'est-ce que l'appel du 18 juin 1940 ?", choices:["Un discours de Pétain annonçant la collaboration","Un appel radiophonique du général de Gaulle, depuis Londres, invitant les Français à continuer le combat","Un traité signé avec l'Allemagne","La déclaration de guerre de 1939"], correct:1,
+exp:"Le <b>18 juin 1940</b>, le général <b>de Gaulle</b>, réfugié à Londres, lance à la radio (BBC) un appel aux Français pour qu'ils continuent la résistance contre l'Allemagne, alors que Pétain s'apprête à demander l'armistice. Cet appel est considéré comme l'acte fondateur de la <b>France libre</b> et de la Résistance extérieure. Piège : ne pas confondre de Gaulle (résistance) et Pétain (collaboration), ce sont deux figures opposées de cette période."},
+
+{chap:"H5 — La Résistance et la Libération", q:"Qui est Jean Moulin ?", choices:["Un collaborateur du régime de Vichy","Un résistant qui a unifié les mouvements de Résistance intérieure en créant le CNR (Conseil National de la Résistance) en 1943","Un soldat allemand","Le président de la République en 1944"], correct:1,
+exp:"<b>Jean Moulin</b> est un grand résistant envoyé par de Gaulle pour unifier les différents mouvements de résistance en France occupée. Il crée le <b>CNR</b> (Conseil National de la Résistance) en mai 1943, qui regroupe résistants de tous horizons politiques. Arrêté et torturé par la Gestapo en 1943, il meurt sans avoir parlé. Il est aujourd'hui un symbole de la Résistance, ses cendres reposent au Panthéon."},
+
+{chap:"H5 — La Résistance et la Libération", q:"Quelles actions menaient les résistants pendant l'Occupation ?", choices:["Uniquement écrire des articles favorables aux nazis","Sabotages, renseignement pour les Alliés, aide aux personnes pourchassées (Juifs, opposants), diffusion de journaux clandestins","Participer aux défilés militaires allemands","Aucune action, ils attendaient seulement la fin de la guerre"], correct:1,
+exp:"Les résistants menaient des actions variées et risquées : <b>sabotages</b> (voies ferrées, usines travaillant pour l'Allemagne), <b>renseignement</b> transmis aux Alliés, <b>aide à l'évasion</b> (Juifs, prisonniers évadés, aviateurs alliés), et diffusion de <b>journaux clandestins</b> pour informer la population (comme « Combat » ou « Libération »). Ces actions étaient extrêmement dangereuses : la torture et la déportation menaçaient les résistants arrêtés."},
+
+{chap:"H5 — La Résistance et la Libération", q:"Que se passe-t-il à la Libération concernant les personnes ayant collaboré avec l'occupant ?", choices:["Rien, elles sont toutes pardonnées immédiatement","Une période d'épuration (jugements, condamnations, parfois exécutions) vise les collaborateurs, dont le maréchal Pétain qui est condamné","Elles sont nommées au gouvernement","Elles fuient toutes définitivement en Allemagne sans être jugées"], correct:1,
+exp:"À la Libération (1944-1945), une phase d'<b>épuration</b> a lieu : des tribunaux jugent les personnes ayant collaboré activement avec l'occupant. Le maréchal <b>Pétain</b> est jugé et condamné à mort (peine commuée en détention à vie en raison de son âge), tandis que Pierre Laval, autre dirigeant de Vichy, est exécuté. Cette période montre la volonté de rendre justice après les années de collaboration."},
+
+{chap:"H5 — La Résistance et la Libération", q:"Quelles grandes réformes sont mises en place en France à la sortie de la guerre (1944-1946) ?", choices:["La suppression du droit de vote pour tous","La Sécurité sociale, le droit de vote des femmes (1944), les nationalisations de grandes entreprises","Le retour à la monarchie","Aucune réforme, tout reste comme avant-guerre"], correct:1,
+exp:"À la Libération, le <b>Conseil National de la Résistance</b> et le gouvernement provisoire de de Gaulle mettent en place des réformes profondes : création de la <b>Sécurité sociale</b> (1945, protection contre la maladie, la vieillesse...), le <b>droit de vote des femmes</b> (ordonnance de 1944, premières élections en 1945), et la <b>nationalisation</b> de secteurs clés (énergie, banques, transports). Ces réformes posent les bases de la France moderne d'après-guerre."},
+
+// ===== H6 — Guerre froide =====
+{chap:"H6 — La guerre froide", q:"Qu'est-ce que la guerre froide ?", choices:["Un conflit armé direct entre les États-Unis et l'URSS","Une opposition idéologique, politique et militaire entre les États-Unis (bloc capitaliste) et l'URSS (bloc communiste), de 1947 à 1991, sans affrontement direct entre les deux superpuissances","Une guerre menée uniquement en Antarctique","Le nom d'une bataille de la Seconde Guerre mondiale"], correct:1,
+exp:"La <b>guerre froide</b> oppose deux superpuissances aux idéologies opposées (capitalisme/démocratie pour les USA, communisme pour l'URSS), de 1947 à 1991. On parle de guerre « froide » car les deux blocs ne s'affrontent <b>jamais directement militairement</b> (cela aurait pu provoquer une guerre nucléaire), mais s'opposent via des conflits indirects (guerres « par procuration » comme la Corée ou le Vietnam), la course aux armements et la propagande."},
+
+{chap:"H6 — La guerre froide", q:"Que symbolise le mur de Berlin (construit en 1961) ?", choices:["La coopération entre l'Est et l'Ouest","La division de l'Europe et du monde en deux blocs pendant la guerre froide ; sa chute en 1989 marque la fin de cette division","Une frontière entre la France et l'Allemagne","Un monument touristique sans signification politique"], correct:1,
+exp:"Le <b>mur de Berlin</b>, construit en 1961 par l'Allemagne de l'Est (communiste), sépare Berlin-Ouest (zone occidentale) de Berlin-Est. Il devient le symbole le plus fort du <b>« rideau de fer »</b> qui divise l'Europe entre bloc de l'Ouest et bloc de l'Est. Sa <b>chute en 1989</b>, suivie de la réunification allemande en 1990, marque symboliquement la fin de la guerre froide en Europe."},
+
+{chap:"H6 — La guerre froide", q:"Quelle crise de 1962 a fait craindre une guerre nucléaire entre les États-Unis et l'URSS ?", choices:["La crise de Suez","La crise des missiles de Cuba","La guerre du Golfe","La crise de Berlin de 1948"], correct:1,
+exp:"La <b>crise des missiles de Cuba</b> (octobre 1962) survient quand l'URSS installe des missiles nucléaires à Cuba, à proximité des États-Unis. Le président Kennedy impose un blocus naval. Pendant quelques jours, le monde est au bord d'une guerre nucléaire, avant qu'un accord soit trouvé : l'URSS retire ses missiles. C'est considéré comme le moment le plus tendu de toute la guerre froide."},
+
+{chap:"H6 — La guerre froide", q:"Qu'appelle-t-on les « pays satellites » de l'URSS ?", choices:["Des pays d'Amérique du Sud alliés aux États-Unis","Les pays d'Europe de l'Est (Pologne, Hongrie, Tchécoslovaquie...) sous influence et contrôle politique direct de l'URSS après 1945","Des pays situés sur la Lune","Des pays neutres pendant la guerre froide"], correct:1,
+exp:"Après 1945, l'URSS impose des régimes communistes dans les pays d'<b>Europe de l'Est</b> qu'elle a libérés de l'occupation nazie (Pologne, Hongrie, Tchécoslovaquie, Roumanie, RDA...). Ces pays, appelés « <b>satellites</b> », sont officiellement indépendants mais suivent en réalité les décisions de Moscou. Toute tentative de s'émanciper est réprimée (Hongrie 1956, Prague 1968)."},
+
+{chap:"H6 — La guerre froide", q:"Comment se termine la guerre froide ?", choices:["Par une guerre nucléaire totale","Par l'effondrement progressif du bloc communiste : chute du mur de Berlin (1989) puis dissolution de l'URSS (1991)","Elle n'est jamais terminée, elle continue aujourd'hui à l'identique","Par la victoire militaire de l'URSS sur les États-Unis"], correct:1,
+exp:"La guerre froide se termine sans guerre directe, par l'<b>effondrement du bloc communiste</b> : les régimes communistes d'Europe de l'Est s'écroulent en 1989 (chute du mur de Berlin), puis l'<b>URSS elle-même se dissout en 1991</b>, donnant naissance à la Russie et à plusieurs nouveaux pays indépendants. Les États-Unis restent alors la seule superpuissance mondiale pendant un temps."},
+
+// ===== H7 — Décolonisation =====
+{chap:"H7 — La décolonisation", q:"Qu'est-ce que la décolonisation ?", choices:["La création de nouvelles colonies par la France","Le processus par lequel les colonies obtiennent leur indépendance, principalement entre les années 1940 et 1960","Une guerre entre la France et l'Allemagne","Le retour des colons en métropole sans aucun changement politique"], correct:1,
+exp:"La <b>décolonisation</b> est le processus par lequel les colonies (territoires dominés par une puissance européenne) accèdent à l'<b>indépendance</b>. Ce mouvement est très fort après la Seconde Guerre mondiale (1945) et se déroule surtout dans les années <b>1950-1960</b>, en Asie puis en Afrique. Il peut se faire de manière pacifique (négociation) ou violente (guerre)."},
+
+{chap:"H7 — La décolonisation", q:"Quelle guerre de décolonisation, particulièrement violente, oppose la France à des indépendantistes algériens de 1954 à 1962 ?", choices:["La guerre d'Indochine","La guerre d'Algérie","La guerre du Vietnam","La guerre des Malouines"], correct:1,
+exp:"La <b>guerre d'Algérie</b> (1954-1962) oppose l'armée française au <b>FLN</b> (Front de Libération Nationale), qui réclame l'indépendance de l'Algérie, alors considérée comme une partie de la France (3 départements français). Cette guerre, très violente (torture, attentats, répression), se termine par les <b>accords d'Évian (1962)</b> et l'indépendance de l'Algérie. La guerre d'Indochine (1946-1954), elle, concerne le Vietnam actuel, sous domination française avant son indépendance."},
+
+{chap:"H7 — La décolonisation", q:"Comment l'indépendance de la plupart des colonies françaises d'Afrique subsaharienne se déroule-t-elle, en 1960 ?", choices:["Par des guerres violentes systématiques comme en Algérie","De manière globalement négociée et pacifique, surnommée parfois « l'année de l'Afrique »","Elles ne sont jamais devenues indépendantes","Par une intervention de l'ONU qui force la France à partir"], correct:1,
+exp:"En <b>1960</b>, surnommée « l'année de l'Afrique », la plupart des colonies françaises d'Afrique subsaharienne (Sénégal, Côte d'Ivoire, Mali, Cameroun...) obtiennent leur indépendance de manière <b>plus négociée et pacifique</b> que l'Algérie, sous l'impulsion notamment du général de Gaulle qui propose une nouvelle relation (Communauté française, puis indépendance). Attention : « pacifique » ne veut pas dire qu'il n'y a eu aucune tension, mais cela contraste fortement avec la violence de la guerre d'Algérie."},
+
+{chap:"H7 — La décolonisation", q:"Qu'est-ce que le « tiers-monde » ?", choices:["Un troisième continent découvert au XXe siècle","Une expression désignant les pays nouvellement indépendants, souvent pauvres, qui ne veulent appartenir ni au bloc occidental ni au bloc communiste pendant la guerre froide","Un groupe de pays européens","Un synonyme exact de l'Union européenne"], correct:1,
+exp:"L'expression « <b>tiers-monde</b> » (créée dans les années 1950) désigne les pays récemment décolonisés d'Afrique, d'Asie et d'Amérique latine. Beaucoup de ces pays se regroupent dans le <b>mouvement des non-alignés</b> (conférence de Bandung, 1955) pour affirmer leur volonté de ne pas choisir entre le bloc occidental (USA) et le bloc communiste (URSS) pendant la guerre froide, tout en cherchant à se développer économiquement."},
+
+{chap:"H7 — La décolonisation", q:"Quelle conséquence la décolonisation a-t-elle eue sur la carte du monde et l'ONU ?", choices:["Le nombre de pays membres de l'ONU a fortement diminué","Le nombre de pays indépendants (et donc de membres de l'ONU) a fortement augmenté, avec l'arrivée de nombreux nouveaux États africains et asiatiques","La carte du monde n'a pas changé du tout","Tous les nouveaux pays ont rejoint automatiquement l'Union européenne"], correct:1,
+exp:"La décolonisation a profondément <b>redessiné la carte du monde</b> : des dizaines de nouveaux pays indépendants apparaissent en Afrique et en Asie entre 1945 et les années 1970. Ces nouveaux États rejoignent l'<b>ONU</b>, dont le nombre de membres explose (passant d'environ 50 en 1945 à plus de 150 dans les années 1970). Cela change aussi les équilibres politiques mondiaux, ces pays devenant des acteurs sur la scène internationale, notamment via le mouvement des non-alignés."},
+
+// ===== H8 — Construction européenne =====
+{chap:"H8 — La construction européenne", q:"Pourquoi l'Europe occidentale entame-t-elle un processus de construction européenne après 1945 ?", choices:["Pour créer un nouvel empire colonial","Pour éviter de nouvelles guerres entre pays européens (notamment France-Allemagne) en les liant par la coopération économique","Pour copier exactement le modèle des États-Unis d'Amérique","Parce que l'ONU l'a imposé par la force"], correct:1,
+exp:"Après deux guerres mondiales meurtrières, en grande partie d'origine européenne, l'idée naît de <b>lier économiquement les pays européens</b> (en particulier la France et l'Allemagne, ennemis historiques) pour rendre une nouvelle guerre entre eux impossible ou trop coûteuse. C'est l'idée fondatrice de la construction européenne : la paix par la coopération économique, pas seulement par les traités politiques."},
+
+{chap:"H8 — La construction européenne", q:"Quel traité fondateur de 1957 crée la Communauté Économique Européenne (CEE) ?", choices:["Le traité de Versailles","Le traité de Rome","Le traité de Maastricht","Le traité de Lisbonne"], correct:1,
+exp:"Le <b>traité de Rome</b> (1957) crée la <b>CEE</b> (Communauté Économique Européenne), avec 6 pays fondateurs (France, Allemagne de l'Ouest, Italie, Belgique, Pays-Bas, Luxembourg). L'objectif est de créer un marché commun. Le traité de Versailles (1919) concerne la fin de la Première Guerre mondiale ; le traité de Maastricht (1992) crée l'Union européenne et l'euro ; le traité de Lisbonne (2007) modifie le fonctionnement institutionnel — ne confonds pas ces dates !"},
+
+{chap:"H8 — La construction européenne", q:"Quel traité de 1992 crée l'Union européenne (UE) telle qu'on la connaît, avec le projet d'une monnaie unique ?", choices:["Le traité de Rome","Le traité de Maastricht","Le traité de Schengen","Le traité de Versailles"], correct:1,
+exp:"Le <b>traité de Maastricht</b> (1992) transforme la CEE en <b>Union européenne</b> et prépare la création d'une monnaie unique, l'<b>euro</b> (mise en circulation en 2002). Le traité de Schengen (1985, appliqué à partir de 1995) concerne quant à lui la <b>libre circulation des personnes</b> (suppression des contrôles aux frontières intérieures) — c'est un sujet différent de la monnaie, attention à ne pas les confondre dans une réponse."},
+
+{chap:"H8 — La construction européenne", q:"Combien de pays sont membres fondateurs de la CEE en 1957 ?", choices:["3 pays","6 pays","12 pays","27 pays"], correct:1,
+exp:"En 1957, <b>6 pays</b> fondent la CEE : France, Allemagne de l'Ouest (RFA), Italie, Belgique, Pays-Bas, Luxembourg. Depuis, l'Union européenne s'est élargie progressivement (notamment après la fin de la guerre froide, avec l'entrée de nombreux pays d'Europe de l'Est dans les années 2000) pour atteindre 27 membres aujourd'hui (après le Brexit, sortie du Royaume-Uni en 2020)."},
+
+{chap:"H8 — La construction européenne", q:"Quelle institution représente les citoyens européens et est élue au suffrage universel direct depuis 1979 ?", choices:["Le Conseil de sécurité de l'ONU","Le Parlement européen","Le Sénat français","L'OTAN"], correct:1,
+exp:"Le <b>Parlement européen</b> est l'institution de l'UE élue directement par les citoyens des pays membres (depuis 1979, tous les 5 ans). Il vote les lois européennes avec le Conseil de l'UE. Le Conseil de sécurité de l'ONU est une institution mondiale (pas seulement européenne) ; le Sénat français est une institution nationale ; l'OTAN est une alliance militaire (pas une institution de l'UE)."},
+
+// ===== H9 — Ve République =====
+{chap:"H9 — La Ve République", q:"En quelle année est fondée la Ve République et qui en est le premier président ?", choices:["1945, Léon Blum","1958, Charles de Gaulle","1981, François Mitterrand","2002, Jacques Chirac"], correct:1,
+exp:"La <b>Ve République</b> est fondée en <b>1958</b>, dans un contexte de crise liée à la guerre d'Algérie. Une nouvelle Constitution, rédigée sous l'impulsion du général <b>de Gaulle</b>, renforce les pouvoirs du président de la République. De Gaulle devient le premier président de cette Ve République (élu en 1958, réélu en 1965)."},
+
+{chap:"H9 — La Ve République", q:"Quelle réforme de 1962 change le mode d'élection du président de la République ?", choices:["Le président est désormais élu par les députés","Le président est élu au suffrage universel direct par tous les citoyens","Le président est tiré au sort","Le président est nommé par le roi"], correct:1,
+exp:"En <b>1962</b>, un référendum voulu par de Gaulle instaure l'élection du président de la République au <b>suffrage universel direct</b> : ce sont tous les citoyens français qui votent directement pour élire le président (et non plus un collège de grands électeurs). Cette réforme renforce la légitimité et le pouvoir du président, qui est depuis la figure centrale des institutions françaises."},
+
+{chap:"H9 — La Ve République", q:"Qu'est-ce que mai 1968 ?", choices:["Une victoire militaire française","Un vaste mouvement de grèves et de manifestations (étudiantes puis ouvrières) qui conteste la société et la politique de l'époque","La signature du traité de Maastricht","L'élection de De Gaulle"], correct:1,
+exp:"<b>Mai 1968</b> est un mouvement social majeur : il débute par des manifestations étudiantes (notamment à Nanterre et au Quartier Latin à Paris) contestant le système éducatif et la société, puis se transforme en une <b>grève générale</b> massive des ouvriers, paralysant le pays. Il aboutit aux <b>accords de Grenelle</b> (hausses de salaires) et marque un tournant culturel et social profond dans la société française (libertés individuelles, place des jeunes...)."},
+
+{chap:"H9 — La Ve République", q:"Qu'est-ce que la « cohabitation » sous la Ve République ?", choices:["Le président et le Premier ministre vivent dans la même maison","Une situation où le président de la République et la majorité à l'Assemblée nationale (donc le gouvernement/Premier ministre) sont de tendances politiques opposées","Une alliance entre la France et l'Allemagne","La fusion de deux partis politiques"], correct:1,
+exp:"La <b>cohabitation</b> désigne une situation institutionnelle particulière : le président élu appartient à un camp politique (par exemple la droite), mais les élections législatives donnent une majorité à l'Assemblée nationale d'un autre camp (par exemple la gauche). Le président doit alors nommer un Premier ministre issu de cette majorité opposée, et les deux doivent « cohabiter » au pouvoir. La France a connu plusieurs cohabitations (1986-1988, 1993-1995, 1997-2002)."},
+
+{chap:"H9 — La Ve République", q:"Quel est le rôle principal du président de la République sous la Ve République ?", choices:["Il n'a aucun pouvoir, c'est purement honorifique","Il dispose de pouvoirs importants : il nomme le Premier ministre, peut dissoudre l'Assemblée nationale, est le chef des armées et garant des institutions","Il vote les lois à la place des députés","Il dirige uniquement les affaires locales d'une seule région"], correct:1,
+exp:"Sous la Ve République, le président dispose de pouvoirs <b>renforcés</b> par rapport aux régimes précédents : il <b>nomme le Premier ministre</b>, peut <b>dissoudre l'Assemblée nationale</b> (provoquer de nouvelles élections législatives), est le <b>chef des armées</b>, et peut recourir au référendum. C'est ce qu'on appelle parfois un régime « semi-présidentiel », car il existe aussi un Premier ministre et un gouvernement responsables devant l'Assemblée. C'est très différent d'un président purement symbolique."},
+
+// ===== H10 — Mondialisation =====
+{chap:"H10 — La mondialisation", q:"Que désigne le terme « mondialisation » ?", choices:["Le repli de chaque pays sur lui-même, sans échanges","L'intensification des échanges (commerce, capitaux, informations, personnes) à l'échelle de la planète, créant une interdépendance entre les pays","Une organisation internationale créée en 1945","Une guerre mondiale"], correct:1,
+exp:"La <b>mondialisation</b> désigne le processus d'intensification des échanges de toute nature (marchandises, capitaux financiers, informations, personnes/migrations, idées) à l'échelle mondiale, qui s'accélère fortement depuis les années 1980-1990. Elle crée une <b>interdépendance</b> entre les économies et les sociétés du monde entier : ce qui se passe dans un pays peut avoir des conséquences ailleurs (ex : une crise financière dans un pays peut affecter toute la planète)."},
+
+{chap:"H10 — La mondialisation", q:"Que sont les FTN (Firmes TransNationales) ?", choices:["Des organisations humanitaires uniquement","De grandes entreprises présentes dans plusieurs pays, qui organisent leur production à l'échelle mondiale et sont des acteurs majeurs de la mondialisation","Des États qui n'ont pas de frontières","Des syndicats internationaux"], correct:1,
+exp:"Les <b>FTN</b> (firmes transnationales, aussi appelées multinationales) sont de très grandes entreprises (Apple, Total, Toyota...) qui possèdent des sites de production, de recherche ou de distribution dans plusieurs pays. Elles organisent leurs chaînes de production à l'échelle mondiale (un produit peut être conçu dans un pays, fabriqué dans un autre, assemblé dans un troisième) pour réduire les coûts. Elles sont parmi les principaux acteurs et bénéficiaires de la mondialisation."},
+
+{chap:"H10 — La mondialisation", q:"Quels sont des effets négatifs souvent associés à la mondialisation ?", choices:["Une baisse générale des inégalités dans le monde sans aucun problème","Des inégalités accrues entre territoires et populations, une pression sur l'environnement (transports, pollution), et une vulnérabilité aux crises mondiales","La disparition complète du commerce international","La fin de toutes les migrations"], correct:1,
+exp:"La mondialisation a des effets contrastés. Parmi les effets négatifs souvent évoqués : des <b>inégalités</b> qui persistent ou s'accroissent entre territoires « gagnants » (grandes métropoles connectées) et « perdants » (zones marginalisées), un impact <b>environnemental</b> important (transport de marchandises sur de longues distances, pollution), et une plus grande <b>vulnérabilité</b> face aux crises (une crise financière ou sanitaire dans un pays se diffuse rapidement à toute la planète, comme on l'a vu avec certaines crises économiques)."},
+
+{chap:"H10 — La mondialisation", q:"Qu'est-ce qu'un flux, dans le vocabulaire de la mondialisation ?", choices:["Un type de monnaie","Un déplacement de marchandises, de capitaux, de personnes ou d'informations entre deux lieux","Un parti politique","Une frontière fermée"], correct:1,
+exp:"Un <b>flux</b> est un déplacement, un échange entre deux lieux (ou plus). On distingue notamment les <b>flux de marchandises</b> (commerce international transporté par porte-conteneurs, avions...), les <b>flux financiers</b> (capitaux, investissements), les <b>flux de personnes</b> (migrations, tourisme) et les <b>flux d'informations</b> (internet, données). Ces flux relient les territoires entre eux et sont la base concrète de la mondialisation."},
+
+{chap:"H10 — La mondialisation", q:"Pourquoi les grandes métropoles mondiales (New York, Londres, Tokyo, Paris...) jouent-elles un rôle particulier dans la mondialisation ?", choices:["Parce qu'elles sont les seules villes du monde","Parce qu'elles concentrent les sièges de grandes entreprises, des bourses, des aéroports internationaux et des centres de décision, ce qui en fait des « commandes » de l'économie mondiale","Parce qu'elles n'ont aucun lien avec le reste du monde","Parce qu'elles sont toutes situées sur le même continent"], correct:1,
+exp:"Ces grandes métropoles, parfois appelées « <b>villes mondiales</b> » ou villes globales, concentrent des fonctions de <b>commandement</b> de l'économie mondiale : sièges sociaux de grandes entreprises et banques, places financières (bourses), grands aéroports internationaux (hubs), universités et centres de recherche prestigieux. Elles sont des nœuds essentiels des réseaux de la mondialisation, très bien connectées entre elles, parfois plus qu'avec leur propre arrière-pays."},
+
+// ===== H11 — Le monde aujourd'hui =====
+{chap:"H11 — Le monde aujourd'hui", q:"Que désigne-t-on par « multipolarisation » du monde aujourd'hui ?", choices:["Le fait qu'un seul pays domine totalement le monde","Le passage d'un monde dominé par une seule superpuissance (les États-Unis après 1991) à un monde avec plusieurs grandes puissances influentes (États-Unis, Chine, Union européenne, Russie, Inde...)","La disparition de tous les États","Le retour à la guerre froide exactement comme avant 1991"], correct:1,
+exp:"Après la fin de la guerre froide (1991), le monde a d'abord connu une période où les <b>États-Unis</b> semblaient être la seule superpuissance (« monde unipolaire »). Depuis, on observe une <b>multipolarisation</b> : plusieurs puissances (la <b>Chine</b>, qui a connu une croissance économique très rapide, l'<b>Union européenne</b>, la <b>Russie</b>, l'<b>Inde</b>...) jouent désormais un rôle majeur sur la scène internationale, ce qui rend les relations internationales plus complexes qu'à l'époque de la guerre froide (qui n'avait que deux pôles)."},
+
+{chap:"H11 — Le monde aujourd'hui", q:"Quel rôle joue l'ONU dans le monde actuel ?", choices:["Aucun rôle, elle a disparu","Maintenir la paix et la sécurité internationales, favoriser la coopération entre États, via notamment le Conseil de sécurité","Gouverner directement tous les pays du monde","Remplacer les gouvernements nationaux"], correct:1,
+exp:"L'<b>ONU</b> (Organisation des Nations Unies), créée en 1945, a pour mission principale le <b>maintien de la paix</b> et de la sécurité internationale, ainsi que la coopération entre États (développement, droits humains, aide humanitaire...). Son <b>Conseil de sécurité</b> (avec 5 membres permanents disposant d'un droit de veto : USA, Russie, Chine, France, Royaume-Uni) peut décider de sanctions ou d'interventions. Attention : l'ONU n'a pas de pouvoir pour imposer ses décisions à un État souverain qui refuserait de coopérer, ses moyens d'action restent limités."},
+
+{chap:"H11 — Le monde aujourd'hui", q:"Quels sont des enjeux majeurs auxquels le monde est confronté aujourd'hui ?", choices:["Aucun enjeu particulier, tout est résolu","Le changement climatique, les tensions géopolitiques (conflits, terrorisme), les migrations, et les inégalités de développement entre pays du Nord et du Sud","Uniquement des enjeux sportifs","Le retour des empires coloniaux"], correct:1,
+exp:"Le monde contemporain fait face à plusieurs <b>défis majeurs</b> : le <b>changement climatique</b> (réchauffement global, événements extrêmes, nécessitant une coopération internationale comme les accords de Paris de 2015), les <b>tensions géopolitiques</b> (conflits régionaux, terrorisme, rivalités entre grandes puissances), les <b>migrations internationales</b> (liées aux conflits, à la pauvreté, au climat), et la persistance d'<b>inégalités de développement</b> importantes entre pays riches et pays pauvres. Ces enjeux sont souvent interconnectés."},
+
+{chap:"H11 — Le monde aujourd'hui", q:"Pourquoi dit-on que le terrorisme est un phénomène mondialisé aujourd'hui ?", choices:["Parce qu'il n'existe que dans un seul pays","Parce que des réseaux terroristes agissent à l'échelle internationale, utilisent les technologies de communication mondiales, et que les attentats peuvent toucher de nombreux pays différents, nécessitant une coopération internationale pour y répondre","Parce que le terrorisme a complètement disparu aujourd'hui","Parce que seuls les États riches sont concernés"], correct:1,
+exp:"Le terrorisme contemporain est qualifié de <b>mondialisé</b> car certains réseaux (comme ceux liés au djihadisme) agissent et recrutent à l'échelle internationale, utilisent <b>internet</b> et les réseaux sociaux pour leur propagande, et frappent des cibles dans des pays très différents (Europe, Moyen-Orient, Afrique, Asie...). Cela pousse les États à renforcer la <b>coopération internationale</b> (échange de renseignements, opérations communes) pour lutter contre ce phénomène qui ne connaît pas de frontières."},
+
+{chap:"H11 — Le monde aujourd'hui", q:"Quel pays a connu une croissance économique exceptionnelle depuis les années 1980-1990, devenant une grande puissance mondiale ?", choices:["Le Groenland","La Chine","Monaco","L'Islande"], correct:1,
+exp:"La <b>Chine</b> a connu, depuis les réformes économiques engagées à partir de la fin des années 1970-1980, une croissance économique très rapide qui en a fait la <b>deuxième puissance économique mondiale</b> (juste derrière les États-Unis). Elle est devenue un acteur majeur de la mondialisation (« atelier du monde » pour la production industrielle), et joue désormais un rôle géopolitique de premier plan, illustrant la multipolarisation du monde actuel."}
+];
+
+var userAnswers = new Array(QUESTIONS.length).fill(null);
+
+function buildQuiz(){
+  var container = document.getElementById('quizContainer');
+  var html = '';
+  var lastChap = '';
+  for(var i=0;i<QUESTIONS.length;i++){
+    var q = QUESTIONS[i];
+    if(q.chap !== lastChap){
+      html += '<div class="chapitre-head">' + q.chap + '</div>';
+      lastChap = q.chap;
+    }
+    html += '<div class="question-card" id="card-'+i+'">';
+    html += '<div class="q-num">Question '+(i+1)+' / '+QUESTIONS.length+'</div>';
+    html += '<div class="q-text">'+q.q+'</div>';
+    html += '<div class="choices">';
+    for(var c=0;c<q.choices.length;c++){
+      html += '<button class="choice" id="c-'+i+'-'+c+'" onclick="answer('+i+','+c+')">'+q.choices[c]+'</button>';
+    }
+    html += '</div>';
+    html += '<div class="result-tag" id="tag-'+i+'" style="display:none"></div>';
+    html += '<div class="explication" id="exp-'+i+'"><b>Explication :</b> '+q.exp+'</div>';
+    html += '</div>';
+  }
+  container.innerHTML = html;
+}
+
+function answer(qIndex, choiceIndex){
+  if(userAnswers[qIndex] !== null) return;
+  userAnswers[qIndex] = choiceIndex;
+  var q = QUESTIONS[qIndex];
+  for(var c=0;c<q.choices.length;c++){
+    var btn = document.getElementById('c-'+qIndex+'-'+c);
+    btn.classList.add('disabled');
+    if(c === q.correct){
+      btn.classList.add('correct');
+    } else if(c === choiceIndex){
+      btn.classList.add('incorrect');
+    }
+  }
+  var tag = document.getElementById('tag-'+qIndex);
+  tag.style.display = 'inline-block';
+  if(choiceIndex === q.correct){
+    tag.className = 'result-tag ok';
+    tag.textContent = '✓ Bonne réponse';
+  } else {
+    tag.className = 'result-tag ko';
+    tag.textContent = '✗ À revoir';
+  }
+  document.getElementById('exp-'+qIndex).classList.add('show');
+  updateProgress();
+}
+
+function updateProgress(){
+  var answered = 0;
+  for(var i=0;i<userAnswers.length;i++){
+    if(userAnswers[i] !== null) answered++;
+  }
+  document.getElementById('progressText').textContent = answered + ' / ' + QUESTIONS.length + ' répondues';
+  document.getElementById('progressFill').style.width = (answered/QUESTIONS.length*100) + '%';
+}
+
+function finishQuiz(){
+  var score = 0;
+  for(var i=0;i<userAnswers.length;i++){
+    if(userAnswers[i] === QUESTIONS[i].correct) score++;
+  }
+  var box = document.getElementById('scoreBox');
+  var pct = Math.round(score/QUESTIONS.length*100);
+  document.getElementById('scoreNum').textContent = score + ' / ' + QUESTIONS.length;
+  var msg = '';
+  if(pct >= 80){
+    msg = 'Excellent Zachou, tu maîtrises vraiment bien le programme d\\'Histoire ! Relis juste les explications des questions « à revoir » pour être parfait. 🚀';
+  } else if(pct >= 60){
+    msg = 'Bon travail ! Tu as de bonnes bases. Reprends calmement les questions « à revoir », les explications t\\'aideront à combler les petits trous. Tu progresses bien. 💪';
+  } else if(pct >= 40){
+    msg = 'C\\'est un bon début pour repérer ce qu\\'il faut revoir. Pas de panique : relis les explications une par une, ce sont elles qui te feront progresser le plus. Refais le quiz dans quelques jours, tu verras la différence. 🙂';
+  } else {
+    msg = 'Pas de souci, ce quiz sert justement à repérer ce que tu connais moins. Prends le temps de lire chaque explication tranquillement, ça va rentrer petit à petit. Tu peux refaire ce quiz autant de fois que tu veux, c\\'est fait pour ça !';
+  }
+  document.getElementById('scoreMsg').textContent = msg;
+  box.classList.add('show');
+  box.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function resetQuiz(){
+  if(!window.confirm('Recommencer le quiz depuis le début ?')) return;
+  userAnswers = new Array(QUESTIONS.length).fill(null);
+  buildQuiz();
+  updateProgress();
+  document.getElementById('scoreBox').classList.remove('show');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+buildQuiz();
+updateProgress();
+</script>
+
+</body>
+</html>
